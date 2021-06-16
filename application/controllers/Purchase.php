@@ -31,6 +31,7 @@ class Purchase extends CI_Controller
     }
     public function addword()
     {
+        $data['res'] = $this->m_po->get_resource()->result();
         $data['kode_po'] = $this->m_po->CreateCode();
         $data['q'] = $this->m_po->ambil_data_q(1, 0)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
@@ -219,6 +220,7 @@ class Purchase extends CI_Controller
     }
     public function editwordbase($id)
     {
+        $data['res'] = $this->m_po->get_resource()->result();
         $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_word($id)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
@@ -232,6 +234,7 @@ class Purchase extends CI_Controller
 
     public function edititembase($id)
     {
+        $data['res'] = $this->m_po->get_resource()->result();
         $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_item($id)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
@@ -260,6 +263,7 @@ class Purchase extends CI_Controller
         $footer = $this->input->post('footer');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
+        $v_form = $this->input->post('v_form');
         $tipe = $this->input->post('tipe');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
@@ -282,6 +286,7 @@ class Purchase extends CI_Controller
             'regards' => $regards,
             'footer' => $footer,
             'address_Resource' => $address_resource,
+            'v_form' => $v_form,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
         );

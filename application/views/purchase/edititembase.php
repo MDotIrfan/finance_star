@@ -5,7 +5,7 @@
     </ol>
 </nav>
 <?php foreach ($po as $po) { ?>
-<form method="POST" action="<?php echo base_url('purchase/edit_po_item');?>">
+<form method="POST" autocomplete=off action="<?php echo base_url('purchase/edit_po_item');?>">
 <div class="container justify-content-start">
     <div class="row ">
         <div class="col">
@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col">
                     <label for="cn">PM Name</label>
-                    <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?= $po->nama_Pm ?>">
+                    <input type="" class="form-control form-control-user" id="pmn" name="pmn" aria-describedby="" placeholder="" value="<?= $po->nama_Pm ?>">
                 </div>
                 <div class="col">
                     <label for="Pm">Resource Email</label>
@@ -79,13 +79,14 @@
                         <tr>
                             <th>Job Description</th>
                             <th>
-                                <select id="volume" name="volume" class="form-control font-weight-bold">
-                                    <option value="IDR" selected="selected">
-                                        Volume IDR
+                            <select id="v_form" name="v_form" class="form-control font-weight-bold">
+                                    <option value="0" <?php if($po->v_form==0) {echo 'selected';} ?>>
+                                        Volume
                                     </option>
-                                    <option value="US">
-                                        Volume US
+                                    <option value="1" <?php if($po->v_form==1) {echo 'selected';} ?>>
+                                        Item
                                     </option>
+
                                 </select>
                             </th>
                             <th>Unit</th>
@@ -158,3 +159,11 @@
     }
   ?>
 </script>
+<script>
+  var countries = [];
+  <?php
+    foreach($res as $q) {
+      echo "countries.push('".$q->full_Name."');";
+    }
+  ?>
+  </script>
