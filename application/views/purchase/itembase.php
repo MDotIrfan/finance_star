@@ -5,7 +5,7 @@
         <li class="breadcrumb-item active" aria-current="page">ItemBase</li>
     </ol>
 </nav>
-<form method="POST" action="<?php echo base_url('purchase/add_po_item'); ?>">
+<form method="POST" autocomplete="off" action="<?php echo base_url('purchase/add_po_item'); ?>">
     <div class="container justify-content-start">
         <div class="row ">
             <div class="col">
@@ -14,7 +14,7 @@
             </div>
             <div class="col">
                 <label for="ps">Resource Name</label>
-                <input type="" class="form-control form-control-user" id="pm" name="rn" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="rn" name="rn" aria-describedby="" placeholder="">
             </div>
             <div class="col">
                 <label for="ps">Mobile Phone</label>
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col">
                 <label for="cn">PM Name</label>
-                <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
+                <input type="" class="form-control form-control-user" id="pmn" name="pmn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
             </div>
             <div class="col">
                 <label for="Pm">Resource Email</label>
@@ -47,7 +47,7 @@
                                                                                             echo @mdate($format); ?>">
             </div>
             <div class="col">
-                <label for="dd">No. Quitation</label>
+                <label for="dd">No. Quotation</label>
                 <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="status" name="status">
                     <option value="">-</option>
                     <?php foreach ($q as $q) : ?>
@@ -89,15 +89,14 @@
                     <tr>
                         <th>Job Description</th>
                         <th>
-                            Volume
-                            <select id="cost" name="cost">
-                                <option value="IDR" selected="selected">
-                                    IDR
-                                </option>
-                                <option value="US">
-                                    US
-                                </option>
-                            </select>
+                        <select id="v_form" name="v_form" class="form-control font-weight-bold">
+                        <option value="0" selected="selected">
+                           Volume
+                        </option>
+                        <option value="1">
+                           Item
+                        </option>
+                     </select>
                         </th>
                         <th>Unit</th>
                         <th>Price/Unit</th>
@@ -148,7 +147,9 @@
                     </table>
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-
+                <a href="<?php echo base_url('purchase/add_po_item'); ?>"><button type="submit button" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i>&emsp;&ensp; Save &emsp;&ensp;</button></a>
+            <a>&emsp;&emsp;</a>
+            <a href="<?php echo base_url('itembase/sendemail'); ?>"><button type="button" class="btn btn-danger"><i class=" fa fa-paper-plane" aria-hidden="true"></i>&ensp; Send Email </button></a>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -162,3 +163,12 @@
     </div>
     </div>
 </form>
+
+<script>
+  var countries = [];
+  <?php
+    foreach($res as $q) {
+      echo "countries.push('".$q->full_Name."');";
+    }
+  ?>
+  </script>

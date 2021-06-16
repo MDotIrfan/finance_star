@@ -77,7 +77,7 @@
             <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="rs" name="rs">
             <?php foreach ($position as $p) {
                                                 $selected = ($p->status_Name == $pi->resource_Status) ? "selected" : "";
-                                                echo '<option ' . $selected . ' value="' . $p->id . '">' . $p->status_Name . '</option>';
+                                                echo '<option ' . $selected . ' value="' . $p->status_Name . '">' . $p->status_Name . '</option>';
                                             } ?>
                                     </select>
         </div>
@@ -86,7 +86,7 @@
             <input type="" class="form-control form-control-user" id="rate" name="rate" aria-describedby="" placeholder="" value="<?= $pi->rate ?>">
         </div>
         <div class="col">
-            <label for="dd">No. Quitation</label>
+            <label for="dd">No. Quotation</label>
             <input type="" class="form-control form-control-user" id="ce" name="status" aria-describedby="" placeholder="" value="<?= $pi->id_quotation ?>">
         </div>
 

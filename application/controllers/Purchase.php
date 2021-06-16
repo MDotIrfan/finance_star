@@ -43,6 +43,7 @@ class Purchase extends CI_Controller
     }
     public function additem()
     {
+        $data['res'] = $this->m_po->get_resource()->result();
         $data['kode_po'] = $this->m_po->CreateCode();
         $data['q'] = $this->m_po->ambil_data_q(1, 0)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
@@ -59,7 +60,7 @@ class Purchase extends CI_Controller
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
         $project_name = $this->input->post('pn');
-        $pm_name = $this->input->post('cn');
+        $pm_name = $this->input->post('pmn');
         $res_email = $this->input->post('ps');
         $date = $this->input->post('tgl');
         $no_quitation = $this->input->post('status');
@@ -126,7 +127,7 @@ class Purchase extends CI_Controller
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
         $project_name = $this->input->post('pn');
-        $pm_name = $this->input->post('cn');
+        $pm_name = $this->input->post('pmn');
         $res_email = $this->input->post('ps');
         $date = $this->input->post('date');
         $tipe_po = $this->input->post('tipe_Po');
@@ -196,6 +197,12 @@ class Purchase extends CI_Controller
         $data = $this->m_po->ambil_data_qi($id)->result();
         echo json_encode($data);
     }
+    public function tampilkanDataResource($id)
+    {
+        $url = urldecode($id);
+        $data = $this->m_po->get_resource_data($url)->result();
+        echo json_encode($data);
+    }
     public function addrow()
     {
         $this->load->view('templates/header',);
@@ -242,7 +249,7 @@ class Purchase extends CI_Controller
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
         $project_name = $this->input->post('pn');
-        $pm_name = $this->input->post('cn');
+        $pm_name = $this->input->post('pmn');
         $res_email = $this->input->post('ps');
         $date = $this->input->post('tgl');
         $no_quitation = $this->input->post('status');
@@ -417,8 +424,6 @@ class Purchase extends CI_Controller
     }
     public function print($id)
     {
-
-
         $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_word($id)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();

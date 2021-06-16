@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo base_url('quitation/add_quitation'); ?>">
+<form autocomplete="off" method="POST" action="<?php echo base_url('quitation/add_quitation'); ?>">
    <div class="container justify-content-start">
       <div class="row ">
          <div class="col">
@@ -47,12 +47,12 @@
                   <th>Job Description</th>
                   <th>
 
-                     <select id="cost" name="cost" class="form-control font-weight-bold">
-                        <option value="IDR" selected="selected">
-                           Volume IDR
+                     <select id="v_form" name="v_form" class="form-control font-weight-bold">
+                        <option value="0" selected="selected">
+                           Volume
                         </option>
-                        <option value="US">
-                           Volume US
+                        <option value="1">
+                           Item
                         </option>
                      </select>
                   </th>
@@ -123,3 +123,12 @@
 <script>
 dinamisRow = $('#dinamisRow')
             </script>
+            <script>
+  var countries = [];
+
+  <?php
+    foreach($client as $q) {
+      echo "countries.push('".$q->client_name."');";
+    }
+  ?>
+  </script>

@@ -154,6 +154,11 @@
                         <i class="fas fa-user-friends"></i>
                         <span>User</span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="<?php echo base_url('user/list_client'); ?>">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Client</span></a>
+                </li>
             <?php } ?>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

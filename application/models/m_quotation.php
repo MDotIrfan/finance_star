@@ -69,4 +69,17 @@ class M_quotation extends CI_Model{
         $this->db->where($where);
         $this->db->delete($table);
     }
+    function get_client()
+    {
+        $this->db->select('*');
+        $this->db->from('client_data');
+        return $this->db->get();
+    }
+    function ambil_data_client($id)
+    {
+        $this->db->select('*');
+        $this->db->from('client_data');
+        $this->db->where('client_name', $id);
+        return $this->db->get();
+    }
 }

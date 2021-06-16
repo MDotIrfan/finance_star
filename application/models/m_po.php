@@ -102,4 +102,19 @@ class M_po extends CI_Model
         $this->db->where($where);
         $this->db->delete($table);
     }
+    function get_resource()
+    {
+        $this->db->select('*');
+        $this->db->from('resource_data r');
+        $this->db->join('user u', 'r.id_user = u.id_User', 'left');
+        return $this->db->get();
+    }
+    function get_resource_data($id)
+    {
+        $this->db->select('*');
+        $this->db->from('resource_data r');
+        $this->db->join('user u', 'r.id_user = u.id_User', 'left');
+        $this->db->where('u.full_Name', $id);
+        return $this->db->get();
+    }
 }
