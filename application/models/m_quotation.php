@@ -3,8 +3,16 @@
 class M_quotation extends CI_Model{
 
 	function tampil_data_q(){
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $name = $userdata->full_Name;
         $this->db->select('*');
-        $this->db->from('quotation q'); 
+        $this->db->from('quotation q');
+        $this->db->where('q.sales_name', $name);
+        if($level=="3"){$this->db->like('no_Quotation', 'SQ-');}
+        else if($level=="4"){$this->db->like('no_Quotation', 'SQM-');}
+        else if($level=="6"){$this->db->like('no_Quotation', 'KEB-');}
+        else {$this->db->like('no_Quotation', 'ST-');} 
 		return $query = $this->db->get();
 	}
 
@@ -23,6 +31,10 @@ class M_quotation extends CI_Model{
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $this->db->select('RIGHT(quotation.no_Quotation,4) as no_Q', FALSE);
+        if($level=="3"){$this->db->like('no_Quotation', 'SQ-');}
+        else if($level=="4"){$this->db->like('no_Quotation', 'SQM-');}
+        else if($level=="6"){$this->db->like('no_Quotation', 'KEB-');}
+        else {$this->db->like('no_Quotation', 'ST-');}    
         $this->db->order_by('no_Q','DESC');    
         $this->db->limit(1);    
         $query = $this->db->get('quotation');
@@ -36,6 +48,7 @@ class M_quotation extends CI_Model{
         $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);
         if($level=="3"){$kodetampil = "SQ-Q".$batas;}
         else if($level=="4"){$kodetampil = "SQM-Q".$batas;}
+        else if($level=="6"){$kodetampil = "KEB-Q".$batas;}
         else {$kodetampil = "ST-Q".$batas;}    
         return $kodetampil;  
     }

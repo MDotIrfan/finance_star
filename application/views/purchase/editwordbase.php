@@ -5,7 +5,7 @@
     </ol>
 </nav>
 <?php foreach ($pi as $pi) { ?>
-<form method="POST" action="<?php echo base_url('purchase/edit_po_word');?>">
+<form method="POST" autocomplete=off action="<?php echo base_url('purchase/edit_po_word');?>">
 <div class="container justify-content-start">
     <div class="row ">
     <div class="col">
@@ -87,7 +87,7 @@
         </div>
         <div class="col">
             <label for="dd">No. Quotation</label>
-            <input type="" class="form-control form-control-user" id="ce" name="status" aria-describedby="" placeholder="" value="<?= $pi->id_quotation ?>">
+            <input type="" class="form-control form-control-user" id="ce" name="status" aria-describedby="" placeholder="" value="<?= $pi->id_quotation ?>" readonly>
         </div>
 
     </div>
@@ -343,3 +343,11 @@
 </div>
 </div>
 <?php } ?>
+<script>
+  var countries = [];
+  <?php
+    foreach($res as $q) {
+      echo "countries.push('".$q->full_Name."');";
+    }
+  ?>
+  </script>

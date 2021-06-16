@@ -5,7 +5,7 @@
     </ol>
 </nav>
 <?php $userdata = $this->session->userdata('user_logged'); ?>
-<form method="POST" action="<?php echo base_url('purchase/add_po_word');?>">
+<form autocomplete=off method="POST" action="<?php echo base_url('purchase/add_po_word');?>">
 <div class="container justify-content-start">
     <div class="row ">
         <div class="col">
@@ -215,3 +215,11 @@
 </div>
 </div>
 </form>
+<script>
+  var countries = [];
+  <?php
+    foreach($res as $q) {
+      echo "countries.push('".$q->full_Name."');";
+    }
+  ?>
+  </script>

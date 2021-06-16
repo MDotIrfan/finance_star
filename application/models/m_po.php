@@ -5,18 +5,32 @@ class M_po extends CI_Model
 
     function tampil_data_po_item($where)
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $name = $userdata->full_Name;
         $this->db->select('*');
         $this->db->from('purchase_order po');
         $this->db->where('po.tipe', $where);
+        $this->db->where('po.nama_Pm', $name);
+        if($level=="3"){$this->db->like('no_Po', 'SQ-');}
+        else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
+        else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
+        else {$this->db->like('no_Po', 'ST-');}
         $this->db->group_by('po.no_Po');
         return $query = $this->db->get();
     }
 
     function ambil_data_q($where1, $where2)
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
         $this->db->select('*');
         $this->db->from('quitation_item qi');
         $this->db->join('quotation q', 'qi.no_Quotation=q.no_Quotation', 'left');
+        if($level=="3"){$this->db->like('q.no_Quotation', 'SQ-');}
+        else if($level=="4"){$this->db->like('q.no_Quotation', 'SQM-');}
+        else if($level=="6"){$this->db->like('q.no_Quotation', 'KEB-');}
+        else {$this->db->like('q.no_Quotation', 'ST-');}
         $this->db->where('q.is_Acc', $where1);
         $this->db->where('q.is_Q', $where2);
         $this->db->group_by('q.no_Quotation');
@@ -54,6 +68,10 @@ class M_po extends CI_Model
         $level = $userdata->id_Status;
         $this->db->select('RIGHT(purchase_order.no_Po,4) as no_Po', FALSE);
         $this->db->order_by('no_Po', 'DESC');
+        if($level=="3"){$this->db->like('no_Po', 'SQ-');}
+        else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
+        else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
+        else {$this->db->like('no_Po', 'ST-');}
         $this->db->limit(1);
         $query = $this->db->get('purchase_order');
         if ($query->num_rows() <> 0) {

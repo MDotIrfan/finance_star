@@ -114,6 +114,7 @@ class Quitation extends CI_Controller
         $footer = $this->input->post('footer');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
+        $v_form = $this->input->post('v_form');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -132,6 +133,7 @@ class Quitation extends CI_Controller
             'footer' => $footer,
             'total_Cost' => $total_cost,
             'grand_Total' => $grand_total,
+            'v_form' => $v_form,
 			);
             $where = array(
                 'no_Quotation' => $noquitation,
