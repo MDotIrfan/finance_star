@@ -50,7 +50,27 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <label for="gambar" class="col-lg-4 col-form-label">Profile Photo</label>
+                                <label for="fullname" class="col-lg-4 col-form-label" id="labelmp" style="display : none;">Mobile Phone</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="mp" name="mp" aria-describedby="" placeholder="" style="display : none;">
+                                </div>
+                                <label for="fullname" class="col-lg-4 col-form-label" id="labelcb" style="display : none;">Cabang Bank</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="cb" name="cb" aria-describedby="" placeholder="" style="display : none;">
+                                </div>
+                                <label for="fullname" class="col-lg-4 col-form-label" id="labelnorek" style="display : none;">No. Rekening</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="norek" name="norek" aria-describedby="" placeholder="" style="display : none;">
+                                </div>
+                                <label for="email_address" class="col-lg-4 col-form-label" id="labeladdress" style="display : none;">Client Address</label>
+                                <div class="form-group">
+                                    <textarea class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" style="display : none;"></textarea>
+                                </div>
+                                <label for="fullname" class="col-lg-4 col-form-label" id="labelnpwp" style="display : none;">No. NPWP</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="npwp" name="npwp" aria-describedby="" placeholder="" style="display : none;">
+                                </div>
+                                <label for="gambar" class="col-lg-4 col-form-label" style="visibility">Profile Photo</label>
                                 <div class="form-group">
                                     <input type="file" class="form-control form-control-user" id="gambar" name="gambar" aria-describedby="" placeholder="">
                                 </div>

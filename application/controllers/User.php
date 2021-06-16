@@ -25,6 +25,14 @@ class User extends CI_Controller
         $this->load->view('user/data', $data);
         $this->load->view('templates/footer');
     }
+    public function list_client()
+    {
+        $data['client'] = $this->m_user->tampil_data_client()->result();
+        $this->load->view('templates/header',);
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/data_client', $data);
+        $this->load->view('templates/footer');
+    }
     public function add()
     {
         $data['position'] = $this->m_user->ambil_data_position()->result();
@@ -33,6 +41,16 @@ class User extends CI_Controller
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/add', $data);
+        $this->load->view('templates/footer', [
+            'load' => ['user.js']
+        ]);
+    }
+    public function add_client()
+    {
+        $data['kode_client']= $this->m_user->CreateCodeClient();
+        $this->load->view('templates/header',);
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/add_client', $data);
         $this->load->view('templates/footer');
     }
     function add_user(){
@@ -44,6 +62,11 @@ class User extends CI_Controller
         $id_position = $this->input->post('position');
         $id_status = $this->input->post('status');
         $photo = $this->_uploadImage($id);
+        $mobile_phone = $this->input->post('mp');
+        $cab_bank = $this->input->post('cb');
+        $no_rek = $this->input->post('norek');
+        $address = $this->input->post('address');
+        $npwp = $this->input->post('npwp');
  
 		$data = array(
 			'id_User' => $id,
@@ -56,7 +79,35 @@ class User extends CI_Controller
             'profile_Photo' => $photo,
 			);
 		$this->m_user->input_data($data,'user');
+
+        if($id_status==1||$id_status==5){
+            $data2 = array(
+                'id_user' => $id,
+                'mobile_phone' => $mobile_phone,
+                'cabang_bank' => $cab_bank,
+                'no_rekening' => $no_rek,
+                'address' => $address,
+                'no_npwp' => $npwp,
+                );
+            $this->m_user->input_data($data2,'resource_data');
+        }
         redirect('user/list');
+	}
+
+    function add_client_data(){
+		$id = $this->input->post('id');
+		$client_name = $this->input->post('username');
+        $email_address = $this->input->post('email_address');
+        $address = $this->input->post('address');
+ 
+		$data = array(
+			'client_id' => $id,
+			'client_name' => $client_name,
+            'client_email' => $email_address,
+            'address' => $address,
+			);
+		$this->m_user->input_data($data,'client_data');
+        redirect('user/list_client');
 	}
     
     function _uploadImage($id)
@@ -87,8 +138,20 @@ class User extends CI_Controller
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/edit', $data);
+        $this->load->view('templates/footer', [
+            'load' => ['user.js']
+        ]);
+    }
+
+    public function edit_client($id)
+    {
+		$data['client'] = $this->m_user->edit_data_client($id,'client_data')->result();
+        $this->load->view('templates/header',);
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/edit_client', $data);
         $this->load->view('templates/footer');
     }
+
     function edit_user(){
         $id = $this->input->post('id');
 		$username = $this->input->post('username');
@@ -97,6 +160,11 @@ class User extends CI_Controller
         $email_address = $this->input->post('email_address');
         $id_position = $this->input->post('position');
         $id_status = $this->input->post('status');
+        $mobile_phone = $this->input->post('mp');
+        $cab_bank = $this->input->post('cb');
+        $no_rek = $this->input->post('norek');
+        $address = $this->input->post('address');
+        $npwp = $this->input->post('npwp');
         if (!empty($_FILES["gambar"]["name"])) {
             $photo = $this->_uploadImage($id);
         } else {
@@ -119,14 +187,59 @@ class User extends CI_Controller
         );
     
         $this->m_user->update_data($where,$data,'user');
+
+        if($id_status==1||$id_status==5){
+            $data2 = array(
+                'id_user' => $id,
+                'mobile_phone' => $mobile_phone,
+                'cabang_bank' => $cab_bank,
+                'no_rekening' => $no_rek,
+                'address' => $address,
+                'no_npwp' => $npwp,
+                );
+                $where2 = array(
+                    'id_user' => $id
+                );
+                $this->m_user->update_data($where2,$data2,'resource_data');
+        }
+
+
         redirect('user/list');
+    }
+    function edit_client_data(){
+        $id = $this->input->post('id');
+		$client_name = $this->input->post('username');
+        $email_address = $this->input->post('email_address');
+        $address = $this->input->post('address');
+    
+        $data = array(
+            'client_id' => $id,
+			'client_name' => $client_name,
+            'client_email' => $email_address,
+            'address' => $address,
+        );
+    
+        $where = array(
+            'client_id' => $id
+        );
+    
+        $this->m_user->update_data($where,$data,'client_data');
+        redirect('user/list_client');
     }
     function delete($id){
         $data = $this->db->get_where('user', ['id_User' => $id])->row_array();
 		unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
         $where = array('id_User' => $id);
         $this->m_user->hapus_data($where,'user');
+        $where2 = array('id_user' => $id);
+        $this->m_user->hapus_data($where,'resource_data');
         redirect('user/list');
+    }
+
+    function delete_client($id){
+        $where = array('client_id' => $id);
+        $this->m_user->hapus_data($where,'client_data');
+        redirect('user/list_client');
     }
     
 }

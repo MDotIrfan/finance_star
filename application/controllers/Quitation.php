@@ -21,6 +21,7 @@ class Quitation extends CI_Controller
 
     public function add()
     {
+        $data['client'] = $this->m_quotation->get_client()->result();
         $data['kode_quotation']= $this->m_quotation->CreateCode();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -28,6 +29,12 @@ class Quitation extends CI_Controller
         $this->load->view('templates/footer', [
             'load' => ['addq.js']
            ]);
+    }
+    public function tampilkanData($id)
+    {
+        $url = urldecode($id);
+        $data = $this->m_quotation->ambil_data_client($url)->result();
+        echo json_encode($data);
     }
 
     function add_quitation(){
@@ -42,6 +49,7 @@ class Quitation extends CI_Controller
         $footer = $this->input->post('footer');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
+        $v_form = $this->input->post('v_form');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -60,6 +68,7 @@ class Quitation extends CI_Controller
             'footer' => $footer,
             'total_Cost' => $total_cost,
             'grand_Total' => $grand_total,
+            'v_form' => $v_form,
 			);
 		$this->m_quotation->input_data($data,'quotation');
         if(!empty($jobdesc)){
@@ -82,6 +91,7 @@ class Quitation extends CI_Controller
 
     public function edit($id)
     {
+        $data['client'] = $this->m_quotation->get_client()->result();
         $data['quotation'] = $this->m_quotation->edit_data($id,'quotation')->result();
         $data['qi'] = $this->m_quotation->ambil_data_q($id)->result();
         $this->load->view('templates/header');

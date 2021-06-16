@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col">
             <label for="cn">PM Name</label>
-            <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
+            <input type="" class="form-control form-control-user" id="pmn" name="pmn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
         </div>
         <div class="col">
             <label for="Pm">Resource Email</label>
@@ -81,7 +81,7 @@
             <input type="" class="form-control form-control-user" id="rate" name="rate" aria-describedby="" placeholder="" value="0" oninput="hitung()">
         </div>
         <div class="col">
-            <label for="dd">No. Quitation</label>
+            <label for="dd">No. Quotation</label>
             <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="status" name="status">
             <option value="">-</option>
                                         <?php foreach ($q as $q) : ?>

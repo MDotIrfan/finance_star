@@ -60,6 +60,13 @@ class M_user extends CI_Model
         return $query = $this->db->get();
     }
 
+    function tampil_data_client()
+    {
+        $this->db->select('*');
+        $this->db->from('client_data');
+        return $query = $this->db->get();
+    }
+
     function ambil_data_status()
     {
         return $query = $this->db->get('status_item');
@@ -84,6 +91,22 @@ class M_user extends CI_Model
         $kodetampil = "STR" . $batas;
         return $kodetampil;
     }
+    public function CreateCodeClient()
+    {
+        $this->db->select('RIGHT(client_data.client_id,3) as kode_client', FALSE);
+        $this->db->order_by('kode_client', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('client_data');
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $kode = intval($data->kode_client) + 1;
+        } else {
+            $kode = 1;
+        }
+        $batas = str_pad($kode, 3, "0", STR_PAD_LEFT);
+        $kodetampil = "CL" . $batas;
+        return $kodetampil;
+    }
     function input_data($data, $table)
     {
         $this->db->insert($table, $data);
@@ -94,7 +117,15 @@ class M_user extends CI_Model
         $this->db->from('user u');
         $this->db->join('position_item p', 'p.id=u.id_Position', 'left');
         $this->db->join('status_item s', 's.id=u.id_Status', 'left');
-        $this->db->where('id_User', $where);
+        $this->db->join('resource_data r', 'r.id_user=u.id_User', 'left');
+        $this->db->where('u.id_User', $where);
+        return $query = $this->db->get();
+    }
+    function edit_data_client($where, $table)
+    {
+        $this->db->select('*');
+        $this->db->from('client_data');
+        $this->db->where('client_id', $where);
         return $query = $this->db->get();
     }
     function update_data($where, $data, $table)
