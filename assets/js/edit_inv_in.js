@@ -30,15 +30,10 @@ else jsonData = {};
 
 let tr = `
 <tr>
-<td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.jobdesc ? jsonData.jobdesc : ''}"></td>
-<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="hitung(${index})" id=""></td>
-<td><input type="text" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate ? jsonData.rate : ''}" ></td>
+<td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.jobdesc ? jsonData.jobdesc : ''}" readonly></td>
+<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="hitung(${index})" id="" readonly></td>
+<td><input type="text" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate ? jsonData.rate : ''}" readonly></td>
 <td><input type="text" class="cost${index}" name="cost[]" value="${jsonData?.amount ? jsonData.amount : ''}" readonly></td>
-<td>
-  <a href="javascript:void(0)" id="dynamic-ar">
-  <i class="fa fa-plus-circle" style="color:green"></i></a>
-</td>
-<td><a href="javascript:void(0)" class="remove-input-field" id="${index}"><i class="fa fa-minus-circle" style="color:red"></i></a></td>
 </tr>
 `
 dinamisRow.append(tr)

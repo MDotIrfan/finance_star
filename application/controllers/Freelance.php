@@ -24,7 +24,7 @@ class Freelance extends CI_Controller
     }
     public function invoice()
     {
-        $data['kode_inv']= $this->m_inv_in->CreateCode();
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
         $data['po'] = $this->m_inv_in->ambil_data_po_w(0)->result();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -35,7 +35,7 @@ class Freelance extends CI_Controller
     }
     public function invoice_item()
     {
-        $data['kode_inv']= $this->m_inv_in->CreateCode();
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
         $data['po'] = $this->m_inv_in->ambil_data_po_i(0)->result();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -105,7 +105,7 @@ class Freelance extends CI_Controller
             }
         }
         $dat2 = array(
-			'is_inv' => 1,
+			'is_inv_in' => 1,
 			);
             $where = array(
                 'no_Po' => $no_po,
@@ -134,6 +134,7 @@ class Freelance extends CI_Controller
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
+        $v_form = $this->input->post('v_form');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -154,6 +155,7 @@ class Freelance extends CI_Controller
             'no_npwp' => $npwp,
             'public_notes' => $public_notes,
             'terms' => $terms,
+            'v_form' => $v_form,
             'footer' => $footer,
             'signature' => $signature,
             'total_cost' => $total_cost,
@@ -177,7 +179,7 @@ class Freelance extends CI_Controller
             }
         }
         $dat2 = array(
-			'is_inv' => 1,
+			'is_inv_in' => 1,
 			);
             $where = array(
                 'no_Po' => $no_po,
@@ -187,12 +189,16 @@ class Freelance extends CI_Controller
     }
     public function tampilkanData($id)
     {
-        $data = $this->m_inv_in->ambil_data_po_word($id)->result();
+        $no_po = substr($id,0,-6);
+        $data['no_inv'] = $this->m_inv_in->CreateCode($no_po);
+        $data['po'] = $this->m_inv_in->ambil_data_po_word($id)->result();
         echo json_encode($data);
     }
     public function tampilkanDataitem($id)
     {
-        $data = $this->m_inv_in->ambil_data_po_item($id)->result();
+        $no_po = substr($id,0,-6);
+        $data['no_inv'] = $this->m_inv_in->CreateCode($no_po);
+        $data['po'] = $this->m_inv_in->ambil_data_po_item($id)->result();
         echo json_encode($data);
     }
     public function editwordbase($id)
@@ -368,7 +374,7 @@ class Freelance extends CI_Controller
 		// unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
         $where = array('no_invoice' => $id);
         $dat2 = array(
-			'is_inv' => 0,
+			'is_inv_in' => 0,
 			);
             $where2 = array(
                 'no_Po' => $data['no_Po'],

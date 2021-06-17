@@ -12,12 +12,15 @@ jum_table=0;
             async: false,
             dataType: 'json',
             success: function (data) {
-                for(i=0; i<data.length; i++){
-                    addRow(btoa(JSON.stringify(data[i])));}
+                console.log(data.no_inv);
+                $('#noinv').val(data.no_inv);
+                for(i=0; i<data.po.length; i++){
+                    console.log(data);
+                    addRow(btoa(JSON.stringify(data.po[i])));}
             
     }
   
    });
-    } else {jum_table=0;addRow();$('#pn').val("");}
+    } else {jum_table=0;addRow();$('#noinv').val('');}
        
 });

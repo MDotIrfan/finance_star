@@ -6,6 +6,7 @@
 </nav>
 <?php $userdata = $this->session->userdata('user_logged'); ?>
 <form method="POST" action="<?php echo base_url('freelance/add_inv_item');?>">
+<?php foreach ($res as $r) : ?>
 <div class="container justify-content-start">
     <div class="row ">
         <div class="col">
@@ -19,7 +20,7 @@
         </div>
         <div class="col">
             <label for="ps">Cabang Bank</label>
-            <input type="" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="">
+            <input type="" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="" value="<?php echo $r->cabang_bank; ?>">
         </div>
         <div class="col">
             <label for="Duedate">Down Payment </label>
@@ -40,7 +41,7 @@
     <div class="row">
         <div class="col">
             <label for="cn">No. Invoice</label>
-            <input type="" class="form-control form-control-user" id="noinv" name="noinv" aria-describedby="" placeholder="" value="<?= $kode_inv ?>" readonly>
+            <input type="" class="form-control form-control-user" id="noinv" name="noinv" aria-describedby="" placeholder="" readonly>
         </div>
         <div class="col">
             <label for="Pm">Mitra Name</label>
@@ -58,7 +59,7 @@
         </div>
         <div class="col">
             <label for="dd">No. NPWP</label>
-            <input type="" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="">
+            <input type="" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="" value="<?php echo $r->no_npwp; ?>">
         </div>
 
 
@@ -69,11 +70,11 @@
     <div class="row">
         <div class="col">
             <label for="cn">No. Rekening </label>
-            <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="">
+            <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?php echo $r->no_rekening; ?>">
         </div>
         <div class="col">
-            <label for="Pm">Address Payment</label>
-            <input type="" class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="">
+            <label for="Pm">Address</label>
+            <input type="" class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" value="<?php echo $r->address; ?>">
         </div>
         <div class="col">
             <label for="Duedate">Due Date </label>
@@ -100,7 +101,14 @@
             <thead>
                 <tr>
                     <th>Job Description</th>
-                    <th>Quantity Words</th>
+                    <th><select id="v_form" name="v_form" class="form-control font-weight-bold">
+                        <option value="0" selected="selected">
+                           Volume
+                        </option>
+                        <option value="1">
+                           Item
+                        </option>
+                     </select></th>
                     <th>Unit</th>
                     <th>Rate</th>
                     <th>Amount IDR</th>
@@ -157,3 +165,4 @@
 </div>
 </div>
 </form>
+<?php endforeach; ?>

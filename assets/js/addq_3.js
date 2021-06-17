@@ -38,24 +38,11 @@ function addRow (jsonData=null) {
 
 let tr = `
 <tr>
-<td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.task? jsonData.task : ''}"></td>
-<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="hitung(${index})" id=""></td>
-<td><select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="unit" name="unit[]">
-                   
-       <option value="Hours">Hours</option>
-       <option value="Days">Days</option>
-       <option value="Months">Months</option>
-       <option value="Years">Years</option>
-       <option value="Unit">Unit</option>
-   
-               </select></td>
-<td><input type="text" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate ? jsonData.rate : ''}" ></td>
+<td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.task? jsonData.task : ''}" readonly></td>
+<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="hitung(${index})" id="volume" readonly></td>
+<td><input type="text" class="unit${index}" name="unit[]" value="${jsonData?.unit ? jsonData.unit : ''}"  id="unit" readonly></td>
+<td><input type="text" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate ? jsonData.rate : ''}" readonly ></td>
 <td><input type="text" class="cost${index}" name="cost[]" value="${jsonData?.amount ? jsonData.amount : ''}" readonly></td>
-<td>
-      <a href="javascript:void(0)" id="dynamic-ar">
-      <i class="fa fa-plus-circle" style="color:green"></i></a>
-</td>
-<td><a href="javascript:void(0)" class="remove-input-field" id="${index}"><i class="fa fa-minus-circle" style="color:red"></i></a></td>
 </tr>
 `
 dinamisRow.append(tr)
