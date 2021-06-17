@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2021 at 11:09 PM
+-- Generation Time: Jun 17, 2021 at 05:41 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.27
 
@@ -66,20 +66,23 @@ CREATE TABLE `invoice_in` (
   `footer` text NOT NULL,
   `total_cost` int(11) NOT NULL,
   `grand_total` int(11) NOT NULL,
-  `tipe` enum('word','item','','') NOT NULL
+  `tipe` enum('word','item','','') NOT NULL,
+  `v_form` enum('0','1') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `invoice_in`
 --
 
-INSERT INTO `invoice_in` (`no_invoice`, `no_Po`, `no_rekening`, `cabang_bank`, `mitra_name`, `address`, `down_payment`, `invoice_date`, `due_date`, `email`, `no_npwp`, `public_notes`, `terms`, `signature`, `footer`, `total_cost`, `grand_total`, `tipe`) VALUES
-('STJAK-0002-2021', 'ST-PR0004', '5435345', 'BCA', 'ilham nur inzani', 'coba address 2', 500, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'rg', 'ar', 'ft', 617130, 617130, 'item'),
-('STJAK-0003-2021', 'ST-PR0007', '5435345', 'coba project', 'ilham nur inzani', 'coba address 2', 500, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'rg', 'ar', 'ft', 92000, 92000, 'word'),
-('STJAK-0004-2021', 'ST-PR0010', '5435345', 'coba project', 'ilham nur inzani', 'coba address', 500, '2021-06-16', '2021-06-18', 'ilhamham@gmail.com', '634345', 'pn', 'reg', 'rress', 'foot', 142500, 142500, 'word'),
-('STJAK-0005-2021', 'ST-PR0011', '5435345', 'coba project item 1', 'ilham nur inzani', 'coba address 1', 5000, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'reg', 'addr', 'foot', 190190, 190190, 'item'),
-('STJAK-0006-2021', 'SQ-PR0014', '5435345', 'BCA', 'freelance 1', 'coba address 1', 10000, '2021-06-15', '2021-06-23', 'fl1@gmail.com', '634345', '', '', '', '', 136200, 136200, 'word'),
-('STJAK-0007-2021', 'SQ-PR0017', '5435345', 'BCA', 'freelance 1', 'coba address 1', 10000, '2021-06-15', '2021-06-19', 'fl1@gmail.com', '634345', '', '', '', '', 158190, 158190, 'item');
+INSERT INTO `invoice_in` (`no_invoice`, `no_Po`, `no_rekening`, `cabang_bank`, `mitra_name`, `address`, `down_payment`, `invoice_date`, `due_date`, `email`, `no_npwp`, `public_notes`, `terms`, `signature`, `footer`, `total_cost`, `grand_total`, `tipe`, `v_form`) VALUES
+('SQJAK-0006-06-2021', 'SQ-PR0014', '5435345', 'BCA', 'freelance 1', 'coba address 1', 10000, '2021-06-15', '2021-06-23', 'fl1@gmail.com', '634345', '', '', '', '', 136200, 136200, 'word', '0'),
+('SQJAK-0007-06-2021', 'SQ-PR0017', '5435345', 'BCA', 'freelance 1', 'coba address 1', 10000, '2021-06-15', '2021-06-19', 'fl1@gmail.com', '634345', '', '', '', '', 158190, 158190, 'item', '0'),
+('STJAK-0002-2021', 'ST-PR0004', '5435345', 'BCA', 'ilham nur inzani', 'coba address 2', 500, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'rg', 'ar', 'ft', 617130, 617130, 'item', '0'),
+('STJAK-0003-2021', 'ST-PR0007', '5435345', 'BCA', 'ilham nur inzani', 'coba address 2', 500, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'rg', 'ar', 'ft', 92000, 92000, 'word', '0'),
+('STJAK-0004-2021', 'ST-PR0010', '5435345', 'coba project', 'ilham nur inzani', 'coba address', 500, '2021-06-16', '2021-06-18', 'ilhamham@gmail.com', '634345', 'pn', 'reg', 'rress', 'foot', 142500, 142500, 'word', '0'),
+('STJAK-0005-2021', 'ST-PR0011', '5435345', 'BCA', 'ilham nur inzani', 'coba address 1', 5000, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'reg', 'addr', 'foot', 190190, 190190, 'item', '0'),
+('STJAK-0006-2021', 'ST-PR0020', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 10000, '2021-06-17', '2021-06-24', 'ilhamham@gmail.com', '445653345', '', '', '', '', 85410, 85410, 'word', '0'),
+('STJAK-0007-2021', 'ST-PR0019', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 10000, '2021-06-17', '2021-06-25', 'ilhamham@gmail.com', '445653345', '', '', '', '', 24960600, 24960600, 'item', '1');
 
 -- --------------------------------------------------------
 
@@ -102,22 +105,26 @@ CREATE TABLE `invoice_in_item` (
 --
 
 INSERT INTO `invoice_in_item` (`id`, `no_invoice`, `jobdesc`, `qty`, `unit`, `rate`, `amount`) VALUES
-(44, 'STJAK-0003-2021', 'Eu duis voluptatibus', 810, '', 100, 81000),
-(45, 'STJAK-0003-2021', 'coba 1', 110, '', 100, 11000),
 (62, 'STJAK-0002-2021', 'Iure dolorem dolores', 400, 'Hours', 819, 327600),
 (63, 'STJAK-0002-2021', 'Aperiam sunt ea quia', 70, 'Hours', 663, 46410),
 (64, 'STJAK-0002-2021', 'Quis sint aliquip si', 6, 'Hours', 520, 3120),
 (65, 'STJAK-0002-2021', 'coba 3', 200, 'Hours', 1200, 240000),
 (70, 'STJAK-0004-2021', 'project ke 12', 830, '', 120, 99600),
 (71, 'STJAK-0004-2021', 'coba 2', 110, '', 390, 42900),
-(78, 'STJAK-0005-2021', 'Ut id quibusdam quo ', 100, 'Hours', 512, 51200),
-(79, 'STJAK-0005-2021', 'coba 2', 200, 'Hours', 339, 67800),
-(80, 'STJAK-0005-2021', 'coba 3', 210, 'Hours', 339, 71190),
-(81, 'STJAK-0006-2021', 'project ke 14', 810, '', 120, 97200),
-(82, 'STJAK-0006-2021', 'tambah project 1', 100, '', 390, 39000),
-(86, 'STJAK-0007-2021', 'coba 1', 100, 'Hours', 390, 39000),
-(87, 'STJAK-0007-2021', 'coba 2', 210, 'Hours', 339, 71190),
-(88, 'STJAK-0007-2021', 'coba 3', 480, 'Hours', 100, 48000);
+(81, 'SQJAK-0006-06-2021', 'project ke 14', 810, '', 120, 97200),
+(82, 'SQJAK-0006-06-2021', 'tambah project 1', 100, '', 390, 39000),
+(86, 'SQJAK-0007-06-2021', 'coba 1', 100, 'Hours', 390, 39000),
+(87, 'SQJAK-0007-06-2021', 'coba 2', 210, 'Hours', 339, 71190),
+(88, 'SQJAK-0007-06-2021', 'coba 3', 480, 'Hours', 100, 48000),
+(89, 'STJAK-0003-2021', 'Eu duis voluptatibus', 810, '', 100, 81000),
+(90, 'STJAK-0003-2021', 'coba 1', 110, '', 100, 11000),
+(92, 'STJAK-0005-2021', 'Ut id quibusdam quo ', 100, 'Hours', 512, 51200),
+(93, 'STJAK-0005-2021', 'coba 2', 200, 'Hours', 339, 67800),
+(94, 'STJAK-0005-2021', 'coba 3', 210, 'Hours', 339, 71190),
+(95, 'STJAK-0006-2021', 'coba project 15', 657, '', 130, 85410),
+(102, 'STJAK-0007-2021', 'Dignissimos voluptas', 100, 'Days', 426, 42600),
+(103, 'STJAK-0007-2021', 'Eaque doloribus magn', 500, 'Months', 276, 138000),
+(104, 'STJAK-0007-2021', 'Aspernatur a qui lab', 30000, 'Hours', 826, 24780000);
 
 -- --------------------------------------------------------
 
@@ -333,7 +340,7 @@ CREATE TABLE `po_item_wordbase` (
 --
 
 INSERT INTO `po_item_wordbase` (`id`, `no_Po`, `locked`, `repetitions`, `fuzzy100`, `fuzzy95`, `fuzzy85`, `fuzzy75`, `fuzzy50`, `new`) VALUES
-(6, 'ST-PR0007', 100, 100, 100, 100, 100, 100, 100, 110),
+(6, 'SQ-PR0007', 100, 100, 100, 100, 100, 100, 100, 110),
 (9, 'ST-PR0009', 200, 200, 200, 200, 200, 200, 200, 200),
 (20, 'ST-PR0010', 100, 100, 100, 100, 100, 100, 110, 120),
 (21, 'ST-PR0012', 100, 100, 100, 100, 100, 100, 100, 100),
@@ -366,7 +373,7 @@ CREATE TABLE `purchase_order` (
   `grand_Total` int(11) NOT NULL,
   `tipe` enum('item','word','','') NOT NULL,
   `tipe_Po` varchar(30) NOT NULL,
-  `is_inv` int(11) NOT NULL DEFAULT 0,
+  `is_inv_in` int(11) NOT NULL DEFAULT 0,
   `v_form` enum('0','1') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -374,7 +381,7 @@ CREATE TABLE `purchase_order` (
 -- Dumping data for table `purchase_order`
 --
 
-INSERT INTO `purchase_order` (`no_Po`, `nama_Pm`, `email_pm`, `resource_Name`, `resource_Email`, `resource_Status`, `mobile_Phone`, `date`, `project_Name`, `id_quotation`, `public_Notes`, `regards`, `footer`, `rate`, `address_Resource`, `grand_Total`, `tipe`, `tipe_Po`, `is_inv`, `v_form`) VALUES
+INSERT INTO `purchase_order` (`no_Po`, `nama_Pm`, `email_pm`, `resource_Name`, `resource_Email`, `resource_Status`, `mobile_Phone`, `date`, `project_Name`, `id_quotation`, `public_Notes`, `regards`, `footer`, `rate`, `address_Resource`, `grand_Total`, `tipe`, `tipe_Po`, `is_inv_in`, `v_form`) VALUES
 ('SQ-PR0005', 'project manager 1', 'kiviw@mailinator.com', 'Provident totam sed', 'Reuben Steele', 'Freelance', 'Eveniet volupta', '1995-10-18', 'Consectetur veniam ', 'ST-Q0009', 'Qui sit cum tempori', 'Et nihil sit sequi d', 'Cupidatat ex nemo of', 0, 'Quia aliquid archite', 377130, 'item', '', 0, '0'),
 ('SQ-PR0006', 'project manager 1', 'rore@mailinator.com', 'Distinctio Amet nu', 'Iola Beck', 'Freelance', 'Sequi laborum a', '1996-04-06', 'Eu duis voluptatibus', 'ST-Q0008', 'Pariatur Est qui a', 'Quo magna Nam ut ut ', 'Aut tenetur ipsam au', 0, 'Quo ducimus totam e', 444429, 'item', '', 0, '0'),
 ('SQ-PR0007', 'project manager 1', 'pm1@gmail.com', 'coba edit 1', 'Jaden Andrews', 'In House (Speequel Jakarta)', 'Sapiente expedi', '1920-11-22', 'Eu duis voluptatibus', 'ST-Q0008', 'Perspiciatis conseq', 'Non officia illum o', 'In aute sed obcaecat', 100, 'Minima proident ape', 33800, 'word', '3', 1, '0'),
@@ -389,8 +396,8 @@ INSERT INTO `purchase_order` (`no_Po`, `nama_Pm`, `email_pm`, `resource_Name`, `
 ('ST-PR0012', 'ben zoskan', 'bneks@gmail.com', 'beck', 'beck@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 2', '', 'pn', 'reg', 'fot', 100, 'addr', 36500, 'word', '2', 0, '0'),
 ('ST-PR0013', 'ben zoskan', 'bneks@gmail.com', 'beck', 'beck@gmail.com', 'Freelance', '0897654678', '2021-06-16', 'coba project', '', 'pn', 'reg', 'foot', 0, 'addr', 100000, 'item', '', 0, '0'),
 ('ST-PR0018', 'ben zoskan', 'bneks@gmail.com', 'freelance 1', 'dsadsa', 'Freelance', '0897654678', '2021-06-16', 'project ke 13', 'ST-Q0013', '', '', '', 100, '', 61000, 'word', '3', 0, '0'),
-('ST-PR0019', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-16', 'Est cum consectetur', 'ST-Q0007', '', '', '', 0, '', 24960600, 'item', '', 0, '1'),
-('ST-PR0020', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-19', 'coba project 15', 'ST-Q0015', '', '', '', 130, '', 23478, 'word', '3', 0, '0');
+('ST-PR0019', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-16', 'Est cum consectetur', 'ST-Q0007', '', '', '', 0, '', 24960600, 'item', '', 1, '1'),
+('ST-PR0020', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-19', 'coba project 15', 'ST-Q0015', '', '', '', 130, '', 23478, 'word', '3', 1, '0');
 
 -- --------------------------------------------------------
 
@@ -565,14 +572,14 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id_User`, `user_Name`, `pass_Word`, `full_Name`, `email_Address`, `id_Position`, `id_Status`, `profile_Photo`, `last_Login`, `created_at`, `is_active`) VALUES
 ('STR001', 'admin', 'passadmin', 'admin finance 1', 'Adminfinance123@gmail.com', 4, 0, 'STR001.PNG', '2021-06-16 21:03:12', '2021-05-19 14:10:03', 0),
-('STR002', 'irfan', 'coba11', 'muhammad irfan', 'muhammadirfan.9f@gmail.com', 5, 2, 'STR002.jpg', '2021-06-16 21:07:02', '2021-05-19 17:12:39', 0),
-('STR003', 'benben', 'bento', 'ben zoskan', 'bneks@gmail.com', 1, 2, 'STR003.jpg', '2021-06-16 20:21:55', '2021-06-10 09:42:27', 0),
-('STR004', 'ilham', 'ilham', 'ilham nur inzani', 'ilhamham@gmail.com', 7, 1, 'STR004.jpg', '2021-06-16 09:07:28', '2021-06-14 17:34:53', 0),
+('STR002', 'irfan', 'coba11', 'muhammad irfan', 'muhammadirfan.9f@gmail.com', 5, 2, 'STR002.jpg', '2021-06-17 05:57:59', '2021-05-19 17:12:39', 0),
+('STR003', 'benben', 'bento', 'ben zoskan', 'bneks@gmail.com', 1, 2, 'STR003.jpg', '2021-06-17 05:59:05', '2021-06-10 09:42:27', 0),
+('STR004', 'ilham', 'ilham', 'ilham nur inzani', 'ilhamham@gmail.com', 7, 1, 'STR004.jpg', '2021-06-17 13:16:11', '2021-06-14 17:34:53', 0),
 ('STR005', 'putri', 'putri', 'putri finance 1', 'financestarna1@gmail.com', 3, 2, 'STR005.jpg', '2021-06-15 06:27:12', '2021-06-14 23:05:46', 0),
 ('STR006', 'sales1', 'sales1', 'sales ke 1', 'sales1@gmail.com', 5, 4, 'STR006.jpg', '2021-06-16 21:07:25', '2021-06-15 06:37:16', 0),
-('STR007', 'pm1', 'pm1', 'project manager 1', 'pm1@gmail.com', 1, 3, 'STR007.jpg', '2021-06-16 21:05:40', '2021-06-15 06:37:56', 0),
+('STR007', 'pm1', 'pm1', 'project manager 1', 'pm1@gmail.com', 1, 3, 'STR007.jpg', '2021-06-17 05:59:33', '2021-06-15 06:37:56', 0),
 ('STR008', 'fl1', 'fl1', 'freelance 1', 'fl1@gmail.com', 7, 1, 'STR008.jpg', '2021-06-15 07:09:10', '2021-06-15 06:38:39', 0),
-('STR009', 'finance1', 'fn1', 'finance ke 1', 'fn1@gmail.com', 3, 6, 'STR009.jpg', '2021-06-16 09:13:57', '2021-06-15 06:39:16', 0),
+('STR009', 'finance1', 'fn1', 'finance ke 1', 'fn1@gmail.com', 3, 6, 'STR009.jpg', '2021-06-17 07:32:32', '2021-06-15 06:39:16', 0),
 ('STR010', 'financespq', 'fnspq', 'finance speequel', 'financespq1@gmail.com', 3, 3, 'STR010.jpg', '2021-06-15 07:42:31', '2021-06-15 07:42:11', 0),
 ('STR011', 'sales2', 'sales2', 'sales ke 2', 'sales2@gmail.com', 5, 4, 'STR011.jpg', '2021-06-16 21:07:51', '2021-06-16 21:04:06', 0),
 ('STR012', 'pm2', 'pm2', 'project manager 2', 'pm2@gmail.com', 1, 3, 'STR012.jpg', '2021-06-16 21:05:12', '2021-06-16 21:04:59', 0);
@@ -691,7 +698,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `invoice_in_item`
 --
 ALTER TABLE `invoice_in_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `invoice_item_local`

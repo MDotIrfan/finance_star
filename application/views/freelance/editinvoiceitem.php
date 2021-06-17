@@ -99,7 +99,15 @@
             <thead>
                 <tr>
                     <th>Job Description</th>
-                    <th>Quantity Words</th>
+                    <th><select id="v_form" name="v_form" class="form-control font-weight-bold">
+                                    <option value="0" <?php if($po->v_form==0) {echo 'selected';} ?>>
+                                        Volume
+                                    </option>
+                                    <option value="1" <?php if($po->v_form==1) {echo 'selected';} ?>>
+                                        Item
+                                    </option>
+
+                                </select></th>
                     <th>Unit</th>
                     <th>Rate</th>
                     <th>Amount IDR</th>

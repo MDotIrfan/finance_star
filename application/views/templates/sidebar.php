@@ -127,14 +127,17 @@
                         <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo base_url('freelance/invoice'); ?>">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
                         <i class="fas fa-file-invoice"></i>
-                        <span>Invoice</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo base_url('freelance/invoice_item'); ?>">
-                        <i class="fas fa-file-invoice"></i>
-                        <span>Invoice Item</span></a>
+                        <span>Invoice</span>
+                    </a>
+                    <div id="collapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Detail</h6>
+                            <a class="collapse-item" href="<?php echo base_url('freelance/invoice'); ?>">Invoice Word Based</a>
+                            <a class="collapse-item" href="<?php echo base_url('freelance/invoice_item'); ?>">Invoice Item Based</a>
+                        </div>
+                    </div>
                 </li>
             <?php } ?>
 
