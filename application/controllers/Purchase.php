@@ -434,4 +434,12 @@ class Purchase extends CI_Controller
         $data['position'] = $this->m_user->ambil_data_status()->result();
         $this->load->view('purchase/masterpo', $data);
     }
+    public function printi($id)
+    {
+        $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
+        $data['pi'] = $this->m_po->ambil_data_po_item($id)->result();
+        $data['p'] = $this->m_po->ambil_dataitem_po_item($id)->result();
+        $data['position'] = $this->m_user->ambil_data_status()->result();
+        $this->load->view('purchase/poibm', $data);
+    }
 }
