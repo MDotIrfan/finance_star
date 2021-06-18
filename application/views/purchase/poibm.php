@@ -65,18 +65,19 @@
     </table>
 
     <table border="1" style="width: 70%" class="table" cellspacing="0" cellpadding="0" align="left">
+        <?php foreach ($po as $po) { ?>
+
+            <tr>
+                <td style="text-align:center; background-color:pink" class="bold" width="35%"><a>Project Name</a></td>
 
 
-        <tr>
-            <td style="text-align:center; background-color:pink" class="bold" width="35%"><a>Project Name</a></td>
-            <td width="35%" style="text-align:center; background-color:pink" class="bold">Email</td>
 
+            </tr>
+            <tr>
+                <td style="text-align:center;" class="center" width="35%"><?php echo $po->project_Name; ?></td>
 
-        </tr>
-        <tr>
-            <td style="text-align:center;" class="center" width="35%">Korean-Indonesian Recruitment Translation Test - Game Project</td>
-            <td width="35%" style="text-align:center;">hamed@gmail.com</td>
-        </tr>
+            </tr>
+
     </table>
     <table border="1" style="width: 25%" class="table" cellspacing="0" cellpadding="0" align="center">
 
@@ -88,7 +89,7 @@
 
         </tr>
         <tr>
-            <td style="text-align:center; " class="center" width="%">June 20,2021</td>
+            <td style="text-align:center; " class="center" width="%"><?php echo $po->date; ?></td>
 
         </tr>
     </table>
@@ -103,8 +104,8 @@
 
         </tr>
         <tr>
-            <td style="text-align:center;" class="center" width="35%">Korean-Indonesian Recruitment Translation Test - Game Project</td>
-            <td width="35%" style="text-align:center;">hamed@gmail.com</td>
+            <td style="text-align:center;" class="center" width="35%"><?php echo $po->nama_Pm; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $po->email_pm; ?></td>
         </tr>
     </table>
     <br>
@@ -118,8 +119,8 @@
 
         </tr>
         <tr>
-            <td style="text-align:center;" class="center" width="35%">Korean-Indonesian Recruitment Translation Test - Game Project</td>
-            <td width="35%" style="text-align:center;">hamed@gmail.com</td>
+            <td style="text-align:center;" class="center" width="35%"><?php echo $po->resource_Name; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $po->resource_Email; ?></td>
         </tr>
         <tr>
             <td style="text-align:center; background-color:pink" class="bold" width="35%">Mobile Phone</td>
@@ -128,14 +129,15 @@
 
         </tr>
         <tr>
-            <td style="text-align:center;" class="center" width="35%">Korean-Indonesian Recruitment Translation Test - Game Project</td>
-            <td width="35%" style="text-align:center;">hamed@gmail.com</td>
+            <td style="text-align:center;" class="center" width="35%"><?php echo $po->mobile_Phone; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $po->address_Resource; ?></td>
         </tr>
+    <?php } ?>
     </table>
 
     <br>
-    <table border="1" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
 
+    <table border="1" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
 
         <tr>
             <td style="text-align:center; background-color:pink" class="bold" width="25">Task</td>
@@ -143,37 +145,21 @@
             <td style="text-align:center; background-color:pink" class="bold" width="25">Rate (IDR)</td>
             <td style="text-align:center; background-color:pink" class="bold" width="25">Total (IDR)</td>
         </tr>
-        <tr>
-            <td style="text-align:left;" width="25%">New Design</td>
-            <td width="25%" style="text-align:center;">0</td>
-            <td width="25%" style="text-align:center;">0</td>
-            <td width="25%" style="text-align:center;">0</td>
-        </tr>
-        <tr>
-            <td style="text-align:left;" width="25%">Design Alternative</td>
-            <td width="25%" style="text-align:center;">0</td>
-            <td width="25%" style="text-align:center;">0</td>
-            <td width="25%" style="text-align:center;">0</td>
-        </tr>
-        <tr>
-            <td style="text-align:left;" width="25%">Revision</td>
-            <td width="25%" style="text-align:center;">0</td>
-            <td width="25%" style="text-align:center;">0</td>
-            <td width="25%" style="text-align:center;">0</td>
-        </tr>
-        <tr>
-            <td style="text-align:left;" width="25%">Bilingual Output</td>
-            <td width="25%" style="text-align:center;">52</td>
-            <td width="25%" style="text-align:center;">12000</td>
-            <td width="25%" style="text-align:center;">624000</td>
-        </tr>
-
+        <?php foreach ($p as $p) { ?>
+            <tr>
+                <td style="text-align:left;" width="25%"><?php echo $p->task; ?></td>
+                <td width="25%" style="text-align:center;"><?php echo $p->qty; ?></td>
+                <td width="25%" style="text-align:center;"><?php echo $p->rate; ?></td>
+                <td width="25%" style="text-align:center;"><?php echo $p->amount; ?></td>
+            </tr>
+        <?php } ?>
     </table>
+
     <br>
     <table border="1" style="width: 50%" align="right" cellspacing="0" cellpadding="0">
 
         <td width="25%" style="text-align:center; background-color:pink" class="bold">Total Fee</td>
-        <td width="25%" style="text-align:center;" class="bold">624000</td>
+        <td width="25%" style="text-align:center;" class="bold"><?php echo $po->grand_Total; ?></td>
     </table>
     <br>
     <table border="0" style="width: 100%" class="center" cellspacing="0" cellpadding="0">

@@ -135,4 +135,12 @@ class M_po extends CI_Model
         $this->db->where('u.full_Name', $id);
         return $this->db->get();
     }
+    function ambil_dataitem_po_item($where)
+    {
+        $this->db->select('*');
+        $this->db->from('po_item_itembase qi');
+        $this->db->join('purchase_order q', 'qi.no_Po=q.no_Po', 'left');
+        $this->db->where('q.no_Po', $where);
+        return $query = $this->db->get();
+    }
 }
