@@ -27,19 +27,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php 
-		foreach($inv as $po){ 
-		?>
-                    <tr>
-                        <th scope="row"><?php echo $po->no_invoice; ?></th>
-                        <td><?php echo $po->jobdesc; ?></td>
-                        <td><?php echo $po->invoice_date; ?></td>
-                        <td><?php echo $po->grand_total; ?></td>
-                        <td>
-                            <a href="<?php if($po->tipe=='word') {echo base_url('freelance/editwordbase/'.$po->no_invoice);} else {echo base_url('freelance/edititembase/'.$po->no_invoice);}  ?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                            <a onclick="return confirm('Yakin ingin hapus?')" href="<?php echo base_url('freelance/delete/'.$po->no_invoice); ?>"><button type="button" class="btn" style="color:red"><i class="fa fa-minus-circle" aria-hidden="true"></i></button></a>
-                        </td>
-                    </tr>
+                    <?php
+                    foreach ($inv as $po) {
+                    ?>
+                        <tr>
+                            <th scope="row"><?php echo $po->no_invoice; ?></th>
+                            <td><?php echo $po->jobdesc; ?></td>
+                            <td><?php echo $po->invoice_date; ?></td>
+                            <td><?php echo $po->grand_total; ?></td>
+                            <td>
+                                <a href="<?php if ($po->tipe == 'word') {
+                                                echo base_url('freelance/editwordbase/' . $po->no_invoice);
+                                            } else {
+                                                echo base_url('freelance/edititembase/' . $po->no_invoice);
+                                            }  ?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                                <a onclick="return confirm('Yakin ingin hapus?')" href="<?php echo base_url('freelance/delete/' . $po->no_invoice); ?>"><button type="button" class="btn" style="color:red"><i class="fa fa-minus-circle" aria-hidden="true"></i></button></a>
+                                <a href="<?php echo base_url('freelance/print/'); ?>"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
+                            </td>
+                        </tr>
                     <?php } ?>
 
                 </tbody>

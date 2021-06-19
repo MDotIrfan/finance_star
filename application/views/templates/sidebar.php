@@ -106,14 +106,14 @@
             <?php if ($userdata->id_Position == '3') { ?>
                 <!-- Nav Item - BAST -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" href="<?= site_url('finance/bast') ?>">
                         <i class="fas fa-copy"></i>
                         <span>BAST</span></a>
                 </li>
 
                 <!-- Nav Item - SEND -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" href="<?= site_url('finance/send') ?>">
                         <i class="fas fa-paper-plane"></i>
                         <span>SEND</span></a>
                 </li>
