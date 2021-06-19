@@ -157,7 +157,8 @@
                                                         ?></td>
             <td width="25%" style="text-align:center;"><?php echo $pi->locked; ?></td>
             <td width="25%" style="text-align:center;">0%</td>
-            <td width="25%" style="text-align:center;"><?php $wwc1=$pi->locked * 0 / 100; echo $wwc1; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc1 = $pi->locked * 0 / 100;
+                                                        echo $wwc1; ?></td>
         </tr>
 
         <tr>
@@ -172,19 +173,20 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w2 = 0;
-                                                            echo $w2.'%';
+                                                            echo $w2 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w2 = 15;
-                                                            echo $w2.'%';
+                                                            echo $w2 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w2 = 0;
-                                                            echo $w2.'%';
+                                                            echo $w2 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w2 = 0;
-                                                            echo $w2.'%';
+                                                            echo $w2 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc2=$pi->repetitions * $w2 / 100; echo $wwc2; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc2 = $pi->repetitions * $w2 / 100;
+                                                        echo $wwc2; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%"><?php
@@ -198,19 +200,20 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w3 = 0;
-                                                            echo $w3.'%';
+                                                            echo $w3 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w3 = 0;
-                                                            echo $w3.'%';
+                                                            echo $w3 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w3 = 0;
-                                                            echo $w3.'%';
+                                                            echo $w3 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w3 = 0;
-                                                            echo $w3.'%';
+                                                            echo $w3 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc3=$pi->fuzzy100 * $w3 / 100; echo $wwc3; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc3 = $pi->fuzzy100 * $w3 / 100;
+                                                        echo $wwc3; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%"><?php
@@ -224,19 +227,20 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w4 = 30;
-                                                            echo $w4.'%';
+                                                            echo $w4 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w4 = 30;
-                                                            echo $w2.'%';
+                                                            echo $w2 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w4 = 30;
-                                                            echo $w4.'%';
+                                                            echo $w4 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w4 = 10;
-                                                            echo $w4.'%';
+                                                            echo $w4 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc4=$pi->fuzzy95 * $w4 / 100; echo $wwc4; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc4 = $pi->fuzzy95 * $w4 / 100;
+                                                        echo $wwc4; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%"><?php
@@ -250,19 +254,20 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w5 = 50;
-                                                            echo $w5.'%';
+                                                            echo $w5 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w5 = 50;
-                                                            echo $w5.'%';
+                                                            echo $w5 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w5 = 50;
-                                                            echo $w5.'%';
+                                                            echo $w5 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w5 = 10;
-                                                            echo $w5.'%';
+                                                            echo $w5 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc5=$pi->fuzzy85 * $w5 / 100; echo $wwc5; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc5 = $pi->fuzzy85 * $w5 / 100;
+                                                        echo $wwc5; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%"><?php
@@ -276,19 +281,20 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w6 = 70;
-                                                            echo $w6.'%';
+                                                            echo $w6 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w6 = 70;
-                                                            echo $w6.'%';
+                                                            echo $w6 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w6 = 70;
-                                                            echo $w6.'%';
+                                                            echo $w6 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w6 = 25;
-                                                            echo $w6.'%';
+                                                            echo $w6 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc6=$pi->fuzzy75 * $w6 / 100; echo $wwc6; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc6 = $pi->fuzzy75 * $w6 / 100;
+                                                        echo $wwc6; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%"><?php
@@ -302,19 +308,20 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w7 = 100;
-                                                            echo $w7.'%';
+                                                            echo $w7 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w7 = 100;
-                                                            echo $w7.'%';
+                                                            echo $w7 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w7 = 100;
-                                                            echo $w7.'%';
+                                                            echo $w7 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w7 = 100;
-                                                            echo $w7.'%';
+                                                            echo $w7 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc7=$pi->fuzzy50 * $w7 / 100; echo $wwc7; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc7 = $pi->fuzzy50 * $w7 / 100;
+                                                        echo $wwc7; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%"><?php
@@ -328,25 +335,26 @@
             <td width="25%" style="text-align:center;"><?php
                                                         if ($pi->tipe_Po == 1) {
                                                             $w8 = 100;
-                                                            echo $w8.'%';
+                                                            echo $w8 . '%';
                                                         } else if ($pi->tipe_Po == 2) {
                                                             $w8 = 100;
-                                                            echo $w8.'%';
+                                                            echo $w8 . '%';
                                                         } else if ($pi->tipe_Po == 3) {
                                                             $w8 = 80;
-                                                            echo $w8.'%';
+                                                            echo $w8 . '%';
                                                         } else if ($pi->tipe_Po == 4) {
                                                             $w8 = 70;
-                                                            echo $w8.'%';
+                                                            echo $w8 . '%';
                                                         }
                                                         ?></td>
-            <td width="25%" style="text-align:center;"><?php $wwc8=$pi->new * $w8 / 100; echo $wwc8; ?></td>
+            <td width="25%" style="text-align:center;"><?php $wwc8 = $pi->new * $w8 / 100;
+                                                        echo $wwc8; ?></td>
         </tr>
         <tr>
             <td style="text-align:left;" width="25%">Total</td>
-            <td width="25%" style="text-align:center;"><?php echo $pi->locked+$pi->repetitions+$pi->fuzzy100+$pi->fuzzy95+$pi->fuzzy85+$pi->fuzzy75+$pi->fuzzy50+$pi->new; ?></td>
+            <td width="25%" style="text-align:center;"><?php echo $pi->locked + $pi->repetitions + $pi->fuzzy100 + $pi->fuzzy95 + $pi->fuzzy85 + $pi->fuzzy75 + $pi->fuzzy50 + $pi->new; ?></td>
             <td width="25%" style="text-align:center; border-bottom : none;"></td>
-            <td width="25%" style="text-align:center;"><?php echo $wwc1+$wwc2+$wwc3+$wwc4+$wwc5+$wwc6+$wwc7+$wwc8; ?></td>
+            <td width="25%" style="text-align:center;"><?php echo $wwc1 + $wwc2 + $wwc3 + $wwc4 + $wwc5 + $wwc6 + $wwc7 + $wwc8; ?></td>
         </tr>
 
     </table>
@@ -384,9 +392,9 @@
     <div style="text-align:center;" class="bold">Thank you for your service
     </div>
 </body>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
     window.print();
-</script> -->
+</script>
 
 
 </html>
