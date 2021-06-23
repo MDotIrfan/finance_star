@@ -12,7 +12,6 @@
         <div class="col">
             <label for="noquitation">No. Invoice</label>
             <input type="" class="form-control form-control-user" id="noinv" name="noinv" aria-describedby="" placeholder="" value="<?= $kode_inv ?>" readonly>
-            <input class="form-control form-control-user" id="tipe" name="tipe" aria-describedby="" placeholder="" type="hidden" value="4">
         </div>
         <div class="col">
             <label for="ps">Swift Code</label>
@@ -36,9 +35,9 @@
         <label for="noquitation">No. Purchase Order</label>
             <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="status" name="status">
             <option value="">-</option>
-                                        <?php foreach ($po as $q) : ?>
+                                        <!-- <?php foreach ($po as $q) : ?>
                                             <option value="<?php echo $q->no_Po; ?>"> <?php echo $q->no_Po; ?></option>
-                                        <?php endforeach; ?>
+                                        <?php endforeach; ?> -->
                                     </select>
         </div>
         <div class="col">
@@ -61,12 +60,11 @@
             <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="">
         </div>
         <div class="col">
-            <label for="Pm">Down Payment</label>
-            <input type="" class="form-control form-control-user" id="dp" name="dp" aria-describedby="" placeholder="">
+            <label for="cn">Account</label>
+            <input type="" class="form-control form-control-user" id="acc" name="acc" aria-describedby="" placeholder="">
         </div>
         <div class="col">
-            <!-- <label for="dd">Tax</label>
-            <input type="" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder=""> -->
+       
         </div>
 
 
@@ -77,11 +75,7 @@
 <div class="container justify-content-start">
     <div class="row">
         <div class="col">
-            <label for="cn">Account</label>
-            <input type="" class="form-control form-control-user" id="acc" name="acc" aria-describedby="" placeholder="">
-        </div>
-        <div class="col">
-            <label for="Duedate">Invoice Date</label>
+        <label for="Duedate">Invoice Date</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fas fa-calendar-alt"></i></i></div>
@@ -90,7 +84,7 @@
             </div>
         </div>
         <div class="col">
-            <label for="dd">No. Rekening</label>
+        <label for="dd">No. Rekening</label>
             <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="no_rek" name="no_rek">
             <option value="">-</option>
             <option value="1">Permata Bank IDR</option>
@@ -99,7 +93,16 @@
             <option value="4">Bank Danamon</option>
             <option value="5">Paypal</option>
                                     </select>
-
+        </div>
+        <div class="col">
+        <label for="dd">Tipe Invoice</label>
+            <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="tipe" name="tipe">
+            <option value="1">Invoice Luar</option>
+            <option value="2">Invoice Local</option>
+            <option value="3">Invoice SPQ</option>
+            <option value="4">Invoice Luar 2</option>
+            <option value="5">Invoice SPQ 2</option>
+                                    </select>
         </div>
 
 
@@ -107,32 +110,10 @@
     </div>
 </div>
 <hr>
-<div class="col-lg-10 " style="margin-left:auto;margin-right:auto">
+<div class="col-lg-10 " style="">
     <div>
-        <table class="table table-bordered shadow-lg">
-            <!-- <table id=" example" class="display" style="width:100%"> -->
-            <thead>
-                <tr>
-                    <th>Job Description</th>
-                    <th>Qtt Words</th>
-                    <th>Unit Price</th>
-                    <th>
-                        <select name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                            <option selected="selected">Amount IDR</option>
-                            <option>Amount US</option>
-
-                        </select>
-                    </th>
-
-
-                </tr>
-            </thead>
-            <tbody>
-            <tbody id="dinamisRow">
-         <div class="control-group after-add-more">
-        </div>
-
-
+        <table class="table table-bordered shadow-lg" id="dinamisTable">
+            
         </table>
     </div>
 

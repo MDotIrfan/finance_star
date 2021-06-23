@@ -5,6 +5,7 @@
                 <div class="col">
                     <label for="noquitation">No Quitation</label>
                     <input type="" class="form-control form-control-user" id="noquitation" name="noquitation" aria-describedby="" placeholder="" value="<?= $q->no_Quotation ?>" readonly>
+                    <input type="hidden" class="form-control form-control-user" id="sn" name="sn" aria-describedby="" placeholder="" value="<?php echo $q->sales_name; ?>">
                 </div>
                 <div class="col">
                     <label for="ps">Project name</label>

@@ -87,11 +87,11 @@
             <label for="dd">No. Rekening</label>
             <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="no_rek" name="no_rek">
             <option value="">-</option>
-            <option value="1">Permata Bank IDR</option>
-            <option value="2">Permata Bank Dollar</option>
-            <option value="3">Permata Bank Euro</option>
-            <option value="4">Bank Danamon</option>
-            <option value="5">Paypal</option>
+            <option value="1" <?php if($po->no_rek=="1"){echo 'selected';}?>>Permata Bank IDR</option>
+            <option value="2" <?php if($po->no_rek=="2"){echo 'selected';}?>>Permata Bank Dollar</option>
+            <option value="3" <?php if($po->no_rek=="3"){echo 'selected';}?>>Permata Bank Euro</option>
+            <option value="4" <?php if($po->no_rek=="4"){echo 'selected';}?>>Bank Danamon</option>
+            <option value="5" <?php if($po->no_rek=="5"){echo 'selected';}?>>Paypal</option>
                                     </select>
         </div>
 

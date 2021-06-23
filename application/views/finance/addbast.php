@@ -11,8 +11,7 @@
         <div class="row ">
             <div class="col">
                 <label for="noquitation">No. BAST</label>
-                <input type="" class="form-control form-control-user" id="noinv" name="noinv" aria-describedby="" placeholder="" value="">
-                <input class="form-control form-control-user" id="tipe" name="tipe" aria-describedby="" placeholder="" type="hidden" value="4">
+                <input type="" class="form-control form-control-user" id="nobast" name="nobast" aria-describedby="" placeholder="" value="<?= $kode_bast ?>">
             </div>
             <div class="col">
                 <label for="ps">Type Of Work</label>
@@ -84,28 +83,16 @@
                 <!-- <table id=" example" class="display" style="width:100%"> -->
                 <thead>
                     <tr>
-                        <th>
-                            <select name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                                <option selected="selected">Item</option>
-                                <option>Item</option>
-
-                            </select>
-                        </th>
+                        <th>Item</th>
                         <th>Quantity</th>
                         <th>Unit</th>
                         <th>Status</th>
-                        <th> </th>
-
-
-
                     </tr>
                 </thead>
                 <tbody>
                 <tbody id="dinamisRow">
                     <div class="control-group after-add-more">
                     </div>
-
-
             </table>
         </div>
 
