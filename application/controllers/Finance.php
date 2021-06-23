@@ -32,10 +32,10 @@ class Finance extends CI_Controller
     }
     public function addbast()
     {
-
+        $data['kode_bast'] = $this->m_inv_in->CreateCodeBast();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
-        $this->load->view('finance/addbast');
+        $this->load->view('finance/addbast', $data);
         $this->load->view('templates/footer');
     }
     public function send()
@@ -59,7 +59,7 @@ class Finance extends CI_Controller
     }
     public function datainvoicein()
     {
-        $data['inv'] = $this->m_inv_in->tampil_data_inv()->result();
+        $data['inv'] = $this->m_inv_in->tampil_data_inv_all()->result();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/datainvoicein', $data);
@@ -148,13 +148,12 @@ class Finance extends CI_Controller
 
     public function invoiceout()
     {
-        $data['kode_inv'] = $this->m_inv_in->CreateCode();
-        $data['po'] = $this->m_inv_in->ambil_data_po_w(0)->result();
+        $data['kode_inv'] = $this->m_inv_in->CreateCode_Out();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/invoiceout', $data);
         $this->load->view('templates/footer', [
-            'load' => ['addq_2.js', 'add_inv_in.js']
+            'load' => ['add_inv_out.js', 'add_inv_in.js']
         ]);
     }
 
@@ -233,4 +232,25 @@ class Finance extends CI_Controller
         // $data['quotation'] = $this->m_quotation->getAll($id)->result();
         $this->load->view('finance/invluar');
     }
+    function acc($id){
+		$data = array(
+			'is_Acc' => 1,
+			);
+            $where = array(
+                'no_invoice' => $id,
+            );
+        $this->m_quotation->update_data($where,$data,'invoice_in');
+        redirect('finance/datainvoicein');
+	}
+
+    function unacc($id){
+		$data = array(
+			'is_Acc' => 0,
+			);
+            $where = array(
+                'no_invoice' => $id,
+            );
+        $this->m_quotation->update_data($where,$data,'invoice_in');
+        redirect('finance/datainvoicein');
+	}
 }

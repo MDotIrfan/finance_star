@@ -36,8 +36,13 @@
                         <td><?php echo $po->invoice_date; ?></td>
                         <td><?php echo $po->grand_total; ?></td>
                         <td>
-                            <!-- <a href="<?php if($po->tipe=='word') {echo base_url('freelance/editwordbase/'.$po->no_invoice);} else {echo base_url('freelance/edititembase/'.$po->no_invoice);}  ?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                            <a onclick="return confirm('Yakin ingin hapus?')" href="<?php echo base_url('freelance/delete/'.$po->no_invoice); ?>"><button type="button" class="btn" style="color:red"><i class="fa fa-minus-circle" aria-hidden="true"></i></button></a> -->
+                        <?php if ($po->is_Acc == "0") {
+                                    echo "<a onclick='return confirm('Yakin ingin acc?')' href=" . base_url('finance/acc/' . $po->no_invoice) . "><button type='button' class='btn' style='color:orange'><i class='fa fa-times-circle'></i></button></a>";
+                                    // echo "<a onclick='return confirm('Yakin ingin acc?')' href=" . base_url('quitation/acc/' . $q->no_Quotation) . " class='hapus btn btn-warning btn-xs'>acc</a>";
+                                } else {
+                                    echo "<a onclick='return confirm('Yakin ingin batalkan acc?')' href=" . base_url('finance/unacc/' . $po->no_invoice) . " ><button type='button' class='btn' style='color:green'><i class='far fa-check-circle'></i></button></a>";
+                                    // echo "<a onclick='return confirm('Yakin ingin batalkan acc?')' href=" . base_url('quitation/unacc/' . $q->no_Quotation) . " class='hapus btn btn-success btn-xs'>unacc</a>";
+                                } ?>
                         </td>
                     </tr>
                     <?php } ?>

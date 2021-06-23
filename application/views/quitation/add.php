@@ -1,3 +1,4 @@
+<?php $userdata = $this->session->userdata('user_logged'); ?>
 <form autocomplete="off" method="POST" action="<?php echo base_url('quitation/add_quitation'); ?>">
    <div class="container justify-content-start">
       <div class="row ">
@@ -23,6 +24,7 @@
          <div class="col">
             <label for="cn">Client Name</label>
             <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="">
+            <input type="hidden" class="form-control form-control-user" id="sn" name="sn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
          </div>
          <div class="col">
             <label for="Pm">Project Start</label>

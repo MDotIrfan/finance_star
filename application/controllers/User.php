@@ -53,11 +53,28 @@ class User extends CI_Controller
         $this->load->view('user/add_client', $data);
         $this->load->view('templates/footer');
     }
+    public function generate(string $name) : string
+    {
+        $words = explode(' ', $name);
+        if (count($words) >= 2) {
+            return strtoupper(substr($words[0], 0, 1) . substr(end($words), 0, 1));
+        }
+        return $this->makeInitialsFromSingleWord($name);
+    }
+    protected function makeInitialsFromSingleWord(string $name) : string
+    {
+        preg_match_all('#([A-Z]+)#', $name, $capitals);
+        if (count($capitals[1]) >= 2) {
+            return substr(implode('', $capitals[1]), 0, 2);
+        }
+        return strtoupper(substr($name, 0, 2));
+    }
     function add_user(){
 		$id = $this->input->post('id');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
         $fullname = $this->input->post('fullname');
+        $inisial= $this->generate($fullname);
         $email_address = $this->input->post('email_address');
         $id_position = $this->input->post('position');
         $id_status = $this->input->post('status');
@@ -77,6 +94,7 @@ class User extends CI_Controller
             'id_Position' => $id_position,
             'id_Status' => $id_status,
             'profile_Photo' => $photo,
+            'inisial' => $inisial
 			);
 		$this->m_user->input_data($data,'user');
 
@@ -157,6 +175,7 @@ class User extends CI_Controller
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
         $fullname = $this->input->post('fullname');
+        $inisial= $this->generate($fullname);
         $email_address = $this->input->post('email_address');
         $id_position = $this->input->post('position');
         $id_status = $this->input->post('status');
@@ -180,6 +199,7 @@ class User extends CI_Controller
             'id_Position' => $id_position,
             'id_Status' => $id_status,
             'profile_Photo' => $photo,
+            'inisial' => $inisial
         );
     
         $where = array(

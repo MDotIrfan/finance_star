@@ -32,6 +32,27 @@
                                                                                                             }
 
                                                                                                             ?></a>
+                                                                                                            <a align='center'><?php
+
+if ($userdata->id_Status== '0') {
+    echo 'Admin';
+} elseif ($userdata->id_Status == '1') {
+    echo 'Freelance';
+} elseif ($userdata->id_Status == '2') {
+    echo 'In House (Star Jakarta)';
+} elseif ($userdata->id_Status == '3') {
+    echo 'In House (Speequal Jakarta)';
+} elseif ($userdata->id_Status == '4') {
+    echo 'In House (Speequal Malaysia)';
+} elseif ($userdata->id_Status == '5') {
+    echo 'Vendor';
+} elseif ($userdata->id_Status == '6') {
+    echo 'Kodegiri';
+} else {
+    echo 'nobody';
+}
+
+?></a>
             </>
 
 
