@@ -6,16 +6,17 @@
     </ol>
 </nav>
 <?php $userdata = $this->session->userdata('user_logged'); ?>
-<form method="POST" action="<?php echo base_url('finance/add_bast_data'); ?>">
+<?php foreach ($bast as $b) { ?>
+<form method="POST" action="<?php echo base_url('finance/edit_bast_data'); ?>">
     <div class="container justify-content-start">
         <div class="row ">
             <div class="col">
                 <label for="noquitation">No. BAST</label>
-                <input type="" class="form-control form-control-user" id="nobast" name="nobast" aria-describedby="" placeholder="" value="<?= $kode_bast ?>" readonly>
+                <input type="" class="form-control form-control-user" id="nobast" name="nobast" aria-describedby="" placeholder="" value="<?= $b->id_bast ?>" readonly>
             </div>
             <div class="col">
                 <label for="ps">Type Of Work</label>
-                <input type="" class="form-control form-control-user" id="swift" name="swift" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="swift" name="swift" aria-describedby="" placeholder="" value="<?= $b->type_of_work ?>">
             </div>
             <div class="col">
                 <label for="Duedate">Due Date</label>
@@ -23,7 +24,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fas fa-calendar-alt"></i></i></div>
                     </div>
-                    <input type="text" class="form-control form-control-user datepicker" id="dd" name="duedate">
+                    <input type="text" class="form-control form-control-user datepicker" id="dd" name="duedate" value="<?= $b->due_date ?>">
                 </div>
             </div>
         </div>
@@ -33,20 +34,15 @@
         <div class="row">
             <div class="col">
                 <label for="noquitation">No. Invoice</label>
-                <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="noinv" name="noinv">
-                    <option value="">-</option>
-                    <?php foreach ($inv as $q) : ?>
-                        <option value="<?php echo $q->no_invoice; ?>"> <?php echo $q->no_invoice; ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <input type="" class="form-control form-control-user" id="noinv" name="noinv" aria-describedby="" placeholder="" value="<?= $b->no_invoice ?>" readonly>
             </div>
             <div class="col">
                 <label for="Pm">Project Name</label>
-                <input type="" class="form-control form-control-user" id="pn" name="pn" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="pn" name="pn" aria-describedby="" placeholder="" value="<?= $b->project_name ?>">
             </div>
             <div class="col">
                 <label for="dd">PIC Client</label>
-                <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?= $b->pic_client ?>">
             </div>
 
 
@@ -57,15 +53,15 @@
         <div class="row">
             <div class="col">
                 <label for="cn">Perihal</label>
-                <input type="" class="form-control form-control-user" id="perihal" name="perihal" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="perihal" name="perihal" aria-describedby="" placeholder="" value="<?= $b->perihal ?>">
             </div>
             <div class="col">
                 <label for="Pm">Company Name</label>
-                <input type="" class="form-control form-control-user" id="company" name="company" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="company" name="company" aria-describedby="" placeholder="" value="<?= $b->company_name ?>">
             </div>
             <div class="col">
                 <label for="dd">Email</label>
-                <input type="" class="form-control form-control-user" id="email" name="email" aria-describedby="" placeholder="">
+                <input type="" class="form-control form-control-user" id="email" name="email" aria-describedby="" placeholder="" value="<?= $b->email ?>">
             </div>
         </div>
     </div>
@@ -105,8 +101,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><textarea name="first_party" id="first_party"></textarea></td>
-                                <td><textarea name="second_party" id="second_party"></textarea></td>
+                                <td><textarea name="first_party" id="first_party"><?= $b->first_party ?></textarea></td>
+                                <td><textarea name="second_party" id="second_party"><?= $b->second_party ?></textarea></td>
                             </tr>
 
 
@@ -127,3 +123,13 @@
     </div>
     </div>
 </form>
+<?php } ?>
+<script>
+  var item_list = [];
+
+  <?php
+    foreach($bi as $q) {
+      echo "item_list.push('".base64_encode(json_encode($q))."');".PHP_EOL;
+    }
+  ?>
+</script>

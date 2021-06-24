@@ -52,8 +52,26 @@ $(".cost"+a).val(cost[a]);
 }
 
 function tampil(){
-$("#total").val(tambah(cost));
-$("#grand").val(tambah(cost));
+  var hasil= tambah(cost)
+  var grand = 0;
+  $("#total").val(hasil);
+  if(jenis=='ftn'){
+    grand = hasil * 5 / 100;
+    document.getElementById("pajak").innerHTML = '-' + grand;
+  } else if(jenis=='fdn'){
+    grand = hasil * 6 / 100;
+    document.getElementById("pajak").innerHTML = '-' + grand;
+  } else if(jenis=='tadn'){
+    grand = hasil * (50 / 100) * (5/100);
+    document.getElementById("pajak").innerHTML = '-' + grand;
+  } else if(jenis=='tatn'){
+    grand = hasil * (50 / 100) * (5/100) * (120/100);
+    document.getElementById("pajak").innerHTML = '-' + grand;
+  } else if(jenis=='vendor'){
+    grand = hasil * 2 / 100;
+    document.getElementById("pajak").innerHTML = '-' + grand;
+  } 
+  $("#grand").val(hasil-grand);
 }
 function tambah(input){
          

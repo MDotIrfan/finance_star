@@ -37,19 +37,16 @@
                         <tr>
                             <th scope="row"><?php echo $po->no_invoice; ?></th>
                             <td><?php echo $po->client_name; ?></td>
-                            <td><?php echo $po->jobdesc; ?></td>
+                            <td><?php echo $po->project_Name; ?></td>
                             <td><?php echo $po->invoice_date; ?></td>
                             <td><?php echo $po->grand_total; ?></td>
                             <td>
-                                <a href="<?php if ($po->tipe == '4') {
-                                                echo base_url('finance/editinvoiceout/' . $po->no_invoice);
-                                            }  ?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                                <a onclick="return confirm('Yakin ingin hapus?')" href="<?php echo base_url('freelance/delete/' . $po->no_invoice); ?>"><button type="button" class="btn" style="color:red"><i class="fa fa-minus-circle" aria-hidden="true"></i></button></a>
+                                <a href="<?php echo base_url('finance/editinvoiceout/' . $po->no_invoice);?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                                <a onclick="return confirm('Yakin ingin hapus?')" href="<?php echo base_url('finance/delete/' . $po->no_invoice); ?>"><button type="button" class="btn" style="color:red"><i class="fa fa-minus-circle" aria-hidden="true"></i></button></a>
                                 <a href="<?php echo base_url('finance/print/'); ?>"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
                             </td>
                         </tr>
                     <?php } ?>
-
                 </tbody>
             </table>
         </div>

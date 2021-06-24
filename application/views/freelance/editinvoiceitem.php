@@ -4,6 +4,8 @@
         <li class="breadcrumb-item active" aria-current="page">Edit Invoice</li>
     </ol>
 </nav>
+<?php $userdata = $this->session->userdata('user_logged'); ?>
+<?php foreach ($res as $r) : ?>
 <?php foreach ($inv as $po) { ?>
 <form method="POST" action="<?php echo base_url('freelance/edit_inv_item');?>">
 <div class="container justify-content-start">
@@ -154,7 +156,29 @@
         <hr>
         <div class="">
         Total Cost<input type="text" id="total" name="total" value="<?= $po->total_cost ?>" readonly class="form-control">
-                        <hr>
+        <hr>
+               <script>
+                  var jenis='';
+               </script>
+               <?php if($userdata->id_Status=='1'){
+                  if($r->jenis=='biasa'){
+                      if($r->no_npwp<>NULL){
+                          echo 'PPh 21 (- 5%) <script>jenis=`fdn`</script>';
+                      } else {
+                          echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
+                      }
+                  } else if($r->jenis=='tenaga ahli'){
+                      if($r->no_npwp<>NULL){
+                          echo 'PPh 21 (- 50% x 5%) <script>jenis=`tadn`</script>';
+                      } else {
+                          echo 'PPh 21 (- 50% x 5% x 120%) <script>jenis=`tatn`</script>';
+                      }
+                  }
+                  }else{
+                  echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
+                  };?>
+               <span id="pajak"></span>
+               <hr>
                         Grand Total <input type="text" id="grand" name="grand" value="<?= $po->grand_total ?>" readonly class="form-control">
                         <hr>
         </div>
@@ -164,6 +188,7 @@
 </div>
 </form>
 <?php } ?>
+<?php endforeach; ?>
 <script>
   var item_list = [];
 

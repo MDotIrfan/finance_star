@@ -29,7 +29,20 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                <?php
+                    foreach ($bast as $po) {
+                    ?>
+                        <tr>
+                            <th scope="row"><?php echo $po->id_bast; ?></th>
+                            <td><?php echo $po->pic_client; ?></td>
+                            <td><?php echo $po->item; ?></td>
+                            <td><?php echo $po->qty." ".$po->Unit; ?></td>
+                            <td>
+                                <a href="<?php echo base_url('finance/editbast/' . $po->id_bast);?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                                <a onclick="return confirm('Yakin ingin hapus?')" href="<?php echo base_url('finance/delete_bast/' . $po->id_bast); ?>"><button type="button" class="btn" style="color:red"><i class="fa fa-minus-circle" aria-hidden="true"></i></button></a>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -37,3 +50,5 @@
 </div>
 </div>
 <!-- End of Main Content -->
+
+

@@ -150,6 +150,14 @@ class Purchase extends CI_Controller
         $fuzzy75 = $_POST['wc6'];
         $fuzzy50 = $_POST['wc7'];
         $new = $_POST['wc8'];
+        $wwc1 = $_POST['wwc1'];
+        $wwc2 = $_POST['wwc2'];
+        $wwc3 = $_POST['wwc3'];
+        $wwc4 = $_POST['wwc4'];
+        $wwc5 = $_POST['wwc5'];
+        $wwc6 = $_POST['wwc6'];
+        $wwc7 = $_POST['wwc7'];
+        $wwc8 = $_POST['wwc8'];
 
         $data = array(
             'no_Po' => $no_po,
@@ -182,6 +190,14 @@ class Purchase extends CI_Controller
             'fuzzy75' => $fuzzy75,
             'fuzzy50' => $fuzzy50,
             'new' => $new,
+            'wwc1' => $wwc1,
+            'wwc2' => $wwc2,
+            'wwc3' => $wwc3,
+            'wwc4' => $wwc4,
+            'wwc5' => $wwc5,
+            'wwc6' => $wwc6,
+            'wwc7' => $wwc7,
+            'wwc8' => $wwc8,
         );
         $this->m_po->input_data($data2, 'po_item_wordbase');
         $dat2 = array(
@@ -341,6 +357,14 @@ class Purchase extends CI_Controller
         $fuzzy75 = $_POST['wc6'];
         $fuzzy50 = $_POST['wc7'];
         $new = $_POST['wc8'];
+        $wwc1 = $_POST['wwc1'];
+        $wwc2 = $_POST['wwc2'];
+        $wwc3 = $_POST['wwc3'];
+        $wwc4 = $_POST['wwc4'];
+        $wwc5 = $_POST['wwc5'];
+        $wwc6 = $_POST['wwc6'];
+        $wwc7 = $_POST['wwc7'];
+        $wwc8 = $_POST['wwc8'];
         if ($tipe_po == 'Trados') {
             $t_po = '1';
         } else if ($tipe_po == 'Transit, XTM, etc.') {
@@ -386,6 +410,14 @@ class Purchase extends CI_Controller
             'fuzzy75' => $fuzzy75,
             'fuzzy50' => $fuzzy50,
             'new' => $new,
+            'wwc1' => $wwc1,
+            'wwc2' => $wwc2,
+            'wwc3' => $wwc3,
+            'wwc4' => $wwc4,
+            'wwc5' => $wwc5,
+            'wwc6' => $wwc6,
+            'wwc7' => $wwc7,
+            'wwc8' => $wwc8,
         );
         $this->m_po->input_data($data2, 'po_item_wordbase');
         redirect('purchase/data');

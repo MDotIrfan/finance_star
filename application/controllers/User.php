@@ -81,6 +81,7 @@ class User extends CI_Controller
         $photo = $this->_uploadImage($id);
         $mobile_phone = $this->input->post('mp');
         $cab_bank = $this->input->post('cb');
+        $jenis = $this->input->post('jenis');
         $no_rek = $this->input->post('norek');
         $address = $this->input->post('address');
         $npwp = $this->input->post('npwp');
@@ -105,6 +106,7 @@ class User extends CI_Controller
                 'cabang_bank' => $cab_bank,
                 'no_rekening' => $no_rek,
                 'address' => $address,
+                'jenis' => $jenis,
                 'no_npwp' => $npwp,
                 );
             $this->m_user->input_data($data2,'resource_data');
@@ -181,6 +183,7 @@ class User extends CI_Controller
         $id_status = $this->input->post('status');
         $mobile_phone = $this->input->post('mp');
         $cab_bank = $this->input->post('cb');
+        $jenis = $this->input->post('jenis');
         $no_rek = $this->input->post('norek');
         $address = $this->input->post('address');
         $npwp = $this->input->post('npwp');
@@ -216,6 +219,7 @@ class User extends CI_Controller
                 'no_rekening' => $no_rek,
                 'address' => $address,
                 'no_npwp' => $npwp,
+                'jenis' => $jenis
                 );
                 $where2 = array(
                     'id_user' => $id

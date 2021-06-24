@@ -66,6 +66,14 @@
                                 <div class="form-group">
                                     <textarea class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" style="display : none;"></textarea>
                                 </div>
+                                <label for="status" class="col-lg-4 col-form-label">Jenis Freelance</label>
+                                <div class="form-group">
+                                    <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="jenis" name="jenis">
+                                            <option value="biasa">Freelancer Biasa</option>
+                                            <option value="tenaga ahli">Tenaga Ahli</option>
+                                            <option value="vendor">Vendor</option>
+                                    </select>
+                                </div>
                                 <label for="fullname" class="col-lg-4 col-form-label" id="labelnpwp" style="display : none;">No. NPWP</label>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="npwp" name="npwp" aria-describedby="" placeholder="" style="display : none;">

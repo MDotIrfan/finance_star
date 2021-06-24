@@ -6,7 +6,7 @@
     </ol>
 </nav>
 <?php $userdata = $this->session->userdata('user_logged'); ?>
-<form method="POST" action="<?php echo base_url('finance/add_inv_out');?>">
+<form method="POST" autocomplete=off action="<?php echo base_url('finance/add_inv_out');?>">
 <div class="container justify-content-start">
     <div class="row ">
         <div class="col">
@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col">
         <label for="noquitation">No. Purchase Order</label>
-            <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="status" name="status">
+            <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="nopo" name="nopo">
             <option value="">-</option>
                                         <!-- <?php foreach ($po as $q) : ?>
                                             <option value="<?php echo $q->no_Po; ?>"> <?php echo $q->no_Po; ?></option>
@@ -64,6 +64,38 @@
             <input type="" class="form-control form-control-user" id="acc" name="acc" aria-describedby="" placeholder="">
         </div>
         <div class="col">
+        <label for="cn">Tax</label>
+        <div class="multipleSelection">
+            <div class="selectBox" onclick="showCheckboxes()">
+                <select class="form-control form-control-user">
+                    <option>Select options</option>
+                </select>
+                <div class="overSelect"></div>
+            </div>
+            <div id="checkBoxes" style="display:none">
+                <label for="first">
+                    <input type="checkbox" id="ppn10" value="1" name="tax[]" onchange='hitungpajak();'/>
+                    PPN 10%
+                </label>
+                <label for="first">
+                    <input type="checkbox" id="fdn" value="2" name="tax[]" onchange='hitungpajak();'/>
+                    PPh 21 (freelancer dengan NPWP)
+                </label><label for="first">
+                    <input type="checkbox" id="ftn" value="3" name="tax[]" onchange='hitungpajak();'/>
+                    PPh 21 (freelancer tanpa NPWP)
+                </label><label for="first">
+                    <input type="checkbox" id="tadn" value="4" name="tax[]" onchange='hitungpajak();'/>
+                    PPh 21 (Tenaga Ahli dengan NPWP)
+                </label><label for="first">
+                    <input type="checkbox" id="tatn" value="5" name="tax[]" onchange='hitungpajak();'/>
+                    PPh 21 (Tenaga Ahli tanpa NPWP)
+                </label>
+                <label for="first">
+                    <input type="checkbox" id="vendor" value="6" name="tax[]" onchange='hitungpajak();'/>
+                    PPh 23 (2%) 
+                </label>
+            </div>
+        </div>
        
         </div>
 
@@ -152,9 +184,9 @@
     <div class="col-lg-4">
         <hr>
         <div class="text-left font-weight-bold">
-            Total Cost <input type="text" id="total" name="total" value="" readonly>
+            Total Cost <input type="text" id="total" name="total" value="0" readonly>
             <hr>
-            Grand Total <input type="text" id="grand" name="grand" value="" readonly>
+            Grand Total <input type="text" id="grand" name="grand" value="0" readonly>
             <hr>
         </div>
     </div>
@@ -162,3 +194,20 @@
 </div>
 </div>
 </form>
+<script type="text/javascript">
+    var my_var = `<?php $this->load->helper('date');$format = '%Y-%m-%d';echo @mdate($format); ?>`;
+    var show = true;
+  
+        function showCheckboxes() {
+            var checkboxes = 
+                document.getElementById("checkBoxes");
+  
+            if (show) {
+                checkboxes.style.display = "block";
+                show = false;
+            } else {
+                checkboxes.style.display = "none";
+                show = true;
+            }
+        }
+</script>

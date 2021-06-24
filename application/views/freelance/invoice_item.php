@@ -157,6 +157,28 @@
         <div class="text-left font-weight-bold">
             Total Cost <input type="text" id="total" name="total" value="" readonly>
             <hr>
+               <script>
+                  var jenis='';
+               </script>
+               <?php if($userdata->id_Status=='1'){
+                  if($r->jenis=='biasa'){
+                      if($r->no_npwp<>NULL){
+                          echo 'PPh 21 (- 5%) <script>jenis=`fdn`</script>';
+                      } else {
+                          echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
+                      }
+                  } else if($r->jenis=='tenaga ahli'){
+                      if($r->no_npwp<>NULL){
+                          echo 'PPh 21 (- 50% x 5%) <script>jenis=`tadn`</script>';
+                      } else {
+                          echo 'PPh 21 (- 50% x 5% x 120%) <script>jenis=`tatn`</script>';
+                      }
+                  }
+                  }else{
+                  echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
+                  };?>
+               <span id="pajak"></span>
+               <hr>
             Grand Total <input type="text" id="grand" name="grand" value="" readonly>
             <hr>
         </div>
