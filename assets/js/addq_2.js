@@ -39,7 +39,7 @@ function addRow (jsonData=null) {
 let tr = `
 <tr>
 <td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.project_Name ? jsonData.project_Name : ''}" readonly></td>
-<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.locked ? parseInt(jsonData.locked)+parseInt(jsonData.repetitions)+parseInt(jsonData.fuzzy100)+parseInt(jsonData.fuzzy95)+parseInt(jsonData.fuzzy85)+parseInt(jsonData.fuzzy75)+parseInt(jsonData.fuzzy50)+parseInt(jsonData.new) : ''}" oninput="hitung(${index})" id="" readonly></td>
+<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.locked ? parseInt(jsonData.wwc1)+parseInt(jsonData.wwc2)+parseInt(jsonData.wwc3)+parseInt(jsonData.wwc4)+parseInt(jsonData.wwc5)+parseInt(jsonData.wwc6)+parseInt(jsonData.wwc7)+parseInt(jsonData.wwc8) : ''}" oninput="hitung(${index})" id="" readonly></td>
 <td><input type="text" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate ? jsonData.rate : ''}" readonly></td>
 <td><input type="text" class="cost${index}" name="cost[]" value="${jsonData?.grand_Total ? jsonData.grand_Total : ''}" readonly></td>
 </tr>
@@ -60,8 +60,26 @@ function hitung(a){
 }
 
 function tampil(){
-    $("#total").val(tambah(cost));
-    $("#grand").val(tambah(cost));
+    var hasil= tambah(cost)
+    var grand = 0;
+    $("#total").val(hasil);
+    if(jenis=='ftn'){
+      grand = hasil * 5 / 100;
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if(jenis=='fdn'){
+      grand = hasil * 6 / 100;
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if(jenis=='tadn'){
+      grand = hasil * (50 / 100) * (5/100);
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if(jenis=='tatn'){
+      grand = hasil * (50 / 100) * (5/100) * (120/100);
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if(jenis=='vendor'){
+      grand = hasil * 2 / 100;
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } 
+    $("#grand").val(hasil-grand);
 }
 function tambah(input){
              

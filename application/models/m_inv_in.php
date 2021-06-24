@@ -30,13 +30,46 @@ class M_inv_in extends CI_Model
         return $query = $this->db->get();
     }
 
+    function tampil_data_bast()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('*');
+        $this->db->from('bast po');
+        $this->db->join('bast_item i', 'po.id_bast=i.id_bast');
+        if($level=="3"){$this->db->like('po.no_invoice', 'SQJAK-');}
+        else if($level=="4"){$this->db->like('po.no_invoice', 'SQM-');}
+        else if($level=="6"){$this->db->like('po.no_invoice', 'KEB-');}
+        else {$this->db->like('po.no_invoice', 'STJAK-');}
+        $this->db->group_by('po.id_bast');
+        return $query = $this->db->get();
+    }
+
+    function edit_data_bast($id)
+    {
+        $this->db->select('*');
+        $this->db->from('bast po');
+        $this->db->join('bast_item i', 'po.id_bast=i.id_bast');
+        $this->db->where('po.id_bast', $id);
+        $this->db->group_by('po.id_bast');
+        return $query = $this->db->get();
+    }
+
+    function ambil_data_bast_item($id)
+    {
+        $this->db->select('*');
+        $this->db->from('bast_item po');
+        $this->db->where('po.id_bast', $id);
+        return $query = $this->db->get();
+    }
+
     function tampil_data_inv_out()
     {   
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $this->db->select('*');
         $this->db->from('invoice_out po');
-        $this->db->join('invoice_item_spq i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         if($level=="3"){$this->db->like('po.no_invoice', 'SQJAK-');}
         else if($level=="4"){$this->db->like('po.no_invoice', 'SQM-');}
         else if($level=="6"){$this->db->like('po.no_invoice', 'KEB-');}
@@ -44,7 +77,6 @@ class M_inv_in extends CI_Model
         $this->db->group_by('po.no_invoice');
         return $query = $this->db->get();
     }
-    
 
     function ambil_data_po_w($where1)
     {
@@ -76,15 +108,50 @@ class M_inv_in extends CI_Model
         $this->db->select('*');
         $this->db->from('purchase_order po');
         $this->db->join('po_item_itembase i', 'po.no_Po=i.no_Po', 'left');
+        $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
+        $this->db->join('client_data c', 'c.client_name=q.client_Name', 'left');
         $this->db->where('po.no_Po', $where);
         return $query = $this->db->get();
     }
+    
+    function po_word()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('po.no_Po');
+        $this->db->from('purchase_order po');
+        $this->db->join('po_item_wordbase i', 'po.no_Po=i.no_Po');
+        if($level=="3"){$this->db->like('po.no_Po', 'SQ-');}
+        else if($level=="4"){$this->db->like('po.no_Po', 'SQM-');}
+        else if($level=="6"){$this->db->like('po.no_Po', 'KEB-');}
+        else {$this->db->like('po.no_Po', 'ST-');}
+        $this->db->group_by('po.no_Po');
+        return $query = $this->db->get();
+    }
+
+    function po_item()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('po.no_Po');
+        $this->db->from('purchase_order po');
+        $this->db->join('po_item_itembase i', 'po.no_Po=i.no_Po');
+        if($level=="3"){$this->db->like('po.no_Po', 'SQ-');}
+        else if($level=="4"){$this->db->like('po.no_Po', 'SQM-');}
+        else if($level=="6"){$this->db->like('po.no_Po', 'KEB-');}
+        else {$this->db->like('po.no_Po', 'ST-');}
+        $this->db->group_by('po.no_Po');
+        return $query = $this->db->get();
+    }
+
 
     function ambil_data_po_word($where)
     {
         $this->db->select('*');
         $this->db->from('purchase_order po');
         $this->db->join('po_item_wordbase i', 'po.no_Po=i.no_Po', 'left');
+        $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
+        $this->db->join('client_data c', 'c.client_name=q.client_Name', 'left');
         $this->db->where('po.no_Po', $where);
         return $query = $this->db->get();
     }
@@ -107,13 +174,80 @@ class M_inv_in extends CI_Model
 		return $query = $this->db->get();
 	}
 
-    function ambil_data_qi_out($where){
+    function ambil_data_qi_spq($where){
 		$this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_spq i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
 		return $query = $this->db->get();
 	}
+
+    function ambil_data_qi_luar($where){
+		$this->db->select('*');
+        $this->db->from('invoice_out po');
+        $this->db->join('invoice_item_luar i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
+        $this->db->where('po.no_invoice', $where);
+		return $query = $this->db->get();
+	}
+
+    function ambil_data_qi_luar2($where){
+		$this->db->select('*');
+        $this->db->from('invoice_out po');
+        $this->db->join('invoice_item_luar_2 i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation', 'left');
+        $this->db->where('po.no_invoice', $where);
+		return $query = $this->db->get();
+	}
+
+    function ambil_data_qi_spq2($where){
+		$this->db->select('*');
+        $this->db->from('invoice_out po');
+        $this->db->join('invoice_item_spq_2 i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
+        $this->db->where('po.no_invoice', $where);
+		return $query = $this->db->get();
+	}
+
+    function ambil_data_tax($where){
+		$this->db->select('*');
+        $this->db->from('invoice_out po');
+        $this->db->join('tax_invoice i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
+        $this->db->where('po.no_invoice', $where);
+		return $query = $this->db->get();
+	}
+
+    function ambil_data_qi_local($where){
+		$this->db->select('*');
+        $this->db->from('invoice_out po');
+        $this->db->join('invoice_item_local i', 'po.no_invoice=i.no_invoice');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
+        $this->db->where('po.no_invoice', $where);
+		return $query = $this->db->get();
+	}
+
+    function ambil_data_all($id){
+        $this->db->select('*, po.tipe as tipe_inv, i1.jobdesc as jobdesc1, i3.jobdesc as jobdesc3, i4.jobdesc as jobdesc4');
+        $this->db->from('invoice_out po');
+        $this->db->join('invoice_item_luar i1', 'po.no_invoice=i1.no_invoice', 'left');
+        $this->db->join('invoice_item_local i2', 'po.no_invoice=i2.no_invoice', 'left');
+        $this->db->join('invoice_item_spq i3', 'po.no_invoice=i3.no_invoice', 'left');
+        $this->db->join('invoice_item_luar_2 i4', 'po.no_invoice=i4.no_invoice', 'left');
+        $this->db->join('invoice_item_spq_2 i5', 'po.no_invoice=i5.no_invoice', 'left');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po', 'left');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation', 'left');
+        $this->db->join('client_data c', 'po.client_name=c.client_name', 'left');
+        $this->db->where('po.no_invoice', $id);
+        return $query = $this->db->get();
+    }
     
     public function CreateCode_Out(){
         $userdata = $this->session->userdata('user_logged');
@@ -227,7 +361,7 @@ class M_inv_in extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('invoice_out po');
-        $this->db->join('invoice_item_spq i', 'po.no_invoice=i.no_invoice');
+        // $this->db->join('invoice_item_spq i', 'po.no_invoice=i.no_invoice');
         $this->db->where('po.no_invoice', $where);
         $this->db->group_by('po.no_invoice');
         return $query = $this->db->get();

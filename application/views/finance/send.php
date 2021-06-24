@@ -13,26 +13,27 @@
                     <div class="row">
                         <div class="col-lg">
                             <div class="p-5">
+                            <?php echo form_open_multipart('finance/kirimemail');?>
                                 <label for="username" class="col-lg-4 col-form-label">To</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user">
+                                    <input type="text" class="form-control form-control-user" name="to">
                                 </div>
                                 <label for="password" class="col-lg-4 col-form-label">Cc</label>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-user">
+                                    <input type="text" class="form-control form-control-user" name="cc">
                                 </div>
                                 <label for="fullname" class="col-lg-4 col-form-label">Subject</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user">
+                                    <input type="text" class="form-control form-control-user" name="subject">
                                 </div>
                                 <label for="email_address" class="col-lg-4 col-form-label">Description</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user">
+                                    <input type="text" class="form-control form-control-user" name="desc">
                                 </div>
 
                                 <label for="gambar" class="col-lg-4 col-form-label">Upload File</label>
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-user">
+                                <input type="file" class="form-control form-control-user" id="gambar" name="gambar" aria-describedby="" placeholder="">
                                 </div>
                                 <br>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">

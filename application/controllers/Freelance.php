@@ -203,6 +203,7 @@ class Freelance extends CI_Controller
     }
     public function editwordbase($id)
     {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
         $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
         $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
         $this->load->view('templates/header');
@@ -214,6 +215,7 @@ class Freelance extends CI_Controller
     }
     public function edititembase($id)
     {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
         $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
         $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
         $this->load->view('templates/header');
