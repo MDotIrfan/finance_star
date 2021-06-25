@@ -28,15 +28,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php 
+                <?php
+                $i=0; 
 		foreach($quotation as $q){ 
 		?>
                     <tr>
                         <th scope="row"><?php echo $q->no_Quotation; ?></th>
                         <td><?php echo $q->client_Name; ?></td>
                         <td><?php echo $q->project_Name; ?></td>
-                        <td><?php echo $q->total_Cost; ?></td>
                         <td><?php echo $q->grand_Total; ?></td>
+                        <td id="price<?= $i; ?>"><?php if($q->currency==''){echo $q->grand_Total;}else{echo "<script>calculate(".$q->grand_Total.",'".$q->currency."',".$i.")</script>";} ?></td>
                         <td>
                                 <a href="<?php echo base_url('quitation/edit/' . $q->no_Quotation); ?>"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
                                 <!-- <a href=""><?php echo anchor('quitation/edit/' . $q->no_Quotation, 'Edit', array('class' => 'btn btn-primary btn-xs')); ?></a> -->
@@ -54,7 +55,9 @@
                             </td>
 
                     </tr>
-                    <?php } ?>
+                    <?php 
+                    $i++;
+                } ?>
                 </tbody>
             </table>
         </div>

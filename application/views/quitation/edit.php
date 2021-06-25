@@ -53,14 +53,17 @@
                                 </select></th>
                             <th>Unit</th>
                             <th>Price/Unit</th>
-                            <th><select id="cost" name="cost" class="form-control font-weight-bold">
-                                    <option value="IDR" selected="selected">
-                                        Cost In IDR
-                                    </option>
-                                    <option value="US">
-                                        Cost In US
-                                    </option>
-
+                            <th><input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="<?= $q->currency ?>">
+                     <select id="curr" name="curr" class="form-control font-weight-bold">
+                     <option value="IDR" <?php if($q->currency=='IDR') {echo 'selected';}?>>
+                           Cost In IDR
+                        </option>
+                        <option value="USD" <?php if($q->currency=='USD') {echo 'selected';}?>>
+                           Cost In US
+                        </option>
+                        <option value="EUR" <?php if($q->currency=='EUR') {echo 'selected';}?>>
+                           Cost In EURO
+                        </option>
                                 </select></th>
                             <th></th>
                         </tr>
