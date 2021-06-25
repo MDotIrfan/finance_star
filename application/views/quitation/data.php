@@ -51,7 +51,7 @@
                                     // echo "<a onclick='return confirm('Yakin ingin batalkan acc?')' href=" . base_url('quitation/unacc/' . $q->no_Quotation) . " class='hapus btn btn-success btn-xs'>unacc</a>";
                                 } ?>
 
-                                <a href="<?php echo base_url('quitation/print/' . $q->no_Quotation); ?>"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
+                                <a href="<?php echo base_url('assets/files/' . $q->no_Quotation.'.pdf'); ?>" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
                             </td>
 
                     </tr>

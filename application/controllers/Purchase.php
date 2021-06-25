@@ -16,7 +16,9 @@ class Purchase extends CI_Controller
     public function data()
     {
         $data['po'] = $this->m_po->tampil_data_po_item('word')->result();
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', [
+            'load' => ['data_po_word.js']
+        ]);
         $this->load->view('templates/sidebar');
         $this->load->view('purchase/data', $data);
         $this->load->view('templates/footer');
@@ -24,7 +26,9 @@ class Purchase extends CI_Controller
     public function dataitem()
     {
         $data['po'] = $this->m_po->tampil_data_po_item('item')->result();
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', [
+            'load' => ['data_po_item.js']
+        ]);
         $this->load->view('templates/sidebar');
         $this->load->view('purchase/dataitem', $data);
         $this->load->view('templates/footer');
@@ -73,6 +77,7 @@ class Purchase extends CI_Controller
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
+        $curr = $this->input->post('curr');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -96,6 +101,7 @@ class Purchase extends CI_Controller
             'address_Resource' => $address_resource,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
+            'currency' => $curr
         );
         $this->m_po->input_data($data, 'purchase_order');
         if (!empty($jobdesc)) {
@@ -120,6 +126,7 @@ class Purchase extends CI_Controller
             'no_Quotation' => $no_quitation,
         );
         $this->m_quotation->update_data($where, $dat2, 'quotation');
+        $this->laporan_pdf_item($no_po);
         redirect('purchase/dataitem');
     }
     function add_po_word()
@@ -142,6 +149,7 @@ class Purchase extends CI_Controller
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
+        $curr = $this->input->post('curr');
         $locked = $_POST['wc1'];
         $repetitions = $_POST['wc2'];
         $fuzzy100 = $_POST['wc3'];
@@ -177,7 +185,8 @@ class Purchase extends CI_Controller
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
             'tipe_Po' => $tipe_po,
-            'rate' => $rate
+            'rate' => $rate,
+            'currency' => $curr
         );
         $this->m_po->input_data($data, 'purchase_order');
         $data2 = array(
@@ -207,6 +216,7 @@ class Purchase extends CI_Controller
             'no_Quotation' => $no_quitation,
         );
         $this->m_quotation->update_data($where, $dat2, 'quotation');
+        $this->laporan_pdf($no_po);
         redirect('purchase/data');
     }
     public function tampilkanData($id)
@@ -281,6 +291,7 @@ class Purchase extends CI_Controller
         $grand_total = $this->input->post('grand');
         $v_form = $this->input->post('v_form');
         $tipe = $this->input->post('tipe');
+        $curr = $this->input->post('curr');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -305,6 +316,7 @@ class Purchase extends CI_Controller
             'v_form' => $v_form,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
+            'currency' => $curr
         );
         $where = array(
             'no_Po' => $no_po,
@@ -326,6 +338,7 @@ class Purchase extends CI_Controller
                 }
             }
         }
+        $this->laporan_pdf_item($no_po);
         redirect('purchase/dataitem');
     }
 
@@ -349,6 +362,7 @@ class Purchase extends CI_Controller
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
+        $curr = $this->input->post('curr');
         $locked = $_POST['wc1'];
         $repetitions = $_POST['wc2'];
         $fuzzy100 = $_POST['wc3'];
@@ -393,7 +407,8 @@ class Purchase extends CI_Controller
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
             'tipe_Po' => $t_po,
-            'rate' => $rate
+            'rate' => $rate,
+            'currency' => $curr
         );
         $where = array(
             'no_Po' => $no_po,
@@ -420,10 +435,34 @@ class Purchase extends CI_Controller
             'wwc8' => $wwc8,
         );
         $this->m_po->input_data($data2, 'po_item_wordbase');
+        $this->laporan_pdf($no_po);
         redirect('purchase/data');
     }
 
+    public function laporan_pdf($no_po){
 
+        $data['po'] = $this->m_po->edit_data($no_po, 'purchase_order')->result();
+        $data['pi'] = $this->m_po->ambil_data_po_word($no_po)->result();
+        $data['position'] = $this->m_user->ambil_data_status()->result();
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('purchase/masterpo', $data, $no_po);
+    }
+
+    public function laporan_pdf_item($no_po){
+
+        $data['po'] = $this->m_po->edit_data($no_po, 'purchase_order')->result();
+        $data['pi'] = $this->m_po->ambil_data_po_item($no_po)->result();
+        $data['p'] = $this->m_po->ambil_dataitem_po_item($no_po)->result();
+        $data['position'] = $this->m_user->ambil_data_status()->result();
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('purchase/poibm', $data, $no_po);
+    }
 
     function delete_pi($id)
     {
@@ -470,8 +509,9 @@ class Purchase extends CI_Controller
     {
         $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_item($id)->result();
-        $data['p'] = $this->m_po->ambil_dataitem_po_item($id)->result();
+        // $data['p'] = $this->m_po->ambil_dataitem_po_item($id)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
         $this->load->view('purchase/poibm', $data);
+        print_r($data);
     }
 }

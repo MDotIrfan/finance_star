@@ -102,13 +102,18 @@
                     <th>Match Word</th>
                     <th>Word Count</th>
                     <th>Weight</th>
-                    <th>
-
-                        <select name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                            <option selected="selected">Weight Word Count IDR</option>
-                            <option>Weight Word Count US</option>
-
-                        </select>
+                    <th><input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="<?= $pi->currency ?>">
+                     <select id="curr" name="curr" class="form-control font-weight-bold">
+                     <option value="IDR" <?php if($pi->currency=='IDR') {echo 'selected';}?>>
+                           Cost In IDR
+                        </option>
+                        <option value="USD" <?php if($pi->currency=='USD') {echo 'selected';}?>>
+                           Cost In US
+                        </option>
+                        <option value="EUR" <?php if($pi->currency=='EUR') {echo 'selected';}?>>
+                           Cost In EURO
+                        </option>
+                                </select>
                     </th>
                 </tr>
             </thead>

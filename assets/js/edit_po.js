@@ -51,23 +51,32 @@ let tr = `
 </tr>
 `
 dinamisRow.append(tr)
-hitung(index)
+// hitung(index)
+cost[index] = jsonData?.amount ? jsonData.amount : 0;
 index++;
 jum_table++;
 }
 
 function hitung(a){
-console.log(a);
-volume[a] = $(".volume"+a).val();
-price[a] = $(".price"+a).val();
-cost[a] = volume[a] * price[a];
-tampil()
-$(".cost"+a).val(cost[a]);
+  console.log(a);
+  volume[a] = $(".volume" + a).val();
+  price[a] = $(".price" + a).val();
+  cost[a] = volume[a] * price[a];
+  tampil()
+  if(isNaN(cost[a])){
+    $(".cost" + a).val(0);
+  } else {
+    $(".cost" + a).val(cost[a]);
+  }
+  if(to_currencyEl==''){
+    to_currencyEl='IDR';
+  }
+  calculate();
 }
 
 function tampil(){
-$("#total").val(tambah(cost));
-$("#grand").val(tambah(cost));
+  $("#total").val(tambah(cost).toFixed(2));
+  $("#grand").val(tambah(cost).toFixed(2));
 }
 function tambah(input){
          
@@ -229,3 +238,84 @@ function change(ids){
 } else {$('#ps').val('');
 $('#pm').val('');}
 }
+
+var from_currencyEl = $('#curr_awal').val();;
+  var to_currencyEl = '';
+// var to_ammountEl = document.getElementById('to_ammount');
+
+$("#curr").on('change', function(el) {
+  tujuan=$('#curr').val();
+  if(from_currencyEl=='IDR' && tujuan=='USD'){
+    from_currencyEl='IDR'
+    to_currencyEl = 'USD'
+    calculate();
+    from_currencyEl = 'USD'
+    $('#curr_awal').val(from_currencyEl);
+  }
+  if(from_currencyEl=='IDR' && tujuan=='EUR'){
+    from_currencyEl='IDR'
+    to_currencyEl = 'EUR'
+    calculate();
+    from_currencyEl = 'EUR'
+    $('#curr_awal').val(from_currencyEl);
+  }
+  if(from_currencyEl=='USD' && tujuan=='IDR'){
+    from_currencyEl='USD'
+    to_currencyEl = 'IDR'
+    calculate();
+    from_currencyEl = 'IDR'
+    $('#curr_awal').val(from_currencyEl);
+  }
+  if(from_currencyEl=='EUR' && tujuan=='IDR'){
+    from_currencyEl='EUR'
+    to_currencyEl = 'IDR'
+    calculate();
+    from_currencyEl = 'IDR'
+    $('#curr_awal').val(from_currencyEl);
+  }
+  if(from_currencyEl=='USD' && tujuan=='EUR'){
+    from_currencyEl='USD'
+    to_currencyEl = 'EUR'
+    calculate();
+    from_currencyEl = 'EUR'
+    $('#curr_awal').val(from_currencyEl);
+  }
+  if(from_currencyEl=='EUR' && tujuan=='USD'){
+    from_currencyEl='EUR'
+    to_currencyEl = 'USD'
+    calculate();
+    from_currencyEl = 'USD'
+    $('#curr_awal').val(from_currencyEl);
+  }
+});
+
+function calculate() {
+  var awal = [];
+  var akhir = [];
+  for(let i = 0; i < index; i++){
+    awal[i] = $(".cost" + i).val();
+  }
+  console.log(awal);
+  const from_currency = from_currencyEl;
+  const to_currency = to_currencyEl;
+
+  console.log(from_currency);
+  console.log(to_currency);
+  
+  fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
+  .then(res => res.json())
+  .then(res => {
+  const rate = res.rates[to_currency];
+  for(let i = 0; i < index; i++){
+    akhir[i] = (awal[i] * rate).toFixed(2);
+    if(isNaN(akhir[i])){
+      $(".cost" + i).val(0);
+    } else {
+      $(".cost" + i).val(akhir[i]);
+    }
+    cost[i] = akhir[i]
+    tampil();
+  }
+  console.log(akhir);
+  })
+ }

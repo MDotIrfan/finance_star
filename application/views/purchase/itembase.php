@@ -101,14 +101,18 @@
                         <th>Unit</th>
                         <th>Price/Unit</th>
                         <th>
-                            Cost In
-                            <select id="cost" name="cost">
-                                <option value="IDR" selected="selected">
-                                    IDR
-                                </option>
-                                <option value="US">
-                                    US
-                                </option>
+                    <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                     <select id="curr" name="curr" class="form-control font-weight-bold">
+                     <option value="IDR" selected="selected">
+                           Cost in IDR
+                        </option>
+                        <option value="USD">
+                        Cost in USD
+                        </option>
+                        <option value="EUR">
+                        Cost in EURO
+                        </option>
+
                             </select>
                         </th>
                     </tr>
