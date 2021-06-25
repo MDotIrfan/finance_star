@@ -126,13 +126,11 @@
         </tr>
         <tr>
             <td style="text-align:center; background-color:pink" class="bold" width="35%">Mobile Phone</td>
-            <td width="35%" style="text-align:center; background-color:pink" class="bold">Addres</td>
-
-
+            <td width="35%" style="text-align:center; background-color:pink" class="bold">Address</td>
         </tr>
         <tr>
             <td style="text-align:center;" class="center" width="35%"><?php echo $pi->mobile_Phone; ?></td>
-            <td width="35%" style="text-align:center;"><?php echo $pi->address_Resource; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $pi->address; ?></td>
         </tr>
     </table>
 

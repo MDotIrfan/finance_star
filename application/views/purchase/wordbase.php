@@ -102,10 +102,17 @@
                     <th>Word Count</th>
                     <th>Weight</th>
                     <th>
-                        <data-title="wwc">
-                            <select name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                                <option selected="selected">Weight Word Count IDR</option>
-                                <option>Weight Word Count US</option>
+                    <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                     <select id="curr" name="curr" class="form-control font-weight-bold">
+                     <option value="IDR" selected="selected">
+                           Weight Word Count IDR
+                        </option>
+                        <option value="USD">
+                        Weight Word Count USD
+                        </option>
+                        <option value="EUR">
+                        Weight Word Count EURO
+                        </option>
 
                             </select>
                     </th>

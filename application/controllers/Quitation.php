@@ -8,6 +8,7 @@ class Quitation extends CI_Controller
 		$this->load->model('m_user');
         $this->load->model('m_quotation');
         if($this->m_user->isNotLogin()) redirect(site_url('auth/login'));
+        $this->load->library('pdfgenerator');
         $this->load->helper(array('form', 'url'));
 	}
     public function data()
@@ -92,8 +93,21 @@ class Quitation extends CI_Controller
                 }
             }
         }
+        $this->laporan_pdf($noquitation);
         redirect('quitation/data');
 	}
+
+
+    public function laporan_pdf($noquitation){
+
+        $data['qi'] = $this->m_quotation->ambil_data_q($noquitation)->result();
+        $data['quotation'] = $this->m_quotation->getAll($noquitation)->result();
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('quitation/print', $data, $noquitation);
+    }
 
     public function edit($id)
     {
@@ -165,12 +179,13 @@ class Quitation extends CI_Controller
                 }
             }
         }
+        $this->laporan_pdf($noquitation);
         redirect('quitation/data');
 	}
 
     function delete($id){
-        // $data = $this->db->get_where('Quotation', ['no_Quotation' => $noquitation])->row_array();
-		// unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
+        // $data = $this->db->get_where('quotation', ['no_Quotation' => $id])->row_array();
+		unlink(APPPATH.'../assets/files/'.$id.'.pdf');
         $where = array('no_Quotation' => $id);
         $this->m_quotation->hapus_data($where,'quitation_item');
         $this->m_quotation->hapus_data($where,'quotation');
@@ -179,8 +194,6 @@ class Quitation extends CI_Controller
 
     public function print($id)
     {
-
-
         $data['qi'] = $this->m_quotation->ambil_data_q($id)->result();
         $data['quotation'] = $this->m_quotation->getAll($id)->result();
         $this->load->view('quitation/print', $data);

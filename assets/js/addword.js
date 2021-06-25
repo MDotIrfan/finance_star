@@ -256,10 +256,94 @@ function autocomplete(inp, arr) {
                   id2 = data[0].mobile_phone;
               $('#ps').val(id);
               $('#pm').val(id2);
-          
+              if(data[0].id_Status=='0'){
+                $('#rs').val('admin');
+              } else if(data[0].id_Status=='1'){
+                $('#rs').val('Freelance');
+              } else if(data[0].id_Status=='2'){
+                $('#rs').val('In House (Star Jakarta)');
+              } else if(data[0].id_Status=='3'){
+                $('#rs').val('In House (Speequal Jakarta)');
+              } else if(data[0].id_Status=='4'){
+                $('#rs').val('In House (Speequal Malaysia)');
+              } else if(data[0].id_Status=='5'){
+                $('#rs').val('Vendor');
+              } else if(data[0].id_Status=='6'){
+                $('#rs').val('Kodegiri');
+              }
   }
   
   });
   } else {$('#ps').val('');
   $('#pm').val('');}
   }
+
+  
+var from_currencyEl = $('#curr_awal').val();;
+var to_currencyEl = '';
+
+$("#curr").on('change', function(el) {
+tujuan=$('#curr').val();
+if(from_currencyEl=='IDR' && tujuan=='USD'){
+  from_currencyEl='IDR'
+  to_currencyEl = 'USD'
+  calculate();
+  from_currencyEl = 'USD'
+  $('#curr_awal').val(from_currencyEl);
+}
+if(from_currencyEl=='IDR' && tujuan=='EUR'){
+  from_currencyEl='IDR'
+  to_currencyEl = 'EUR'
+  calculate();
+  from_currencyEl = 'EUR'
+  $('#curr_awal').val(from_currencyEl);
+}
+if(from_currencyEl=='USD' && tujuan=='IDR'){
+  from_currencyEl='USD'
+  to_currencyEl = 'IDR'
+  calculate();
+  from_currencyEl = 'IDR'
+  $('#curr_awal').val(from_currencyEl);
+}
+if(from_currencyEl=='EUR' && tujuan=='IDR'){
+  from_currencyEl='EUR'
+  to_currencyEl = 'IDR'
+  calculate();
+  from_currencyEl = 'IDR'
+  $('#curr_awal').val(from_currencyEl);
+}
+if(from_currencyEl=='USD' && tujuan=='EUR'){
+  from_currencyEl='USD'
+  to_currencyEl = 'EUR'
+  calculate();
+  from_currencyEl = 'EUR'
+  $('#curr_awal').val(from_currencyEl);
+}
+if(from_currencyEl=='EUR' && tujuan=='USD'){
+  from_currencyEl='EUR'
+  to_currencyEl = 'USD'
+  calculate();
+  from_currencyEl = 'USD'
+  $('#curr_awal').val(from_currencyEl);
+}
+});
+
+function calculate() {
+var rt = $("#rate").val();
+var total = $("#grand").val();
+const from_currency = from_currencyEl;
+const to_currency = to_currencyEl;
+
+console.log(from_currency);
+console.log(to_currency);
+
+fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
+.then(res => res.json())
+.then(res => {
+const rate = res.rates[to_currency];
+rt = (rt * rate).toFixed(2);
+total = (total * rate).toFixed(2);
+$("#rate").val(rt);
+$("#grand").val(total);
+})
+}

@@ -45,7 +45,7 @@
         </div>
         <div class="col">
             <label for="dd">No. Quotation</label>
-            <input type="" class="form-control form-control-user" id="ce" name="status" aria-describedby="" placeholder="" value="<?= $po->id_quotation?>">
+            <input type="" class="form-control form-control-user" id="ce" name="status" aria-describedby="" placeholder="" value="<?= $po->id_quotation?>" readonly>
         </div>
 
     </div>
@@ -91,14 +91,17 @@
                             </th>
                             <th>Unit</th>
                             <th>Price/Unit</th>
-                            <th>
-                                <select id="cost" name="cost" class="form-control font-weight-bold">
-                                    <option value="IDR" selected="selected">
-                                        Cost In IDR
-                                    </option>
-                                    <option value="US">
-                                        Cost In US
-                                    </option>
+                            <th><input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="<?= $po->currency ?>">
+                     <select id="curr" name="curr" class="form-control font-weight-bold">
+                     <option value="IDR" <?php if($po->currency=='IDR') {echo 'selected';}?>>
+                           Cost In IDR
+                        </option>
+                        <option value="USD" <?php if($po->currency=='USD') {echo 'selected';}?>>
+                           Cost In US
+                        </option>
+                        <option value="EUR" <?php if($po->currency=='EUR') {echo 'selected';}?>>
+                           Cost In EURO
+                        </option>
                                 </select>
                             </th>
                         </tr>

@@ -130,7 +130,7 @@
         </tr>
         <tr>
             <td style="text-align:center;" class="center" width="35%"><?php echo $po->mobile_Phone; ?></td>
-            <td width="35%" style="text-align:center;"><?php echo $po->address_Resource; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $po->address; ?></td>
         </tr>
     <?php } ?>
     </table>
@@ -145,12 +145,12 @@
             <td style="text-align:center; background-color:pink" class="bold" width="25">Rate (IDR)</td>
             <td style="text-align:center; background-color:pink" class="bold" width="25">Total (IDR)</td>
         </tr>
-        <?php foreach ($p as $p) { ?>
+        <?php foreach ($pi as $pi) { ?>
             <tr>
-                <td style="text-align:left;" width="25%"><?php echo $p->task; ?></td>
-                <td width="25%" style="text-align:center;"><?php echo $p->qty; ?></td>
-                <td width="25%" style="text-align:center;"><?php echo $p->rate; ?></td>
-                <td width="25%" style="text-align:center;"><?php echo $p->amount; ?></td>
+                <td style="text-align:left;" width="25%"><?php echo $pi->task; ?></td>
+                <td width="25%" style="text-align:center;"><?php echo $pi->qty; ?></td>
+                <td width="25%" style="text-align:center;"><?php echo $pi->rate; ?></td>
+                <td width="25%" style="text-align:center;"><?php echo $pi->amount; ?></td>
             </tr>
         <?php } ?>
     </table>

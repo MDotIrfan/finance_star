@@ -2,6 +2,7 @@ window.onload = function () {
   if (jum_table < 1) {
     addRow();
   }
+  
 };
 
 
@@ -57,6 +58,7 @@ function addRow(jsonData = null) {
 `
   dinamisRow.append(tr)
   // hitung(index)
+  cost[index] = jsonData?.cost ? jsonData.cost : 0;
   index++;
   jum_table++;
 }
@@ -68,7 +70,11 @@ function hitung(a) {
   price[a] = $(".price" + a).val();
   cost[a] = volume[a] * price[a];
   tampil()
-  $(".cost" + a).val(cost[a]);
+  if(isNaN(cost[a])){
+    $(".cost" + a).val(0);
+  } else {
+    $(".cost" + a).val(cost[a]);
+  }
   if(to_currencyEl==''){
     to_currencyEl='IDR';
   }
@@ -299,7 +305,11 @@ function calculate() {
   const rate = res.rates[to_currency];
   for(let i = 0; i < index; i++){
     akhir[i] = (awal[i] * rate).toFixed(2);
-    $(".cost" + i).val(akhir[i]);
+    if(isNaN(akhir[i])){
+      $(".cost" + i).val(0);
+    } else {
+      $(".cost" + i).val(akhir[i]);
+    }
     cost[i] = akhir[i]
     tampil();
   }

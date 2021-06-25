@@ -20,8 +20,12 @@ cost = [];
               console.log(id)
               if(id!=''){
                 $('#pn').val(id);
+                $('#curr').val(data[0].currency);
+                $('#curr_awal').val(data[0].currency);
               for(i=0; i<data.length; i++){
-                addRow(btoa(JSON.stringify(data[i])));}
+                addRow(btoa(JSON.stringify(data[i])));
+                tampil();
+              }
               }
               
                  }
@@ -158,7 +162,21 @@ function change(ids){
                 id2 = data[0].mobile_phone;
             $('#ps').val(id);
             $('#pm').val(id2);
-        
+            if(data[0].id_Status=='0'){
+              $('#rs').val('admin');
+            } else if(data[0].id_Status=='1'){
+              $('#rs').val('Freelance');
+            } else if(data[0].id_Status=='2'){
+              $('#rs').val('In House (Star Jakarta)');
+            } else if(data[0].id_Status=='3'){
+              $('#rs').val('In House (Speequal Jakarta)');
+            } else if(data[0].id_Status=='4'){
+              $('#rs').val('In House (Speequal Malaysia)');
+            } else if(data[0].id_Status=='5'){
+              $('#rs').val('Vendor');
+            } else if(data[0].id_Status=='6'){
+              $('#rs').val('Kodegiri');
+            }
 }
 
 });
