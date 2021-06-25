@@ -13,7 +13,9 @@ class Quitation extends CI_Controller
     public function data()
     {
         $data['quotation']=$this->m_quotation->tampil_data_q()->result();
-        $this->load->view('templates/header',);
+        $this->load->view('templates/header', [
+            'load' => ['dataq.js']
+           ]);
         $this->load->view('templates/sidebar');
         $this->load->view('quitation/data', $data);
         $this->load->view('templates/footer');
@@ -51,6 +53,7 @@ class Quitation extends CI_Controller
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $v_form = $this->input->post('v_form');
+        $curr = $this->input->post('curr');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -71,6 +74,7 @@ class Quitation extends CI_Controller
             'grand_Total' => $grand_total,
             'sales_name' => $sales_name,
             'v_form' => $v_form,
+            'currency' => $curr,
 			);
 		$this->m_quotation->input_data($data,'quotation');
         if(!empty($jobdesc)){
@@ -123,6 +127,7 @@ class Quitation extends CI_Controller
         $unit = $_POST['unit'];
         $price = $_POST['price'];
         $cost = $_POST['cost'];
+        $curr = $this->input->post('curr');
  
 		$data = array(
 			'no_Quotation' => $noquitation,
@@ -138,6 +143,7 @@ class Quitation extends CI_Controller
             'grand_Total' => $grand_total,
             'sales_name' => $sales_name,
             'v_form' => $v_form,
+            'currency' => $curr,
 			);
             $where = array(
                 'no_Quotation' => $noquitation,

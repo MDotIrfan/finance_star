@@ -20,6 +20,8 @@ function change_form(ids=null){
         document.getElementById("address").style.display = "block";
         document.getElementById("labelnpwp").style.display = "block";
         document.getElementById("npwp").style.display = "block";
+        document.getElementById("labeljenis").style.display = "block";
+        document.getElementById("jenis").style.display = "block";
     } else {
         document.getElementById("labelmp").style.display = "none";
         document.getElementById("mp").style.display = "none";
@@ -31,10 +33,13 @@ function change_form(ids=null){
         document.getElementById("address").style.display = "none";
         document.getElementById("labelnpwp").style.display = "none";
         document.getElementById("npwp").style.display = "none";
+        document.getElementById("labeljenis").style.display = "none";
+        document.getElementById("jenis").style.display = "none";
         $('#mp').val('');
         $('#cb').val('');
         $('#norek').val('');
         $('#address').val('');
         $('#npwp').val('');
+        $('#jenis').val('');
     }
 }

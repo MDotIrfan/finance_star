@@ -66,9 +66,9 @@
                                 <div class="form-group">
                                     <textarea class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" style="display : none;"></textarea>
                                 </div>
-                                <label for="status" class="col-lg-4 col-form-label">Jenis Freelance</label>
+                                <label for="status" class="col-lg-4 col-form-label" id="labeljenis">Jenis Freelance</label>
                                 <div class="form-group">
-                                    <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="jenis" name="jenis">
+                                    <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="jenis" name="jenis" style="display : none;">
                                             <option value="biasa">Freelancer Biasa</option>
                                             <option value="tenaga ahli">Tenaga Ahli</option>
                                             <option value="vendor">Vendor</option>
