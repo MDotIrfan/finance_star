@@ -10,6 +10,7 @@
     <div class="row ">
     <div class="col">
             <label for="noquitation">No Purchase Order</label>
+            <input type="hidden" class="form-control form-control-user" id="nopo_awal" name="nopo_awal" aria-describedby="" placeholder="" value="<?= $pi->no_po_ori ?>" readonly>
             <input type="" class="form-control form-control-user" id="nopo" name="nopo" aria-describedby="" placeholder="" value="<?= $pi->no_Po ?>" readonly>
         </div>
         <div class="col">
@@ -88,6 +89,22 @@
         <div class="col">
             <label for="dd">No. Quotation</label>
             <input type="" class="form-control form-control-user" id="ce" name="status" aria-describedby="" placeholder="" value="<?= $pi->id_quotation ?>" readonly>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+        <label for="cn">Jumlah Pembayaran</label>
+            <input type="" class="form-control form-control-user" id="jumlah" name="jumlah" aria-describedby="" placeholder="" value="<?= $pi->jumlah_pembayaran ?>" oninput="" >
+        </div>
+        <div class="col">
+            
+        </div>
+        <div class="col">
+            
+        </div>
+        <div class="col">
+            
         </div>
 
     </div>

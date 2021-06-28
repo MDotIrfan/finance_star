@@ -15,14 +15,38 @@ cost = [];
             async: false,
             dataType: 'json',
             success: function (data) {
-                    id = data[0].project_Name;
+                    id = data[0].nama_projek;
               console.log(id)
                 $('#pn').val(id);
-            
+                if(data[0].jumlah_pembayaran==1||data[0].jumlah_pembayaran==null){
+                    $('#jumlah').val('1');
+                    document.getElementById('jumlah').removeAttribute('readonly', true);
+                    $('#rate').val('0');
+                    $('#curr').val('IDR');
+                    $('#rs').val('admin');
+                    $('#ps').val('');
+                    $('#pm').val('');
+                    $('#rn').val('');
+                    $('#tipe_Po').val('1');
+                    ubah_no();
+                } else {
+                  $('#jumlah').val(data[0].jumlah_pembayaran);
+                  $('#nopo').val(data[0].no_po_ori+'_'+(parseInt(data.length)+1));
+                  $('#nopo_awal').val(data[0].no_po_ori);
+                  document.getElementById('jumlah').setAttribute('readonly', true);
+                  $('#rate').val(data[0].rate);
+                  $('#curr').val(data[0].currency);
+                  $('#rs').val(data[0].resource_Status);
+                  $('#ps').val(data[0].resource_Email);
+                  $('#pm').val(data[0].mobile_Phone);
+                  $('#rn').val(data[0].resource_Name);
+                  $('#tipe_Po').val(data[0].tipe_Po);
+                  console.log(data[0].tipe_Po);
+                }
     }
   
    });
-    } else {$('#pn').val("");}
+    } else {$('#pn').val(""); $('#jumlah').val('1');}
        
 });
 
@@ -346,4 +370,14 @@ total = (total * rate).toFixed(2);
 $("#rate").val(rt);
 $("#grand").val(total);
 })
+}
+
+function ubah_no(){
+  var jum_pembayaran = $('#jumlah').val();
+  var nopo_awal = $('#nopo_awal').val();
+  if(jum_pembayaran>1){
+    $('#nopo').val(nopo_awal+'_1');
+  } else {
+    $('#nopo').val(nopo_awal);
+  }
 }

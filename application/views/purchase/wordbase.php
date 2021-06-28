@@ -10,6 +10,7 @@
     <div class="row ">
         <div class="col">
             <label for="noquitation">No Purchase Order</label>
+            <input type="hidden" class="form-control form-control-user" id="nopo_awal" name="nopo_awal" aria-describedby="" placeholder="" value="<?= $kode_po ?>" readonly>
             <input type="" class="form-control form-control-user" id="nopo" name="nopo" aria-describedby="" placeholder="" value="<?= $kode_po ?>" readonly>
         </div>
         <div class="col">
@@ -88,6 +89,22 @@
                                             <option value="<?php echo $q->no_Quotation; ?>"> <?php echo $q->no_Quotation; ?></option>
                                         <?php endforeach; ?>
                                     </select>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+        <label for="cn">Jumlah Pembayaran</label>
+            <input type="" class="form-control form-control-user" id="jumlah" name="jumlah" aria-describedby="" placeholder="" value="1" oninput="ubah_no()">
+        </div>
+        <div class="col">
+            
+        </div>
+        <div class="col">
+            
+        </div>
+        <div class="col">
+            
         </div>
 
     </div>
