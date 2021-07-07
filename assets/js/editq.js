@@ -20,8 +20,8 @@ cost = [];
               console.log(id)
               if(id!=''){
                 $('#pn').val(id);
-                $('#curr').val(data[0].currency);
-                $('#curr_awal').val(data[0].currency);
+                $('#curr').val(data[0].kurensi);
+                $('#curr_awal').val(data[0].kurensi);
               for(i=0; i<data.length; i++){
                 addRow(btoa(JSON.stringify(data[i])));
                 tampil();
