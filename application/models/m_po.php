@@ -65,7 +65,7 @@ class M_po extends CI_Model
     }
 
     function ambil_data_qi($where){
-		$this->db->select('*, q.project_Name as nama_projek');
+		$this->db->select('*, q.project_Name as nama_projek, q.currency as kurensi');
         $this->db->from('quitation_item qi'); 
         $this->db->join('quotation q', 'qi.no_Quotation=q.no_Quotation', 'left');
         $this->db->join('purchase_order p', 'qi.no_Quotation=p.id_quotation', 'left');
