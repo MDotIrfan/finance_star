@@ -14,7 +14,7 @@
             font-size: 11px;
         }
 
-        .center {
+        /* .center {
             height: 60px;
             width: 200px;
         }
@@ -22,7 +22,7 @@
         .mid {
             height: 100px;
             width: 300px;
-        }
+        } */
     </style>
 
 </head>
