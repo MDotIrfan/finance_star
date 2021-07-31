@@ -1,20 +1,19 @@
 
-$(document).on('click',"#dynamic-ar", function(e)
-{
+$(document).on('click', "#dynamic-ar", function (e) {
   addRow();
 });
 
 
 $(document).on('click', '.remove-input-field', function () {
-          if(jum_table>1){
-          $(this).parents('tr').remove();
-          var row_id = $(this).attr("id");
-          console.log(row_id);
-          jum_table--;
-          delete cost[row_id];
-          tampil();
-          }
-      });
+  if (jum_table > 1) {
+    $(this).parents('tr').remove();
+    var row_id = $(this).attr("id");
+    console.log(row_id);
+    jum_table--;
+    delete cost[row_id];
+    tampil();
+  }
+});
 
 dinamisRow = $('#dinamisRow')
 var jum_table = 0;
@@ -22,17 +21,17 @@ var a = 0;
 var volume = [];
 var price = [];
 var cost = [];
-var index=0;
+var index = 0;
 
-function addRow (jsonData=null) {
-if(jsonData) jsonData = JSON.parse(atob(jsonData));
-else jsonData = {};
+function addRow(jsonData = null) {
+  if (jsonData) jsonData = JSON.parse(atob(jsonData));
+  else jsonData = {};
 
-let tr = `
+  let tr = `
 <tr>
-<td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.task ? jsonData.task : ''}"></td>
-<td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="hitung(${index})" id=""></td>
-<td><select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="unit" name="unit[]">
+<td><input type="text" class="form-control"  style="color:#000000;" id="jobdesc" name="jobdesc[]" value="${jsonData?.task ? jsonData.task : ''}"></td>
+<td><input type="text" style="color:#000000;" class="form-control volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="hitung(${index})" id=""></td>
+<td><select style="color:#000000;" class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="unit" name="unit[]">
                
    <option value="Hours" ${jsonData?.unit == 'Hours' ? 'Selected' : ''}>Hours</option>
    <option value="Days" ${jsonData?.unit == 'Days' ? 'Selected' : ''}>Days</option>
@@ -41,8 +40,8 @@ let tr = `
    <option value="Unit" ${jsonData?.unit == 'Unit' ? 'Selected' : ''}>Unit</option>
 
            </select></td>
-<td><input type="text" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate? jsonData.rate : ''}" ></td>
-<td><input type="text" class="cost${index}" name="cost[]" value="${jsonData?.amount ? jsonData.amount : ''}" readonly></td>
+<td><input type="text" style="color:#000000;" class="form-control price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.rate ? jsonData.rate : ''}" ></td>
+<td><input type="text" style="color:#000000;" class="form-control cost${index}" name="cost[]" value="${jsonData?.amount ? jsonData.amount : ''}" readonly></td>
 <td>
   <a href="javascript:void(0)" id="dynamic-ar">
   <i class="fa fa-plus-circle" style="color:green"></i></a>
@@ -50,56 +49,55 @@ let tr = `
 <td><a href="javascript:void(0)" class="remove-input-field" id="${index}"><i class="fa fa-minus-circle" style="color:red"></i></a></td>
 </tr>
 `
-dinamisRow.append(tr)
-// hitung(index)
-cost[index] = jsonData?.amount ? jsonData.amount : 0;
-index++;
-jum_table++;
+  dinamisRow.append(tr)
+  // hitung(index)
+  cost[index] = jsonData?.amount ? jsonData.amount : 0;
+  index++;
+  jum_table++;
 }
 
-function hitung(a){
+function hitung(a) {
   console.log(a);
   volume[a] = $(".volume" + a).val();
   price[a] = $(".price" + a).val();
   cost[a] = volume[a] * price[a];
   tampil()
-  if(isNaN(cost[a])){
+  if (isNaN(cost[a])) {
     $(".cost" + a).val(0);
   } else {
     $(".cost" + a).val(cost[a]);
   }
-  if(to_currencyEl==''){
-    to_currencyEl='IDR';
+  if (to_currencyEl == '') {
+    to_currencyEl = 'IDR';
   }
   calculate();
 }
 
-function tampil(){
+function tampil() {
   $("#total").val(tambah(cost).toFixed(2));
   $("#grand").val(tambah(cost).toFixed(2));
 }
-function tambah(input){
-         
-         if (toString.call(input) !== "[object Array]")
-            return false;
-              
-                    var total =  0;
-                    for(var i=0;i<input.length;i++)
-                      {                  
-                        if(isNaN(input[i])){
-                        continue;
-                         }
-                          total += Number(input[i]);
-                       }
-                     return total;
-                    }
+function tambah(input) {
+
+  if (toString.call(input) !== "[object Array]")
+    return false;
+
+  var total = 0;
+  for (var i = 0; i < input.length; i++) {
+    if (isNaN(input[i])) {
+      continue;
+    }
+    total += Number(input[i]);
+  }
+  return total;
+}
 
 function append_item() {
-if(item_list?.length <= 0) return;
+  if (item_list?.length <= 0) return;
 
-for(let i=0; i < item_list.length; i++){
-addRow(item_list[i]);
-}
+  for (let i = 0; i < item_list.length; i++) {
+    addRow(item_list[i]);
+  }
 }
 append_item();
 
@@ -108,66 +106,66 @@ function autocomplete(inp, arr) {
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              change(this.getElementsByTagName("input")[0].value);
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
-        }
+  inp.addEventListener("input", function (e) {
+    var a, b, i, val = this.value;
+    /*close any already open lists of autocompleted values*/
+    closeAllLists();
+    if (!val) { return false; }
+    currentFocus = -1;
+    /*create a DIV element that will contain the items (values):*/
+    a = document.createElement("DIV");
+    a.setAttribute("id", this.id + "autocomplete-list");
+    a.setAttribute("class", "autocomplete-items");
+    /*append the DIV element as a child of the autocomplete container:*/
+    this.parentNode.appendChild(a);
+    /*for each item in the array...*/
+    for (i = 0; i < arr.length; i++) {
+      /*check if the item starts with the same letters as the text field value:*/
+      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        /*create a DIV element for each matching element:*/
+        b = document.createElement("DIV");
+        /*make the matching letters bold:*/
+        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+        b.innerHTML += arr[i].substr(val.length);
+        /*insert a input field that will hold the current array item's value:*/
+        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+        /*execute a function when someone clicks on the item value (DIV element):*/
+        b.addEventListener("click", function (e) {
+          /*insert the value for the autocomplete text field:*/
+          inp.value = this.getElementsByTagName("input")[0].value;
+          change(this.getElementsByTagName("input")[0].value);
+          /*close the list of autocompleted values,
+          (or any other open lists of autocompleted values:*/
+          closeAllLists();
+        });
+        a.appendChild(b);
       }
+    }
   });
   /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function(e) {
-      var x = document.getElementById(this.id + "autocomplete-list");
-      if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
-        /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-        currentFocus++;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 38) { //up
-        /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-        currentFocus--;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
-        if (currentFocus > -1) {
-          /*and simulate a click on the "active" item:*/
-          if (x) x[currentFocus].click();
-        }
+  inp.addEventListener("keydown", function (e) {
+    var x = document.getElementById(this.id + "autocomplete-list");
+    if (x) x = x.getElementsByTagName("div");
+    if (e.keyCode == 40) {
+      /*If the arrow DOWN key is pressed,
+      increase the currentFocus variable:*/
+      currentFocus++;
+      /*and and make the current item more visible:*/
+      addActive(x);
+    } else if (e.keyCode == 38) { //up
+      /*If the arrow UP key is pressed,
+      decrease the currentFocus variable:*/
+      currentFocus--;
+      /*and and make the current item more visible:*/
+      addActive(x);
+    } else if (e.keyCode == 13) {
+      /*If the ENTER key is pressed, prevent the form from being submitted,*/
+      e.preventDefault();
+      if (currentFocus > -1) {
+        /*and simulate a click on the "active" item:*/
+        if (x) x[currentFocus].click();
       }
+    }
   });
   function addActive(x) {
     /*a function to classify an item as "active":*/
@@ -197,7 +195,7 @@ function autocomplete(inp, arr) {
   }
   /*execute a function when someone clicks in the document:*/
   document.addEventListener("click", function (e) {
-      closeAllLists(e.target);
+    closeAllLists(e.target);
   });
 }
 
@@ -206,82 +204,84 @@ function autocomplete(inp, arr) {
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("rn"), countries);
 
-$("#rn").on('input', function(el) {
+$("#rn").on('input', function (el) {
   let ids = $(el.target).val();
   console.log(ids)
   change(ids);
 });
 
-$("#rn").on('input', function(el) {
+$("#rn").on('input', function (el) {
   let ids = $(el.target).val();
   console.log(ids);
   change(ids);
 });
 
-function change(ids){
-  if(ids!=''){
+function change(ids) {
+  if (ids != '') {
     $.ajax({
-        type: 'ajax',
-        url: `http://localhost/finance/purchase/tampilkanDataResource/`+ids,
-        async: false,
-        dataType: 'json',
-        success: function (data) {
-          console.log(data)
-                id = data[0].email_Address;
-                id2 = data[0].mobile_phone;
-            $('#ps').val(id);
-            $('#pm').val(id2);
-        
-}
+      type: 'ajax',
+      url: `http://localhost/finance/purchase/tampilkanDataResource/` + ids,
+      async: false,
+      dataType: 'json',
+      success: function (data) {
+        console.log(data)
+        id = data[0].email_Address;
+        id2 = data[0].mobile_phone;
+        $('#ps').val(id);
+        $('#pm').val(id2);
 
-});
-} else {$('#ps').val('');
-$('#pm').val('');}
+      }
+
+    });
+  } else {
+    $('#ps').val('');
+    $('#pm').val('');
+  }
 }
 
 var from_currencyEl = $('#curr_awal').val();;
-  var to_currencyEl = '';
+var to_currencyEl = '';
 // var to_ammountEl = document.getElementById('to_ammount');
 
-$("#curr").on('change', function(el) {
-  tujuan=$('#curr').val();
-  if(from_currencyEl=='IDR' && tujuan=='USD'){
-    from_currencyEl='IDR'
+$("#curr").on('change', function (el) {
+  tujuan = $('#curr').val();
+  if (from_currencyEl == 'IDR' && tujuan == 'USD') {
+    from_currencyEl = 'IDR'
     to_currencyEl = 'USD'
     calculate();
     from_currencyEl = 'USD'
     $('#curr_awal').val(from_currencyEl);
   }
-  if(from_currencyEl=='IDR' && tujuan=='EUR'){
-    from_currencyEl='IDR'
+  if (from_currencyEl == 'IDR' && tujuan == 'EUR') {
+    from_currencyEl = 'IDR'
     to_currencyEl = 'EUR'
     calculate();
     from_currencyEl = 'EUR'
     $('#curr_awal').val(from_currencyEl);
   }
-  if(from_currencyEl=='USD' && tujuan=='IDR'){
-    from_currencyEl='USD'
+  if (from_currencyEl == 'USD' && tujuan == 'IDR') {
+    from_currencyEl = 'USD'
     to_currencyEl = 'IDR'
     calculate();
     from_currencyEl = 'IDR'
     $('#curr_awal').val(from_currencyEl);
   }
-  if(from_currencyEl=='EUR' && tujuan=='IDR'){
-    from_currencyEl='EUR'
+  if (from_currencyEl == 'EUR' && tujuan == 'IDR') {
+    from_currencyEl = 'EUR'
     to_currencyEl = 'IDR'
     calculate();
     from_currencyEl = 'IDR'
     $('#curr_awal').val(from_currencyEl);
   }
-  if(from_currencyEl=='USD' && tujuan=='EUR'){
-    from_currencyEl='USD'
+  if (from_currencyEl == 'USD' && tujuan == 'EUR') {
+    from_currencyEl = 'USD'
     to_currencyEl = 'EUR'
     calculate();
     from_currencyEl = 'EUR'
     $('#curr_awal').val(from_currencyEl);
   }
-  if(from_currencyEl=='EUR' && tujuan=='USD'){
-    from_currencyEl='EUR'
+  if (from_currencyEl == 'EUR' && tujuan == 'USD') {
+    from_currencyEl = 'EUR'
     to_currencyEl = 'USD'
     calculate();
     from_currencyEl = 'USD'
@@ -292,7 +292,7 @@ $("#curr").on('change', function(el) {
 function calculate() {
   var awal = [];
   var akhir = [];
-  for(let i = 0; i < index; i++){
+  for (let i = 0; i < index; i++) {
     awal[i] = $(".cost" + i).val();
   }
   console.log(awal);
@@ -301,21 +301,21 @@ function calculate() {
 
   console.log(from_currency);
   console.log(to_currency);
-  
+
   fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
-  .then(res => res.json())
-  .then(res => {
-  const rate = res.rates[to_currency];
-  for(let i = 0; i < index; i++){
-    akhir[i] = (awal[i] * rate).toFixed(2);
-    if(isNaN(akhir[i])){
-      $(".cost" + i).val(0);
-    } else {
-      $(".cost" + i).val(akhir[i]);
-    }
-    cost[i] = akhir[i]
-    tampil();
-  }
-  console.log(akhir);
-  })
- }
+    .then(res => res.json())
+    .then(res => {
+      const rate = res.rates[to_currency];
+      for (let i = 0; i < index; i++) {
+        akhir[i] = (awal[i] * rate).toFixed(2);
+        if (isNaN(akhir[i])) {
+          $(".cost" + i).val(0);
+        } else {
+          $(".cost" + i).val(akhir[i]);
+        }
+        cost[i] = akhir[i]
+        tampil();
+      }
+      console.log(akhir);
+    })
+}

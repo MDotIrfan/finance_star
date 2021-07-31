@@ -21,4 +21,12 @@ class M_topman extends CI_Model{
         $this->db->group_by('(SELECT EXTRACT( YEAR_MONTH FROM `invoice_date` ))');
 		return $query = $this->db->get();
     }
+
+    function tampil_data_po_item()
+    {
+        $this->db->select('*');
+        $this->db->from('purchase_order po');
+        $this->db->group_by('po.no_Po');
+        return $query = $this->db->get();
+    }
 }

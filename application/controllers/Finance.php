@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PHPMailer\PHPMailer\PHPMailer;
+require './vendor/autoload.php';
+
 class Finance extends CI_Controller
 {
     function __construct()
@@ -20,6 +23,15 @@ class Finance extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/datainvoiceout', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function dashboard()
+    {
+        $data['inv'] = $this->m_inv_in->tampil_data_inv_out()->result();
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('finance/dashboard', $data);
         $this->load->view('templates/footer');
     }
     
@@ -600,7 +612,39 @@ class Finance extends CI_Controller
         $this->m_po->hapus_data($where, 'bast');
         redirect('finance/bast');
     }
+
     public function kirimemail(){
+        $userdata = $this->session->userdata('user_logged');
+        $email_ini = $userdata->email_Address;
+        $name = $userdata->full_Name;
+        $to = $this->input->post('to');
+        $cc = $this->input->post('cc');
+        $subject = $this->input->post('subject');
+        $desc = $this->input->post('desc');
+
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->SMTPDebug = 2;
+        $mail->Host = 'smtp.hostinger.com';
+        $mail->Port = 587;
+        $mail->SMTPAuth = true;
+        $mail->Username = 'test@hostinger-tutorials.com';
+        $mail->Password = 'YOUR PASSWORD HERE';
+        $mail->setFrom($email_ini, $name);
+        $mail->addReplyTo($email_ini, $name);
+        $mail->addAddress($to, 'pm star 1');
+        $mail->Subject = $subject;
+        // $mail->msgHTML(file_get_contents('message.html'), __DIR__);
+        $mail->Body = $desc;
+        //$mail->addAttachment('test.txt');
+        if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+        echo 'The email message was sent.';
+        }
+    }
+
+    public function kirimemail_2(){
         $userdata = $this->session->userdata('user_logged');
         $email_ini = $userdata->email_Address;
         $name = $userdata->full_Name;

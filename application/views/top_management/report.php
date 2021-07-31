@@ -11,11 +11,6 @@
                     </div>
 
                     <!-- Start Grafik Garis Penjualan -->
-                    <div class="card mb-4">
-                        <div class="card-header font-weight-bold"><i></i> COST
-                            <div class="card-body"><canvas id="myAreaChart"></canvas></div>
-                            <div class="card-footer small text-muted"></div>
-                        </div>
 
                         <div class="card mb-4">
                             <div class="card-header font-weight-bold"></i> REVENUE
@@ -23,6 +18,12 @@
                                 <div class="card-footer small text-muted"></div>
                             </div>
 
+                        </div>
+
+                        <div class="card mb-4">
+                        <div class="card-header font-weight-bold"><i></i> COST
+                            <div class="card-body"><canvas id="myAreaChart"></canvas></div>
+                            <div class="card-footer small text-muted"></div>
                         </div>
 
 <script>

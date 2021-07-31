@@ -1,0 +1,139 @@
+body {
+    font-family: 'Poppins' !important;
+    background-color: #F9FBFD !important;
+    font-style: normal!important;
+font-weight: 500!important;
+font-size: 18px!important;
+line-height: 24px!important;
+    }
+
+.main-head{
+    height: 150px;  
+}
+
+.sidenav {
+    height: 100%;
+    background-color: #FFF;
+    overflow-y: hidden;
+    padding-top: 20px;
+}
+
+.login-image{
+    width: auto !important;
+    height: 431px !important;
+}
+
+.main {
+    padding: 0px 10px;
+}
+
+@media screen and (max-width: 1380px) {
+
+    body { 
+font-size: 16px!important;
+    }
+
+    .login-form h2{
+font-size: 34px!important;
+}
+
+}
+
+@media screen and (max-width: 768px) {
+    .login-form{
+        margin: 10% 0%;
+    }
+
+    .login-image{
+    width: auto !important;
+    height: 331px !important;
+    }
+
+    .register-form{
+        margin-top: 10%;
+    }
+
+}
+
+@media screen and (min-width: 768px){
+    .main{
+        margin-left: 50%; 
+    }
+
+    .sidenav{
+        width: 50%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+    }
+
+    .login-form{
+        margin-top: 20%;
+    }
+
+    .register-form{
+        margin-top: 20%;
+    }
+}
+
+
+.login-main-text{
+    margin-top: 10%;
+    margin-left: 20%;
+}
+
+.login-form h2{
+    font-style: normal;
+font-weight: 800;
+font-size: 36px;
+color: #222B45;
+line-height: 24px;
+margin-bottom : 36px;
+}
+
+.login-form p{
+color: #AFAFAF;
+margin-bottom : 51px;
+}
+
+
+.btn-black{
+    color: #DADADA;
+    width : 100%;
+    background: #101939;
+    border: 1px solid #4F52FF;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding : 15px;
+    margin-top : 36px;
+}
+
+        .input-icons i {
+            position: absolute;
+        }
+          
+        .input-icons {
+            width: 100%;
+            margin-bottom: 10px !important;
+        }
+          
+        .icon {
+            padding: 20px 0px 15px 15px;
+            color: #DADADA;
+            min-width: 50px;
+            text-align: center;
+        }
+          
+        .input-field {
+            width: 100%;
+            padding: 15px 0px 15px 70px;
+            border: 1px solid #BCBCBC;
+            box-sizing: border-box;
+            border-radius: 20px;
+        }
+
+        input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 1000px white inset !important;
+                box-shadow: 0 0 0 1000px white inset !important;
+      }

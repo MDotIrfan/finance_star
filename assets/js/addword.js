@@ -2,6 +2,8 @@ $( document ).ready(function() {
     hitung();
 });
 
+var nopo_asal = '';
+
 $("#status").on('change', function(el) {
     var id = "";
     volume = [];
@@ -11,15 +13,17 @@ cost = [];
     if(ids!=''){
         $.ajax({
             type: 'ajax',
-            url: `http://localhost/finance/purchase/tampilkanData/`+ids,
+            url: base_url('purchase/tampilkanData/') + ids,
             async: false,
             dataType: 'json',
             success: function (data) {
-                    id = data[0].nama_projek;
+                    id = data['q'][0].nama_projek;
               console.log(id)
                 $('#pn').val(id);
-                if(data[0].jumlah_pembayaran==1||data[0].jumlah_pembayaran==null){
+                if(data['q'][0].jumlah_pembayaran==1||data['q'][0].jumlah_pembayaran==null){
                     $('#jumlah').val('1');
+                    $('#nopo').val(data['kode_po'][0]);
+                  $('#nopo_awal').val(data['kode_po']);
                     document.getElementById('jumlah').removeAttribute('readonly', true);
                     $('#rate').val('0');
                     $('#curr').val('IDR');
@@ -30,18 +34,18 @@ cost = [];
                     $('#tipe_Po').val('1');
                     ubah_no();
                 } else {
-                  $('#jumlah').val(data[0].jumlah_pembayaran);
-                  $('#nopo').val(data[0].no_po_ori+'_'+(parseInt(data.length)+1));
-                  $('#nopo_awal').val(data[0].no_po_ori);
+                  $('#jumlah').val(data['q'][0].jumlah_pembayaran);
+                  $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['q'].length)+1));
+                  $('#nopo_awal').val(data['q'][0].no_po_ori);
                   document.getElementById('jumlah').setAttribute('readonly', true);
-                  $('#rate').val(data[0].rate);
-                  $('#curr').val(data[0].currency);
-                  $('#rs').val(data[0].resource_Status);
-                  $('#ps').val(data[0].resource_Email);
-                  $('#pm').val(data[0].mobile_Phone);
-                  $('#rn').val(data[0].resource_Name);
-                  $('#tipe_Po').val(data[0].tipe_Po);
-                  console.log(data[0].tipe_Po);
+                  $('#rate').val(data['q'][0].rate);
+                  $('#curr').val(data['q'][0].currency);
+                  $('#rs').val(data['q'][0].resource_Status);
+                  $('#ps').val(data['q'][0].resource_Email);
+                  $('#pm').val(data['q'][0].mobile_Phone);
+                  $('#rn').val(data['q'][0].resource_Name);
+                  $('#tipe_Po').val(data['q'][0].tipe_Po);
+                  console.log(data['q'][0].tipe_Po);
                 }
     }
   

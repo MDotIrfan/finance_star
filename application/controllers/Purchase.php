@@ -50,7 +50,7 @@ class Purchase extends CI_Controller
     {
         $data['res'] = $this->m_po->get_resource()->result();
         $data['kode_po'] = $this->m_po->CreateCode();
-        $data['q'] = $this->m_po->ambil_data_q(1, 0)->result();
+        $data['q'] = $this->m_po->ambil_data_quotitem(1, 0)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -78,6 +78,8 @@ class Purchase extends CI_Controller
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
         $curr = $this->input->post('curr');
+        $jumlah = $this->input->post('jumlah');
+        $nopo_awal = $this->input->post('nopo_awal');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -101,7 +103,9 @@ class Purchase extends CI_Controller
             'address_Resource' => $address_resource,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
-            'currency' => $curr
+            'currency' => $curr,
+            'jumlah_pembayaran' => $jumlah,
+            'no_po_ori' => $nopo_awal
         );
         $this->m_po->input_data($data, 'purchase_order');
         if (!empty($jobdesc)) {
@@ -119,16 +123,27 @@ class Purchase extends CI_Controller
                 }
             }
         }
-        $dat2 = array(
-            'is_Q' => 1,
-        );
-        $where = array(
-            'no_Quotation' => $no_quitation,
-        );
-        $this->m_quotation->update_data($where, $dat2, 'quotation');
+        $po = $this->m_po->ambil_po_ke($nopo_awal)->result_array();
+        print_r($nopo_awal);
+        print_r($po);
+        foreach($po as $p){
+            if($p['jumlah_pembayaran']==count($po)){
+                $dat2 = array(
+                            'is_Q' => 1,
+                        );
+                        $where = array(
+                            'no_Quotation' => $no_quitation,
+                        );
+                        $this->m_quotation->update_data($where, $dat2, 'quotation');
+                        echo 'berhasil update';
+            } else {
+                echo 'gagal update';
+            }
+        }
         $this->laporan_pdf_item($no_po);
         redirect('purchase/dataitem');
     }
+    
     function add_po_word()
     {
         $no_po = $this->input->post('nopo');
@@ -235,7 +250,8 @@ class Purchase extends CI_Controller
     }
     public function tampilkanData($id)
     {
-        $data = $this->m_po->ambil_data_qi($id)->result();
+        $data['kode_po'] = $this->m_po->CreateCode();
+        $data['q'] = $this->m_po->ambil_data_qi($id)->result();
         echo json_encode($data);
     }
     public function tampilkanDataResource($id)

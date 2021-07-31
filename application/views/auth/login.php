@@ -17,7 +17,6 @@
                                 <div class="p-5">
                                     <div class="text-left">
                                         <h1 class="text-gray-900 mb-4 font-weight-bold">Log In to continue</h1>
-
                                     </div>
                                     <hr>
                                     <div class="text-left">
@@ -28,7 +27,6 @@
                                     </div>
                                     <?= $this->session->flashdata('message'); ?>
                                     <form class="user" action="<?= site_url('auth/index') ?>" method="POST">
-
                                         <div class="form-group">
                                             <label for="email" class="col-lg-4 col-form-label font-weight-bold">Email</label>
                                             <div class="input-group mb-2">
