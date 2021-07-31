@@ -195,64 +195,76 @@ class Quitation extends CI_Controller
     }
 
     function edit_quitation(){
-		$noquitation = $this->input->post('noquitation');
-		$project_name = $this->input->post('pm');
-		$due_date = $this->input->post('dd');
-        $client_name = $this->input->post('cn');
-        $project_start = $this->input->post('ps');
-        $client_email = $this->input->post('ce');
-        $public_notes = $this->input->post('public_notes');
-        $header = $this->input->post('header');
-        $footer = $this->input->post('footer');
-        $total_cost = $this->input->post('total');
-        $grand_total = $this->input->post('grand');
-        $sales_name = $this->input->post('sn');
-        $v_form = $this->input->post('v_form');
-        $jobdesc = $_POST['jobdesc'];
-        $volume = $_POST['volume'];
-        $unit = $_POST['unit'];
-        $price = $_POST['price'];
-        $cost = $_POST['cost'];
-        $curr = $this->input->post('curr');
+        $this->form_validation->set_rules('pm', 'Project Name', 'required', array('required' => 'Project Name tidak boleh kosong'));
+        $this->form_validation->set_rules('cn', 'Cilent Name', 'required', array('required' => 'Client Name tidak boleh kosong'));
+        $this->form_validation->set_rules('ce', 'Cilent Email', 'required|valid_email', array('required' => 'Client Email tidak boleh kosong', 'valid_email' => 'Format Email tidak benar'));
+        $this->form_validation->set_error_delimiters('<div style="color:red; font-size:12px;">', '</div>');
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->edit($this->input->post('noquitation'));
+        }
+        else
+        {
+		    $noquitation = $this->input->post('noquitation');
+		    $project_name = $this->input->post('pm');
+		    $due_date = $this->input->post('dd');
+            $client_name = $this->input->post('cn');
+            $project_start = $this->input->post('ps');
+            $client_email = $this->input->post('ce');
+            $public_notes = $this->input->post('public_notes');
+            $header = $this->input->post('header');
+            $footer = $this->input->post('footer');
+            $total_cost = $this->input->post('total');
+            $grand_total = $this->input->post('grand');
+            $sales_name = $this->input->post('sn');
+            $v_form = $this->input->post('v_form');
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $unit = $_POST['unit'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
+            $curr = $this->input->post('curr');
  
-		$data = array(
-			'no_Quotation' => $noquitation,
-			'project_Name' => $project_name,
-			'client_Name' => $client_name,
-            'project_Start' => $project_start,
-            'due_date' => $due_date,
-            'client_Email' => $client_email,
-            'public_Notes' => $public_notes,
-            'header' => $header,
-            'footer' => $footer,
-            'total_Cost' => $total_cost,
-            'grand_Total' => $grand_total,
-            'sales_name' => $sales_name,
-            'v_form' => $v_form,
-            'currency' => $curr,
-			);
-            $where = array(
-                'no_Quotation' => $noquitation,
-            );
-        $this->m_quotation->update_data($where,$data,'quotation');
-        $this->m_quotation->hapus_data($where,'quitation_item');
-        if(!empty($jobdesc)){
-            for($a = 0; $a < count($jobdesc); $a++){
-                if(!empty($jobdesc[$a])){
-                    $data = array(
-                        'no_Quotation' => $noquitation,
-                        'job_Desc' => $jobdesc[$a],
-                        'volume' => $volume[$a],
-                        'unit' => $unit[$a],
-                        'price' => $price[$a],
-                        'cost' => $cost[$a],
-                        );
-                    $this->m_quotation->input_data($data,'quitation_item');
+		    $data = array(
+			    'no_Quotation' => $noquitation,
+			    'project_Name' => $project_name,
+			    'client_Name' => $client_name,
+                'project_Start' => $project_start,
+                'due_date' => $due_date,
+                'client_Email' => $client_email,
+                'public_Notes' => $public_notes,
+                'header' => $header,
+                'footer' => $footer,
+                'total_Cost' => $total_cost,
+                'grand_Total' => $grand_total,
+                'sales_name' => $sales_name,
+                'v_form' => $v_form,
+                'currency' => $curr,
+			    );
+                $where = array(
+                    'no_Quotation' => $noquitation,
+                );
+            $this->m_quotation->update_data($where,$data,'quotation');
+            $this->m_quotation->hapus_data($where,'quitation_item');
+            if(!empty($jobdesc)){
+                for($a = 0; $a < count($jobdesc); $a++){
+                    if(!empty($jobdesc[$a])){
+                        $data = array(
+                            'no_Quotation' => $noquitation,
+                            'job_Desc' => $jobdesc[$a],
+                            'volume' => $volume[$a],
+                            'unit' => $unit[$a],
+                            'price' => $price[$a],
+                            'cost' => $cost[$a],
+                            );
+                        $this->m_quotation->input_data($data,'quitation_item');
+                    }
                 }
             }
+            $this->laporan_pdf($noquitation);
+            $this->session->set_flashdata('success','Quotation '.$noquitation.' Berhasil Diubah');
+            redirect('quitation/data');
         }
-        $this->laporan_pdf($noquitation);
-        redirect('quitation/data');
 	}
 
     function delete($id){
