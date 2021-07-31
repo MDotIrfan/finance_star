@@ -46,6 +46,8 @@ class Freelance extends CI_Controller
     }
     function add_inv_word()
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
         $no_inv = $this->input->post('noinv');
         $no_po = $this->input->post('status');
         $no_rek = $this->input->post('cn');
@@ -111,6 +113,13 @@ class Freelance extends CI_Controller
             'no_Po' => $no_po,
         );
         $this->m_quotation->update_data($where, $dat2, 'purchase_order');
+        if($level=="3"||$level=="4"){
+            $this->laporan_pdf_sq($no_inv);
+        } else if($level=="4"){
+            $this->laporan_pdf_kdgr($no_inv);
+        } else {
+            $this->laporan_pdf_star($no_inv);
+        }
         redirect('freelance/dashboard');
     }
 
@@ -185,8 +194,53 @@ class Freelance extends CI_Controller
             'no_Po' => $no_po,
         );
         $this->m_quotation->update_data($where, $dat2, 'purchase_order');
+        if($level=="3"||$level=="4"){
+            $this->laporan_pdf_sq($no_inv);
+        } else if($level=="4"){
+            $this->laporan_pdf_kdgr($no_inv);
+        } else {
+            $this->laporan_pdf_star($no_inv);
+        }
         redirect('freelance/dashboard');
     }
+
+    public function laporan_pdf_kdgr($id)
+    {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
+        $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
+        $data['a'] = $this->m_inv_in->ambil_data_allin($id)->result();
+
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('freelance/invkdgr', $data, $id);
+    }
+    public function laporan_pdf_star($id)
+    {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
+        $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
+        $data['a'] = $this->m_inv_in->ambil_data_allin($id)->result();
+
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('freelance/invstar', $data, $id);
+    }
+    public function laporan_pdf_sq($id)
+    {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
+        $data['a'] = $this->m_inv_in->ambil_data_allin($id)->result();
+        $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
+        
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('freelance/invspqmtrlst', $data, $id);
+    }
+
     public function tampilkanData($id)
     {
         $no_po = substr($id, 0, -6);
@@ -390,11 +444,28 @@ class Freelance extends CI_Controller
         $this->m_po->hapus_data($where, 'invoice_in');
         redirect('freelance/dashboard');
     }
-    public function print()
+    public function print($id)
     {
-        // $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
-        // $data['pi'] = $this->m_po->ambil_data_po_word($id)->result();
-        // $data['position'] = $this->m_user->ambil_data_status()->result();
-        $this->load->view('freelance/invstar');
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
+        $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
+        $data['a'] = $this->m_inv_in->ambil_data_allin($id)->result();
+        $this->load->view('freelance/invkdgr', $data);
+    }
+    public function prints($id)
+    {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
+        $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
+        $data['a'] = $this->m_inv_in->ambil_data_allin($id)->result();
+        $this->load->view('freelance/invstar', $data);
+    }
+    public function printsqm($id)
+    {
+        $data['res'] = $this->m_inv_in->ambil_data_res()->result();
+        $data['a'] = $this->m_inv_in->ambil_data_allin($id)->result();
+        $data['inv'] = $this->m_inv_in->edit_data($id, 'invoice')->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi($id)->result();
+        $this->load->view('freelance/invspqmtrlst', $data);
     }
 }

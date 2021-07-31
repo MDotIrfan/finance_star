@@ -11,7 +11,7 @@
         }
 
         body {
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .center {
@@ -19,136 +19,137 @@
             width: 200px;
         }
 
+        .centerr {
+            height: 30px;
+            width: 200px;
+        }
+
         .mid {
             height: 100px;
-            width: 350px;
+            width: 600px;
+        }
+
+        .midd {
+            height: 50px;
+            width: 600px;
         }
     </style>
 </head>
 
 <body>
-    <center><img src=" <?= base_url('assets/img/sslogostar.PNG') ?>" class="mid"></center>
-    <table border="0" style="width: 40%" align="right">
-        <tr>
-            <td>
-                <p class="bold">
-                    PT.STAR Software Indonesia <br>
-                    Head Office:<br>
-                    CityLofts Sudirman, Unit 2109 <br>
-                    Jalan K.H Mas Mansyur No.121 <br>
-                    Jakarta 10220 <br>
-                    INDONESIA<br><br><br>Tel : +62 21 2555-8856 <br>
-                    Fax : +62 21 2555-8767 <br>
-                    Website : www.star-group.net
-                </p>
-            </td>
-        </tr>
+    <?php foreach ($inv as $po) { ?>
+        <table border="0" style="width: 50%;margin-bottom: 15px;" margin-bottom: 15px; align="right" cellspacing="0" cellpadding="0">
+            <tr style="text-align:right;">
+                <td><?= $po->mitra_name ?></td>
+            </tr>
+            <?php foreach ($a as $a) { ?>
+                <tr style="text-align:right;">
+                    <td><?= $a->mobile_Phone ?></td>
+                </tr>
+                <tr style="text-align:right;">
+                    <td><?= $a->resource_Email ?></td>
+                </tr>
+            <?php } ?>
+        <?php } ?>
+        </table>
 
-    </table>
-    <table border="0" style="width: 100%" align="center">
-        <tr>
-            <td>
-                <p class="bold" style="text-align:center; font-size:x-large">
-                    INVOICE
-                </p>
-            </td>
-        </tr>
-
-    </table>
+        <table border="0" style="width:100%; margin-bottom: 15px;" class="table" cellspacing="0" cellpadding="0" align="left">
 
 
-    <table border="0" style="width: 60%" class="table" cellspacing="0" cellpadding="0" align="left">
+            <tr>
+                <td width="10%"></td>
+                <td width="90%">
+                    <a>Bill to :</a><br><br>
+                    <a> <?= $a->nama_Pm ?><br><br>
+                        PT. STAR Software Indonesia<br>
+                        Citylofts Sudirman Unit 1512<br>
+                        Jl. KH. Mas Mansyur No. 121<br>
+                        Jakarta 10220
+
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+        <table border="0" style="width: 100%" align="center">
+            <tr>
+                <td>
+                    <p style="text-align:center; font-size:large">
+                        <b><u>INVOICE</u></b><br>
+                        <a style="font-size:small"><?php
+                                                    $tgl = date('d/m/Y');
+                                                    echo $tgl;
+                                                    ?></a>
+                    </p>
 
 
-        <tr>
-            <td>
-                <p class="bold">
-                    PT. Volvo Indonesia <br>
-                    Gedung Talavera Tower lt. 21<br>
-                    Jl TB. Simatupang <br>
-                    Cilandak, Jakarta 12430 <br>
-                    Attn. Gishlain Faure<br>
-                    INDONESIA<br><br><br>Tel : +62 21 2555-8856 <br>
-                </p>
-            </td>
-            <td></td>
-            </td>
-        </tr>
-    </table>
-    <table border="0" style="width: 40%" class="table" cellspacing="0" cellpadding="0" align="right">
+                </td>
+            </tr>
+        </table>
+        <table border="1" style="width: 80%; margin-bottom: 15px;" class="table" cellspacing="0" cellpadding="0" align="center">
 
 
-        <tr>
-            <td>
-                <p class="bold">
-                    8 Januari 2021 <br><br>
-                    <u>Inv-stjk-0009</u><br><br>
-                    PO No.2327382-ID
-                </p>
-            </td>
-            <td></td>
-            </td>
-        </tr>
-    </table>
-    <br>
-    <table border="1" style="width: 100%" class="table" cellspacing="0" cellpadding="0" align="">
+            <tr style="background: grey" class="bold">
+                <td style="text-align:center; " class="centerr" width="3%">No</td>
+                <td width="57%" style="text-align:center; " class="bold">DESCRIPTION</td>
+                <td width="40%" style="text-align:center; " class="bold">AMOUNT</td>
+            </tr>
+            <?php foreach ($pi as $p) { ?>
+                <tr class="midd">
+                    <td style="text-align:center; " width="3%" class="bold">1</td>
+                    <td width="57%" style="text-align:center; "><?= $p->jobdesc ?> </td>
+                    <td width="40%" style="text-align:center; "><?= $p->amount ?></td>
+                </tr>
+            <?php } ?>
+            <tr class="centerr">
+                <td colspan="2" style="text-align:center; ">TOTAL</>
+                <td style="text-align:center; ">IDR <?= $p->grand_total ?></td>
+            </tr>
+
+        </table>
+
+        <table border="0" style="width: 80%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0" align="center">
 
 
-        <tr>
-            <td style="text-align:center; background-color:pink" class="bold" width="35%">Project Manager</td>
-            <td width="35%" style="text-align:center; background-color:pink" class="bold">Email</td>
+            <tr class="centerr">
+                <td>Please send your payment to:<br>
+                    &ensp;Name : <?= $po->mitra_name ?><br>
+                    &ensp;Bank : <?= $po->cabang_bank ?><br>
+                    &ensp;Account number : <?= $po->no_rekening ?>
+                </td>
+            </tr>
+
+        </table>
+        <table border="0" style="width: 100%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0" align="center">
 
 
-        </tr>
-        <tr>
-            <td style="text-align:center;" class="center" width="35%">Korean-Indonesian Recruitment Translation Test - Game Project</td>
-            <td width="35%" style="text-align:center;">hamed@gmail.com</td>
-        </tr>
-    </table>
-    <br>
-    <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0" align="left">
-        <tr>
-            <td>
-                <p class="">
-                    Payment 30 Days<br>
-                    Transfer to:<br>
-                </p>
-            </td>
-            <td></td>
-            </td>
-        </tr>
-    </table>
-    <table rules="none" border="1" style="width: 50" class="table" cellspacing="0" cellpadding="0" align="">
-        <tr>
-            <td>
-                <p class="">
-                    PT STAR Software Indonesia<br>
-                    Permata Bank, Mid plazza Branch<br>
-                    Jakarta, Indonesia<br>
-                    Swift Code: BBBAIDJA<br>
-                    RP Account 070 1137302
-                </p>
-            </td>
-        </tr>
-    </table>
-    <table border="0" style="width: 100%" class="center" cellspacing="0" cellpadding="0">
+            <tr>
+                <td style="text-align: center; font-size:large" class="bold">Thank you for your cooperation.</td>
+            </tr>
+
+        </table>
+        <table border="0" style="width: 100%" class="center" cellspacing="0" cellpadding="0">
 
 
-        <tr>
-            <td style="text-align:center;" class="bold" width="25"></td>
-            <td width="25%" style="text-align:center;" class="bold"></td>
-            <td style="text-align:center;" class="bold" width="25"></td>
-            <td style="text-align:center;" class="bold" width="25">Regards,</td>
-        </tr>
-        <tr class="center"></tr>
-        <tr>
-            <td style="text-align:left;" width="25%"></td>
-            <td width="25%" style="text-align:center;"></td>
-            <td width="25%" style="text-align:center;"></td>
-            <td width="25%" style="text-align:center;" class="bold">SOMEONE</td>
-        </tr>
+            <tr>
+                <td style="text-align:center;" class="bold" width="25"></td>
+                <td width="25%" style="text-align:center;" class="bold"></td>
+                <td style="text-align:center;" class="bold" width="25"></td>
+                <td style="text-align:center;" width="25">Bekasi, <?php
+                                                                    $tgl = date('d M Y');
+                                                                    echo $tgl;
+                                                                    ?></td>
+            </tr>
+            <tr class="center"></tr>
+            <tr>
+                <td style="text-align:left;" width="25%"></td>
+                <td width="25%" style="text-align:center;"></td>
+                <td width="25%" style="text-align:center;"></td>
+                <td width="25%" style="text-align:center;"><?= $po->mitra_name ?></td>
+            </tr>
 
-    </table>
+        </table>
+
 </body>
 <script type="text/javascript">
     window.print();

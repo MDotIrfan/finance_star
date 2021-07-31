@@ -16,14 +16,35 @@ cost = [];
             dataType: 'json',
             success: function (data) {
                 try {
-                    id = data[0].project_Name;
+                    id = data['q'][0].nama_projek;
               console.log(id)
               if(id!=''){
                 $('#pn').val(id);
-                $('#curr').val(data[0].kurensi);
-                $('#curr_awal').val(data[0].kurensi);
-              for(i=0; i<data.length; i++){
-                addRow(btoa(JSON.stringify(data[i])));
+                $('#curr').val(data['q'][0].kurensi);
+                $('#curr_awal').val(data['q'][0].kurensi);
+                if(data['q'][0].jumlah_pembayaran==1||data['q'][0].jumlah_pembayaran==null){
+                  $('#jumlah').val('1');
+                  $('#nopo').val(data['kode_po'][0]);
+                $('#nopo_awal').val(data['kode_po']);
+                  document.getElementById('jumlah').removeAttribute('readonly', true);
+                  $('#rs').val('admin');
+                  $('#ps').val('');
+                  $('#pm').val('');
+                  $('#rn').val('');
+                  ubah_no();
+              } else {
+                $('#jumlah').val(data['q'][0].jumlah_pembayaran);
+                  $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['q'].length)+1));
+                  $('#nopo_awal').val(data['q'][0].no_po_ori);
+                  document.getElementById('jumlah').setAttribute('readonly', true);
+                  $('#curr').val(data['q'][0].kurensi);
+                  $('#rs').val(data['q'][0].resource_Status);
+                  $('#ps').val(data['q'][0].resource_Email);
+                  $('#pm').val(data['q'][0].mobile_Phone);
+                  $('#rn').val(data['q'][0].resource_Name);
+              }
+              for(i=0; i<data['q'].length; i++){
+                addRow(btoa(JSON.stringify(data['q'][i])));
                 tampil();
               }
               }
@@ -184,3 +205,12 @@ function change(ids){
 $('#pm').val('');}
 }
 
+function ubah_no(){
+  var jum_pembayaran = $('#jumlah').val();
+  var nopo_awal = $('#nopo_awal').val();
+  if(jum_pembayaran>1){
+    $('#nopo').val(nopo_awal+'_1');
+  } else {
+    $('#nopo').val(nopo_awal);
+  }
+}

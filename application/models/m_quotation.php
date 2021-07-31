@@ -2,6 +2,100 @@
 
 class M_quotation extends CI_Model{
 
+    var $column_order_quotation = array('no_Quotation', 'client_Name','project_Name','grand_Total','currency','is_Acc'); //field yang ada di table user
+    var $column_search_quotation = array('no_Quotation', 'client_Name','project_Name'); //field yang diizin untuk pencarian 
+    var $order = ''; // default order
+    var $level = '';
+    var $name = ''; 
+ 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+    }
+ 
+    private function _get_datatables_query($table)
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $name = $userdata->full_Name;
+        if($table=='quotation'){
+            $this->db->from('quotation q');
+            $this->db->where('q.sales_name', $name);
+            if($level=="3"){$this->db->like('no_Quotation', 'SQ-');}
+            else if($level=="4"){$this->db->like('no_Quotation', 'SQM-');}
+            else if($level=="6"){$this->db->like('no_Quotation', 'KEB-');}
+            else {$this->db->like('no_Quotation', 'ST-');} 
+            
+            $this->order = array('no_Quotation' => 'asc');
+        }
+ 
+        $i = 0;
+     
+        foreach ($this->column_search_quotation as $item) // looping awal
+        {
+            if($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+                 
+                if($i===0) // looping awal
+                {
+                    $this->db->group_start(); 
+                    $this->db->like($item, $_POST['search']['value']);
+                }
+                else
+                {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+ 
+                if(count($this->column_search_quotation) - 1 == $i) 
+                    $this->db->group_end(); 
+            }
+            $i++;
+        }
+         
+        if(isset($_POST['order'])) 
+        {
+            $this->db->order_by($this->column_order_quotation[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } 
+        else if(isset($this->order))
+        {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+ 
+    function get_datatables($table)
+    {
+        $this->_get_datatables_query($table);
+        if($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+ 
+    function count_filtered($table)
+    {
+        $this->_get_datatables_query($table);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+ 
+    public function count_all($table)
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $name = $userdata->full_Name;
+        if($table=='quotation'){
+            $this->db->from('quotation q');
+            $this->db->where('q.sales_name', $name);
+            if($level=="3"){$this->db->like('no_Quotation', 'SQ-');}
+            else if($level=="4"){$this->db->like('no_Quotation', 'SQM-');}
+            else if($level=="6"){$this->db->like('no_Quotation', 'KEB-');}
+            else {$this->db->like('no_Quotation', 'ST-');}
+        }
+        return $this->db->count_all_results();
+    }
+
 	function tampil_data_q(){
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
@@ -15,6 +109,18 @@ class M_quotation extends CI_Model{
         else {$this->db->like('no_Quotation', 'ST-');} 
 		return $query = $this->db->get();
 	}
+
+    // mengambil jumlah hari dari hari terakhir data user diupdate
+    function last_update_quotation()
+    {
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `quotation` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `quotation` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('quotation');
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
 
     function ambil_data_q($where){
 		$this->db->select('*');

@@ -234,6 +234,22 @@ class M_inv_in extends CI_Model
 		return $query = $this->db->get();
 	}
 
+    function ambil_data_allin($id)
+    {
+        $this->db->select('*, po.tipe as tipe_inv, i1.jobdesc as jobdesc1, i3.jobdesc as jobdesc3, i4.jobdesc as jobdesc4');
+        $this->db->from('invoice_in po');
+        $this->db->join('invoice_item_luar i1', 'po.no_invoice=i1.no_invoice', 'left');
+        $this->db->join('invoice_item_local i2', 'po.no_invoice=i2.no_invoice', 'left');
+        $this->db->join('invoice_item_spq i3', 'po.no_invoice=i3.no_invoice', 'left');
+        $this->db->join('invoice_item_luar_2 i4', 'po.no_invoice=i4.no_invoice', 'left');
+        $this->db->join('invoice_item_spq_2 i5', 'po.no_invoice=i5.no_invoice', 'left');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po', 'left');
+        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation', 'left');
+
+        $this->db->where('po.no_invoice', $id);
+        return $query = $this->db->get();
+    }
+
     function ambil_data_all($id){
         $this->db->select('*, po.tipe as tipe_inv, i1.jobdesc as jobdesc1, i3.jobdesc as jobdesc3, i4.jobdesc as jobdesc4');
         $this->db->from('invoice_out po');

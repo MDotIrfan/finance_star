@@ -25,8 +25,27 @@ class M_po extends CI_Model
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $this->db->select('*');
-        $this->db->from('quitation_item qi');
-        $this->db->join('quotation q', 'qi.no_Quotation=q.no_Quotation', 'left');
+        $this->db->from('quotation q');
+        $this->db->join('quitation_item qi', 'q.no_Quotation=qi.no_Quotation', 'left');
+        $this->db->join('purchase_order po', 'q.no_Quotation=po.id_quotation', 'left');
+        if($level=="3"){$this->db->like('q.no_Quotation', 'SQ-');}
+        else if($level=="4"){$this->db->like('q.no_Quotation', 'SQM-');}
+        else if($level=="6"){$this->db->like('q.no_Quotation', 'KEB-');}
+        else {$this->db->like('q.no_Quotation', 'ST-');}
+        $this->db->where('q.is_Acc', $where1);
+        $this->db->where('q.is_Q', $where2);
+        $this->db->group_by('q.no_Quotation');
+        return $query = $this->db->get();
+    }
+
+    function ambil_data_quotitem($where1, $where2)
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('*');
+        $this->db->from('quotation q');
+        $this->db->join('quitation_item qi', 'q.no_Quotation=qi.no_Quotation', 'left');
+        $this->db->join('purchase_order po', 'q.no_Quotation=po.id_quotation', 'left');
         if($level=="3"){$this->db->like('q.no_Quotation', 'SQ-');}
         else if($level=="4"){$this->db->like('q.no_Quotation', 'SQM-');}
         else if($level=="6"){$this->db->like('q.no_Quotation', 'KEB-');}
@@ -64,9 +83,9 @@ class M_po extends CI_Model
 
     function ambil_data_qi($where){
 		$this->db->select('*, q.project_Name as nama_projek, q.currency as kurensi');
-        $this->db->from('quitation_item qi'); 
-        $this->db->join('quotation q', 'qi.no_Quotation=q.no_Quotation', 'left');
-        $this->db->join('purchase_order p', 'qi.no_Quotation=p.id_quotation', 'left');
+        $this->db->from('quotation q');
+        $this->db->join('quitation_item qi', 'q.no_Quotation=qi.no_Quotation', 'left');
+        $this->db->join('purchase_order po', 'q.no_Quotation=po.id_quotation', 'left');
         $this->db->where('q.no_Quotation', $where);
 		return $query = $this->db->get();
 	}
@@ -74,14 +93,10 @@ class M_po extends CI_Model
     public function CreateCode(){
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $this->db->select('RIGHT(purchase_order.no_Po,4) as no_Po', FALSE);
-        $this->db->order_by('no_Po', 'DESC');
-        if($level=="3"){$this->db->like('no_Po', 'SQ-');}
-        else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
-        else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
-        else {$this->db->like('no_Po', 'ST-');}
-        $this->db->limit(1);
-        $query = $this->db->get('purchase_order');
+        if($level=="3"){$query=$this->db->query("SELECT MID(no_Po,6,4) as no_Po from purchase_order WHERE no_Po LIKE '%SQ-%' ORDER BY no_Po DESC LIMIT 1");}
+        else if($level=="4"){$query=$this->db->query("SELECT MID(no_Po,7,4) as no_Po from purchase_order WHERE no_Po LIKE '%SQM-%' ORDER BY no_Po DESC LIMIT 1");}
+        else if($level=="6"){$query=$this->db->query("SELECT MID(no_Po,7,4) as no_Po from purchase_order WHERE no_Po LIKE '%KEB-%' ORDER BY no_Po DESC LIMIT 1");}
+        else {$query=$this->db->query("SELECT MID(no_Po,6,4) as no_Po from purchase_order WHERE no_Po LIKE '%ST-%' ORDER BY no_Po DESC LIMIT 1");}
         if ($query->num_rows() <> 0) {
             $data = $query->row();
             $kode = intval($data->no_Po) + 1;

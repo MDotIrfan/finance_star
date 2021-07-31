@@ -1,7 +1,7 @@
 $(document).ready(function (e) {
-    if (jum_table < 1) {
-        addRow();
-    }    
+  if (jum_table < 1) {
+    addRow();
+  }
 });
 
 $(document).on('click', "#dynamic-ar", function (e) {
@@ -10,10 +10,10 @@ $(document).on('click', "#dynamic-ar", function (e) {
 
 $(document).on('click', '.remove-input-field', function () {
   if (jum_table > 1) {
-      $(this).parents('tr').remove();
-      var row_id = $(this).attr("id");
-      console.log(row_id);
-      jum_table--;
+    $(this).parents('tr').remove();
+    var row_id = $(this).attr("id");
+    console.log(row_id);
+    jum_table--;
   }
 });
 
@@ -27,9 +27,9 @@ function addRow(jsonData = null) {
 
   let tr = `
   <tr>
-  <td><input type="text" id="jobdesc" name="jobdesc[]" value="${jsonData?.item ? jsonData.item : ''}"></td>
-  <td><input type="text" class="volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="" id=""></td>
-  <td><select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="unit" name="unit[]">
+  <td><input type="text" class="form-control" style="color:#000000;" id="jobdesc" name="jobdesc[]" value="${jsonData?.item ? jsonData.item : ''}"></td>
+  <td><input type="text" style="color:#000000;" class="form-control volume${index}" name="volume[]" value="${jsonData?.qty ? jsonData.qty : ''}" oninput="" id=""></td>
+  <td><select style="color:#000000;" class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="unit" name="unit[]">
                  
      <option value="Hours" ${jsonData?.Unit == 'Hours' ? 'Selected' : ''}>Hours</option>
      <option value="Days" ${jsonData?.Unit == 'Days' ? 'Selected' : ''}>Days</option>
@@ -53,23 +53,23 @@ function addRow(jsonData = null) {
   jum_table++;
 }
 
-function cek(a=null){
-  var cb = document.getElementById("cb"+a);
-  if(cb.checked){
-      $('#status'+a).val('1');
-      console.log(cb.value);
+function cek(a = null) {
+  var cb = document.getElementById("cb" + a);
+  if (cb.checked) {
+    $('#status' + a).val('1');
+    console.log(cb.value);
   } else {
-      $('#status'+a).val('0');
-      console.log(cb.value);
+    $('#status' + a).val('0');
+    console.log(cb.value);
   }
 }
 
 function append_item() {
-    if(typeof item_list === 'undefined' || item_list?.length <= 0) return;
-  
-    for(let i=0; i < item_list.length; i++){
-      addRow(item_list[i]);
-    }
+  if (typeof item_list === 'undefined' || item_list?.length <= 0) return;
+
+  for (let i = 0; i < item_list.length; i++) {
+    addRow(item_list[i]);
   }
-  append_item();
+}
+append_item();
 

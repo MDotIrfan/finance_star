@@ -8,42 +8,83 @@ class User extends CI_Controller
 		$this->load->model('m_user');
         if($this->m_user->isNotLogin()) redirect(site_url('auth/login'));
         $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
 	}
 
-    public function index()
+    function get_data_user($table)
     {
+        $list = $this->m_user->get_datatables($table);
+        $data = array();
+        foreach ($list as $field) {
+            $row = array();
+            $row[] = $field->id_User;
+            $row[] = $field->user_Name;
+            $row[] = $field->full_Name;
+            $row[] = $field->position_Name;
+            $row[] = $field->status_Name;
+            $row[] = '<a href="'.base_url('user/edit/' . $field->id_User).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('user/delete/' . $field->id_User).'"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_user->count_all($table),
+            "recordsFiltered" => $this->m_user->count_filtered($table),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
+
+    // menampilkan halaman dashboard user
+    public function dashboard()
+    {
+        $data['user'] = $this->m_user->tampil_data_user()->result();
+        $data['interval'] = $this->m_user->last_update_user()->row()->last_update;
+        $data['tgl'] = $this->m_user->last_update_user()->row()->tgl_sebelum;
+        $data['jumlah'] = $this->m_user->count_user()->result();
+        $data['selisih'] = $this->m_user->selisih_count_user()->result();
+        $this->session->set_userdata('menu', 'Dashboard');
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
-        $this->load->view('user/index');
+        $this->load->view('user/index', $data);
         $this->load->view('templates/footer');
     }
+
+    // menampilkan halaman list data user
     public function list()
     {
         $data['user'] = $this->m_user->tampil_data_user()->result();
+        $data['interval'] = $this->m_user->last_update_user()->row()->last_update;
+        $this->session->set_userdata('menu', 'User');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/data', $data);
         $this->load->view('templates/footer');
     }
-    public function list_client()
-    {
-        $data['client'] = $this->m_user->tampil_data_client()->result();
-        $this->load->view('templates/header',);
-        $this->load->view('templates/sidebar');
-        $this->load->view('user/data_client', $data);
-        $this->load->view('templates/footer');
-    }
+
+    //menampilkan halaman data client
+    // public function list_client()
+    // {
+    //     $data['client'] = $this->m_user->tampil_data_client()->result();
+    //     $this->load->view('templates/header',);
+    //     $this->load->view('templates/sidebar');
+    //     $this->load->view('user/data_client', $data);
+    //     $this->load->view('templates/footer');
+    // }
+    
     public function add()
     {
         $data['position'] = $this->m_user->ambil_data_position()->result();
         $data['status'] = $this->m_user->ambil_data_status()->result();
         $data['kode_user']= $this->m_user->CreateCode();
+        $this->session->set_userdata('menu', 'Create User');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/add', $data);
-        $this->load->view('templates/footer', [
-            'load' => ['user.js']
-        ]);
+        $this->load->view('templates/footer');
     }
     public function add_client()
     {
@@ -70,48 +111,61 @@ class User extends CI_Controller
         return strtoupper(substr($name, 0, 2));
     }
     function add_user(){
-		$id = $this->input->post('id');
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
-        $fullname = $this->input->post('fullname');
-        $inisial= $this->generate($fullname);
-        $email_address = $this->input->post('email_address');
-        $id_position = $this->input->post('position');
-        $id_status = $this->input->post('status');
-        $photo = $this->_uploadImage($id);
-        $mobile_phone = $this->input->post('mp');
-        $cab_bank = $this->input->post('cb');
-        $jenis = $this->input->post('jenis');
-        $no_rek = $this->input->post('norek');
-        $address = $this->input->post('address');
-        $npwp = $this->input->post('npwp');
- 
-		$data = array(
-			'id_User' => $id,
-			'user_Name' => $username,
-			'pass_Word' => $password,
-            'full_Name' => $fullname,
-            'email_Address' => $email_address,
-            'id_Position' => $id_position,
-            'id_Status' => $id_status,
-            'profile_Photo' => $photo,
-            'inisial' => $inisial
-			);
-		$this->m_user->input_data($data,'user');
-
-        if($id_status==1||$id_status==5){
-            $data2 = array(
-                'id_user' => $id,
-                'mobile_phone' => $mobile_phone,
-                'cabang_bank' => $cab_bank,
-                'no_rekening' => $no_rek,
-                'address' => $address,
-                'jenis' => $jenis,
-                'no_npwp' => $npwp,
-                );
-            $this->m_user->input_data($data2,'resource_data');
+        $this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.user_Name]', array('required' => 'Username tidak boleh kosong', 'is_unique' => 'username sudah digunakan'));
+        $this->form_validation->set_rules('fullname', 'Fullname', 'required', array('required' => 'Full Name tidak boleh kosong'));
+        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'Password tidak boleh kosong'));
+        $this->form_validation->set_rules('email_address', 'Email', 'required|valid_email|is_unique[user.email_Address]', array('required' => 'Email tidak boleh kosong', 'valid_email' => 'Format Email tidak valid', 'is_unique' => 'email sudah digunakan'));
+        $this->form_validation->set_rules('position', 'Position', 'required', array('required' => 'Silahkan Pilih Posisi'));
+        $this->form_validation->set_rules('status', 'Status', 'required', array('required' => 'Silahkan Pilih Status'));
+        $this->form_validation->set_error_delimiters('<div style="color:red">', '</div>');
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->add();
         }
-        redirect('user/list');
+        else
+        {
+            $id = $this->input->post('id');
+		    $username = $this->input->post('username');
+		    $password = md5($this->input->post('password'));
+            $fullname = $this->input->post('fullname');
+            $inisial= $this->generate($fullname);
+            $email_address = $this->input->post('email_address');
+            $id_position = $this->input->post('position');
+            $id_status = $this->input->post('status');
+            if (!empty($_FILES["gambar"]["name"])) {
+               $photo = $this->_uploadImage($id);
+            } else {
+                $photo = 'default.jpg';
+            }
+ 
+		    $data = array(
+			    'id_User' => $id,
+			    'user_Name' => $username,
+			    'pass_Word' => $password,
+                'full_Name' => $fullname,
+                'email_Address' => $email_address,
+                'id_Position' => $id_position,
+                'id_Status' => $id_status,
+                'profile_Photo' => $photo,
+                'inisial' => $inisial
+			    );
+		    $this->m_user->input_data($data,'user');
+
+        // if($id_status==1||$id_status==5){
+        //     $data2 = array(
+        //         'id_user' => $id,
+        //         'mobile_phone' => $mobile_phone,
+        //         'cabang_bank' => $cab_bank,
+        //         'no_rekening' => $no_rek,
+        //         'address' => $address,
+        //         'jenis' => $jenis,
+        //         'no_npwp' => $npwp,
+        //         );
+        //     $this->m_user->input_data($data2,'resource_data');
+        // }
+            $this->session->set_flashdata('success','Data Berhasil Ditambahkan');
+            redirect('user/list');
+        }
 	}
 
     function add_client_data(){
@@ -155,6 +209,7 @@ class User extends CI_Controller
 		$data['user'] = $this->m_user->edit_data($id,'user')->result();
         $data['position'] = $this->m_user->ambil_data_position()->result();
         $data['status'] = $this->m_user->ambil_data_status()->result();
+        $this->session->set_userdata('menu', 'Edit User');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/edit', $data);
@@ -173,62 +228,72 @@ class User extends CI_Controller
     }
 
     function edit_user(){
-        $id = $this->input->post('id');
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
-        $fullname = $this->input->post('fullname');
-        $inisial= $this->generate($fullname);
-        $email_address = $this->input->post('email_address');
-        $id_position = $this->input->post('position');
-        $id_status = $this->input->post('status');
-        $mobile_phone = $this->input->post('mp');
-        $cab_bank = $this->input->post('cb');
-        $jenis = $this->input->post('jenis');
-        $no_rek = $this->input->post('norek');
-        $address = $this->input->post('address');
-        $npwp = $this->input->post('npwp');
-        if (!empty($_FILES["gambar"]["name"])) {
-            $photo = $this->_uploadImage($id);
-        } else {
-            $photo = $this->input->post('old_image');
+        $this->form_validation->set_rules('username', 'Username', 'required', array('required' => 'Username tidak boleh kosong'));
+        $this->form_validation->set_rules('fullname', 'Fullname', 'required', array('required' => 'Full Name tidak boleh kosong'));
+        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'Password tidak boleh kosong'));
+        $this->form_validation->set_rules('email_address', 'Email', 'required|valid_email', array('required' => 'Email tidak boleh kosong', 'valid_email' => 'Format Email tidak valid'));
+        $this->form_validation->set_rules('position', 'Position', 'required', array('required' => 'Silahkan Pilih Posisi'));
+        $this->form_validation->set_rules('status', 'Status', 'required', array('required' => 'Silahkan Pilih Status'));
+        $this->form_validation->set_error_delimiters('<div style="color:red">', '</div>');
+        if($this->form_validation->run() === FALSE)
+        {
+            $this->edit($this->input->post('id'));
         }
+        else
+        {
+            $id = $this->input->post('id');
+		    $username = $this->input->post('username');
+		    $password = md5($this->input->post('password'));
+            $fullname = $this->input->post('fullname');
+            $inisial= $this->generate($fullname);
+            $email_address = $this->input->post('email_address');
+            $id_position = $this->input->post('position');
+            $id_status = $this->input->post('status');
+            if (!empty($_FILES["gambar"]["name"])) {
+               $photo = $this->_uploadImage($id);
+            } else {
+                $photo = $this->input->post('old_pp');
+            }
+        
+            $data = array(
+                'id_User' => $id,
+                'user_Name' => $username,
+                'pass_Word' => $password,
+                'full_Name' => $fullname,
+                'email_Address' => $email_address,
+                'id_Position' => $id_position,
+                'id_Status' => $id_status,
+                'profile_Photo' => $photo,
+                'inisial' => $inisial
+            );
+        
+            $where = array(
+                'id_User' => $id
+            );
+        
+            $this->m_user->update_data($where,$data,'user');
     
-        $data = array(
-            'id_User' => $id,
-			'user_Name' => $username,
-			'pass_Word' => $password,
-            'full_Name' => $fullname,
-            'email_Address' => $email_address,
-            'id_Position' => $id_position,
-            'id_Status' => $id_status,
-            'profile_Photo' => $photo,
-            'inisial' => $inisial
-        );
+            // if($id_status==1||$id_status==5){
+            //     $data2 = array(
+            //         'id_user' => $id,
+            //         'mobile_phone' => $mobile_phone,
+            //         'cabang_bank' => $cab_bank,
+            //         'no_rekening' => $no_rek,
+            //         'address' => $address,
+            //         'no_npwp' => $npwp,
+            //         'jenis' => $jenis
+            //         );
+            //         $where2 = array(
+            //             'id_user' => $id
+            //         );
+            //         $this->m_user->update_data($where2,$data2,'resource_data');
+            // }
     
-        $where = array(
-            'id_User' => $id
-        );
-    
-        $this->m_user->update_data($where,$data,'user');
-
-        if($id_status==1||$id_status==5){
-            $data2 = array(
-                'id_user' => $id,
-                'mobile_phone' => $mobile_phone,
-                'cabang_bank' => $cab_bank,
-                'no_rekening' => $no_rek,
-                'address' => $address,
-                'no_npwp' => $npwp,
-                'jenis' => $jenis
-                );
-                $where2 = array(
-                    'id_user' => $id
-                );
-                $this->m_user->update_data($where2,$data2,'resource_data');
+            $this->session->set_flashdata('success','Data Berhasil Diubah');
+            redirect('user/list');
         }
 
-
-        redirect('user/list');
+       
     }
     function edit_client_data(){
         $id = $this->input->post('id');
@@ -257,6 +322,7 @@ class User extends CI_Controller
         $this->m_user->hapus_data($where,'user');
         $where2 = array('id_user' => $id);
         $this->m_user->hapus_data($where,'resource_data');
+        $this->session->set_flashdata('success','Data Berhasil Dihapus');
         redirect('user/list');
     }
 

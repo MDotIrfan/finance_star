@@ -10,6 +10,28 @@ class Top_management extends CI_Controller
         $this->load->helper(array('form', 'url'));
     }
 
+    public function project()
+    {
+        $data['po'] = $this->m_topman->tampil_data_po_item()->result();
+        $this->load->view('templates/header', [
+            'load' => ['data_po_word.js']
+        ]);
+        $this->load->view('templates/sidebar');
+        $this->load->view('top_management/project', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function dashboard()
+    {
+        $data['po'] = $this->m_topman->tampil_data_po_item()->result();
+        $this->load->view('templates/header', [
+            'load' => ['charttopm.js', 'charttopmq.js']
+        ]);
+        $this->load->view('templates/sidebar');
+        $this->load->view('top_management/dashboard', $data);
+        $this->load->view('templates/footer');
+    }
+
     public function report()
     {
         $cost = $this->m_topman->get_total_cost()->result();
@@ -32,11 +54,11 @@ class Top_management extends CI_Controller
         foreach($revenue as $item){
             $data['total_rev'][$item->month] = $item->total;
         }
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar');
-        $this->load->view('top_management/report', $data);
-        $this->load->view('templates/footer', [
-            'load' => ['chart-area-demo.js', 'chart-line-demo.js']
+        $this->load->view('templates/header', [
+            'load' => ['chartcost.js', 'chartrevenue.js']
         ]);
+        $this->load->view('templates/sidebar');
+        $this->load->view('top_management/report_2', $data);
+        $this->load->view('templates/footer');
     }
 }
