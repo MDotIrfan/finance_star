@@ -81,6 +81,8 @@ function hitung(a) {
   // calculate();
 }
 
+// cek
+
 function tampil() {
   document.getElementById("total-text").innerHTML = tambah(cost).toFixed(2);
   document.getElementById("grand-text").innerHTML = tambah(cost).toFixed(2);

@@ -16,6 +16,8 @@ var data = {
     ]
 };
 
+//mons
+
 var myBarChart = new Chart(ctx, {
     type: 'line',
     data: data,
