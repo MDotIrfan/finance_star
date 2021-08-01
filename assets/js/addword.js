@@ -157,6 +157,8 @@ function hitung(){
     document.getElementById("grand-text").innerHTML = grand.toFixed(2);
 }
 
+//dom
+
 function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
