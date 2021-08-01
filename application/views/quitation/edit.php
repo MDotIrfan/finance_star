@@ -201,12 +201,12 @@
 <?php } ?>
 <script>
   var item_list = [];
-  var countries = [];
+//   var countries = [];
 
   <?php
-  foreach($client as $q) {
-    echo "countries.push('".$q->client_name."');";
-  }
+//   foreach($client as $q) {
+//     echo "countries.push('".$q->client_name."');";
+//   }
     foreach($qi as $q) {
       echo "item_list.push('".base64_encode(json_encode($q))."');".PHP_EOL;
     }

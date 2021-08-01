@@ -78,7 +78,7 @@ function hitung(a) {
   if (to_currencyEl == '') {
     to_currencyEl = 'IDR';
   }
-  calculate();
+  // calculate();
 }
 
 function tampil() {
@@ -311,7 +311,7 @@ function calculate() {
   var awal = [];
   var akhir = [];
   for (let i = 0; i < index; i++) {
-    awal[i] = $(".cost" + i).val();
+    awal[i] = $(".price" + i).val();
   }
   console.log(awal);
   const from_currency = from_currencyEl;
@@ -327,12 +327,13 @@ function calculate() {
       for (let i = 0; i < index; i++) {
         akhir[i] = (awal[i] * rate).toFixed(2);
         if (isNaN(akhir[i])) {
-          $(".cost" + i).val(0);
+          $(".price" + i).val(0);
         } else {
-          $(".cost" + i).val(akhir[i]);
+          $(".price" + i).val(akhir[i]);
         }
         cost[i] = akhir[i]
         tampil();
+        hitung(i);
       }
       console.log(akhir);
     })

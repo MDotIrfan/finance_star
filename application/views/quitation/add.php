@@ -12,17 +12,17 @@
          <div class="row ">
             <div class="col">
                <label for="noquitation">No Quitation</label>
-               <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="noquitation" name="noquitation" aria-describedby="" placeholder="" value="<?= $kode_quotation ?>" readonly>
+               <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-init" id="noquitation" name="noquitation" aria-describedby="" placeholder="" value="<?= $kode_quotation ?>" readonly>
             </div>
             <div class="col">
                <label for="ps">Project name</label>
-               <input type="" style="color:black;" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="" value="<?php echo set_value('pm')?>">
+               <input type="" style="color:black;" class="form-control form-control-init" id="pm" name="pm" aria-describedby="" placeholder="" value="<?php echo set_value('pm')?>">
                <?php echo form_error('pm'); ?>
             </div>
             <div class="col">
                <label for="dd">Due Date</label>
                <!-- <input type="" class="form-control form-control-user" id="dd" name="dd" aria-describedby="" placeholder=""> -->
-               <input type="date" style="color:black;" class="form-control form-control-user" name="dd" value="<?php $this->load->helper('date');
+               <input type="date" style="color:black;" class="form-control form-control-init" name="dd" value="<?php $this->load->helper('date');
                                                                                                                $format = "%Y-%m-%d";
                                                                                                                echo @mdate($format); ?>">
             </div>
@@ -33,33 +33,32 @@
          <div class="row">
             <div class="col">
                <label for="cn">Client Name</label>
-               <input type="" style="color:black;" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?php echo set_value('cn')?>">
+               <input type="" style="color:black;" class="form-control form-control-init" id="cn" name="cn" aria-describedby="" placeholder="" value="<?php echo set_value('cn')?>">
                <?php echo form_error('cn'); ?>
-               <input type="hidden" style="color:black;" class="form-control form-control-user" id="sn" name="sn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
+               <input type="hidden" style="color:black;" class="form-control form-control-init" id="sn" name="sn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
             </div>
             <div class="col">
                <label for="Pm">Project Start</label>
-               <input type="date" style="color:black;" class="form-control form-control-user" name="ps" value="<?php $this->load->helper('date');
+               <input type="date" style="color:black;" class="form-control form-control-init" name="ps" value="<?php $this->load->helper('date');
 
                                                                                                                $format = "%Y-%m-%d";
                                                                                                                echo @mdate($format); ?>">
             </div>
             <div class="col">
                <label for="dd">Client's Email</label>
-               <input type="" style="color:black;" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="" value="<?php echo set_value('ce')?>">
+               <input type="" style="color:black;" class="form-control form-control-init" id="ce" name="ce" aria-describedby="" placeholder="" value="<?php echo set_value('ce')?>">
                <?php echo form_error('ce'); ?>
             </div>
             <div class="col"></div>
          </div>
       </div>
       <div style="border-radius: 10px; color:#000000;font: size 20px;color:#222B45;">
-         <div style="border-radius: 10px;">
+         <div class="overflow-auto" style="border-radius: 10px; m-width:400px;">
             <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;">
                <thead>
                   <tr style="color:#000000; ">
                      <th>Job Description</th>
                      <th>
-
                         <select id="v_form" name="v_form" class="form-control font-weight-bold form-trans">
                            <option value="0" selected="selected">
                               Volume
@@ -97,7 +96,7 @@
 
       <div style="border-radius: 10px;color:#222B45;">
          <div class="row" style="margin-top: 20px;">
-            <div class="col-lg-7" style="margin-right: 80px">
+            <div class="col-lg-7" style="margin-right: 80px; min-width:500px;">
                <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;font-size: 18px; color:#222B45;font-weight: normal;">
                   <thead>
                      <tr>

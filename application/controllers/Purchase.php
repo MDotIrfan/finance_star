@@ -35,7 +35,7 @@ class Purchase extends CI_Controller
                 $grand_total = 'Rp. '.$field->grand_Total_po;
             } else if($field->currency_po=='USD'){
                 $grand_total = '$ '.$field->grand_Total_po;
-            } else if($field->currency_po=='IDR'){
+            } else if($field->currency_po=='EUR'){
                 $grand_total = '€ '.$field->grand_Total_po;
             }
             $row = array();
@@ -44,9 +44,16 @@ class Purchase extends CI_Controller
             $row[] = $field->project_Name_po;
             $row[] = $field->resource_Status;
             $row[] = $grand_total;
-            $row[] = '<a href="'.base_url('purchase/editwordbase/' . $field->no_Po).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-            <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('purchase/delete_pw/' . $field->no_Po).'"><button type="button" class="btn" style="color:red"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
-            <a href="'.base_url('assets/files/' . $field->no_Po . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>';
+            if($table=='purchase_order_word'){
+                $row[] = '<a href="'.base_url('purchase/editwordbase/' . $field->no_Po).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('purchase/delete_pw/' . $field->no_Po).'"><button type="button" class="btn" style="color:red"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
+                <a href="'.base_url('assets/files/' . $field->no_Po . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>';
+            } else if($table=='purchase_order_item') {
+                $row[] = '<a href="'.base_url('purchase/edititembase/' . $field->no_Po).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('purchase/delete_pi/' . $field->no_Po).'"><button type="button" class="btn" style="color:red"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
+                <a href="'.base_url('assets/files/' . $field->no_Po . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>';
+            }
+            
  
             $data[] = $row;
         }
@@ -133,7 +140,7 @@ class Purchase extends CI_Controller
             'resource_Name' => $resource_name,
             'resource_Email' => $res_email,
             'resource_Status' => $res_status,
-            'project_Name' => $project_name,
+            'project_Name_po' => $project_name,
             'mobile_Phone' => $mobile_phone,
             'date' => $date,
             'id_quotation' => $no_quitation,
@@ -141,9 +148,9 @@ class Purchase extends CI_Controller
             'regards' => $regards,
             'footer' => $footer,
             'address_Resource' => $address_resource,
-            'grand_Total' => $grand_total,
+            'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
-            'currency' => $curr,
+            'currency_po' => $curr,
             'jumlah_pembayaran' => $jumlah,
             'no_po_ori' => $nopo_awal
         );
@@ -231,7 +238,7 @@ class Purchase extends CI_Controller
             'resource_Name' => $resource_name,
             'resource_Email' => $res_email,
             'resource_Status' => $res_status,
-            'project_Name' => $project_name,
+            'project_Name_po' => $project_name,
             'mobile_Phone' => $mobile_phone,
             'date' => $date,
             'id_quotation' => $no_quitation,
@@ -239,11 +246,11 @@ class Purchase extends CI_Controller
             'regards' => $regards,
             'footer' => $footer,
             'address_Resource' => $address_resource,
-            'grand_Total' => $grand_total,
+            'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
             'tipe_Po' => $tipe_po,
             'rate' => $rate,
-            'currency' => $curr,
+            'currency_po' => $curr,
             'jumlah_pembayaran' => $jumlah,
             'no_po_ori' => $nopo_awal
         );
@@ -395,7 +402,7 @@ class Purchase extends CI_Controller
             'resource_Name' => $resource_name,
             'resource_Email' => $res_email,
             'resource_Status' => $res_status,
-            'project_Name' => $project_name,
+            'project_Name_po' => $project_name,
             'mobile_Phone' => $mobile_phone,
             'date' => $date,
             'id_quotation' => $no_quitation,
@@ -404,9 +411,9 @@ class Purchase extends CI_Controller
             'footer' => $footer,
             'address_Resource' => $address_resource,
             'v_form' => $v_form,
-            'grand_Total' => $grand_total,
+            'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
-            'currency' => $curr
+            'currency_po' => $curr
         );
         $where = array(
             'no_Po' => $no_po,
@@ -488,7 +495,7 @@ class Purchase extends CI_Controller
             'resource_Name' => $resource_name,
             'resource_Email' => $res_email,
             'resource_Status' => $res_status,
-            'project_Name' => $project_name,
+            'project_Name_po' => $project_name,
             'mobile_Phone' => $mobile_phone,
             'date' => $date,
             'id_quotation' => $no_quitation,
@@ -496,11 +503,11 @@ class Purchase extends CI_Controller
             'regards' => $regards,
             'footer' => $footer,
             'address_Resource' => $address_resource,
-            'grand_Total' => $grand_total,
+            'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
             'tipe_Po' => $t_po,
             'rate' => $rate,
-            'currency' => $curr
+            'currency_po' => $curr
         );
         $where = array(
             'no_Po' => $no_po,
