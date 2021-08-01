@@ -16,6 +16,8 @@ class Purchase extends CI_Controller
     public function data()
     {
         $data['po'] = $this->m_po->tampil_data_po_item('word')->result();
+        $data['interval'] = $this->m_po->last_update_po('word')->row()->last_update;
+        $this->session->set_userdata('menu', 'Purchase Order Word Based');
         $this->load->view('templates/header', [
             'load' => ['data_po_word.js']
         ]);
@@ -23,9 +25,47 @@ class Purchase extends CI_Controller
         $this->load->view('purchase/data', $data);
         $this->load->view('templates/footer');
     }
+
+    function get_data_po($table)
+    {
+        $list = $this->m_po->get_datatables($table);
+        $data = array();
+        foreach ($list as $field) {
+            if($field->currency_po=='IDR'){
+                $grand_total = 'Rp. '.$field->grand_Total_po;
+            } else if($field->currency_po=='USD'){
+                $grand_total = '$ '.$field->grand_Total_po;
+            } else if($field->currency_po=='IDR'){
+                $grand_total = '€ '.$field->grand_Total_po;
+            }
+            $row = array();
+            $row[] = $field->no_Po;
+            $row[] = $field->client_Name;
+            $row[] = $field->project_Name_po;
+            $row[] = $field->resource_Status;
+            $row[] = $grand_total;
+            $row[] = '<a href="'.base_url('purchase/editwordbase/' . $field->no_Po).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+            <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('purchase/delete_pw/' . $field->no_Po).'"><button type="button" class="btn" style="color:red"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
+            <a href="'.base_url('assets/files/' . $field->no_Po . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>';
+ 
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_po->count_all($table),
+            "recordsFiltered" => $this->m_po->count_filtered($table),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
+
     public function dataitem()
     {
         $data['po'] = $this->m_po->tampil_data_po_item('item')->result();
+        $data['interval'] = $this->m_po->last_update_po('item')->row()->last_update;
+        $this->session->set_userdata('menu', 'Purchase Order Item Based');
         $this->load->view('templates/header', [
             'load' => ['data_po_item.js']
         ]);
@@ -269,10 +309,28 @@ class Purchase extends CI_Controller
     }
     public function dashboard()
     {
+        $po = $this->m_po->get_total_po()->result();
+        $data['total_po'] = [];
+
+        for($i=1;$i<=12;$i++){
+            $check_date = date($i);
+            $data['total_po'][$check_date] = 0;
+        }
+        foreach($po as $item){
+            $data['total_po'][$item->month] = $item->total;
+        }
+
+        $data['interval'] = $this->m_po->last_update_po()->row()->last_update;
+        $data['tgl'] = $this->m_po->last_update_po()->row()->tgl_sebelum;
+        $data['jumlah'] = $this->m_po->count_po()->result();
+        $data['selisih'] = $this->m_po->selisih_count_po()->result();
+        $this->session->set_userdata('menu', 'Dashboard');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
-        $this->load->view('purchase/dashboard');
-        $this->load->view('templates/footer');
+        $this->load->view('purchase/dashboard',$data);
+        $this->load->view('templates/footer', [
+            'load' => ['chartpo.js']
+        ]);
     }
     public function editwordbase($id)
     {
@@ -280,6 +338,7 @@ class Purchase extends CI_Controller
         $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_word($id)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
+        $this->session->set_userdata('menu', 'Purchase Order Word Based');
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('purchase/editwordbase', $data);
@@ -294,6 +353,7 @@ class Purchase extends CI_Controller
         $data['po'] = $this->m_po->edit_data($id, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_item($id)->result();
         $data['position'] = $this->m_user->ambil_data_status()->result();
+        $this->session->set_userdata('menu', 'Purchase Order Item Based');
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('purchase/edititembase', $data);
