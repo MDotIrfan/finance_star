@@ -30,12 +30,20 @@ class Quitation extends CI_Controller
 		$to = $toCurrency;	
         $amount = number_format($amount,0,"","");
 		// $encode_amount = 1;
-		$url  = "https://www.google.com/search?q=".$from."+to+".$to;
-		$get = file_get_contents($url);
-		$data = preg_split('/\D\s(.*?)\s=\s/',$get);
-		$exhangeRate = (float) substr($data[1],0,7);
-		$convertedAmount = $amount*$exhangeRate;
-        return $convertedAmount;
+
+        $url="https://api.exchangerate-api.com/v4/latest/".$from;
+        $get_url = file_get_contents($url);
+        $data = json_decode($get_url);
+
+        $data_array = array(
+            'datalist' => $data
+        );
+        $rates = $data_array['datalist']->rates->IDR;
+        $amountConverted = $rates*$amount;
+        return $amountConverted;
+        // echo '<pre>';
+        // print_r($data_array['datalist']->rates->USD);
+        // echo '</pre>';
         // echo $from.' '.$to.' '.$amount;
 		// $data = array( 'exhangeRate' => $exhangeRate, 'convertedAmount' => $convertedAmount, 'fromCurrency' => strtoupper($fromCurrency), 'toCurrency' => strtoupper($toCurrency));
 		// echo json_encode( $data );	
@@ -183,11 +191,11 @@ class Quitation extends CI_Controller
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
             'protocol'  => 'smtp',
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_user' => 'muhammadirfan.9f@gmail.com',  // Email gmail
-            'smtp_pass'   => 'weseisa123',  // Password gmail
-            'smtp_crypto' => 'ssl',
-            'smtp_port'   => 465,
+            'smtp_host' => 'smtp.hostinger.com',
+            'smtp_user' => 'finance@kodegiri.com',  // Email gmail
+            'smtp_pass'   => 'Finance1234',  // Password gmail
+            'smtp_crypto' => 'tls',
+            'smtp_port'   => 587,
             'crlf'    => "\r\n",
             'newline' => "\r\n"
         ];
@@ -223,6 +231,7 @@ class Quitation extends CI_Controller
             echo 'Sukses! email berhasil dikirim.';
         } else {
             echo 'Error! email tidak dapat dikirim.';
+            echo $this->email->print_debugger();
         }
 	}
 
@@ -240,7 +249,7 @@ class Quitation extends CI_Controller
 
     public function edit($id)
     {
-        $data['client'] = $this->m_quotation->get_client()->result();
+        // $data['client'] = $this->m_quotation->get_client()->result();
         $data['quotation'] = $this->m_quotation->edit_data($id,'quotation')->result();
         $data['qi'] = $this->m_quotation->ambil_data_q($id)->result();
         $this->load->view('templates/header');
@@ -255,6 +264,7 @@ class Quitation extends CI_Controller
         $this->form_validation->set_rules('pm', 'Project Name', 'required', array('required' => 'Project Name tidak boleh kosong'));
         $this->form_validation->set_rules('cn', 'Cilent Name', 'required', array('required' => 'Client Name tidak boleh kosong'));
         $this->form_validation->set_rules('ce', 'Cilent Email', 'required|valid_email', array('required' => 'Client Email tidak boleh kosong', 'valid_email' => 'Format Email tidak benar'));
+        $this->form_validation->set_rules('jobdesc', 'Job Description', 'required', array('required' => 'Job Description tidak boleh kosong'));
         $this->form_validation->set_error_delimiters('<div style="color:red; font-size:12px;">', '</div>');
         if($this->form_validation->run() === FALSE)
         {

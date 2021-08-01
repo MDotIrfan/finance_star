@@ -6,6 +6,8 @@ body {
     line-height: 24px!important;
     }
 
+    
+
     @media screen and (max-width: 1380px) {
 body { 
 font-size: 16px!important;
@@ -163,8 +165,8 @@ font-size: 16px!important;
     width: 100% !important;
   }
 
-  .custom-select {
-    width: 100% !important;
+  .form-control-init{
+    width: initial !important;
   }
 
   .btn-save {

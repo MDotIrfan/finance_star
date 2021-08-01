@@ -154,6 +154,7 @@ function hitung(){
     var grand =$('#rate').val() * hasil;
     console.log($('#rate').val())
     $('#grand').val(grand);
+    document.getElementById("grand-text").innerHTML = grand.toFixed(2);
 }
 
 function autocomplete(inp, arr) {
