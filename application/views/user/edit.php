@@ -30,7 +30,7 @@
                                 <div class="form-group form-inline">
                                     <label for="password" class="col-sm-4 control-label">Password</label>
                                     <div class="col-sm-7">
-                                        <input type="password" class="form-control form-control-user" id="password" name="password" aria-describedby="" placeholder="" value="<?= base64_decode($item->pass_Word) ?>">
+                                        <input type="password" class="form-control form-control-user" id="password" name="password" aria-describedby="" placeholder="" value="">
                                         <?php echo form_error('password'); ?>
                                     </div>
                                 </div>

@@ -230,7 +230,6 @@ class User extends CI_Controller
     function edit_user(){
         $this->form_validation->set_rules('username', 'Username', 'required', array('required' => 'Username tidak boleh kosong'));
         $this->form_validation->set_rules('fullname', 'Fullname', 'required', array('required' => 'Full Name tidak boleh kosong'));
-        $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'Password tidak boleh kosong'));
         $this->form_validation->set_rules('email_address', 'Email', 'required|valid_email', array('required' => 'Email tidak boleh kosong', 'valid_email' => 'Format Email tidak valid'));
         $this->form_validation->set_rules('position', 'Position', 'required', array('required' => 'Silahkan Pilih Posisi'));
         $this->form_validation->set_rules('status', 'Status', 'required', array('required' => 'Silahkan Pilih Status'));
@@ -243,7 +242,7 @@ class User extends CI_Controller
         {
             $id = $this->input->post('id');
 		    $username = $this->input->post('username');
-		    $password = md5($this->input->post('password'));
+		    $password = $this->input->post('password');
             $fullname = $this->input->post('fullname');
             $inisial= $this->generate($fullname);
             $email_address = $this->input->post('email_address');
@@ -258,7 +257,6 @@ class User extends CI_Controller
             $data = array(
                 'id_User' => $id,
                 'user_Name' => $username,
-                'pass_Word' => $password,
                 'full_Name' => $fullname,
                 'email_Address' => $email_address,
                 'id_Position' => $id_position,
@@ -266,6 +264,10 @@ class User extends CI_Controller
                 'profile_Photo' => $photo,
                 'inisial' => $inisial
             );
+
+            if($this->input->post('password')!=''){
+                $data['pass_Word'] = md5($password);
+            }
         
             $where = array(
                 'id_User' => $id

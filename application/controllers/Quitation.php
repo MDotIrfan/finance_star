@@ -204,7 +204,7 @@ class Quitation extends CI_Controller
         $this->load->library('email', $config);
 
         // Email dan nama pengirim
-        $this->email->from($email, $name);
+        $this->email->from('finance@kodegiri.com', $name);
 
         // Email penerima
         $this->email->to($data['qi']['client_Email']); // Ganti dengan email tujuan
@@ -264,7 +264,6 @@ class Quitation extends CI_Controller
         $this->form_validation->set_rules('pm', 'Project Name', 'required', array('required' => 'Project Name tidak boleh kosong'));
         $this->form_validation->set_rules('cn', 'Cilent Name', 'required', array('required' => 'Client Name tidak boleh kosong'));
         $this->form_validation->set_rules('ce', 'Cilent Email', 'required|valid_email', array('required' => 'Client Email tidak boleh kosong', 'valid_email' => 'Format Email tidak benar'));
-        $this->form_validation->set_rules('jobdesc', 'Job Description', 'required', array('required' => 'Job Description tidak boleh kosong'));
         $this->form_validation->set_error_delimiters('<div style="color:red; font-size:12px;">', '</div>');
         if($this->form_validation->run() === FALSE)
         {

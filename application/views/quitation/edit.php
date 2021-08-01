@@ -201,7 +201,7 @@
 <?php } ?>
 <script>
   var item_list = [];
-//   var countries = [];
+  var countries = [];
 
   <?php
 //   foreach($client as $q) {
