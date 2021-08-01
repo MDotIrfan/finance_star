@@ -29,7 +29,7 @@
                             <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;"><?= $jumlah->in_house?></div>
                         </div>
                         <div>
-                            <div class="divbox" style="color: #FFFFFF">+ <?= number_format(($jumlah->in_house - $selisih->jum_in_house) / $selisih->jum_in_house * 100, 2)?>%</div>
+                            <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_in_house!=0){echo number_format(( $jumlah->in_house - $selisih->jum_in_house) / $selisih->jum_in_house * 100, 2);}else{echo 0;}?>>%</div>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                             <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;"><?= $jumlah->freelance ?></div>
                         </div>
                         <div>
-                            <div class="divbox" style="color: #FFFFFF">+ <?= number_format(($jumlah->freelance - $selisih->jum_freelance) / $selisih->jum_freelance * 100, 2)?>%</div>
+                            <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_in_house!=0){echo number_format(( $jumlah->freelance - $selisih->jum_freelance) / $selisih->jum_freelance * 100, 2);}else{echo 0;}?>%</div>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;"><?= $jumlah->vendor ?></div>
                         </div>
                         <div>
-                            <div class="divbox" style="color: #FFFFFF">+ <?= number_format(($jumlah->vendor - $selisih->jum_vendor) / $selisih->jum_vendor * 100, 2)?>%</div>
+                            <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_vendor!=0){echo number_format(( $jumlah->vendor - $selisih->jum_vendor) / $selisih->jum_vendor * 100, 2);}else{echo 0;}?>%</div>
                         </div>
                     </div>
                 </div>

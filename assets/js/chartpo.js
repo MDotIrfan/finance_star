@@ -11,7 +11,7 @@ var data = {
             borderColor: "#009900",
             pointHoverBackgroundColor: "#29B0D0",
             pointHoverBorderColor: "#29B0D0",
-            data: [1, 2, 5, 10, 4, 6, 8]
+            data: total_po
         }
     ]
 };

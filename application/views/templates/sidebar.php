@@ -36,18 +36,18 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('purchase/dashboard'); ?>">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;">Dashboard</span>
+                        <i class="fas fa-fw fa-tachometer-alt sidebar-menu-icon <?php if($this->session->userdata('menu')=='Dashboard'){echo 'active';} ?>"></i>
+                        <span class="sidebar-menu-title <?php if($this->session->userdata('menu')=='Dashboard'){echo 'active';} ?>">Dashboard</span>
                     </a>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;">Purchase Order</span>
+                        <i class="fas fa-shopping-bag sidebar-menu-icon <?php if($this->session->userdata('menu')=='Purchase Order Word Based'||$this->session->userdata('menu')=='Purchase Order Item Based'){echo 'active';} ?>"></i>
+                        <span class="sidebar-menu-title <?php if($this->session->userdata('menu')=='Purchase Order Word Based'||$this->session->userdata('menu')=='Purchase Order Item Based'){echo 'active';} ?>">Purchase Order</span>
                     </a>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;" class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Detail</h6>
-                            <a class="collapse-item" href="<?php echo base_url('purchase/data'); ?>">Word Base</a>
-                            <a class="collapse-item" href="<?php echo base_url('purchase/dataitem'); ?>">Item Base</a>
+                            <a class="collapse-item sidebar-menu-title <?php if($this->session->userdata('menu')=='Purchase Order Word Based'){echo 'active';} ?>" href="<?php echo base_url('purchase/data'); ?>">Word Base</a>
+                            <a class="collapse-item sidebar-menu-title <?php if($this->session->userdata('menu')=='Purchase Order Item Based'){echo 'active';} ?>" href="<?php echo base_url('purchase/dataitem'); ?>">Item Base</a>
                         </div>
                     </div>
                 </li>

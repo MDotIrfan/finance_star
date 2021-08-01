@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2021 at 03:12 PM
+-- Generation Time: Aug 01, 2021 at 03:55 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.27
 
@@ -445,12 +445,8 @@ CREATE TABLE `po_item_wordbase` (
 INSERT INTO `po_item_wordbase` (`id`, `no_Po`, `locked`, `repetitions`, `fuzzy100`, `fuzzy95`, `fuzzy85`, `fuzzy75`, `fuzzy50`, `new`, `wwc1`, `wwc2`, `wwc3`, `wwc4`, `wwc5`, `wwc6`, `wwc7`, `wwc8`) VALUES
 (6, 'SQ-PR0007', 100, 100, 100, 100, 100, 100, 100, 110, 0, 0, 0, 0, 0, 0, 0, 0),
 (28, 'SQ-PR0015', 200, 200, 200, 200, 200, 200, 200, 200, 0, 0, 0, 0, 0, 0, 0, 0),
-(39, 'ST-PR0021', 0, 0, 100, 100, 100, 100, 100, 100, 0, 0, 0, 10, 10, 25, 100, 70),
-(40, 'ST-PR0009', 200, 200, 200, 200, 200, 200, 200, 200, 0, 30, 0, 60, 100, 140, 200, 200),
 (41, 'ST-PR0010', 100, 100, 100, 100, 100, 100, 110, 120, 0, 0, 0, 10, 10, 25, 110, 84),
-(42, 'ST-PR0012', 100, 100, 100, 100, 100, 100, 100, 100, 0, 15, 0, 30, 50, 70, 100, 100),
 (43, 'ST-PR0018', 100, 200, 200, 200, 100, 200, 200, 200, 0, 0, 0, 60, 50, 140, 200, 160),
-(44, 'ST-PR0020', 150, 160, 78, 34, 69, 67, 49, 50, 0, 0, 0, 10, 35, 47, 49, 40),
 (45, 'KEB-PR0001', 0, 0, 100, 100, 100, 100, 100, 100, 0, 0, 0, 10, 10, 25, 100, 70),
 (46, 'KEB-PR0003', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
 (112, 'ST-PR0025_1', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
@@ -473,59 +469,56 @@ CREATE TABLE `purchase_order` (
   `resource_Status` enum('admin','Freelance','In House (Star Jakarta)','In House (Speequel Jakarta)','In House (Speequel Malaysia)','Vendor','Kodegiri') NOT NULL,
   `mobile_Phone` varchar(15) NOT NULL,
   `date` date NOT NULL,
-  `project_Name` varchar(50) NOT NULL,
+  `project_Name_po` varchar(50) NOT NULL,
   `id_quotation` varchar(9) NOT NULL,
   `public_Notes` text NOT NULL,
   `regards` text NOT NULL,
   `footer` text NOT NULL,
   `rate` decimal(11,2) NOT NULL,
   `address_Resource` text NOT NULL,
-  `grand_Total` decimal(11,2) NOT NULL,
+  `grand_Total_po` decimal(11,2) NOT NULL,
   `tipe` enum('item','word','','') NOT NULL,
   `tipe_Po` varchar(30) NOT NULL,
   `is_inv_in` int(11) NOT NULL DEFAULT 0,
   `v_form` enum('0','1') NOT NULL,
-  `currency` varchar(5) NOT NULL DEFAULT 'IDR',
+  `currency_po` varchar(5) NOT NULL DEFAULT 'IDR',
   `jumlah_pembayaran` int(11) NOT NULL DEFAULT 1,
-  `no_po_ori` varchar(15) NOT NULL
+  `no_po_ori` varchar(15) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `purchase_order`
 --
 
-INSERT INTO `purchase_order` (`no_Po`, `nama_Pm`, `email_pm`, `resource_Name`, `resource_Email`, `resource_Status`, `mobile_Phone`, `date`, `project_Name`, `id_quotation`, `public_Notes`, `regards`, `footer`, `rate`, `address_Resource`, `grand_Total`, `tipe`, `tipe_Po`, `is_inv_in`, `v_form`, `currency`, `jumlah_pembayaran`, `no_po_ori`) VALUES
-('KEB-PR0001', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'admin', '08956673455', '2021-06-30', 'coba project ke 2', 'KEB-Q0004', '', '', '', '900.00', '', '193500.00', 'word', '4', 1, '0', 'IDR', 1, ''),
-('KEB-PR0002', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'Freelance', '08956673455', '2021-06-26', 'coba project kodegiri', 'KEB-Q0003', '', '', '', '0.00', '', '510000.00', 'item', '', 1, '0', 'IDR', 1, ''),
-('KEB-PR0003', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'Freelance', '08956673455', '2021-06-25', 'coba kodegiri', 'KEB-Q0001', '', '', '', '900.00', '', '315000.00', 'word', '1', 0, '0', 'IDR', 1, ''),
-('KEB-PR0004', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'admin', '08956673455', '2021-06-25', 'coba 3', 'KEB-Q0005', '', '', '', '0.00', '', '1400.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('SQ-PR0005', 'project manager 1', 'kiviw@mailinator.com', 'Provident totam sed', 'Reuben Steele', 'Freelance', 'Eveniet volupta', '1995-10-18', 'Consectetur veniam ', 'ST-Q0009', 'Qui sit cum tempori', 'Et nihil sit sequi d', 'Cupidatat ex nemo of', '0.00', 'Quia aliquid archite', '377130.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('SQ-PR0006', 'project manager 1', 'rore@mailinator.com', 'Distinctio Amet nu', 'Iola Beck', 'Freelance', 'Sequi laborum a', '1996-04-06', 'Eu duis voluptatibus', 'ST-Q0008', 'Pariatur Est qui a', 'Quo magna Nam ut ut ', 'Aut tenetur ipsam au', '0.00', 'Quo ducimus totam e', '444429.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('SQ-PR0007', 'project manager 1', 'pm1@gmail.com', 'coba edit 1', 'Jaden Andrews', 'In House (Speequel Jakarta)', 'Sapiente expedi', '1920-11-22', 'Eu duis voluptatibus', 'ST-Q0008', 'Perspiciatis conseq', 'Non officia illum o', 'In aute sed obcaecat', '100.00', 'Minima proident ape', '33800.00', 'word', '3', 1, '0', 'IDR', 1, ''),
-('SQ-PR0015', 'project manager 1', 'pm1@gmail.com', 'fl1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 15', '', '', '', '', '120.00', '', '87600.00', 'word', '2', 1, '0', 'IDR', 1, ''),
-('SQ-PR0016', 'project manager 1', 'pm1@gmail.com', 'freelance 1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 3', 'ST-Q0014', '', '', '', '0.00', '', '483010.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('SQ-PR0017', 'project manager 1', 'pm1@gmail.com', 'freelance 1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project', '', '', '', '', '0.00', '', '110190.00', 'item', '', 1, '0', 'IDR', 1, ''),
-('ST-PR0004', 'ben zoskan', 'ben@mailinator.com', 'Soluta incididunt ve', 'mod@gmail.com', 'Freelance', '0897654678', '2010-11-17', 'Consectetur veniam ', 'ST-Q0009', 'Fugiat commodi Nam ', 'Eligendi aut mollit ', 'Rerum eius velit al', '0.00', 'Fuga Incididunt dis', '617130.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('ST-PR0008', 'ben zoskan', 'gyhiqe@mailinator.com', 'Eu accusantium dolor', 'Eve Mcclure', 'In House (Star Jakarta)', 'Amet aliqua Et ', '1989-02-07', 'coba project', '', 'Recusandae Consequu', 'Aut rerum cillum vol', 'Est non voluptatem n', '0.00', 'Et tempor facere eum', '388320.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('ST-PR0009', 'ben zoskan', 'bneks@gmail.com', 'Consequat Nulla eni', 'Patience Cline', 'admin', 'Do rem sint et ', '0000-00-00', 'coba project 2', '', 'Nulla quo distinctio', 'Culpa iure neque in', 'Quaerat minus eiusmo', '200.00', 'Cumque blanditiis vo', '146000.00', 'word', '2', 1, '0', 'IDR', 1, ''),
-('ST-PR0010', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'ilham@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'project ke 12', 'ST-Q0012', 'coba pn', 'coba reg', 'coba foot', '120.00', 'coba addr', '28680.00', 'word', '4', 1, '0', 'IDR', 1, ''),
-('ST-PR0011', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilham', 'admin', '0897654678', '2021-06-15', 'Aliquid sunt ex magn', 'ST-Q0010', 'pn', 'reg', 'foot', '0.00', 'addr', '119000.00', 'item', '', 1, '0', 'IDR', 1, ''),
-('ST-PR0012', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'beck@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 2', '', 'pn', 'reg', 'fot', '100.00', 'addr', '36500.00', 'word', '2', 0, '0', 'IDR', 1, ''),
-('ST-PR0013', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'beck@gmail.com', 'Freelance', '0897654678', '2021-06-16', 'coba project', '', 'pn', 'reg', 'foot', '0.00', 'addr', '100000.00', 'item', '', 0, '0', 'IDR', 1, ''),
-('ST-PR0018', 'ben zoskan', 'bneks@gmail.com', 'freelance 1', 'dsadsa', 'Freelance', '0897654678', '2021-06-16', 'project ke 13', 'ST-Q0013', '', '', '', '100.00', '', '61000.00', 'word', '3', 0, '0', 'IDR', 1, ''),
-('ST-PR0019', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-16', 'Est cum consectetur', 'ST-Q0007', '', '', '', '0.00', '', '428400.00', 'item', '', 0, '1', 'IDR', 1, ''),
-('ST-PR0020', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-19', 'coba project 15', 'ST-Q0015', '', '', '', '130.00', '', '23478.00', 'word', '3', 1, '0', 'IDR', 1, ''),
-('ST-PR0021', 'ben zoskan', 'bneks@gmail.com', 'Zoey Panda', 'zoeypanda@gmail.com', 'admin', '0897655432', '2021-06-26', 'coba coba', 'ST-Q0018', '', '', '', '900.00', '', '193500.00', 'word', '4', 1, '0', 'IDR', 1, ''),
-('ST-PR0022', 'ben zoskan', 'bneks@gmail.com', 'Zoey Panda', 'zoeypanda@gmail.com', 'Freelance', '0897655432', '2021-06-26', 'coba project', 'ST-Q0017', '', '', '', '0.00', '', '82400.00', 'item', '', 1, '0', 'IDR', 1, ''),
-('ST-PR0024', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-08', 'coba ini', 'ST-Q0022', '', '', '', '0.00', '', '50000.00', 'item', '', 1, '0', 'IDR', 1, ''),
-('ST-PR0025_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'der', 'ST-Q0021', '', '', '', '7000.00', '', '2450000.00', 'word', '1', 0, '0', 'IDR', 2, 'ST-PR0025'),
-('ST-PR0025_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '0000-00-00', 'der', 'ST-Q0021', '', '', '', '7000.00', '', '4900000.00', 'word', '1', 1, '0', 'IDR', 2, 'ST-PR0025'),
-('ST-PR0026_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba', 'ST-Q0020', '', '', '', '0.00', '', '106400.00', 'item', '', 0, '0', 'IDR', 2, 'ST-PR0026'),
-('ST-PR0026_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba', 'ST-Q0020', '', '', '', '0.00', '', '5040000.00', 'item', '', 0, '0', 'IDR', 2, 'ST-PR0026'),
-('ST-PR0027_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot baru', 'ST-Q0023', '', '', '', '1000.00', '', '350000.00', 'word', '1', 0, '0', 'IDR', 3, 'ST-PR0027'),
-('ST-PR0027_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-17', 'coba quot baru', 'ST-Q0023', '', '', '', '1000.00', '', '700000.00', 'word', '1', 0, '0', 'IDR', 3, 'ST-PR0027'),
-('ST-PR0028_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot 2', 'ST-Q0024', '', '', '', '0.00', '', '5000000.00', 'item', '', 1, '0', 'IDR', 2, 'ST-PR0028'),
-('ST-PR0028_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot 2', 'ST-Q0024', '', '', '', '0.00', '', '2500000.00', 'item', '', 0, '0', 'IDR', 2, 'ST-PR0028');
+INSERT INTO `purchase_order` (`no_Po`, `nama_Pm`, `email_pm`, `resource_Name`, `resource_Email`, `resource_Status`, `mobile_Phone`, `date`, `project_Name_po`, `id_quotation`, `public_Notes`, `regards`, `footer`, `rate`, `address_Resource`, `grand_Total_po`, `tipe`, `tipe_Po`, `is_inv_in`, `v_form`, `currency_po`, `jumlah_pembayaran`, `no_po_ori`, `created_at`) VALUES
+('KEB-PR0001', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'admin', '08956673455', '2021-06-30', 'coba project ke 2', 'KEB-Q0004', '', '', '', '900.00', '', '193500.00', 'word', '4', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('KEB-PR0002', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'Freelance', '08956673455', '2021-06-26', 'coba project kodegiri', 'KEB-Q0003', '', '', '', '0.00', '', '510000.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('KEB-PR0003', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'Freelance', '08956673455', '2021-06-25', 'coba kodegiri', 'KEB-Q0001', '', '', '', '900.00', '', '315000.00', 'word', '1', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('KEB-PR0004', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'admin', '08956673455', '2021-06-25', 'coba 3', 'KEB-Q0005', '', '', '', '0.00', '', '1400.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('SQ-PR0005', 'project manager 1', 'kiviw@mailinator.com', 'Provident totam sed', 'Reuben Steele', 'Freelance', 'Eveniet volupta', '1995-10-18', 'Consectetur veniam ', 'ST-Q0009', 'Qui sit cum tempori', 'Et nihil sit sequi d', 'Cupidatat ex nemo of', '0.00', 'Quia aliquid archite', '377130.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('SQ-PR0006', 'project manager 1', 'rore@mailinator.com', 'Distinctio Amet nu', 'Iola Beck', 'Freelance', 'Sequi laborum a', '1996-04-06', 'Eu duis voluptatibus', 'ST-Q0008', 'Pariatur Est qui a', 'Quo magna Nam ut ut ', 'Aut tenetur ipsam au', '0.00', 'Quo ducimus totam e', '444429.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('SQ-PR0007', 'project manager 1', 'pm1@gmail.com', 'coba edit 1', 'Jaden Andrews', 'In House (Speequel Jakarta)', 'Sapiente expedi', '1920-11-22', 'Eu duis voluptatibus', 'ST-Q0008', 'Perspiciatis conseq', 'Non officia illum o', 'In aute sed obcaecat', '100.00', 'Minima proident ape', '33800.00', 'word', '3', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('SQ-PR0015', 'project manager 1', 'pm1@gmail.com', 'fl1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 15', '', '', '', '', '120.00', '', '87600.00', 'word', '2', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('SQ-PR0016', 'project manager 1', 'pm1@gmail.com', 'freelance 1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 3', 'ST-Q0014', '', '', '', '0.00', '', '483010.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('SQ-PR0017', 'project manager 1', 'pm1@gmail.com', 'freelance 1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project', '', '', '', '', '0.00', '', '110190.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0004', 'ben zoskan', 'ben@mailinator.com', 'Soluta incididunt ve', 'mod@gmail.com', 'Freelance', '0897654678', '2010-11-17', 'Consectetur veniam ', 'ST-Q0009', 'Fugiat commodi Nam ', 'Eligendi aut mollit ', 'Rerum eius velit al', '0.00', 'Fuga Incididunt dis', '617130.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0008', 'ben zoskan', 'gyhiqe@mailinator.com', 'Eu accusantium dolor', 'Eve Mcclure', 'In House (Star Jakarta)', 'Amet aliqua Et ', '1989-02-07', 'coba project', '', 'Recusandae Consequu', 'Aut rerum cillum vol', 'Est non voluptatem n', '0.00', 'Et tempor facere eum', '388320.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0010', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'ilham@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'project ke 12', 'ST-Q0012', 'coba pn', 'coba reg', 'coba foot', '120.00', 'coba addr', '28680.00', 'word', '4', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0011', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilham', 'admin', '0897654678', '2021-06-15', 'Aliquid sunt ex magn', 'ST-Q0010', 'pn', 'reg', 'foot', '0.00', 'addr', '119000.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0013', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'beck@gmail.com', 'Freelance', '0897654678', '2021-06-16', 'coba project', '', 'pn', 'reg', 'foot', '0.00', 'addr', '100000.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0018', 'ben zoskan', 'bneks@gmail.com', 'freelance 1', 'dsadsa', 'Freelance', '0897654678', '2021-06-16', 'project ke 13', 'ST-Q0013', '', '', '', '100.00', '', '61000.00', 'word', '3', 0, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0019', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'admin', '0856879465', '2021-06-16', 'Est cum consectetur', 'ST-Q0007', '', '', '', '0.00', '', '428400.00', 'item', '', 0, '1', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0022', 'ben zoskan', 'bneks@gmail.com', 'Zoey Panda', 'zoeypanda@gmail.com', 'Freelance', '0897655432', '2021-06-26', 'coba project', 'ST-Q0017', '', '', '', '0.00', '', '82400.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0024', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-08', 'coba ini', 'ST-Q0022', '', '', '', '0.00', '', '50000.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01'),
+('ST-PR0025_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'der', 'ST-Q0021', '', '', '', '7000.00', '', '2450000.00', 'word', '1', 0, '0', 'IDR', 2, 'ST-PR0025', '2021-08-01'),
+('ST-PR0025_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '0000-00-00', 'der', 'ST-Q0021', '', '', '', '7000.00', '', '4900000.00', 'word', '1', 1, '0', 'IDR', 2, 'ST-PR0025', '2021-08-01'),
+('ST-PR0026_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba', 'ST-Q0020', '', '', '', '0.00', '', '106400.00', 'item', '', 0, '0', 'IDR', 2, 'ST-PR0026', '2021-08-01'),
+('ST-PR0026_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba', 'ST-Q0020', '', '', '', '0.00', '', '5040000.00', 'item', '', 0, '0', 'IDR', 2, 'ST-PR0026', '2021-08-01'),
+('ST-PR0027_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot baru', 'ST-Q0023', '', '', '', '1000.00', '', '350000.00', 'word', '1', 0, '0', 'IDR', 3, 'ST-PR0027', '2021-08-01'),
+('ST-PR0027_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-17', 'coba quot baru', 'ST-Q0023', '', '', '', '1000.00', '', '700000.00', 'word', '1', 0, '0', 'IDR', 3, 'ST-PR0027', '2021-08-01'),
+('ST-PR0028_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot 2', 'ST-Q0024', '', '', '', '0.00', '', '5000000.00', 'item', '', 1, '0', 'IDR', 2, 'ST-PR0028', '2021-08-01'),
+('ST-PR0028_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot 2', 'ST-Q0024', '', '', '', '0.00', '', '2500000.00', 'item', '', 0, '0', 'IDR', 2, 'ST-PR0028', '2021-08-01');
 
 -- --------------------------------------------------------
 
@@ -602,8 +595,9 @@ INSERT INTO `quitation_item` (`id_q_num`, `no_Quotation`, `job_Desc`, `volume`, 
 (147, 'ST-Q0022', 'coba 1', 100, 'Hours', 500, '50000.00'),
 (148, 'ST-Q0023', 'coba 1', 4900, 'Hours', 1000, '4900000.00'),
 (149, 'ST-Q0024', 'coba po 1', 5000, 'Hours', 1000, '5000000.00'),
-(150, 'ST-Q0025', 'cobain ini deh', 6, 'Months', 150000, '900000.00'),
-(151, 'ST-Q0025', 'coba ini juga', 4, 'Days', 30000, '120000.00');
+(158, 'ST-Q0025', 'cobain ini deh', 6, 'Months', 150000, '52.45'),
+(159, 'ST-Q0025', 'coba ini juga', 4, 'Days', 30000, '6.99'),
+(175, 'ST-Q0026', 'coba ini ya! (diedit 3x)', 570, 'Hours', 790, '450300.00');
 
 -- --------------------------------------------------------
 
@@ -657,17 +651,18 @@ INSERT INTO `quotation` (`no_Quotation`, `project_Name`, `client_Name`, `project
 ('ST-Q0012', 'project ke 12', 'PT. sutarma', '2021-06-15', '2021-06-30', 'sutarma@pt.com', 'coba public notes', 'coba header', 'coba footer', '124200.00', '124200.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0013', 'project ke 13', 'PT. Abadi', '2021-06-17', '2021-06-30', 'abadi@gmail.com', 'coba ', 'coba', 'coba', '124200.00', '124200.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0014', 'coba project 3', 'Clare Becker', '2021-06-18', '2021-06-17', 'kod@gmail.com', '', '', '', '415210.00', '415210.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0015', 'coba project 15', 'Trevor Thomas', '2021-06-15', '2021-06-17', 'trev@gmail.com', '', '', '', '81000.00', '81000.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
+('ST-Q0015', 'coba project 15', 'Trevor Thomas', '2021-06-15', '2021-06-17', 'trev@gmail.com', '', '', '', '81000.00', '81000.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0016', 'coba project ke-16', 'PT. Sentosa Abadi', '2021-06-16', '2021-06-30', 'sentosa@gmail.com', '', '', '', '16200.00', '16200.00', 1, 0, '1', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0017', 'coba project', 'Darkah Subin', '2021-06-23', '2021-06-23', 'sentosa@gmail.com', '', '', '', '82400.00', '82400.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0018', 'coba coba', 'Nur Minah', '2021-06-23', '2021-06-23', 'jaya@gmail.com', '', '', '', '560000.00', '560000.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
+('ST-Q0018', 'coba coba', 'Nur Minah', '2021-06-23', '2021-06-23', 'jaya@gmail.com', '', '', '', '560000.00', '560000.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0019', 'coba pdf', 'Darkah Subin', '2021-06-24', '2021-06-30', 'sentosa@gmail.com', 'cek cek', 'header', 'footer', '6.07', '6.07', 1, 0, '1', 'muhammad irfan', 'USD', '2021-07-31 13:37:27'),
 ('ST-Q0020', 'coba', 'Nur Minah', '2021-06-25', '2021-06-25', 'jaya@gmail.com', '', '', '', '106400.00', '106400.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0021', 'der', 'Darkah Subin', '2021-06-25', '2021-06-25', 'sentosa@gmail.com', '', '', '', '37.26', '37.26', 1, 1, '0', 'muhammad irfan', 'USD', '2021-07-31 13:37:27'),
 ('ST-Q0022', 'coba ini', 'Darkah Subin', '2021-07-08', '2021-07-31', 'sentosa@gmail.com', '', '', '', '50000.00', '50000.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0023', 'coba quot baru', 'Nur Minah', '2021-07-14', '2021-07-14', 'jaya@gmail.com', '', '', '', '4900000.00', '4900000.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
 ('ST-Q0024', 'coba quot 2', 'Darkah Subin', '2021-07-14', '2021-07-14', 'sentosa@gmail.com', '', '', '', '5000000.00', '5000000.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0025', 'cobain', 'dedi corbuzier', '2021-07-31', '2021-08-07', 'dedi@gmail.com', 'coba coba', 'ini coba', 'cobain ah, bismillah', '1020000.00', '1020000.00', 0, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 19:58:33');
+('ST-Q0025', 'cobain 1', 'dedi corbuzier', '2021-07-31', '2021-08-07', 'dedi@gmail.com', 'coba coba', 'ini coba', 'cobain ah, bismillah', '59.44', '59.44', 0, 0, '0', 'muhammad irfan', 'EUR', '2021-07-31 19:58:33'),
+('ST-Q0026', 'edit quot', 'bb', '2021-07-31', '2021-07-31', 'pmstarna1@gmail.com', '', '', '', '450300.00', '450300.00', 0, 0, '0', 'muhammad irfan', 'IDR', '2021-08-01 04:00:24');
 
 -- --------------------------------------------------------
 
@@ -773,8 +768,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_User`, `user_Name`, `pass_Word`, `full_Name`, `email_Address`, `id_Position`, `id_Status`, `profile_Photo`, `last_Login`, `created_at`, `inisial`, `is_active`) VALUES
-('STR002', 'irfan', '3ef3699d13dcb525f7dc10cae32eb7b7', 'muhammad irfan', 'muhammadirfan.9f@gmail.com', 5, 2, 'STR002.jpg', '2021-07-31 11:50:56', '2021-05-19 17:12:39', 'MI', 0),
-('STR003', 'benben', 'bento', 'ben zoskan', 'bneks@gmail.com', 1, 2, 'STR003.jpg', '2021-07-14 07:26:09', '2021-06-10 09:42:27', 'BZ', 0),
+('STR002', 'irfan', '3ef3699d13dcb525f7dc10cae32eb7b7', 'muhammad irfan', 'muhammadirfan.9f@gmail.com', 5, 2, 'STR002.jpg', '2021-07-31 15:50:44', '2021-05-19 17:12:39', 'MI', 0),
+('STR003', 'benben', 'e3d644dea859dba15669f1f0b8107974', 'ben zoskan', 'bneks@gmail.com', 1, 2, 'STR003.jpg', '2021-08-01 00:18:05', '2021-06-10 09:42:27', 'BZ', 0),
 ('STR004', 'ilham', 'ilham', 'ilham nur inzani', 'ilhamham@gmail.com', 7, 1, 'STR004.jpg', '2021-07-20 11:40:43', '2021-06-14 17:34:53', 'II', 0),
 ('STR005', 'putri', 'putri', 'putri finance 1', 'finstarna2@gmail.com', 3, 2, 'STR005.jpg', '2021-07-30 06:38:07', '2021-06-14 23:05:46', 'P1', 0),
 ('STR006', 'sales1', 'sales1', 'sales ke 1', 'sales1@gmail.com', 5, 4, 'STR006.jpg', '2021-06-25 02:58:05', '2021-06-15 06:37:16', 'SK1', 0),
@@ -791,7 +786,7 @@ INSERT INTO `user` (`id_User`, `user_Name`, `pass_Word`, `full_Name`, `email_Add
 ('STR017', 'finkg', 'finkg', 'Finance Kodegiri', 'pmstarna1@gmail.com', 3, 6, 'STR017.jpg', '2021-06-25 07:55:05', '2021-06-25 04:56:36', 'FK', 0),
 ('STR018', 'flkodegiri', 'flkg', 'Freelance Kodegiri', 'flkg@gmail.com', 6, 5, 'STR018.jpg', '2021-06-25 07:43:45', '2021-06-25 07:15:14', 'FK', 0),
 ('STR019', 'topman_star', 'tmstar', 'Top Management 1', 'topman1@gmail.com', 2, 2, 'STR019.jpg', '2021-07-16 15:10:40', '2021-07-08 20:20:31', 'T1', 0),
-('STR022', 'admin', '7a25b0bc04e77a2f7453dd021168cdc2', 'Admin Finance 1', 'adminfinance@gmail.com', 4, 0, 'STR022.jpg', '2021-07-31 09:41:24', '2021-07-30 23:47:54', 'A1', 0);
+('STR022', 'admin', '7a25b0bc04e77a2f7453dd021168cdc2', 'Admin Finance 1', 'adminfinance@gmail.com', 4, 0, 'STR022.jpg', '2021-08-01 00:17:58', '2021-07-30 23:47:54', 'A1', 0);
 
 --
 -- Indexes for dumped tables
@@ -985,7 +980,7 @@ ALTER TABLE `po_item_wordbase`
 -- AUTO_INCREMENT for table `quitation_item`
 --
 ALTER TABLE `quitation_item`
-  MODIFY `id_q_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id_q_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
 -- AUTO_INCREMENT for table `resource_data`

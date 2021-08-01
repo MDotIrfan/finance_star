@@ -7,7 +7,7 @@
       </ol>
    </nav>
    <?php $userdata = $this->session->userdata('user_logged'); ?>
-   <form autocomplete="off" method="POST" action="<?php echo base_url('quitation/edit_quitation'); ?>">
+   <form autocomplete="off" action="" method="POST" id="myform">
    <?php foreach($quotation as $q) { ?>
       <div class=" justify-content-start" style="font-size: 18px;">
          <div class="row ">
@@ -136,11 +136,15 @@
                   <hr>
                </div> -->
             </div>
+            <script>
+                  var form = $('#myform');
+               </script>
             <div class="col-lg-9">
                <div class="row">
                   <div class="col"></div>
-                  <div class="col"><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success btn-save"> Save</button></a></div>
-                  <div class="col"><button type="button" class="btn btn-danger" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;">Send Email</button></a></div>
+                  <div class="col"><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success btn-save" onclick="submit_data()">Save</button></div>
+                  <div class="col"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#emailModal" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;" id="email-send" onclick="kirim_email()">Send Email</button></div>
+                  <div class="col"><button type="submit button" class="btn btn-primary" id="preview" onclick="preview_pdf()">Print</button></div>
                   <div class="col"></div>
                </div>
             </div>
@@ -167,6 +171,28 @@
 </div>
 <!-- MODAL -->
 
+<!-- Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pesan Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda Yakin Ingin Mengirim Email dan Mengubah Data Ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit button" class="btn btn-danger" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+
          </div>
       </div>
 </div>
@@ -185,4 +211,20 @@
       echo "item_list.push('".base64_encode(json_encode($q))."');".PHP_EOL;
     }
   ?>
+
+function kirim_email(){
+   form.attr('action','<?php echo base_url('quitation/edit_quitation/email'); ?>');
+   console.log(form.attr('action'));
+}
+
+function submit_data(){
+   form.attr('action','<?php echo base_url('quitation/edit_quitation'); ?>');
+   console.log(form.attr('action'));
+}
+
+function preview_pdf(){
+   form.attr('action','<?php echo base_url('quitation/preview'); ?>');
+   form.attr('target','_blank');
+   console.log(form.attr('action'));
+}
 </script>
