@@ -164,11 +164,11 @@ function autocomplete(inp, arr) {
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("rn"), countries);
 
-$("#rn").on('input', function(el) {
-  let ids = $(el.target).val();
-  console.log(ids);
-  change(ids);
-});
+// $("#rn").on('input', function(el) {
+//   let ids = $(el.target).val();
+//   console.log(ids);
+//   change(ids);
+// });
 
 function change(ids){
   if(ids!=''){

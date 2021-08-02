@@ -7,7 +7,7 @@
         </ol>
     </nav>
     <?php $userdata = $this->session->userdata('user_logged'); ?>
-    <form autocomplete=off method="POST" action="<?php echo base_url('purchase/add_po_word'); ?>">
+    <form autocomplete=off method="POST" action="" id="myform">
         <div class=" justify-content-start">
             <div class="row ">
                 <div class="col">
@@ -17,15 +17,18 @@
                 </div>
                 <div class="col">
                     <label for="ps">Resource Name</label>
-                    <input style="color:black;" class="form-control form-control-user" id="rn" name="rn" aria-describedby="" placeholder="">
+                    <input style="color:black;" class="form-control form-control-user" id="rn" name="rn" aria-describedby="" placeholder="" value="<?php echo set_value('pm')?>">
+                    <?php echo form_error('rn'); ?>
                 </div>
                 <div class="col">
                     <label for="ps">Mobile Phone</label>
-                    <input style="color:black;" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="">
+                    <input style="color:black;" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="" value="<?php echo set_value('pm')?>">
+                    <?php echo form_error('pm'); ?>
                 </div>
                 <div class="col">
                     <label for="dd">Project Name</label>
-                    <input style="color:black;" class="form-control form-control-user" id="pn" name="pn" aria-describedby="" placeholder="" type="text">
+                    <input style="color:black;" class="form-control form-control-user" id="pn" name="pn" aria-describedby="" placeholder="" type="text" value="<?php echo set_value('pm')?>">
+                    <?php echo form_error('pn'); ?>
                     <input class="form-control form-control-user" id="tipe" name="tipe" aria-describedby="" placeholder="" type="hidden" value="word">
                 </div>
 
@@ -40,7 +43,8 @@
                 </div>
                 <div class="col">
                     <label for="Pm">Resource Email</label>
-                    <input type="text" style="color:black;" class="form-control form-control-user" id="ps" name="ps" aria-describedby="" placeholder="">
+                    <input type="text" style="color:black;" class="form-control form-control-user" id="ps" name="ps" aria-describedby="" placeholder="" value="<?php echo set_value('pm')?>">
+                    <?php echo form_error('pn'); ?>
                 </div>
                 <div class="col">
                     <label for="Duedate">Date</label>
@@ -119,7 +123,7 @@
                             <th>Weight</th>
                             <th>
                                 <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
-                                <select style="color: black;" id="curr" name="curr" class="form-control font-weight-bold">
+                                <select style="color: black;" id="curr" name="curr" class="form-control font-weight-bold form-trans">
                                     <option style="color: black;" value="IDR" selected="selected">
                                         Weight Word Count IDR
                                     </option>
@@ -137,58 +141,58 @@
                     <tbody>
                         <tr>
                             <td><input type="text" style="width:242px; background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;color: black;" id="mw1" name="mw1" value="Locked" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc1" name="wc1" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc1" name="wc1" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w1" name="w1" value="0" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc1" name="wwc1" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw2" name="mw2" value="Repetitions" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc2" name="wc2" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc2" name="wc2" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w2" name="w2" value="0" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc2" name="wwc2" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw3" name="mw3" value="Fuzzy 100% / CM" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc3" name="wc3" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc3" name="wc3" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w3" name="w3" value="0" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc3" name="wwc3" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw4" name="mw4" value="Fuzzy 95% - 99%" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc4" name="wc4" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc4" name="wc4" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w4" name="w4" value="30" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc4" name="wwc4" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw5" name="mw5" value="Fuzzy 85% - 94%" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc5" name="wc5" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc5" name="wc5" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w5" name="w5" value="50" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc5" name="wwc5" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw6" name="mw6" value="Fuzzy 75% - 84%" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc6" name="wc6" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc6" name="wc6" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w6" name="w6" value="70" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc6" name="wwc6" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw7" name="mw7" value="Fuzzy 50% - 74%" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc7" name="wc7" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc7" name="wc7" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w7" name="w7" value="100" class="form-control"></td>
                             <td><input type="text" style="width:304px;color: black;" id="wwc7" name="wwc7" value="" class="form-control"></td>
 
                         </tr>
                         <tr>
                             <td><input type="text" style="width:242px;color: black;background: #E2EFFC;border: 1px solid #D1E0EE;box-sizing: border-box;" id="mw8" name="mw8" value="new" class="form-control"></td>
-                            <td><input type="text" style="width:158px;color: black;" id="wc8" name="wc8" value="" class="form-control" oninput="hitung()"></td>
+                            <td><input type="text" style="width:158px;color: black;" id="wc8" name="wc8" value="0" class="form-control" oninput="hitung()"></td>
                             <td><input type="text" style="width:207px;color: black;background: #E2EFFC;border: 1px solid #E2EFFC;box-sizing: border-box;" id="w8" name="w8" value="100" class="form-control"></td>
-                            <td><input type="text" style="width:304px;color: black;" id=" wwc8" name="wwc8" value="" class="form-control"></td>
+                            <td><input type="text" style="width:304px;color: black;" id="wwc8" name="wwc8" value="" class="form-control"></td>
 
                         </tr>
 
@@ -232,23 +236,89 @@
 
                 </div>
             </div>
+            <script>
+                  var form = $('#myform');
+               </script>
             <div class="col-lg-9">
                 <div class="row">
                     <div class="col"></div>
-                    <div class="col"><a href="<?php echo base_url('purchase/add_po_word'); ?>"><button type="submit button" class="btn btn-success" style="background: #169122;font-family: Poppins;font-style: normal;font-weight: normal;"><i class="fa fa-print" aria-hidden="true"></i>&emsp;&ensp; Save &emsp;&ensp;</button></a></div>
-                    <div class="col"><a href="<?php echo base_url('itembase/sendemail'); ?>"><button type="button" class="btn btn-danger" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;"><i class=" fa fa-paper-plane" aria-hidden="true"></i>&ensp; Send Email </button></a></div>
+                    <div class="col"><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success btn-save" onclick="submit_data()">Save</button></div>
+                    <div class="col"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#emailModal" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;" id="email-send" onclick="kirim_email()">Send Email</button></div>
+                    <div class="col"><button type="submit button" class="btn btn-primary" id="preview" onclick="preview_pdf()">Print</button></div>
                     <div class="col"></div>
 
                 </div>
             </div>
         </div>
+            <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pesan Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda Yakin Ingin Menambah Data Ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit button" class="btn btn-success btn-save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+
+<!-- Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pesan Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda Yakin Ingin Mengirim Email dan Menambah Data Ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit button" class="btn btn-danger" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
     </form>
 
-    <!-- <script>
+    <script>
         var countries = [];
-        <?php
-        foreach ($res as $q) {
-            echo "countries.push('" . $q->full_Name . "');";
-        }
-        ?>
-    </script> -->
+        // <?php
+        // foreach ($res as $q) {
+        //     echo "countries.push('" . $q->full_Name . "');";
+        // }
+        // ?>
+
+function kirim_email(){
+   form.attr('action','<?php echo base_url('purchase/add_po_word/email'); ?>');
+   form.attr('target','');
+   console.log(form.attr('action'));
+}
+
+function submit_data(){
+   form.attr('action','<?php echo base_url('purchase/add_po_word'); ?>');
+   form.attr('target','');
+   console.log(form.attr('action'));
+}
+
+function preview_pdf(){
+   form.attr('action','<?php echo base_url('purchase/preview_po_word'); ?>');
+   form.attr('target','_blank');
+   console.log(form.attr('action'));
+}
+        
+    </script>

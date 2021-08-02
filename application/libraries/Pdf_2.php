@@ -12,7 +12,9 @@
  * @link        https://github.com/ardianta/codeigniter-dompdf
  */
 use Dompdf\Dompdf;
+
 class Pdf_2 extends Dompdf{
+    
     /**
      * PDF filename
      * @var String
@@ -41,6 +43,7 @@ class Pdf_2 extends Dompdf{
      * @return    void
      */
     public function load_view($view, $data = array(),$filename){
+        $this->set_option('isRemoteEnabled', TRUE);
         $html = $this->ci()->load->view($view, $data, TRUE);
         $this->load_html($html);
         // Render the PDF
@@ -49,5 +52,6 @@ class Pdf_2 extends Dompdf{
         // file_put_contents('./assets/files/'.$filename.'.pdf', $output);
             // Output the generated PDF to Browser
         $this->stream($this->filename, array("Attachment" => false));
+        
     }
 }

@@ -26,7 +26,7 @@ cost = [];
                   $('#nopo_awal').val(data['kode_po']);
                     document.getElementById('jumlah').removeAttribute('readonly', true);
                     $('#rate').val('0');
-                    $('#curr').val('IDR');
+                    $('#curr').val(data['q'][0].kurensi);
                     $('#rs').val('admin');
                     $('#ps').val('');
                     $('#pm').val('');
@@ -34,12 +34,13 @@ cost = [];
                     $('#tipe_Po').val('1');
                     ubah_no();
                 } else {
+                  $('#pn').val(data['q'][0].project_Name_po);
                   $('#jumlah').val(data['q'][0].jumlah_pembayaran);
                   $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['q'].length)+1));
                   $('#nopo_awal').val(data['q'][0].no_po_ori);
                   document.getElementById('jumlah').setAttribute('readonly', true);
                   $('#rate').val(data['q'][0].rate);
-                  $('#curr').val(data['q'][0].currency);
+                  $('#curr').val(data['q'][0].currency_po);
                   $('#rs').val(data['q'][0].resource_Status);
                   $('#ps').val(data['q'][0].resource_Email);
                   $('#pm').val(data['q'][0].mobile_Phone);
@@ -376,6 +377,7 @@ rt = (rt * rate).toFixed(2);
 total = (total * rate).toFixed(2);
 $("#rate").val(rt);
 $("#grand").val(total);
+document.getElementById("grand-text").innerHTML = total;
 })
 }
 

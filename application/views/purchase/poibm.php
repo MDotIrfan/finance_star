@@ -28,7 +28,7 @@
 
 <body>
 
-    <img src=" <?= base_url('assets/img/sslogostar.PNG') ?>" class="mid">
+    <img src="<?= base_url('assets/img/sslogostar.jpg') ?>" class="mid">
     <h1 style="text-align:center;" class="bold">PURCHASE ORDER</h1>
 
 
@@ -74,7 +74,7 @@
 
             </tr>
             <tr>
-                <td style="text-align:center;" class="center" width="35%"><?php echo $po->project_Name; ?></td>
+                <td style="text-align:center;" class="center" width="35%"><?php echo $po->project_Name_po; ?></td>
 
             </tr>
 
@@ -159,7 +159,7 @@
     <table border="1" style="width: 50%" align="right" cellspacing="0" cellpadding="0">
 
         <td width="25%" style="text-align:center; background-color:pink" class="bold">Total Fee</td>
-        <td width="25%" style="text-align:center;" class="bold"><?php echo $p->grand_Total; ?></td>
+        <td width="25%" style="text-align:center;" class="bold"><?php echo $p->grand_Total_po; ?></td>
     </table>
     <br>
     <table border="0" style="width: 100%" class="center" cellspacing="0" cellpadding="0">
