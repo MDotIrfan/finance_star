@@ -4,7 +4,7 @@ var data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
         {
-            label: "Purchase Order",
+            label: 'Purchase Order',
             fill: false,
             lineTension: 0.1,
             backgroundColor: "#009900",
@@ -24,7 +24,7 @@ var myBarChart = new Chart(ctx, {
     options: {
         responsive: true,
         legend: {
-            display: true
+            display: false
         },
         barValueSpacing: 20,
         scales: {

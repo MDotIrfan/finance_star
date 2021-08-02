@@ -207,16 +207,16 @@ class M_po extends CI_Model
         return $query = $this->db->get();
     }
 
-    function get_total_po(){
+    function get_total_po($month){
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $name = $userdata->full_Name;
-        $this->db->select("sum(grand_Total_po) as 'total', 
+        $this->db->select("grand_Total_po , currency_po, 
                         month(date) as 'month', 
                         year(date) as 'year'");
         $this->db->from('purchase_order');
+        $this->db->where('month(date)', $month);
         $this->db->where('year(date) = year(now())');
-        $this->db->group_by('(SELECT EXTRACT( YEAR_MONTH FROM `date` ))');
         $this->db->where('nama_Pm', $name);
         if($level=="3"){$this->db->like('no_Po', 'SQ-');}
         else if($level=="4"){$this->db->like('no_Po', 'SQM-');}

@@ -10,7 +10,7 @@ var data = {
             borderColor: "#0A9F82",
             pointHoverBackgroundColor: "#29B0D0",
             pointHoverBorderColor: "#29B0D0",
-            data: [1, 2, 5, 10, 4, 6, 8]
+            data: total_cost
         }
     ]
 };
@@ -20,7 +20,7 @@ var myBarChart = new Chart(ctx, {
     data: data,
     options: {
         legend: {
-            display: true
+            display: false
         },
         barValueSpacing: 20,
         scales: {

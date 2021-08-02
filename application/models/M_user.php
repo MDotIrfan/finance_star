@@ -107,7 +107,7 @@ class M_user extends CI_Model
                 $this->session->set_userdata('menu', 'Dashboard');
                 $this->_updateLastLogin($user->id_User);
                 if ($user->id_Position == '1') { redirect(site_url('purchase/dashboard'));} 
-                elseif ($user->id_Position == '2') { echo 'Top Management';} 
+                elseif ($user->id_Position == '2') { redirect(site_url('top_management/dashboard'));} 
                 elseif ($user->id_Position == '3') { redirect(site_url('finance/dashboard'));} 
                 elseif ($user->id_Position == '4') { redirect(site_url('user/dashboard'));} 
                 elseif ($user->id_Position == '5') { redirect(site_url('quitation/data'));}

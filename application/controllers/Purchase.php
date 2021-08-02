@@ -403,16 +403,53 @@ class Purchase extends CI_Controller
     }
     public function dashboard()
     {
-        $po = $this->m_po->get_total_po()->result();
-        $data['total_po'] = [];
-
         for($i=1;$i<=12;$i++){
-            $check_date = date($i);
-            $data['total_po'][$check_date] = 0;
+                $check_date = date($i);
+                $data['total_po'][$check_date] = 0;
+            }
+        for($i=1;$i<=12;$i++){
+            // $month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            $grand_total = 0;
+            $po[$i] = $this->m_po->get_total_po($i)->result();
+            for($k=0;$k<count($po[$i]);$k++){
+            $total= array();
+            // echo '<pre>';
+            // print_r($po[$i][$k]->month);
+            // echo ' - ';
+            // print_r($po[$i][$k]->currency_po);
+            // echo ' - ';
+            // print_r($po[$i][$k]->grand_Total_po);
+            // echo ' - Converted Amount : ';
+            if($po[$i][$k]->currency_po=='IDR'){
+                // echo 'Rp. ';
+                // print_r($po[$i][$k]->grand_Total_po);
+                $total[$k] = $po[$i][$k]->grand_Total_po;
+            } else if($po[$i][$k]->currency_po=='USD'){
+                // echo 'Rp. ';
+                // print_r($this->currencyConverter('USD','IDR',$po[$i][$k]->grand_Total_po));
+                $total[$k] = $this->currencyConverter('USD','IDR',$po[$i][$k]->grand_Total_po);
+            } if($po[$i][$k]->currency_po=='EUR'){
+                $total[$k] = $this->currencyConverter('EUR','IDR',$po[$i][$k]->grand_Total_po);
+            }
+            // echo '</pre>';
+            // echo '<pre> total = ';
+            // print_r($total);
+            // echo 'end </pre>';
+            $grand_total+=  $total[$k];
+            }
+            $data['total_po'][$i] = $grand_total;
+            // echo '<pre> grand_total = ';
+            // print_r($data['total_po'][$i]);;
+            // echo ' end</pre>';
         }
-        foreach($po as $item){
-            $data['total_po'][$item->month] = $item->total;
-        }
+
+        // for($i=1;$i<=12;$i++){
+        //     $check_date = date($i);
+        //     $data['total_po'][$check_date] = 0;
+        // }
+        // foreach($po as $item){
+        //     $data['total_po'][$item->month] = $item->total;
+        // }
 
         $data['interval'] = $this->m_po->last_update_po()->row()->last_update;
         $data['tgl'] = $this->m_po->last_update_po()->row()->tgl_sebelum;
@@ -426,6 +463,31 @@ class Purchase extends CI_Controller
             'load' => ['chartpo.js']
         ]);
     }
+
+    function currencyConverter($fromCurrency,$toCurrency,$amount) {	
+		$from = $fromCurrency;
+		$to = $toCurrency;	
+        $amount = number_format($amount,0,"","");
+		// $encode_amount = 1;
+
+        $url="https://api.exchangerate-api.com/v4/latest/".$from;
+        $get_url = file_get_contents($url);
+        $data = json_decode($get_url);
+
+        $data_array = array(
+            'datalist' => $data
+        );
+        $rates = $data_array['datalist']->rates->IDR;
+        $amountConverted = $rates*$amount;
+        return $amountConverted;
+        // echo '<pre>';
+        // print_r($data_array['datalist']->rates->USD);
+        // echo '</pre>';
+        // echo $from.' '.$to.' '.$amount;
+		// $data = array( 'exhangeRate' => $exhangeRate, 'convertedAmount' => $convertedAmount, 'fromCurrency' => strtoupper($fromCurrency), 'toCurrency' => strtoupper($toCurrency));
+		// echo json_encode( $data );	
+	}
+
     public function editwordbase($id)
     {
         $data['res'] = $this->m_po->get_resource()->result();
