@@ -109,6 +109,17 @@ class Purchase extends CI_Controller
     }
     function add_po_item($tujuan=NULL)
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        if ($level == "3") {
+            $company = 'Speequal Jakarta';
+        } else if ($level == "4") {
+            $company = 'Speequal Malaysia';
+        } else if ($level == "6") {
+            $company = 'kodegiri';
+        } else {
+            $company = 'STAR Jakarta';
+        }
         $no_po = $this->input->post('nopo');
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
@@ -133,6 +144,7 @@ class Purchase extends CI_Controller
         $unit = $_POST['unit'];
         $price = $_POST['price'];
         $cost = $_POST['cost'];
+        
 
         $data = array(
             'no_Po' => $no_po,
@@ -153,7 +165,8 @@ class Purchase extends CI_Controller
             'tipe' => $tipe,
             'currency_po' => $curr,
             'jumlah_pembayaran' => $jumlah,
-            'no_po_ori' => $nopo_awal
+            'no_po_ori' => $nopo_awal,
+            'company' => $company
         );
         $this->m_po->input_data($data, 'purchase_order');
         if (!empty($jobdesc)) {
@@ -220,6 +233,17 @@ class Purchase extends CI_Controller
         // }
         // else
         // {
+            $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        if ($level == "3") {
+            $company = 'Speequal Jakarta';
+        } else if ($level == "4") {
+            $company = 'Speequal Malaysia';
+        } else if ($level == "6") {
+            $company = 'kodegiri';
+        } else {
+            $company = 'STAR Jakarta';
+        }
         $no_po = $this->input->post('nopo');
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
@@ -279,7 +303,8 @@ class Purchase extends CI_Controller
             'rate' => $rate,
             'currency_po' => $curr,
             'jumlah_pembayaran' => $jumlah,
-            'no_po_ori' => $nopo_awal
+            'no_po_ori' => $nopo_awal,
+            'company' => $company
         );
         $this->m_po->input_data($data, 'purchase_order');
         $data2 = array(
@@ -520,6 +545,17 @@ class Purchase extends CI_Controller
 
     function edit_po_item($tujuan=NULL)
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        if ($level == "3") {
+            $company = 'Speequal Jakarta';
+        } else if ($level == "4") {
+            $company = 'Speequal Malaysia';
+        } else if ($level == "6") {
+            $company = 'kodegiri';
+        } else {
+            $company = 'STAR Jakarta';
+        }
         $no_po = $this->input->post('nopo');
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
@@ -562,7 +598,8 @@ class Purchase extends CI_Controller
             'v_form' => $v_form,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
-            'currency_po' => $curr
+            'currency_po' => $curr,
+            'company' => $company
         );
         $where = array(
             'no_Po' => $no_po,
@@ -614,6 +651,17 @@ class Purchase extends CI_Controller
 
     function edit_po_word($tujuan=NULL)
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        if ($level == "3") {
+            $company = 'Speequal Jakarta';
+        } else if ($level == "4") {
+            $company = 'Speequal Malaysia';
+        } else if ($level == "6") {
+            $company = 'kodegiri';
+        } else {
+            $company = 'STAR Jakarta';
+        }
         $no_po = $this->input->post('nopo');
         $resource_name = $this->input->post('rn');
         $mobile_phone = $this->input->post('pm');
@@ -680,7 +728,8 @@ class Purchase extends CI_Controller
             'tipe' => $tipe,
             'tipe_Po' => $t_po,
             'rate' => $rate,
-            'currency_po' => $curr
+            'currency_po' => $curr,
+            'company' => $company
         );
         $where = array(
             'no_Po' => $no_po,

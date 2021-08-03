@@ -111,8 +111,7 @@ class M_user extends CI_Model
                 elseif ($user->id_Position == '3') { redirect(site_url('finance/dashboard'));} 
                 elseif ($user->id_Position == '4') { redirect(site_url('user/dashboard'));} 
                 elseif ($user->id_Position == '5') { redirect(site_url('quitation/data'));}
-                elseif ($user->id_Position == '6') { echo 'Team';} 
-                elseif ($user->id_Position == '7') { echo 'Individu';} 
+                elseif ($user->id_Position == '6' || $user->id_Position == '7') { redirect(site_url('freelance/dashboard'));} 
                 else { redirect(site_url('user/dashboard'));}
             } else
             $this->session->set_flashdata('error','Username / Password salah');

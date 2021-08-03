@@ -86,7 +86,7 @@
                         <tr style="color:#000000; ">
                             <th>Job Description</th>
                             <th>
-                                <select id="v_form" name="v_form" class="form-control font-weight-bold">
+                                <select id="v_form" name="v_form" class="form-control font-weight-bold form-trans">
                                     <option value="0" selected="selected">
                                         Volume
                                     </option>
@@ -99,7 +99,7 @@
                             <th>Price/Unit</th>
                             <th>
                                 <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="<?= $po->currency_po ?>">
-                                <select style="color:#000000; " id="curr" name="curr" class="form-control font-weight-bold">
+                                <select style="color:#000000; " id="curr" name="curr" class="form-control font-weight-bold form-trans">
                                     <option value="IDR" <?php if($po->currency_po=='IDR') echo 'selected="selected"'?>>
                                         Cost in IDR
                                     </option>

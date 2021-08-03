@@ -15,10 +15,26 @@ jum_table=0;
                 $('#noinv').val(data.no_inv);
                 for(i=0; i<data.po.length; i++){
                     console.log(data);
-                    addRow(btoa(JSON.stringify(data.po[i])));}
+                    addRow(btoa(JSON.stringify(data.po[i]))); 
+                    $('#curr_awal').val(data.po[0].currency_po);
+                    $('#company').val(data.po[0].company);
+                    if(data.po[0].currency_po=='IDR'){
+                        document.getElementById("curr").innerHTML = 'Amount IDR';
+                    } else if (data.po[0].currency_po=='USD'){
+                        document.getElementById("curr").innerHTML = 'Amount USD';
+                    } else if (data.po[0].currency_po=='EUR'){
+                        document.getElementById("curr").innerHTML = 'Amount EUR';
+                    }
+                }
             
     } });
-    } else {jum_table=0;addRow();$('#noinv').val('');}   
+    } else {
+        jum_table=0;addRow();
+        $('#noinv').val('');
+        document.getElementById("curr").innerHTML = 'Amount IDR';
+        $('#curr_awal').val('IDR');
+        $('#company').val('');
+    }   
 });
 
 $("#nopo").on('change', function(el) {
@@ -92,6 +108,7 @@ $("#no_rek").on('change', function(el) {
     console.log(no_rek);
     change_table(no_rek);
 });
+
 
 $("#tipe").on('change', function(el) {
     let ids = $(el.target).val();

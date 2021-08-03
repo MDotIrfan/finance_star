@@ -133,7 +133,6 @@
                                     <option style="color: black;" value="EUR">
                                         Weight Word Count EURO
                                     </option>
-
                                 </select>
                             </th>
                         </tr>

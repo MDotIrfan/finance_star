@@ -115,21 +115,21 @@
                                 <th>Word Count</th>
                                 <th>Weight</th>
                                 <th><input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="<?= $pi->currency_po ?>">
-                                    <select style="color: black;" id="curr" name="curr" class="form-control font-weight-bold">
+                                    <select style="color: black;" id="curr" name="curr" class="form-control font-weight-bold form-trans">
                                         <option value="IDR" <?php if ($pi->currency_po == 'IDR') {
                                                                 echo 'selected';
                                                             } ?>>
-                                            Cost In IDR
+                                            Weight Word Count In IDR
                                         </option>
                                         <option value="USD" <?php if ($pi->currency_po == 'USD') {
                                                                 echo 'selected';
                                                             } ?>>
-                                            Cost In US
+                                            Weight Word Count In US
                                         </option>
                                         <option value="EUR" <?php if ($pi->currency_po == 'EUR') {
                                                                 echo 'selected';
                                                             } ?>>
-                                            Cost In EURO
+                                            Weight Word Count In EURO
                                         </option>
                                     </select>
                                 </th>
