@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use PHPMailer\PHPMailer\PHPMailer;
+
 require './vendor/autoload.php';
 
 class Finance extends CI_Controller
@@ -15,6 +16,84 @@ class Finance extends CI_Controller
         $this->load->model('m_inv_in');
         if ($this->m_user->isNotLogin()) redirect(site_url('auth/login'));
         $this->load->helper(array('form', 'url'));
+    }
+    function get_data_invoicein($table)
+    {
+        $list = $this->m_inv_in->get_datatables($table);
+        $data = array();
+        foreach ($list as $field) {
+            $row = array();
+            $row[] = $field->no_invoice;
+            $row[] = $field->mitra_name;
+            $row[] = $field->jobdesc;
+            $row[] = $field->invoice_date;
+            $row[] = $field->grand_total;
+            $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_inv_in->count_all($table),
+            "recordsFiltered" => $this->m_inv_in->count_filtered($table),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
+    function get_data_invoiceout($table)
+    {
+        $list = $this->m_inv_in->get_datatables($table);
+        $data = array();
+        foreach ($list as $field) {
+            $row = array();
+            $row[] = $field->no_invoice;
+            $row[] = $field->client_name;
+            $row[] = $field->project_Name_po;
+            $row[] = $field->nama_Pm;
+            $row[] = $field->invoice_date;
+            $row[] = $field->grand_total;
+            $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_inv_in->count_all($table),
+            "recordsFiltered" => $this->m_inv_in->count_filtered($table),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
+    function get_data_bast($table)
+    {
+        $list = $this->m_inv_in->get_datatables($table);
+        $data = array();
+        foreach ($list as $field) {
+            $row = array();
+            $row[] = $field->id_bast;
+            $row[] = $field->pic_client;
+            $row[] = $field->item;
+            $row[] = $field->qty;
+            $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_inv_in->count_all($table),
+            "recordsFiltered" => $this->m_inv_in->count_filtered($table),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
     }
 
     public function datainvoiceout()
@@ -32,9 +111,11 @@ class Finance extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/dashboard', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer', [
+            'load' => ['chartfinance.js']
+        ]);
     }
-    
+
     public function tampilkanDataPoWord()
     {
         $data = $this->m_inv_in->po_word()->result();
@@ -58,7 +139,7 @@ class Finance extends CI_Controller
         $data['bast'] = $this->m_inv_in->tampil_data_bast()->result();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
-        $this->load->view('finance/bast',$data);
+        $this->load->view('finance/bast', $data);
         $this->load->view('templates/footer');
     }
     public function addbast()
@@ -91,12 +172,12 @@ class Finance extends CI_Controller
         $typeofwork = $this->input->post('swift');
         $due_date = $this->input->post('duedate');
         $project_name = $this->input->post('pn');
-        $pic_client= $this->input->post('cn');
+        $pic_client = $this->input->post('cn');
         $perihal = $this->input->post('perihal');
-        $company= $this->input->post('company');
-        $email= $this->input->post('email');
-        $first_party= $this->input->post('first_party');
-        $second_party= $this->input->post('second_party');
+        $company = $this->input->post('company');
+        $email = $this->input->post('email');
+        $first_party = $this->input->post('first_party');
+        $second_party = $this->input->post('second_party');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -104,16 +185,16 @@ class Finance extends CI_Controller
 
         $data = array(
             'id_bast' => $no_bast,
-           'type_of_work' => $typeofwork,
-           'due_date' => $due_date,
-           'no_invoice' => $no_inv,
-           'project_name' => $project_name,
-           'pic_client' => $pic_client,
-           'perihal' => $perihal,
-           'company_name' => $company,
-           'email'=> $email,
-           'first_party' => $first_party,
-           'second_party' => $second_party
+            'type_of_work' => $typeofwork,
+            'due_date' => $due_date,
+            'no_invoice' => $no_inv,
+            'project_name' => $project_name,
+            'pic_client' => $pic_client,
+            'perihal' => $perihal,
+            'company_name' => $company,
+            'email' => $email,
+            'first_party' => $first_party,
+            'second_party' => $second_party
         );
         $where = array(
             'id_bast' => $no_bast,
@@ -149,15 +230,15 @@ class Finance extends CI_Controller
     {
         $inv = $this->db->get_where('invoice_out', ['no_invoice' => $id])->row_array();
         $data['inv'] = $this->m_inv_in->edit_data_out($id, 'invoice_out')->result();
-        if($inv['tipe']=='1'){
+        if ($inv['tipe'] == '1') {
             $data['pi'] = $this->m_inv_in->ambil_data_qi_luar($id)->result();
-        } else if($inv['tipe']=='2'){
+        } else if ($inv['tipe'] == '2') {
             $data['pi'] = $this->m_inv_in->ambil_data_qi_local($id)->result();
-        } else if($inv['tipe']=='3'){
+        } else if ($inv['tipe'] == '3') {
             $data['pi'] = $this->m_inv_in->ambil_data_qi_spq($id)->result();
-        } else if($inv['tipe']=='4'){
+        } else if ($inv['tipe'] == '4') {
             $data['pi'] = $this->m_inv_in->ambil_data_qi_luar2($id)->result();
-        } else if($inv['tipe']=='5'){
+        } else if ($inv['tipe'] == '5') {
             $data['pi'] = $this->m_inv_in->ambil_data_qi_spq2($id)->result();
         }
         $data['tax'] = $this->m_inv_in->ambil_data_tax($id)->result();
@@ -186,7 +267,7 @@ class Finance extends CI_Controller
         $swift_code = $this->input->post('swift');
         $address = $this->input->post('address');
         $inv_date = $this->input->post('invoicedate');
-        $tipe= $this->input->post('tipe');
+        $tipe = $this->input->post('tipe');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $no_rek = $this->input->post('no_rek');
@@ -226,14 +307,20 @@ class Finance extends CI_Controller
             'no_invoice' => $no_inv,
         );
         $this->m_po->update_data($where, $data, 'invoice_out');
-        if($tipe=='1'){$this->m_po->hapus_data($where, 'invoice_item_luar');}
-        else if($tipe=='2'){$this->m_po->hapus_data($where, 'invoice_item_local');}
-        else if($tipe=='3'){$this->m_po->hapus_data($where, 'invoice_item_spq');}
-        else if($tipe=='4'){$this->m_po->hapus_data($where, 'invoice_item_luar_2');}
-        else if($tipe=='5'){$this->m_po->hapus_data($where, 'invoice_item_spq_2');}
-        if($tipe=='1'){
+        if ($tipe == '1') {
+            $this->m_po->hapus_data($where, 'invoice_item_luar');
+        } else if ($tipe == '2') {
+            $this->m_po->hapus_data($where, 'invoice_item_local');
+        } else if ($tipe == '3') {
+            $this->m_po->hapus_data($where, 'invoice_item_spq');
+        } else if ($tipe == '4') {
+            $this->m_po->hapus_data($where, 'invoice_item_luar_2');
+        } else if ($tipe == '5') {
+            $this->m_po->hapus_data($where, 'invoice_item_spq_2');
+        }
+        if ($tipe == '1') {
             $proman = $_POST['proman'];
-             $starnum = $_POST['starnum'];
+            $starnum = $_POST['starnum'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -250,7 +337,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='2'){
+        } else if ($tipe == '2') {
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -266,7 +353,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='3'){
+        } else if ($tipe == '3') {
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -281,7 +368,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='4'){
+        } else if ($tipe == '4') {
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -296,7 +383,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='5'){
+        } else if ($tipe == '5') {
             $deliv = $_POST['deliv'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
@@ -373,7 +460,7 @@ class Finance extends CI_Controller
         $swift_code = $this->input->post('swift');
         $address = $this->input->post('address');
         $inv_date = $this->input->post('invoicedate');
-        $tipe= $this->input->post('tipe');
+        $tipe = $this->input->post('tipe');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $no_rek = $this->input->post('no_rek');
@@ -410,9 +497,9 @@ class Finance extends CI_Controller
             'tipe' => $tipe,
         );
         $this->m_po->input_data($data, 'invoice_out');
-        if($tipe=='1'){
+        if ($tipe == '1') {
             $proman = $_POST['proman'];
-             $starnum = $_POST['starnum'];
+            $starnum = $_POST['starnum'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -429,7 +516,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='2'){
+        } else if ($tipe == '2') {
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -445,7 +532,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='3'){
+        } else if ($tipe == '3') {
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -460,7 +547,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='4'){
+        } else if ($tipe == '4') {
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -475,7 +562,7 @@ class Finance extends CI_Controller
                     }
                 }
             }
-        } else if($tipe=='5'){
+        } else if ($tipe == '5') {
             $deliv = $_POST['deliv'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
@@ -510,15 +597,15 @@ class Finance extends CI_Controller
         // unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
         $where = array('no_invoice' => $id);
         $this->m_po->hapus_data($where, 'tax_invoice');
-        if($data['tipe']=='1'){
+        if ($data['tipe'] == '1') {
             $this->m_po->hapus_data($where, 'invoice_item_luar');
-        } else if($data['tipe']=='2'){
+        } else if ($data['tipe'] == '2') {
             $this->m_po->hapus_data($where, 'invoice_item_local');
-        } else if($data['tipe']=='3'){
+        } else if ($data['tipe'] == '3') {
             $this->m_po->hapus_data($where, 'invoice_item_spq');
-        } else if($data['tipe']=='4'){
+        } else if ($data['tipe'] == '4') {
             $this->m_po->hapus_data($where, 'invoice_item_luar_2');
-        } else if($data['tipe']=='5'){
+        } else if ($data['tipe'] == '5') {
             $this->m_po->hapus_data($where, 'invoice_item_spq_2');
         }
         $this->m_po->hapus_data($where, 'invoice_out');
@@ -532,29 +619,29 @@ class Finance extends CI_Controller
         $typeofwork = $this->input->post('swift');
         $due_date = $this->input->post('duedate');
         $project_name = $this->input->post('pn');
-        $pic_client= $this->input->post('cn');
+        $pic_client = $this->input->post('cn');
         $perihal = $this->input->post('perihal');
-        $company= $this->input->post('company');
-        $email= $this->input->post('email');
-        $first_party= $this->input->post('first_party');
-        $second_party= $this->input->post('second_party');
+        $company = $this->input->post('company');
+        $email = $this->input->post('email');
+        $first_party = $this->input->post('first_party');
+        $second_party = $this->input->post('second_party');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
         $status = $_POST['status'];
 
         $data = array(
-           'id_bast' => $no_bast,
-           'type_of_work' => $typeofwork,
-           'due_date' => $due_date,
-           'no_invoice' => $no_inv,
-           'project_name' => $project_name,
-           'pic_client' => $pic_client,
-           'perihal' => $perihal,
-           'company_name' => $company,
-           'email'=> $email,
-           'first_party' => $first_party,
-           'second_party' => $second_party
+            'id_bast' => $no_bast,
+            'type_of_work' => $typeofwork,
+            'due_date' => $due_date,
+            'no_invoice' => $no_inv,
+            'project_name' => $project_name,
+            'pic_client' => $pic_client,
+            'perihal' => $perihal,
+            'company_name' => $company,
+            'email' => $email,
+            'first_party' => $first_party,
+            'second_party' => $second_party
         );
         $this->m_po->input_data($data, 'bast');
         if (!empty($jobdesc)) {
@@ -582,27 +669,29 @@ class Finance extends CI_Controller
         // $data['quotation'] = $this->m_quotation->getAll($id)->result();
         $this->load->view('finance/invluar');
     }
-    function acc($id){
-		$data = array(
-			'is_Acc' => 1,
-			);
-            $where = array(
-                'no_invoice' => $id,
-            );
-        $this->m_quotation->update_data($where,$data,'invoice_in');
+    function acc($id)
+    {
+        $data = array(
+            'is_Acc' => 1,
+        );
+        $where = array(
+            'no_invoice' => $id,
+        );
+        $this->m_quotation->update_data($where, $data, 'invoice_in');
         redirect('finance/datainvoicein');
-	}
+    }
 
-    function unacc($id){
-		$data = array(
-			'is_Acc' => 0,
-			);
-            $where = array(
-                'no_invoice' => $id,
-            );
-        $this->m_quotation->update_data($where,$data,'invoice_in');
+    function unacc($id)
+    {
+        $data = array(
+            'is_Acc' => 0,
+        );
+        $where = array(
+            'no_invoice' => $id,
+        );
+        $this->m_quotation->update_data($where, $data, 'invoice_in');
         redirect('finance/datainvoicein');
-	}
+    }
     function delete_bast($id)
     {
         $data = $this->db->get_where('invoice_in', ['no_invoice' => $id])->row_array();
@@ -613,7 +702,8 @@ class Finance extends CI_Controller
         redirect('finance/bast');
     }
 
-    public function kirimemail(){
+    public function kirimemail()
+    {
         $userdata = $this->session->userdata('user_logged');
         $email_ini = $userdata->email_Address;
         $name = $userdata->full_Name;
@@ -638,13 +728,14 @@ class Finance extends CI_Controller
         $mail->Body = $desc;
         //$mail->addAttachment('test.txt');
         if (!$mail->send()) {
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
-        echo 'The email message was sent.';
+            echo 'The email message was sent.';
         }
     }
 
-    public function kirimemail_2(){
+    public function kirimemail_2()
+    {
         $userdata = $this->session->userdata('user_logged');
         $email_ini = $userdata->email_Address;
         $name = $userdata->full_Name;
@@ -658,7 +749,7 @@ class Finance extends CI_Controller
         } else {
             $file = '';
         }
-		
+
         $config = [
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
@@ -674,9 +765,9 @@ class Finance extends CI_Controller
 
         $this->load->library('email', $config);
         $this->email->from($email_ini, $name);
-		$this->email->to($to); // Ganti dengan email tujuan
-        if($file!=''){
-            $this->email->attach(base_url('./assets/files/'.$file));
+        $this->email->to($to); // Ganti dengan email tujuan
+        if ($file != '') {
+            $this->email->attach(base_url('./assets/files/' . $file));
         }
         $this->email->subject($subject);
         $this->email->message($desc);
@@ -686,26 +777,26 @@ class Finance extends CI_Controller
             echo 'Error! email tidak dapat dikirim.';
         }
         redirect('finance/send');
-	}
+    }
 
     function _uploadImage($id)
     {
-    $config['upload_path']          = './assets/files/';
-    $config['allowed_types']        = 'pdf|docx|doc';
-    $config['file_name']            = $id;
-    $config['overwrite']			= true;
-    $config['max_size']             = 10240; // 1MB
-    // $config['max_width']            = 1024;
-    // $config['max_height']           = 768;
+        $config['upload_path']          = './assets/files/';
+        $config['allowed_types']        = 'pdf|docx|doc';
+        $config['file_name']            = $id;
+        $config['overwrite']            = true;
+        $config['max_size']             = 10240; // 1MB
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
 
-    $this->load->library('upload', $config);
- 
-    if ( ! $this->upload->do_upload('gambar')){
-        $error = array('error' => $this->upload->display_errors());
-        return $error;
-    }else{
-        $data = array('upload_data' => $this->upload->data());
-        return $data['upload_data']['file_name'];
-    }
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('gambar')) {
+            $error = array('error' => $this->upload->display_errors());
+            return $error;
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+            return $data['upload_data']['file_name'];
+        }
     }
 }

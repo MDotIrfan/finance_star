@@ -124,6 +124,12 @@ class M_po extends CI_Model
         return $this->db->count_all_results();
     }
 
+    function ambil_data_email($id){
+        $this->db->from('purchase_order po');
+        $this->db->where('no_Po', $id);
+        return $query = $this->db->get();
+    }
+
     function tampil_data_po_item($where)
     {
         $userdata = $this->session->userdata('user_logged');
@@ -201,16 +207,16 @@ class M_po extends CI_Model
         return $query = $this->db->get();
     }
 
-    function get_total_po(){
+    function get_total_po($month){
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $name = $userdata->full_Name;
-        $this->db->select("sum(grand_Total_po) as 'total', 
-                        month(created_at) as 'month', 
-                        month(created_at) as 'year'");
+        $this->db->select("grand_Total_po , currency_po, 
+                        month(date) as 'month', 
+                        year(date) as 'year'");
         $this->db->from('purchase_order');
-        $this->db->where('year(created_at) = year(now())');
-        $this->db->group_by('(SELECT EXTRACT( YEAR_MONTH FROM `created_at` ))');
+        $this->db->where('month(date)', $month);
+        $this->db->where('year(date) = year(now())');
         $this->db->where('nama_Pm', $name);
         if($level=="3"){$this->db->like('no_Po', 'SQ-');}
         else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
@@ -275,7 +281,7 @@ class M_po extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('purchase_order po');
-        $this->db->join('po_item_wordbase i', 'po.no_Po=i.no_Po');
+        $this->db->join('po_item_wordbase i', 'po.no_Po=i.no_Po','left');
         $this->db->where('po.no_Po', $where);
         return $query = $this->db->get();
     }

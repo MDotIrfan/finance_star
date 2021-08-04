@@ -223,11 +223,13 @@ bdn.addEventListener(onclick, function() {
 
 function kirim_email(){
    form.attr('action','<?php echo base_url('quitation/add_quitation/email'); ?>');
+   form.attr('target','');
    console.log(form.attr('action'));
 }
 
 function submit_data(){
    form.attr('action','<?php echo base_url('quitation/add_quitation'); ?>');
+   form.attr('target','');
    console.log(form.attr('action'));
 }
 

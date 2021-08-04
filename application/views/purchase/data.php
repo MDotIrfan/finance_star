@@ -17,6 +17,14 @@
     </div> -->
 
     <!-- /.container-fluid -->
+    <?php 
+				if($this->session->flashdata('success') !='')
+				{
+					echo '<div class="alert alert-success" role="alert">';
+					echo $this->session->flashdata('success');
+					echo '</div>';
+				}
+				?>
     <div class="col-lg-12">
         <div class="table-responsive">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3" style="width: auto;">

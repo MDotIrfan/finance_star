@@ -50,15 +50,30 @@ function hitung(a) {
   $(".cost" + a).val(cost[a]);
 }
 
+
 function tampil() {
-  var hasil = tambah(cost)
+  var hasil = tambah(cost);
   var grand = 0;
+  var grand_Total = 0;
+  document.getElementById("total-text").innerHTML = hasil.toFixed(2);
   $("#total").val(hasil);
   if (jenis == 'ftn') {
-    grand = hasil * 5 / 100;
+    if (hasil>=4500000){
+      grand = hasil * 5 / 100;
+      console.log('tepotong');
+    } else {
+      grand = 0;
+      console.log('tak');
+    }
     document.getElementById("pajak").innerHTML = '-' + grand;
   } else if (jenis == 'fdn') {
-    grand = hasil * 6 / 100;
+    if (hasil>=4500000){
+      grand = hasil * 6 / 100;
+      console.log('tepotong');
+    } else {
+      grand = 0;
+      console.log('tak');
+    }
     document.getElementById("pajak").innerHTML = '-' + grand;
   } else if (jenis == 'tadn') {
     grand = hasil * (50 / 100) * (5 / 100);
@@ -70,8 +85,11 @@ function tampil() {
     grand = hasil * 2 / 100;
     document.getElementById("pajak").innerHTML = '-' + grand;
   }
-  $("#grand").val(hasil - grand);
+  grand_Total = hasil - grand;
+  document.getElementById("grand-text").innerHTML = grand_Total.toFixed(2);
+  $("#grand").val(grand_Total);
 }
+
 function tambah(input) {
 
   if (toString.call(input) !== "[object Array]")

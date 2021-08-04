@@ -3,24 +3,24 @@ var data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
         {
-            label: "Berhasil",
+            label: "Cost",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "#3C8DBC",
             borderColor: "#3C8DBC",
             pointHoverBackgroundColor: "#29B0D0",
             pointHoverBorderColor: "#29B0D0",
-            data: [1, 2, 5, 10, 4, 6, 8]
+            data: total_cost
         },
         {
-            label: "Tidak",
+            label: "Revenue",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "#E36E66",
             borderColor: "#E36E66",
             pointHoverBackgroundColor: "#29B0D0",
             pointHoverBorderColor: "#29B0D0",
-            data: [3, 4, 2, 9, 5, 7, 6]
+            data: total_revenue
         },
     ]
 };
@@ -31,7 +31,7 @@ var myBarChart = new Chart(ctx, {
     options: {
         responsive: true,
         legend: {
-            display: true
+            display: false
         },
         barValueSpacing: 20,
         scales: {

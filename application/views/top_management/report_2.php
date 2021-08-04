@@ -37,3 +37,15 @@
 </div>
 <!-- Content Row -->
 </div>
+<script>
+  var total_cost = [];
+  var total_revenue = [];
+  <?php
+    foreach($total_cost as $bulan => $total) {
+      echo "total_cost.push('".$total."');";
+    }
+    foreach($total_rev as $bulan => $total) {
+        echo "total_revenue.push('".$total."');";
+      }
+  ?>
+</script>

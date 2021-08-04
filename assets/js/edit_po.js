@@ -54,6 +54,7 @@ function addRow(jsonData = null) {
   cost[index] = jsonData?.amount ? jsonData.amount : 0;
   index++;
   jum_table++;
+  tampil();
 }
 
 function hitung(a) {
@@ -70,11 +71,12 @@ function hitung(a) {
   if (to_currencyEl == '') {
     to_currencyEl = 'IDR';
   }
-  calculate();
+  // calculate();
 }
 
 function tampil() {
-  $("#total").val(tambah(cost).toFixed(2));
+  document.getElementById("grand-text").innerHTML = tambah(cost).toFixed(2);
+  // $("#total").val(tambah(cost).toFixed(2));
   $("#grand").val(tambah(cost).toFixed(2));
 }
 function tambah(input) {
@@ -204,17 +206,11 @@ function autocomplete(inp, arr) {
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("rn"), countries);
 
-$("#rn").on('input', function (el) {
-  let ids = $(el.target).val();
-  console.log(ids)
-  change(ids);
-});
-
-$("#rn").on('input', function (el) {
-  let ids = $(el.target).val();
-  console.log(ids);
-  change(ids);
-});
+// $("#rn").on('input', function (el) {
+//   let ids = $(el.target).val();
+//   console.log(ids)
+//   change(ids);
+// });
 
 function change(ids) {
   if (ids != '') {
@@ -293,7 +289,7 @@ function calculate() {
   var awal = [];
   var akhir = [];
   for (let i = 0; i < index; i++) {
-    awal[i] = $(".cost" + i).val();
+    awal[i] = $(".price" + i).val();
   }
   console.log(awal);
   const from_currency = from_currencyEl;
@@ -309,12 +305,13 @@ function calculate() {
       for (let i = 0; i < index; i++) {
         akhir[i] = (awal[i] * rate).toFixed(2);
         if (isNaN(akhir[i])) {
-          $(".cost" + i).val(0);
+          $(".price" + i).val(0);
         } else {
-          $(".cost" + i).val(akhir[i]);
+          $(".price" + i).val(akhir[i]);
         }
         cost[i] = akhir[i]
         tampil();
+        hitung(i);
       }
       console.log(akhir);
     })

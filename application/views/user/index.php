@@ -29,7 +29,7 @@
                             <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;"><?= $jumlah->in_house?></div>
                         </div>
                         <div>
-                            <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_in_house!=0){echo number_format(( $jumlah->in_house - $selisih->jum_in_house) / $selisih->jum_in_house * 100, 2);}else{echo 0;}?>>%</div>
+                            <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_in_house!=0){echo number_format(( $jumlah->in_house - $selisih->jum_in_house) / $selisih->jum_in_house * 100, 2);}else{echo 0;}?>%</div>
                         </div>
                     </div>
                 </div>

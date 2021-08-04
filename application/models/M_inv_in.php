@@ -2,6 +2,190 @@
 
 class M_inv_in extends CI_Model
 {
+    var $_table = 'invoice_in';
+
+    // var $column_order_invoicein = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total'); //field yang ada di table 
+    // // var $column_search_invoicein = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date'); //field yang diizin untuk pencarian 
+    // var $column_order_invoiceout = array('po.no_invoice', 'client_name', 'project_Name_po', 'nama_Pm', 'invoice_date', 'grand_total'); //field yang ada di table 
+    // var $column_search_invoiceout = array('po.no_invoice', 'project_Name_po', 'invoice_date'); //field yang diizin untuk pencarian 
+    // var $column_order_bast = array('id_bast', 'pic_client', 'item', 'qty'); //field yang ada di table 
+    // var $column_search_bast = array('id_bast', 'pic_client', 'item'); //field yang diizin untuk pencarian 
+    var $order = ''; // default order 
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+    }
+
+    private function _get_datatables_query($table)
+    {
+
+        if ($table == 'invoice_in') {
+            $userdata = $this->session->userdata('user_logged');
+            $name = $userdata->full_Name;
+            $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
+            $column_search = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
+            $this->db->from('invoice_in po');
+            $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
+            $this->db->where('po.mitra_name', $name);
+            $this->db->group_by('po.no_invoice');
+
+            $this->order = array('po.no_invoice' => 'asc');
+        } else if ($table == 'invoice_in_finance') {
+            $userdata = $this->session->userdata('user_logged');
+            $level = $userdata->id_Status;
+            $column_order = array('po.no_invoice', 'client_name', 'project_Name_po', 'nama_Pm', 'invoice_date', 'grand_total');
+            $column_search = array('po.no_invoice', 'client_name', 'project_Name_po', 'nama_Pm', 'invoice_date');
+            $this->db->from('invoice_in p');
+            $this->db->join('invoice_in_item q', 'p.no_invoice=q.no_invoice');
+            if ($level == "3") {
+                $this->db->like('p.no_invoice', 'SQJAK-');
+            } else if ($level == "4") {
+                $this->db->like('p.no_invoice', 'SQM-');
+            } else if ($level == "6") {
+                $this->db->like('p.no_invoice', 'KEB-');
+            } else {
+                $this->db->like('p.no_invoice', 'STJAK-');
+            }
+            $this->db->group_by('p.no_invoice');
+
+            $this->order = array('p.invoice_date' => 'asc');
+        } else if ($table == 'invoice_out') {
+            $userdata = $this->session->userdata('user_logged');
+            $level = $userdata->id_Status;
+            $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
+            $column_search = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
+            $this->db->from('invoice_out po');
+            $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
+            if ($level == "3") {
+                $this->db->like('po.no_invoice', 'SQJAK-');
+            } else if ($level == "4") {
+                $this->db->like('po.no_invoice', 'SQM-');
+            } else if ($level == "6") {
+                $this->db->like('po.no_invoice', 'KEB-');
+            } else {
+                $this->db->like('po.no_invoice', 'STJAK-');
+            }
+            $this->db->group_by('po.no_invoice');
+
+            $this->order = array('po.invoice_date' => 'asc');
+        } else if ($table == 'bast') {
+            $userdata = $this->session->userdata('user_logged');
+            $level = $userdata->id_Status;
+            $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
+            $column_search = array('id_bast', 'pic_client', 'item', 'qty');
+            $this->db->select('*');
+            $this->db->from('bast po');
+            $this->db->join('bast_item i', 'po.id_bast=i.id_bast');
+            if ($level == "3") {
+                $this->db->like('po.no_invoice', 'SQJAK-');
+            } else if ($level == "4") {
+                $this->db->like('po.no_invoice', 'SQM-');
+            } else if ($level == "6") {
+                $this->db->like('po.no_invoice', 'KEB-');
+            } else {
+                $this->db->like('po.no_invoice', 'STJAK-');
+            }
+            $this->db->group_by('po.id_bast');
+
+            $this->order = array('po.due_date' => 'asc');
+        }
+
+        $i = 0;
+
+        foreach ($column_search as $item) // looping awal
+        {
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+
+                if ($i === 0) // looping awal
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) {
+            $this->db->order_by($column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables($table)
+    {
+        $this->_get_datatables_query($table);
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered($table)
+    {
+        $this->_get_datatables_query($table);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all($table)
+    {
+        if ($table == 'invoice_in') {
+            $userdata = $this->session->userdata('user_logged');
+            $name = $userdata->full_Name;
+            $this->db->from('invoice_in po');
+            $this->db->where('po.mitra_name', $name);
+        } else if ($table == 'invoice_in_finance') {
+            $userdata = $this->session->userdata('user_logged');
+            $level = $userdata->id_Status;
+            $this->db->from('invoice_in p');
+            if ($level == "3") {
+                $this->db->like('p.no_invoice', 'SQJAK-');
+            } else if ($level == "4") {
+                $this->db->like('p.no_invoice', 'SQM-');
+            } else if ($level == "6") {
+                $this->db->like('p.no_invoice', 'KEB-');
+            } else {
+                $this->db->like('p.no_invoice', 'STJAK-');
+            }
+        } else if ($table == 'invoice_out') {
+            $userdata = $this->session->userdata('user_logged');
+            $level = $userdata->id_Status;
+            $this->db->from('invoice_out po');
+            if ($level == "3") {
+                $this->db->like('po.no_invoice', 'SQJAK-');
+            } else if ($level == "4") {
+                $this->db->like('po.no_invoice', 'SQM-');
+            } else if ($level == "6") {
+                $this->db->like('po.no_invoice', 'KEB-');
+            } else {
+                $this->db->like('po.no_invoice', 'STJAK-');
+            }
+        } else if ($table == 'bast') {
+            $userdata = $this->session->userdata('user_logged');
+            $level = $userdata->id_Status;
+            $this->db->from('bast po');
+            if ($level == "3") {
+                $this->db->like('po.no_invoice', 'SQJAK-');
+            } else if ($level == "4") {
+                $this->db->like('po.no_invoice', 'SQM-');
+            } else if ($level == "6") {
+                $this->db->like('po.no_invoice', 'KEB-');
+            } else {
+                $this->db->like('po.no_invoice', 'STJAK-');
+            }
+        }
+        return $this->db->count_all_results();
+    }
 
     function tampil_data_inv()
     {
@@ -22,10 +206,15 @@ class M_inv_in extends CI_Model
         $this->db->select('*');
         $this->db->from('invoice_in po');
         $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
-        if($level=="3"){$this->db->like('po.no_invoice', 'SQJAK-');}
-        else if($level=="4"){$this->db->like('po.no_invoice', 'SQM-');}
-        else if($level=="6"){$this->db->like('po.no_invoice', 'KEB-');}
-        else {$this->db->like('po.no_invoice', 'STJAK-');}
+        if ($level == "3") {
+            $this->db->like('po.no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('po.no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('po.no_invoice', 'KEB-');
+        } else {
+            $this->db->like('po.no_invoice', 'STJAK-');
+        }
         $this->db->group_by('po.no_invoice');
         return $query = $this->db->get();
     }
@@ -37,10 +226,15 @@ class M_inv_in extends CI_Model
         $this->db->select('*');
         $this->db->from('bast po');
         $this->db->join('bast_item i', 'po.id_bast=i.id_bast');
-        if($level=="3"){$this->db->like('po.no_invoice', 'SQJAK-');}
-        else if($level=="4"){$this->db->like('po.no_invoice', 'SQM-');}
-        else if($level=="6"){$this->db->like('po.no_invoice', 'KEB-');}
-        else {$this->db->like('po.no_invoice', 'STJAK-');}
+        if ($level == "3") {
+            $this->db->like('po.no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('po.no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('po.no_invoice', 'KEB-');
+        } else {
+            $this->db->like('po.no_invoice', 'STJAK-');
+        }
         $this->db->group_by('po.id_bast');
         return $query = $this->db->get();
     }
@@ -64,16 +258,21 @@ class M_inv_in extends CI_Model
     }
 
     function tampil_data_inv_out()
-    {   
+    {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        if($level=="3"){$this->db->like('po.no_invoice', 'SQJAK-');}
-        else if($level=="4"){$this->db->like('po.no_invoice', 'SQM-');}
-        else if($level=="6"){$this->db->like('po.no_invoice', 'KEB-');}
-        else {$this->db->like('po.no_invoice', 'STJAK-');}
+        if ($level == "3") {
+            $this->db->like('po.no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('po.no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('po.no_invoice', 'KEB-');
+        } else {
+            $this->db->like('po.no_invoice', 'STJAK-');
+        }
         $this->db->group_by('po.no_invoice');
         return $query = $this->db->get();
     }
@@ -113,7 +312,7 @@ class M_inv_in extends CI_Model
         $this->db->where('po.no_Po', $where);
         return $query = $this->db->get();
     }
-    
+
     function po_word()
     {
         $userdata = $this->session->userdata('user_logged');
@@ -121,10 +320,15 @@ class M_inv_in extends CI_Model
         $this->db->select('po.no_Po');
         $this->db->from('purchase_order po');
         $this->db->join('po_item_wordbase i', 'po.no_Po=i.no_Po');
-        if($level=="3"){$this->db->like('po.no_Po', 'SQ-');}
-        else if($level=="4"){$this->db->like('po.no_Po', 'SQM-');}
-        else if($level=="6"){$this->db->like('po.no_Po', 'KEB-');}
-        else {$this->db->like('po.no_Po', 'ST-');}
+        if ($level == "3") {
+            $this->db->like('po.no_Po', 'SQ-');
+        } else if ($level == "4") {
+            $this->db->like('po.no_Po', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('po.no_Po', 'KEB-');
+        } else {
+            $this->db->like('po.no_Po', 'ST-');
+        }
         $this->db->group_by('po.no_Po');
         return $query = $this->db->get();
     }
@@ -136,10 +340,15 @@ class M_inv_in extends CI_Model
         $this->db->select('po.no_Po');
         $this->db->from('purchase_order po');
         $this->db->join('po_item_itembase i', 'po.no_Po=i.no_Po');
-        if($level=="3"){$this->db->like('po.no_Po', 'SQ-');}
-        else if($level=="4"){$this->db->like('po.no_Po', 'SQM-');}
-        else if($level=="6"){$this->db->like('po.no_Po', 'KEB-');}
-        else {$this->db->like('po.no_Po', 'ST-');}
+        if ($level == "3") {
+            $this->db->like('po.no_Po', 'SQ-');
+        } else if ($level == "4") {
+            $this->db->like('po.no_Po', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('po.no_Po', 'KEB-');
+        } else {
+            $this->db->like('po.no_Po', 'ST-');
+        }
         $this->db->group_by('po.no_Po');
         return $query = $this->db->get();
     }
@@ -166,73 +375,80 @@ class M_inv_in extends CI_Model
         return $query = $this->db->get();
     }
 
-    function ambil_data_qi($where){
-		$this->db->select('*');
+    function ambil_data_qi($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_in po');
         $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
-    function ambil_data_qi_spq($where){
-		$this->db->select('*');
+    function ambil_data_qi_spq($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_spq i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
-    function ambil_data_qi_luar($where){
-		$this->db->select('*');
+    function ambil_data_qi_luar($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_luar i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
-    function ambil_data_qi_luar2($where){
-		$this->db->select('*');
+    function ambil_data_qi_luar2($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_luar_2 i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation', 'left');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
-    function ambil_data_qi_spq2($where){
-		$this->db->select('*');
+    function ambil_data_qi_spq2($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_spq_2 i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
-    function ambil_data_tax($where){
-		$this->db->select('*');
+    function ambil_data_tax($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('tax_invoice i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
-    function ambil_data_qi_local($where){
-		$this->db->select('*');
+    function ambil_data_qi_local($where)
+    {
+        $this->db->select('*');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_local i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
         $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
-		return $query = $this->db->get();
-	}
+        return $query = $this->db->get();
+    }
 
     function ambil_data_allin($id)
     {
@@ -250,7 +466,38 @@ class M_inv_in extends CI_Model
         return $query = $this->db->get();
     }
 
-    function ambil_data_all($id){
+    function ambil_data_email($id)
+    {
+        $this->db->select('*');
+        $this->db->from('invoice_in po');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po', 'left');
+
+        $this->db->where('po.no_invoice', $id);
+        return $query = $this->db->get();
+    }
+
+    function last_update_inv()
+    {
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `invoice_in` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `invoice_in` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('invoice_in');
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    function ambil_data_po($id)
+    {
+        $this->db->from('purchase_order po');;
+        $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
+
+        $this->db->where('po.no_Po', $id);
+        return $query = $this->db->get();
+    }
+
+    function ambil_data_all($id)
+    {
         $this->db->select('*, po.tipe as tipe_inv, i1.jobdesc as jobdesc1, i3.jobdesc as jobdesc3, i4.jobdesc as jobdesc4');
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_luar i1', 'po.no_invoice=i1.no_invoice', 'left');
@@ -264,15 +511,21 @@ class M_inv_in extends CI_Model
         $this->db->where('po.no_invoice', $id);
         return $query = $this->db->get();
     }
-    
-    public function CreateCode_Out(){
+
+    public function CreateCode_Out()
+    {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         $year = date("Y");
-            if($level=="3"){$query=$this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
-            else if($level=="4"){$query=$this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
-            else if($level=="6"){$query=$this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
-            else {$query=$this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
+        if ($level == "3") {
+            $query = $this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        } else if ($level == "4") {
+            $query = $this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        } else if ($level == "6") {
+            $query = $this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        } else {
+            $query = $this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        }
         if ($query->num_rows() <> 0) {
             $data = $query->row();
             $kode = intval($data->no_inv) + 1;
@@ -292,14 +545,20 @@ class M_inv_in extends CI_Model
         }
         return $kodetampil;
     }
-    
 
-    public function CreateCode($level){
+
+    public function CreateCode($level)
+    {
         $year = date("Y");
-            if($level=="SQ-"){$query=$this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
-            else if($level=="SQM-"){$query=$this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
-            else if($level=="KEB-"){$query=$this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
-            else {$query=$this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");}
+        if ($level == "SQ-") {
+            $query = $this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        } else if ($level == "SQM-") {
+            $query = $this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%SQM-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        } else if ($level == "KEB-") {
+            $query = $this->db->query("SELECT MID(no_invoice,5,4) as no_inv from invoice_in WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,5,4) as no_inv from invoice_out WHERE no_invoice LIKE '%KEB-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        } else {
+            $query = $this->db->query("SELECT MID(no_invoice,7,4) as no_inv from invoice_in WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' UNION all SELECT MID(no_invoice,7,4) as no_inv from invoice_out WHERE no_invoice LIKE '%STJAK-%' ESCAPE '!' AND no_invoice LIKE '%{$year}%' ESCAPE '!' ORDER BY no_inv DESC LIMIT 1");
+        }
         if ($query->num_rows() <> 0) {
             $data = $query->row();
             $kode = intval($data->no_inv) + 1;
@@ -320,12 +579,13 @@ class M_inv_in extends CI_Model
         return $kodetampil;
     }
 
-    function numberToRomanRepresentation($number) {
+    function numberToRomanRepresentation($number)
+    {
         $map = array('M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1);
         $returnValue = '';
         while ($number > 0) {
             foreach ($map as $roman => $int) {
-                if($number >= $int) {
+                if ($number >= $int) {
                     $number -= $int;
                     $returnValue .= $roman;
                     break;
@@ -335,7 +595,8 @@ class M_inv_in extends CI_Model
         return $returnValue;
     }
 
-    public function CreateCodeBast(){
+    public function CreateCodeBast()
+    {
         $userdata = $this->session->userdata('user_logged');
         $inis = $userdata->inisial;
         $year = date("Y");

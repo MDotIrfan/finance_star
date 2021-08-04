@@ -77,17 +77,17 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
             <?php if ($userdata->id_Position == '2') { ?>
                 <!-- Nav Item - Repoprt -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo base_url('report/dashboard'); ?>">
+                    <a class="nav-link" href="<?php echo base_url('top_management/dashboard'); ?>">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;">Dashboard</span></a>
-                    <a class="nav-link" href="<?php echo base_url('report/index'); ?>">
+                    <a class="nav-link" href="<?php echo base_url('top_management/report'); ?>">
                         <i class="fas fa-file-alt"></i>
-                        <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;">Report</span></a>
+                        <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;" >Report</span></a>
                 </li>
 
                 <!-- Nav Item - Project -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" href="<?php echo base_url('top_management/project'); ?>">
                         <i class="fas fa-tasks"></i>
                         <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;">Project</span></a>
                 </li>

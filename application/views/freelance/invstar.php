@@ -102,8 +102,8 @@
                 </tr>
             <?php } ?>
             <tr class="centerr">
-                <td colspan="2" style="text-align:center; ">TOTAL</>
-                <td style="text-align:center; ">IDR <?= $p->grand_total ?></td>
+                <td colspan="2" style="text-align:center; ">TOTAL</td>
+                <td style="text-align:center; ">IDR <?= $po->grand_total ?></td>
             </tr>
 
         </table>
