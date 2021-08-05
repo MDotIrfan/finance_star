@@ -10,7 +10,7 @@
     </div>
     <?php foreach ($inv as $po) { ?>
         <?php $userdata = $this->session->userdata('user_logged'); ?>
-        <form method="POST" autocomplete=off action="<?php echo base_url('finance/edit_inv_out'); ?>">
+        <form method="POST" action="" target="" id="myform">
             <div class=" justify-content-start" style="font-size: 16px; color:#222B45;">
                 <div class="row ">
                     <div class="col">
@@ -218,36 +218,42 @@
                         </table>
                     </div>
                     <div class="col-lg-4" style="color:#222B45;font: size 16px;">
-                        <div class=" row text-left font-weight-normal" style="">
-                            <div class="col">Total Cost</div>
-                            <div class="col" style="text-align: end;">1000</div>
-                        </div>
-                        <hr>
-                        <div class=" row text-left font-weight-normal" style="">
-                            <div class="col">PPh 23</div>
-                            <div class="col" style="text-align: end;">1000</div>
-                        </div>
-                        <hr>
-                        <div class=" row text-left font-weight-bold">
-                            <div class=" col">Grand Total</div>
-                            <div class="col" style="text-align: end;">1000</div>
-
-                        </div>
+                    <div class=" row text-left font-weight-normal" style="">
+                        <input type="hidden" id="total" name="total" value="0" readonly>
+                         <div class="col">Total Cost</div>
+                         <div class="col" style="text-align: end;" id="total-text">0</div>
+                     </div>
+                     <hr>
+                     <div class=" row text-left font-weight-normal" style="">
+                         <div class="col">Tax</div>
+                         <div class="col" style="text-align: end;"id="pajak-text"> - 0</div>
+                     </div>
+                     <hr>
+                     <div class=" row text-left font-weight-bold">
+                        <input type="hidden" id="grand" name="grand" value="0" readonly>
+                         <div class=" col">Grand Total</div>
+                         <div class="col" style="text-align: end;" id="grand-text">0</div>
+                         <!-- <hr>
+                         <div class="text-left font-weight-bold">
+                             Total Cost <input type="text" id="total" name="total" value="0" readonly>
+                             <hr>
+                             Grand Total <input type="text" id="grand" name="grand" value="0" readonly>
+                             <hr>
+                         </div> -->
+                     </div>
                     </div>
-                    <div class=" justify-content-center col-lg-8" style="margin-bottom: 50px;">
-                        <div class="row row-cols-3">
-                            <div class="col"></div>
-                            <div class="col"><a href="<?php echo base_url('finance/add_inv_out'); ?>">
-                                    <button type="submit button" class="btn btn-success">
-                                        <i class="fa fa-print" aria-hidden="true"></i>&emsp;&ensp; Save &emsp;&ensp;
-                                    </button>
-
-                                </a></div>
-                            <div class="col"></div>
-                        </div>
-
-
-                    </div>
+                    <script>
+                  var form = $('#myform');
+               </script>
+               <div class="col-lg-9">
+                  <div class="row">
+                  <div class="col"></div>
+                    <div class="col"><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success btn-save" onclick="submit_data()">Save</button></div>
+                    <div class="col"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#emailModal" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;" id="email-send" onclick="kirim_email()">Send Email</button></div>
+                    <div class="col"><button type="submit button" class="btn btn-primary" id="preview" onclick="preview_pdf()">Print</button></div>
+                    <div class="col"></div>
+                  </div>
+               </div>
                     <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-center">
 
                         <a href="<?php echo base_url('finance/add_inv_out'); ?>"><button type="submit button" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i>&emsp;&ensp; Save &emsp;&ensp;</button></a>
@@ -267,6 +273,51 @@
             </div>
 </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pesan Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda Yakin Ingin Menambah Data Ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit button" class="btn btn-success btn-save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+
+<!-- Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pesan Konfirmasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda Yakin Ingin Mengirim Email dan Menambah Data Ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit button" class="btn btn-danger" style="font-family: Poppins;font-style: normal;font-weight: normal;background: #F80909;background: #F80909;">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+
 </form>
 <script type="text/javascript">
     var my_var = `<?php $this->load->helper('date');
@@ -286,6 +337,24 @@
             show = true;
         }
     }
+
+    function kirim_email(){
+   form.attr('action','<?php echo base_url('finance/edit_inv_out/email'); ?>');
+   form.attr('target','');
+   console.log(form.attr('action'));
+}
+
+function submit_data(){
+   form.attr('action','<?php echo base_url('finance/edit_inv_out'); ?>');
+   form.attr('target','');
+   console.log(form.attr('action'));
+}
+
+function preview_pdf(){
+   form.attr('action','<?php echo base_url('finance/preview_inv_out'); ?>');
+   form.attr('target','_blank');
+   console.log(form.attr('action'));
+}
 </script>
 <script>
     var item_list = [];

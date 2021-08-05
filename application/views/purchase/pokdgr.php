@@ -14,20 +14,20 @@
         }
 
         .center {
-            height: 40px;
+            height: 60px;
             width: 200px;
         }
 
         .mid {
-            height: 100px;
-            width: 300px;
+            height: 150px;
+            width: 250px;
         }
     </style>
 </head>
 
 <body>
 
-    <img src="<?= base_url('assets/img/sslogostar.jpg') ?>" class="mid">
+    <img src="<?= base_url('assets/img/Logokdgr.jpg') ?>" class="mid">
     <h1 style="text-align:center;" class="bold">PURCHASE ORDER</h1>
 
 
@@ -37,73 +37,73 @@
                 <p class="bold">
                     PT.STAR Software Indonesia <br>
                     Head Office:<br>
-                    CityLofts Sudirman, Unit 2109 <br>
+                    CityLofts Sudirman, Unit 1512 <br>
                     Jalan K.H Mas Mansyur No.121 <br>
                     Jakarta 10220 <br>
-                    INDONESIA<br><br><br>Tel : +62 21 2555-8856 <br>
+                    INDONESIA<br><br><br>
+                    Tel : +62 21 2291-8933 <br>
                     Fax : +62 21 2555-8767 <br>
 
-                    Website : www.star-group.net
+                    Website : www.kodegiri.com
                 </p>
             </td>
             <td>
                 <p class="bold">
-                    Branch Office: <br>
+                    Production Office: <br>
                     Jl. Kenangan 126B, Jombor Kidul <br>
                     Sinduadi, Mlati, Sleman <br>
                     Yogyakarta 55284 <br>
                     INDONESIA<br>
                     <br>
-                    Tel : +622774-623-971 <br>
+                    Tel : +62 274-623-971, +62 81 333 933 132 <br>
+                    Email:cycas@kodegiri.com
                 </p>
             </td>
             <td></td>
-            </>
 
 
+            <div>
     </table>
-    <div>
-        <?php foreach ($p as $po) { ?>
-            <table border="1" style="width: 70%;" class="table" cellspacing="0" cellpadding="0" align="left">
-
-
-                <tr>
-                    <td style="text-align:center; background-color:pink" class="bold" width="35%"><a>Project Name</a></td>
-
-
-
-                </tr>
-                <tr>
-                    <td style="text-align:center;" class="center" width="35%">
-                        <!-- <?php echo $po->project_Name; ?> -->
-                    </td>
-
-                </tr>
-
-            </table>
-        <?php } ?>
-        <table border="1" style="width: 25%" class="table" cellspacing="0" cellpadding="0" align="right">
+    <?php foreach ($p as $po) { ?>
+        <table border="1" style="width: 70%" class="table" cellspacing="0" cellpadding="0" align="left">
 
 
             <tr>
-                <td style="text-align:center; background-color:pink" class="bold" width="%">Date Issued</td>
-
-
-
+                <td style="text-align:center; background-color:green" class="bold" width="35%"><a>Project Name</a></td>
             </tr>
             <tr>
-                <td style="text-align:center; " class="center" width="%"><?php echo $po->date; ?></td>
+                <td style="text-align:center;" class="center" width="35%">
+                    <!-- <?php echo $po->project_Name; ?> -->
+                </td>
+
             </tr>
+
         </table>
+    <?php } ?>
+    <table border="1" style="width: 25%" class="table" cellspacing="0" cellpadding="0" align="right">
+
+
+        <tr>
+            <td style="text-align:center; background-color:green" class="bold" width="%">Date Issued</td>
+
+
+
+        </tr>
+        <tr>
+            <td style="text-align:center; " class="center" width="%"><?php echo $po->date; ?></td>
+        </tr>
+    </table>
     </div>
     <br>
-    <div style="margin-top: 60px;">
+    <div style="margin-top: 80px;">
         <table border="1" style="width: 98.5%" class="table" cellspacing="0" cellpadding="0">
 
 
             <tr>
-                <td style="text-align:center; background-color:pink" class="bold" width="35%">Project Manager</td>
-                <td width="35%" style="text-align:center; background-color:pink" class="bold">Email</td>
+                <td style="text-align:center; background-color:green" class="bold" width="35%">Project Manager</td>
+                <td width="35%" style="text-align:center; background-color:green" class="bold">Email</td>
+
+
             </tr>
             <tr>
                 <td style="text-align:center;" class="center" width="35%"><?php echo $po->nama_Pm; ?></td>
@@ -112,47 +112,52 @@
         </table>
     </div>
     <br>
-    <div>
-        <table border="1" style="width: 70%" class="table" cellspacing="0" cellpadding="0">
+    <table border="1" style="width: 98.5%" class="table" cellspacing="0" cellpadding="0">
 
 
-            <tr>
-                <td style="text-align:center; background-color:pink" class="bold">Freelnce</td>
-                <td style="text-align:center; background-color:pink" class="bold">Email</td>
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="center"><?php echo $po->resource_Name; ?></td>
-                <td style="text-align:center;"><?php echo $po->resource_Email; ?></td>
-            </tr>
-            <tr>
-                <td style="text-align:center; background-color:pink" class="bold">Mobile Phone</td>
-                <td style="text-align:center; background-color:pink" class="bold">Addres</td>
+        <tr>
+            <td style="text-align:center; background-color:green" class="bold" width="35%">Freelnce</td>
+            <td width="35%" style="text-align:center; background-color:green" class="bold">Email</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;" class="center" width="35%"><?php echo $po->resource_Name; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $po->resource_Email; ?></td>
+        </tr>
+        <tr>
+            <td style="text-align:center; background-color:green" class="bold" width="35%">Mobile Phone</td>
+            <td width="35%" style="text-align:center; background-color:green" class="bold">Addres</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;" class="center" width="35%"><?php echo $po->mobile_Phone; ?></td>
+            <td width="35%" style="text-align:center;"><?php echo $po->address_Resource; ?></td>
+        </tr>
 
-
-            </tr>
-            <tr>
-                <td style="text-align:center;" class="center"><?php echo $po->mobile_Phone; ?></td>
-                <td style="text-align:center;"><?php echo $po->address_Resource; ?></td>
-            </tr>
-        </table>
-    </div>
+    </table>
 
     <br>
 
     <table border="1" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
 
         <tr>
-            <td style="text-align:center; background-color:pink" class="bold" width="25%">Task</td>
-            <td width="25%" style="text-align:center; background-color:pink" class="bold">Quantity</td>
-            <td style="text-align:center; background-color:pink" class="bold" width="25%">Rate (IDR)</td>
-            <td style="text-align:center; background-color:pink" class="bold" width="25%">Total (IDR)</td>
+            <td style="text-align:center; background-color:green" class="bold" width="25%">Task</td>
+            <td width="25%" style="text-align:center; background-color:green" class="bold">Quantity</td>
+            <td style="text-align:center; background-color:green" class="bold" width="25%">Rate (IDR)</td>
+            <td style="text-align:center; background-color:green" class="bold" width="25%">Total (IDR)</td>
         </tr>
         <?php foreach ($pi as $p) { ?>
             <tr>
-                <td style="text-align:left;" width="25%"><?php echo $p->task; ?></td>
-                <td width="25%" style="text-align:center;"><?php echo $p->qty; ?></td>
-                <td width="25%" style="text-align:center;"><?php echo $p->rate; ?></td>
-                <td width="25%" style="text-align:center;"><?php echo $p->amount; ?></td>
+                <td style="text-align:left;" width="25%">
+                    <!-- <?php echo $p->task; ?> -->
+                </td>
+                <td width="25%" style="text-align:center;">
+                    <!-- <?php echo $p->qty; ?> -->
+                </td>
+                <td width="25%" style="text-align:center;">
+                    <!-- <?php echo $p->rate; ?> -->
+                </td>
+                <td width="25%" style="text-align:center;">
+                    <!-- <?php echo $p->amount; ?> -->
+                </td>
             </tr>
         <?php } ?>
     </table>
@@ -160,7 +165,7 @@
     <br>
     <table border="1" style="width: 50%" align="right" cellspacing="0" cellpadding="0">
 
-        <td width="25%" style="text-align:center; background-color:pink" class="bold">Total Fee</td>
+        <td width="25%" style="text-align:center; background-color:green" class="bold">Total Fee</td>
         <td width="25%" style="text-align:center;" class="bold">
             <!-- <?php echo $p->grand_Total; ?> -->
         </td>
@@ -198,12 +203,11 @@
 
         </table>
     </div>
-    <div style="text-align:center;margin-top:40px;">For questions concerning this purchase order, please contact <br>
+    <div style="text-align:center; margin-top:40px;">For questions concerning this purchase order, please contact <br>
         respective PM who issued this purchase order.
     </div>
     <div style="text-align:center;" class="bold">Thank you for your service
     </div>
-
 </body>
 <script type="text/javascript">
     window.print();

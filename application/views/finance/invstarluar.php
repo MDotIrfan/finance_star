@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style type="text/css">
         .bold {
             font-weight: bold;
@@ -65,7 +66,7 @@
 
             <tr>
                 <td>
-                <?php foreach ($inv as $po) { ?>
+                    <?php foreach ($inv as $po) { ?>
                     <a class="bold">
                         <?=$po->client_name;?><br>
                     </a>
@@ -84,10 +85,9 @@
             <tr>
                 <td>
 
-                    <a><?=$po->invoice_date;?><br><br></a>
-                    <a class="bold"><u><?=$po->no_invoice;?></u><br><br></a>
+                    <a> <?=$po->invoice_date; ?> <br><br></a>
+                    <a class="bold"><u><?=$po->no_invoice; ?></u><br><br></a>
                     <a>Page 1/2</a>
-
                 </td>
 
             </tr>
@@ -102,23 +102,32 @@
 
                 <td width="5%%" style="text-align:center; background-color:pink" class="bold">No</td>
                 <td width="45%" style="text-align:center; background-color:pink" class="bold">Job Description</td>
-                <td style="text-align:center; background-color:pink" class="bold">STAR Number</td>
-                <td style="text-align:center; background-color:pink" class="bold">Number Line</td>
-                <td style="text-align:center; background-color:pink" class="bold">Amount uro</td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold">Project Manager</td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold">STAR Number</td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold">Number word/page</td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold">Unit Price euro/word</td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold">Amount uro</td>
             </tr>
             <?php $i=1; foreach ($pi as $item) { ?>
             <tr>
                 <td width="5%%" style="text-align:center;"><?=$i."."; ?></td>
                 <td width="45%" style="text-align:center;"><?=$item->jobdesc; ?></td>
-                <td style="text-align:center;"><?=$item->star_number; ?></td>
-                <td style="text-align:center;"><?=$item->number_line; ?></td>
-                <td style="text-align:center;"><?=$po->total_cost; ?></td>
+                <td width="10%" style="text-align:center;"><?=$item->project_manager; ?></td>
+                <td width="10%" style="text-align:center;"><?=$item->star_number; ?></td>
+                <td width="10%" style="text-align:center;"><?=$item->number_word; ?></td>
+                <td width="10%" style="text-align:center;"><?=$item->unit_price; ?></td>
+                <td width="10%" style="text-align:center;"><?=$item->amount; ?></td>
             </tr>
             <?php $i++;} ?>
             <tr>
                 <td width="5%%" style="text-align:center;"></td>
-                <td width="45%" style="text-align:center;">GRAND TOTAL</td>
-                <td style="text-align:center;" colspan="2">PLEASE PAY</td>
+                <td colspan="2" style="text-align:center;">TOTAL</td>
+                <td colspan="3" style="text-align:center;"></td>
+                <td style="text-align:center;"><?=$po->total_cost; ?></td>
+            </tr>
+            <tr>
+
+                <td colspan="6" style="text-align:center;">GRAND TOTAL</td>
                 <td style="text-align:center;"><?=$po->grand_total; ?></td>
             </tr>
         </table>
@@ -204,8 +213,7 @@
                     <td style="text-align:center;" width="40%"><?= $u->full_Name ?></td>
                 <?php } ?>
             </tr>
-
-        <?php } ?>
+            <?php }?>
         </table>
     </div>
 </body>

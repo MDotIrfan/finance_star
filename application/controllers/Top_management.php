@@ -37,10 +37,10 @@ class Top_management extends CI_Controller
         }
         foreach($cost as $item){
             $data['total_cost'][$item->month] = $item->total;
-            $data['total_project'][$item->month] = $item->jumlah;
         }
         foreach($revenue as $item){
             $data['total_rev'][$item->month] = $item->total;
+            $data['total_project'][$item->month] = $item->jumlah;
         }
 
     //dipanggil setelah ada currency

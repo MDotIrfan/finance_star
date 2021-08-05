@@ -80,7 +80,6 @@ class M_topman extends CI_Model{
 
 	function get_total_cost(){
         $this->db->select("sum(grand_total) as 'total', 
-                        count(no_invoice) as 'jumlah',
                         month(invoice_date) as 'month', 
                         year(invoice_date) as 'year'");
         $this->db->from('invoice_in');
@@ -90,7 +89,8 @@ class M_topman extends CI_Model{
     }
 
     function get_total_revenue(){
-        $this->db->select("sum(grand_total) as 'total', 
+        $this->db->select("sum(grand_total) as 'total',
+                        count(no_invoice) as 'jumlah', 
                         month(invoice_date) as 'month', 
                         year(invoice_date) as 'year'");
         $this->db->from('invoice_out');
@@ -138,6 +138,7 @@ class M_topman extends CI_Model{
         $this->db->limit(1);
         return $query = $this->db->get();
     }
+
 
     function count_cost()
     {

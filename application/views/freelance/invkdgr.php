@@ -74,7 +74,32 @@
     </table>
     <table border="0" style="width:100%; margin-bottom: 15px;" class="table" cellspacing="0" cellpadding="0" align="left">
 
-        <?php foreach ($a as $a) { ?>
+        <tr>
+            <td width="10%"></td>
+            <td width="45%">
+                <a style="color: darkgrey;">From :</a><br><br>
+                <a> <b>a</b><br><br>
+                    a<br>
+                    Pangandaran, Pangandaran<br><br>
+                    a<br>
+                    a
+                </a>
+            </td>
+
+            <td width="45%" style="text-align:left;">
+                <a style="color: darkgrey;">Bill to :</a><br><br>
+
+                <a> <b>Project Manager</b><br><br>
+                    a<br>
+                    St. Kenanga No. 126B, Sinduadi, Mlati, Sleman, Yogyakarta 55284<br><br>
+                    0895 36355 8879<br>
+                    a
+                </a>
+
+            </td>
+
+        </tr>
+        <!-- <?php foreach ($a as $a) { ?>
             <tr>
                 <td width="10%"></td>
                 <td width="45%">
@@ -99,64 +124,72 @@
                 <?php } ?>
                 </td>
 
-            </tr>
+            </tr> -->
     </table>
-    <table border="0" style="width: 100%; " class="table" cellspacing="0" cellpadding="0" align="">
-
-
-        <tr style="background: #7afa7a" class="bold">
-            <td style="text-align:center; " class="centerr" width="30%">Item</td>
-            <td width="15%" style="text-align:center; " class="bold">QTY</td>
-            <td width="15%" style="text-align:center; " class="bold">Rate</td>
-            <td width="15%" style="text-align:center; " class="bold">Tax</td>
-            <td width="25%" style="text-align:center; " class="bold">Sub Total</td>
-        </tr>
-        <?php foreach ($pi as $p) { ?>
-            <tr class="midd">
-                <td style="text-align:center; " width="30%" class="bold"><?= $p->jobdesc ?></td>
-                <td width="15%" style="text-align:center; "><?= $p->qty ?></td>
-                <td width="15%" style="text-align:center; ">IDR <?= $p->rate ?></td>
-                <td width="15%" style="text-align:center; ">-</td>
-                <td width="25%" style="text-align:center; ">IDR <?= $p->amount ?></td>
+    <br>
+    <div style="margin-top: 200px;">
+        <table border="0" style="width: 100%;" cellspacing="0" cellpadding="0">
+            <tr style="background: #7afa7a" class="bold">
+                <td style="text-align:center; " class="centerr" width="30%">Item</td>
+                <td width="" style="text-align:center; " class="bold">QTY</td>
+                <td width="" style="text-align:center; " class="bold">Rate</td>
+                <td width="" style="text-align:center; " class="bold">Tax</td>
+                <td width="40%" style="text-align:center; " class="bold">Sub Total</td>
             </tr>
-        <?php } ?>
-    </table>
+            <?php foreach ($pi as $p) { ?>
+                <tr class="midd">
+                    <td style="text-align:center; " width="" class="bold"><?= $p->jobdesc ?></td>
+                    <td width="" style="text-align:center; "><?= $p->qty ?></td>
+                    <td width="" style="text-align:center; ">IDR <?= $p->rate ?></td>
+                    <td width="" style="text-align:center; ">-</td>
+                    <td width="" style="text-align:center; ">IDR <?= $p->amount ?></td>
+                </tr>
+            <?php } ?>
+        </table>
+    </div>
     <hr>
-    <table border="0" style="width: 30%" class="table" cellspacing="0" cellpadding="0" align="right">
+    <div style="margin-top: 50px;">
+        <table border="0" style="width: 40%" class="table" cellspacing="0" cellpadding="0" align="right">
 
 
-        <tr style="background: #7afa7a" class="centerr">
-            <td style="text-align:center; " class="centerr" width="30%">Invoice Summary</td>
-        </tr>
-        <tr class="centerr">
-            <td style="text-align:left; " class="centerr" width="30%">Sub Total&emsp;&emsp;&emsp;&emsp;&emsp;IDR <?= $p->grand_total ?></td>
-        </tr>
-        <tr class="centerr" ">
-            <td style=" text-align:left; " class=" centerr; bold" width="30%">Total&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;IDR <?= $p->grand_total ?></td>
-        </tr>
-    </table>
-    <table border="0" style="width: 100%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0">
+            <tr style="background: #7afa7a" class="centerr">
+                <td style="text-align:center; " class="centerr" width="30%">Invoice Summary</td>
+            </tr>
+            <tr class="centerr">
+                <td style="text-align:left; " class="centerr" width="30%">Sub Total&emsp;&emsp;&emsp;&emsp;&emsp;IDR
+                    <!-- <?= $p->grand_total ?> -->
+                </td>
+            </tr>
+            <tr class="centerr" ">
+            <td style=" text-align:left; " class=" centerr; bold" width="30%">Total&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;IDR
+                <!-- <?= $p->grand_total ?> -->
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <table border="0" style="width: 100%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0">
+            <tr class="centerr">
+                <td width=5%></td>
+                <td>Please send your payment to:<br>
+                    &ensp;Name : <?= $po->mitra_name ?><br>
+                    &ensp;Bank : <?= $po->cabang_bank ?><br>
+                    &ensp;Account number : <?= $po->no_rekening ?></td>
+            </tr>
+
+        </table>
+        <div style="margin-top: 80px;">
+            <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0" align="center">
 
 
-        <tr class="centerr">
-            <td width=5%></td>
-            <td>Please send your payment to:<br>
-                &ensp;Name : <?= $po->mitra_name ?><br>
-                &ensp;Bank : <?= $po->cabang_bank ?><br>
-                &ensp;Account number : <?= $po->no_rekening ?></td>
-        </tr>
+                <tr>
+                    <td style="text-align: center; font-size:large" class="bold">Thank you for your cooperation.</td>
+                </tr>
 
-    </table>
-    <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0" align="center">
+            </table>
 
-
-        <tr>
-            <td style="text-align: center; font-size:large" class="bold">Thank you for your cooperation.</td>
-        </tr>
-
-    </table>
-
-
+        </div>
 </body>
 <script type="text/javascript">
     window.print();

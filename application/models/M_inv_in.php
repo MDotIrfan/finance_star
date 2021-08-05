@@ -35,8 +35,8 @@ class M_inv_in extends CI_Model
         } else if ($table == 'invoice_in_finance') {
             $userdata = $this->session->userdata('user_logged');
             $level = $userdata->id_Status;
-            $column_order = array('po.no_invoice', 'client_name', 'project_Name_po', 'nama_Pm', 'invoice_date', 'grand_total');
-            $column_search = array('po.no_invoice', 'client_name', 'project_Name_po', 'nama_Pm', 'invoice_date');
+            $column_order = array('p.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
+            $column_search = array('p.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
             $this->db->from('invoice_in p');
             $this->db->join('invoice_in_item q', 'p.no_invoice=q.no_invoice');
             if ($level == "3") {
@@ -51,11 +51,11 @@ class M_inv_in extends CI_Model
             $this->db->group_by('p.no_invoice');
 
             $this->order = array('p.invoice_date' => 'asc');
-        } else if ($table == 'invoice_out') {
+        } else if ($table == 'invoice_out'||$table == 'project_dashboard') {
             $userdata = $this->session->userdata('user_logged');
             $level = $userdata->id_Status;
-            $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
-            $column_search = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
+            $column_order = array('po.no_invoice','client_name', 'project_Name_po', 'nama_Pm', 'invoice_date', 'grand_total');
+            $column_search = array('po.no_invoice','client_name', 'project_Name_po', 'nama_Pm', 'invoice_date');
             $this->db->from('invoice_out po');
             $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
             if ($level == "3") {
@@ -390,7 +390,6 @@ class M_inv_in extends CI_Model
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_spq i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
         return $query = $this->db->get();
     }
@@ -401,7 +400,6 @@ class M_inv_in extends CI_Model
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_luar i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
         return $query = $this->db->get();
     }
@@ -412,7 +410,6 @@ class M_inv_in extends CI_Model
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_luar_2 i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation', 'left');
         $this->db->where('po.no_invoice', $where);
         return $query = $this->db->get();
     }
@@ -423,7 +420,6 @@ class M_inv_in extends CI_Model
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_spq_2 i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
         return $query = $this->db->get();
     }
@@ -434,7 +430,6 @@ class M_inv_in extends CI_Model
         $this->db->from('invoice_out po');
         $this->db->join('tax_invoice i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
         return $query = $this->db->get();
     }
@@ -445,7 +440,6 @@ class M_inv_in extends CI_Model
         $this->db->from('invoice_out po');
         $this->db->join('invoice_item_local i', 'po.no_invoice=i.no_invoice');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
-        $this->db->join('quotation q', 'p.id_quotation=q.no_Quotation');
         $this->db->where('po.no_invoice', $where);
         return $query = $this->db->get();
     }
@@ -470,6 +464,26 @@ class M_inv_in extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('invoice_in po');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po', 'left');
+
+        $this->db->where('po.no_invoice', $id);
+        return $query = $this->db->get();
+    }
+
+    function ambil_data_email_finance($id)
+    {
+        $this->db->select('*');
+        $this->db->from('invoice_out po');
+        $this->db->join('purchase_order p', 'po.no_po=p.no_Po', 'left');
+
+        $this->db->where('po.no_invoice', $id);
+        return $query = $this->db->get();
+    }
+
+    function ambil_data_inv_out($id)
+    {
+        $this->db->select('*');
+        $this->db->from('invoice_out po');
         $this->db->join('purchase_order p', 'po.no_po=p.no_Po', 'left');
 
         $this->db->where('po.no_invoice', $id);
@@ -652,5 +666,177 @@ class M_inv_in extends CI_Model
     {
         $this->db->where($where);
         $this->db->delete($table);
+    }
+
+    function last_update_data_finance()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `invoice_out` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `invoice_out` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('invoice_out');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    function last_update_inv_in()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `invoice_in` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `invoice_in` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('invoice_in');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    // mengambil jumlah data in house, freelance, vendor
+    function count_project_finance()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select("count(no_invoice) as 'project'");
+        $this->db->from('invoice_out');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    // mengambil selisih jumlah data in house, freelance, vendor bulan ini dengan bulan kemarin
+    function selisih_count_project_finance()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $days_first = $this->m_inv_in->last_update_data_finance()->row()->tgl;
+        $days_before = $this->m_inv_in->last_update_data_finance()->row()->tgl_sebelum;
+        $this->db->select("(SELECT count(no_invoice) from `invoice_out` where created_at BETWEEN '".$days_first."' and '".$days_before."') as 'jum_project'");
+        $this->db->from('invoice_out');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    function last_update_data_bast()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `bast` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `bast` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('invoice_out');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    // mengambil jumlah data in house, freelance, vendor
+    function count_bast_finance()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select("count(no_invoice) as 'bast'");
+        $this->db->from('bast');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    // mengambil selisih jumlah data in house, freelance, vendor bulan ini dengan bulan kemarin
+    function selisih_count_bast_finance()
+    {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $days_first = $this->m_inv_in->last_update_data_finance()->row()->tgl;
+        $days_before = $this->m_inv_in->last_update_data_finance()->row()->tgl_sebelum;
+        $this->db->select("(SELECT count(no_invoice) from `invoice_out` where created_at BETWEEN '".$days_first."' and '".$days_before."') as 'jum_bast'");
+        $this->db->from('bast');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+
+    function get_total_revenue(){
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+        $this->db->select("sum(grand_total) as 'total',
+                        count(no_invoice) as 'jumlah', 
+                        month(invoice_date) as 'month', 
+                        year(invoice_date) as 'year'");
+        $this->db->from('invoice_out');
+        if ($level == "3") {
+            $this->db->like('no_invoice', 'SQJAK-');
+        } else if ($level == "4") {
+            $this->db->like('no_invoice', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_invoice', 'KEB-');
+        } else {
+            $this->db->like('no_invoice', 'STJAK-');
+        }
+        $this->db->where('year(invoice_date) = year(now())');
+        $this->db->group_by('(SELECT EXTRACT( YEAR_MONTH FROM `invoice_date` ))');
+		return $query = $this->db->get();
     }
 }
