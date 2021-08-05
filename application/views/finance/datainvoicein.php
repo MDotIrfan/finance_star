@@ -5,7 +5,7 @@
     <div class="row align-items-start" style="margin-bottom: 25px;">
         <div class="col">
             <span style="color: black; font-size: 24px;">Invoice In</span><br>
-            <span style="color: #9599A6; font-size: 16px;">For Last 356 Days</span>
+            <span style="color: #9599A6; font-size: 16px;">For Last <?= $interval ?> Days</span>
         </div>
         <div class="col">
             <ol class=" breadcrumb breadcrumb-dot justify-content-end" style="font-size: 14px;background:transparent">
@@ -41,7 +41,6 @@
                     <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Project Name</th>
                     <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Invoice Date</th>
                     <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Cost in IDR</th>
-                    <th style="border-bottom: 1px solid #EDF2F6;" scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -126,11 +125,6 @@
                     data: '4',
                     name: 'grand_total',
                     className: 'data-table-row'
-                },
-                {
-                    data: '5',
-                    orderable: false,
-                    searchable: false
                 },
             ],
 

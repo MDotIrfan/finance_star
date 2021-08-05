@@ -33,6 +33,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3" style="width: auto;">
             <input type="text" id="myInputTextField" class="data-table-search mr-3" placeholder="Filter">
             <a style="margin-right: 20px;" href="<?php echo base_url('freelance/print'); ?>"><button type="submit button" class="btn btn-success btn-add">Print</button></a>
+            <a href="<?php echo base_url('finance/invoiceout'); ?>"><button type="button" class="btn btn-danger"><i class="fa fa-plus" aria-hidden="true" style="background: #E00000;border-radius: 10px;width: auto;"></i> New Invoice&ensp;</button></a>
         </div>
         <table id="table" class="table table-borderless data-table-all" cellspacing="0" width="100%">
             <thead>
@@ -101,37 +102,37 @@
             },
 
             "columns": [{
-                    data: '0',
+                    data: '1',
                     name: 'no_invoice',
                     className: 'data-table-row',
                 },
                 {
-                    data: '1',
+                    data: '2',
                     name: 'client_name',
                     className: 'data-table-row',
                 },
                 {
-                    data: '2',
+                    data: '3',
                     name: 'project_Name_po',
                     className: 'data-table-row',
                 },
                 {
-                    data: '3',
+                    data: '4',
                     name: 'nama_Pm',
                     className: 'data-table-row'
                 },
                 {
-                    data: '4',
+                    data: '5',
                     name: 'invoice_date',
                     className: 'data-table-row'
                 },
                 {
-                    data: '5',
+                    data: '7',
                     name: 'grand_total',
                     className: 'data-table-row'
                 },
                 {
-                    data: '6',
+                    data: '8',
                     orderable: false,
                     searchable: false
                 },

@@ -38,18 +38,38 @@
 
 <body>
     <?php foreach ($inv as $po) { ?>
-        <table border="0" style="width: 50%;margin-bottom: 15px;" margin-bottom: 15px; align="right" cellspacing="0" cellpadding="0">
+        <table border="0" style="width: 80%;margin-bottom: 30px;" align="center" cellspacing="0" cellpadding="0">
+        <?php foreach ($a as $a) { ?>
             <tr style="text-align:right;">
-                <td><?= $po->mitra_name ?></td>
+                <td>
+                    <?= $po->mitra_name ?>
+                </td>
             </tr>
-            <?php foreach ($a as $a) { ?>
-                <tr style="text-align:right;">
-                    <td><?= $a->mobile_Phone ?></td>
-                </tr>
-                <tr style="text-align:right;">
-                    <td><?= $a->resource_Email ?></td>
-                </tr>
+            <tr style="text-align:right;">
+                <td>
+                    <?= $a->mobile_Phone ?>
+                </td>
+            </tr>
+            <tr style="text-align:right;">
+                <td>
+                    <?= $a->resource_Email ?>
+                </td>
+            </tr>
             <?php } ?>
+            <!-- <?php foreach ($a as $a) { ?>
+                <tr style="text-align:right;">
+                    <td>
+                        telepon
+                        <?= $a->mobile_Phone ?>
+            </td>
+            </tr>
+            <tr style="text-align:right;">
+                <td>
+                    email
+                    <?= $a->resource_Email ?> 
+                </td>
+            </tr>
+        <?php } ?> -->
         <?php } ?>
         </table>
 
@@ -60,7 +80,9 @@
                 <td width="10%"></td>
                 <td width="90%">
                     <a>Bill to :</a><br><br>
-                    <a> <?= $a->nama_Pm ?><br><br>
+                    <a>
+                        <!-- <?= $a->nama_Pm ?> -->
+                        <br><br>
                         PT. STAR Software Indonesia<br>
                         Citylofts Sudirman Unit 1512<br>
                         Jl. KH. Mas Mansyur No. 121<br>
@@ -71,43 +93,61 @@
             </tr>
 
         </table>
-        <table border="0" style="width: 100%" align="center">
-            <tr>
-                <td>
-                    <p style="text-align:center; font-size:large">
-                        <b><u>INVOICE</u></b><br>
-                        <a style="font-size:small"><?php
-                                                    $tgl = date('d/m/Y');
-                                                    echo $tgl;
-                                                    ?></a>
-                    </p>
+        <br>
+        <div style="margin-top:100px;">
+            <table border="0" style="width: 100%" align="center">
+                <tr>
+                    <td>
+                        <p style="text-align:center; font-size:large">
+                            <b><u>INVOICE</u></b><br>
+                            <a style="font-size:small"><?php
+                                                        $tgl = date('d/m/Y');
+                                                        echo $tgl;
+                                                        ?></a>
+                        </p>
 
 
-                </td>
-            </tr>
-        </table>
-        <table border="1" style="width: 80%; margin-bottom: 15px;" class="table" cellspacing="0" cellpadding="0" align="center">
-
-
-            <tr style="background: grey" class="bold">
-                <td style="text-align:center; " class="centerr" width="3%">No</td>
-                <td width="57%" style="text-align:center; " class="bold">DESCRIPTION</td>
-                <td width="40%" style="text-align:center; " class="bold">AMOUNT</td>
-            </tr>
-            <?php foreach ($pi as $p) { ?>
-                <tr class="midd">
-                    <td style="text-align:center; " width="3%" class="bold">1</td>
-                    <td width="57%" style="text-align:center; "><?= $p->jobdesc ?> </td>
-                    <td width="40%" style="text-align:center; "><?= $p->amount ?></td>
+                    </td>
                 </tr>
-            <?php } ?>
-            <tr class="centerr">
-                <td colspan="2" style="text-align:center; ">TOTAL</td>
-                <td style="text-align:center; ">IDR <?= $po->grand_total ?></td>
-            </tr>
+            </table>
+        </div>
+        <div>
+            <table border="1" style="width: 80%; margin-bottom: 15px;" cellspacing="0" cellpadding="0" align="center">
 
-        </table>
 
+                <tr style="background: grey" class="bold">
+                    <td style="text-align:center;width:5px" class="centerr">No</td>
+                    <td style="text-align:center;width:50px; " class=" bold">DESCRIPTION</td>
+                    <td style="text-align:center;width:40px;" class="bold">AMOUNT</td>
+                </tr>
+                <?php foreach ($pi as $p) { ?>
+                <tr>
+                    <td style="text-align:center;width:5px" class="center">1</td>
+                    <td style="text-align:center;width:50px; " class=" center"><?= $p->jobdesc ?></td>
+                    <td style="text-align:center;width:40px;" class="center"><?= $p->amount ?></td>
+                </tr>
+                <?php } ?>
+
+                <!-- <?php foreach ($pi as $p) { ?>
+                <tr class="midd">
+                    <td style="text-align:center;" class=" bold">1</td>
+                    <td style="text-align:center;">
+                        <?= $p->jobdesc ?> 
+                    </td>
+                    <td style="text-align:center;">
+                        <?= $p->amount ?>
+                    </td>
+                </tr>
+                <?php } ?> -->
+                <tr class="centerr">
+                    <td colspan="2" style="text-align:center; ">TOTAL</td>
+                    <td style="text-align:center; ">IDR <?= $po->grand_total ?>
+                        <!-- <?= $po->grand_total ?> -->
+                    </td>
+                </tr>
+
+            </table>
+        </div>
         <table border="0" style="width: 80%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0" align="center">
 
 
@@ -132,20 +172,19 @@
 
 
             <tr>
-                <td style="text-align:center;" class="bold" width="25"></td>
+                <td style="text-align:center;" class="bold" width="15%"></td>
                 <td width="25%" style="text-align:center;" class="bold"></td>
-                <td style="text-align:center;" class="bold" width="25"></td>
-                <td style="text-align:center;" width="25">Bekasi, <?php
+                <td style="text-align:center;" class="bold" width="25%"></td>
+                <td style="text-align:center;" width="35%">Bekasi, <?php
                                                                     $tgl = date('d M Y');
                                                                     echo $tgl;
                                                                     ?></td>
             </tr>
-            <tr class="center"></tr>
             <tr>
-                <td style="text-align:left;" width="25%"></td>
+                <td style="text-align:left;" width="15%"></td>
                 <td width="25%" style="text-align:center;"></td>
                 <td width="25%" style="text-align:center;"></td>
-                <td width="25%" style="text-align:center;"><?= $po->mitra_name ?></td>
+                <td width="35%" style="text-align:center;"><?= $po->mitra_name ?></td>
             </tr>
 
         </table>

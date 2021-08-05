@@ -49,14 +49,17 @@ class Finance extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             $row = array();
-            $row[] = $field->no_invoice;
-            $row[] = $field->client_name;
-            $row[] = $field->project_Name_po;
-            $row[] = $field->nama_Pm;
-            $row[] = $field->invoice_date;
-            $row[] = $field->grand_total;
-            $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+            $row[1] = $field->no_invoice;
+            $row[2] = $field->client_name;
+            $row[3] = $field->project_Name_po;
+            $row[4] = $field->nama_Pm;
+            $row[5] = $field->invoice_date;
+            $row[6] = $field->due_date;
+            $row[7] = $field->grand_total;
+            $row[8] = '<a href="'.base_url('finance/editinvoiceout/' . $field->no_invoice).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('finance/delete/' . $field->no_invoice).'"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
+                    <a href="'.base_url('assets/files/' . $field->no_invoice . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
+                    ';
 
             $data[] = $row;
         }
@@ -80,8 +83,8 @@ class Finance extends CI_Controller
             $row[] = $field->pic_client;
             $row[] = $field->item;
             $row[] = $field->qty;
-            $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+            $row[] = '<a href="'.base_url('finance/editbast/' . $field->id_bast).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('finance/delete_bast/' . $field->no_invoice).'"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
 
             $data[] = $row;
         }
@@ -107,7 +110,23 @@ class Finance extends CI_Controller
 
     public function dashboard()
     {
+        $revenue = $this->m_inv_in->get_total_revenue()->result();
+        $data['total_project'] = [];
+
+        for($i=1;$i<=12;$i++){
+            $check_date = date($i);
+            $data['total_project'][$check_date] = 0;
+        }
+        foreach($revenue as $item){
+            $data['total_project'][$item->month] = $item->jumlah;
+        }
+
         $data['inv'] = $this->m_inv_in->tampil_data_inv_out()->result();
+        $data['interval'] = $this->m_inv_in->last_update_data_finance()->row()->last_update;
+        $data['jumlah_1'] = $this->m_inv_in->count_project_finance()->result();
+        $data['selisih_1'] = $this->m_inv_in->selisih_count_project_finance()->result();
+        $data['jumlah_2'] = $this->m_inv_in->count_bast_finance()->result();
+        $data['selisih_2'] = $this->m_inv_in->selisih_count_bast_finance()->result();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/dashboard', $data);
@@ -115,6 +134,8 @@ class Finance extends CI_Controller
             'load' => ['chartfinance.js']
         ]);
     }
+
+    
 
     public function tampilkanDataPoWord()
     {
@@ -165,7 +186,7 @@ class Finance extends CI_Controller
         ]);
     }
 
-    function edit_bast_data()
+    function edit_bast_data($tujuan=NULL)
     {
         $no_bast = $this->input->post('nobast');
         $no_inv = $this->input->post('noinv');
@@ -215,6 +236,11 @@ class Finance extends CI_Controller
                 }
             }
         }
+        $this->laporan_pdf_bast($no_bast);
+        if($tujuan=='email'){
+            $this->kirimemail_bast($no_bast, 'edit');
+        }
+        $this->session->set_flashdata('success','BAST '.$no_bast.' Berhasil Diubah');
         redirect('finance/bast');
     }
 
@@ -252,13 +278,14 @@ class Finance extends CI_Controller
     public function datainvoicein()
     {
         $data['inv'] = $this->m_inv_in->tampil_data_inv_all()->result();
+        $data['interval'] = $this->m_inv_in->last_update_inv_in()->row()->last_update;
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/datainvoicein', $data);
         $this->load->view('templates/footer');
     }
 
-    function edit_inv_out()
+    function edit_inv_out($tujuan=NULL)
     {
         $no_inv = $this->input->post('noinv');
         $no_po = $this->input->post('nopo');
@@ -277,6 +304,7 @@ class Finance extends CI_Controller
         $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
+        $currency = $this->input->post('curr_awal');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -300,8 +328,9 @@ class Finance extends CI_Controller
             'footer' => $footer,
             'signature' => $signature,
             'total_cost' => $total_cost,
-            'grand_Total' => $grand_total,
+            'grand_total' => $grand_total,
             'tipe' => $tipe,
+            'currency_inv' => $currency
         );
         $where = array(
             'no_invoice' => $no_inv,
@@ -321,6 +350,10 @@ class Finance extends CI_Controller
         if ($tipe == '1') {
             $proman = $_POST['proman'];
             $starnum = $_POST['starnum'];
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -338,6 +371,11 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '2') {
+            $jobdesc = $_POST['jobdesc'];
+        $volume = $_POST['volume'];
+        $unit = $_POST['unit'];
+        $price = $_POST['price'];
+        $cost = $_POST['cost'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -354,6 +392,10 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '3') {
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -369,6 +411,10 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '4') {
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $unit = $_POST['unit'];
+            $price = $_POST['price'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -384,6 +430,8 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '5') {
+            $jobdesc = $_POST['jobdesc'];
+            $price = $_POST['price'];
             $deliv = $_POST['deliv'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
@@ -411,6 +459,21 @@ class Finance extends CI_Controller
                 }
             }
         }
+        if ($tipe == '1') {
+            $this->laporan_pdf_inv1($no_inv);
+        } else if ($tipe == '2') {
+            $this->laporan_pdf_inv2($no_inv);
+        } else if ($tipe == '3') {
+            $this->laporan_pdf_inv3($no_inv);
+        } else if ($tipe == '4') {
+            $this->laporan_pdf_inv4($no_inv);
+        } else if ($tipe == '5') {
+            $this->laporan_pdf_inv5($no_inv);
+        }
+        if($tujuan=='email'){
+            $this->kirimemail_pdf($no_inv, 'edit');
+        }
+        $this->session->set_flashdata('success','Invoice '.$no_po.' Berhasil Diubah');
         redirect('finance/datainvoiceout');
     }
 
@@ -451,7 +514,7 @@ class Finance extends CI_Controller
         echo json_encode($data);
     }
 
-    function add_inv_out()
+    function add_inv_out($tujuan=NULL)
     {
         $no_inv = $this->input->post('noinv');
         $no_po = $this->input->post('nopo');
@@ -470,6 +533,7 @@ class Finance extends CI_Controller
         $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
+        $currency = $this->input->post('curr_awal');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -493,13 +557,18 @@ class Finance extends CI_Controller
             'footer' => $footer,
             'signature' => $signature,
             'total_cost' => $total_cost,
-            'grand_Total' => $grand_total,
+            'grand_total' => $grand_total,
             'tipe' => $tipe,
+            'currency_inv' => $currency
         );
         $this->m_po->input_data($data, 'invoice_out');
         if ($tipe == '1') {
             $proman = $_POST['proman'];
             $starnum = $_POST['starnum'];
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -517,6 +586,11 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '2') {
+            $jobdesc = $_POST['jobdesc'];
+        $volume = $_POST['volume'];
+        $unit = $_POST['unit'];
+        $price = $_POST['price'];
+        $cost = $_POST['cost'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -533,6 +607,10 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '3') {
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -548,6 +626,10 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '4') {
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $unit = $_POST['unit'];
+            $price = $_POST['price'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
                     if (!empty($jobdesc[$a])) {
@@ -563,6 +645,8 @@ class Finance extends CI_Controller
                 }
             }
         } else if ($tipe == '5') {
+            $jobdesc = $_POST['jobdesc'];
+            $price = $_POST['price'];
             $deliv = $_POST['deliv'];
             if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
@@ -589,12 +673,27 @@ class Finance extends CI_Controller
                 }
             }
         }
+        if ($tipe == '1') {
+            $this->laporan_pdf_inv1($no_inv);
+        } else if ($tipe == '2') {
+            $this->laporan_pdf_inv2($no_inv);
+        } else if ($tipe == '3') {
+            $this->laporan_pdf_inv3($no_inv);
+        } else if ($tipe == '4') {
+            $this->laporan_pdf_inv4($no_inv);
+        } else if ($tipe == '5') {
+            $this->laporan_pdf_inv5($no_inv);
+        }
+        if($tujuan=='email'){
+            $this->kirimemail_pdf($no_inv, 'create');
+        }
+        $this->session->set_flashdata('success','Invoice '.$no_po.' Berhasil Dibuat');
         redirect('finance/datainvoiceout');
     }
     function delete($id)
     {
         $data = $this->db->get_where('invoice_out', ['no_invoice' => $id])->row_array();
-        // unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
+        unlink(APPPATH.'../assets/files/'.$id.'.pdf');
         $where = array('no_invoice' => $id);
         $this->m_po->hapus_data($where, 'tax_invoice');
         if ($data['tipe'] == '1') {
@@ -612,7 +711,7 @@ class Finance extends CI_Controller
         redirect('finance/datainvoiceout');
     }
 
-    function add_bast_data()
+    function add_bast_data($tujuan=NULL)
     {
         $no_bast = $this->input->post('nobast');
         $no_inv = $this->input->post('noinv');
@@ -658,6 +757,11 @@ class Finance extends CI_Controller
                 }
             }
         }
+        $this->laporan_pdf_bast($no_bast);
+        if($tujuan=='email'){
+            $this->kirimemail_bast($no_bast, 'create');
+        }
+        $this->session->set_flashdata('success','BAST '.$no_bast.' Berhasil Dibuat');
         redirect('finance/bast');
     }
 
@@ -695,7 +799,7 @@ class Finance extends CI_Controller
     function delete_bast($id)
     {
         $data = $this->db->get_where('invoice_in', ['no_invoice' => $id])->row_array();
-        // unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
+        unlink(APPPATH.'../assets/files/'.$id.'.pdf');
         $where = array('id_bast' => $id);
         $this->m_po->hapus_data($where, 'bast_item');
         $this->m_po->hapus_data($where, 'bast');
@@ -797,6 +901,408 @@ class Finance extends CI_Controller
         } else {
             $data = array('upload_data' => $this->upload->data());
             return $data['upload_data']['file_name'];
+        }
+    }
+
+    function preview_inv_out()
+    {
+        $no_inv = $this->input->post('noinv');
+        $no_po = $this->input->post('nopo');
+        $client_name = $this->input->post('cn');
+        $account = $this->input->post('acc');
+        $swift_code = $this->input->post('swift');
+        $address = $this->input->post('address');
+        $inv_date = $this->input->post('invoicedate');
+        $tipe = $this->input->post('tipe');
+        $due_date = $this->input->post('duedate');
+        $email = $this->input->post('email');
+        $no_rek = $this->input->post('no_rek');
+        $public_notes = $this->input->post('public_notes');
+        $terms = $this->input->post('regards');
+        $footer = $this->input->post('footer');
+        $signature = $this->input->post('address_resource');
+        $total_cost = $this->input->post('total');
+        $grand_total = $this->input->post('grand');
+        $currency = $this->input->post('curr_awal');
+
+        $data['user'][0] = $this->session->userdata('user_logged');
+
+        $data['inv'][0] = (object) array(
+            'no_invoice' => $no_inv,
+            'no_Po' => $no_po,
+            'client_name' => $client_name,
+            'account' => $account,
+            'swift_code' => $swift_code,
+            'address' => $address,
+            'invoice_date' => $inv_date,
+            'due_date' => $due_date,
+            'email' => $email,
+            'no_rek' => $no_rek,
+            'public_notes' => $public_notes,
+            'terms' => $terms,
+            'footer' => $footer,
+            'signature' => $signature,
+            'total_cost' => $total_cost,
+            'grand_total' => $grand_total,
+            'tipe' => $tipe,
+            'currency_inv' => $currency
+        );
+        if ($tipe == '1') {
+            $proman = $_POST['proman'];
+            $starnum = $_POST['starnum'];
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
+            if (!empty($jobdesc)) {
+                for ($a = 0; $a < count($jobdesc); $a++) {
+                    if (!empty($jobdesc[$a])) {
+                        $data['pi'][$a] = (object) array(
+                            'no_invoice' => $no_inv,
+                            'jobdesc' => $jobdesc[$a],
+                            'project_manager' => $proman[$a],
+                            'star_number' => $starnum[$a],
+                            'number_word' => $volume[$a],
+                            'unit_price' => $price[$a],
+                            'amount' => $cost[$a],
+                        );
+                    }
+                }
+            }
+        } else if ($tipe == '2') {
+            $jobdesc = $_POST['jobdesc'];
+        $volume = $_POST['volume'];
+        $unit = $_POST['unit'];
+        $price = $_POST['price'];
+        $cost = $_POST['cost'];
+            if (!empty($jobdesc)) {
+                for ($a = 0; $a < count($jobdesc); $a++) {
+                    if (!empty($jobdesc[$a])) {
+                        $data['pi'][$a] = (object) array(
+                            'no_invoice' => $no_inv,
+                            'domain' => $jobdesc[$a],
+                            'volume' => $volume[$a],
+                            'unit' => $unit[$a],
+                            'price' => $price[$a],
+                            'amount' => $cost[$a],
+                        );
+                    }
+                }
+            }
+        } else if ($tipe == '3') {
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $price = $_POST['price'];
+            $cost = $_POST['cost'];
+            if (!empty($jobdesc)) {
+                for ($a = 0; $a < count($jobdesc); $a++) {
+                    if (!empty($jobdesc[$a])) {
+                        $data['pi'][$a] = (object) array(
+                            'no_invoice' => $no_inv,
+                            'jobdesc' => $jobdesc[$a],
+                            'qtt_word' => $volume[$a],
+                            'price' => $price[$a],
+                            'amount' => $cost[$a],
+                        );
+                    }
+                }
+            }
+        } else if ($tipe == '4') {
+            $jobdesc = $_POST['jobdesc'];
+            $volume = $_POST['volume'];
+            $unit = $_POST['unit'];
+            $price = $_POST['price'];
+            if (!empty($jobdesc)) {
+                for ($a = 0; $a < count($jobdesc); $a++) {
+                    if (!empty($jobdesc[$a])) {
+                        $data['pi'][$a] = (object) array(
+                            'no_invoice' => $no_inv,
+                            'jobdesc' => $jobdesc[$a],
+                            'star_number' => $volume[$a],
+                            'number_line' => $unit[$a],
+                            'amount' => $price[$a],
+                        );
+                    }
+                }
+            }
+        } else if ($tipe == '5') {
+            $jobdesc = $_POST['jobdesc'];
+            $price = $_POST['price'];
+            $deliv = $_POST['deliv'];
+            if (!empty($jobdesc)) {
+                for ($a = 0; $a < count($jobdesc); $a++) {
+                    if (!empty($jobdesc[$a])) {
+                        $data['pi'][$a] = (object) array(
+                            'no_invoice' => $no_inv,
+                            'pre_invoice' => $jobdesc[$a],
+                            'date_deliv' => $deliv[$a],
+                            'amount' => $price[$a],
+                        );
+                    }
+                }
+            }
+        }
+        
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        $this->load->library('pdf_2');
+    
+        $this->pdf_2->setPaper('A4', 'potrait');
+
+        if ($tipe == '1') {
+            $this->pdf_2->load_view('finance/invstarluar', $data, $no_inv);
+        } else if ($tipe == '2') {
+            $this->pdf_2->load_view('finance/invlokal', $data, $no_inv);
+        } else if ($tipe == '3') {
+            $this->pdf_2->load_view('finance/invspqm', $data, $no_inv);
+        } else if ($tipe == '4') {
+            $this->pdf_2->load_view('finance/invstar', $data, $no_inv);
+        } else if ($tipe == '5') {
+            $this->pdf_2->load_view('finance/invspqi', $data, $no_inv);
+        }
+    }
+    public function laporan_pdf_inv1($no_invoice){
+
+        $data['inv'] = $this->m_inv_in->ambil_data_inv_out($no_invoice)->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi_luar($no_invoice)->result();
+        $data['user'][0]=$this->session->userdata('user_logged');
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('finance/invstarluar', $data, $no_invoice);
+    }
+    public function laporan_pdf_inv2($no_invoice){
+
+        $data['inv'] = $this->m_inv_in->ambil_data_inv_out($no_invoice)->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi_local($no_invoice)->result();
+        $data['user'][0]=$this->session->userdata('user_logged');
+
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('finance/invlokal', $data, $no_invoice);
+    }
+    public function laporan_pdf_inv3($no_invoice){
+
+        $data['inv'] = $this->m_inv_in->ambil_data_inv_out($no_invoice)->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi_spq($no_invoice)->result();
+        $data['user'][0]=$this->session->userdata('user_logged');
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('finance/invspqm', $data, $no_inv);
+    }
+    public function laporan_pdf_inv4($no_invoice){
+
+        $data['inv'] = $this->m_inv_in->ambil_data_inv_out($no_invoice)->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi_luar2($no_invoice)->result();
+        $data['user'][0]=$this->session->userdata('user_logged');
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('finance/invstar', $data, $no_invoice);
+    }
+    public function laporan_pdf_inv5($no_invoice){
+
+        $data['inv'] = $this->m_inv_in->ambil_data_inv_out($no_invoice)->result();
+        $data['pi'] = $this->m_inv_in->ambil_data_qi_luar($no_invoice)->result();
+        $data['user'][0]=$this->session->userdata('user_logged');
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->load_view('finance/invspqi', $data, $no_invoice);
+    }
+
+    public function kirimemail_pdf($id=NULL, $mode=NULL){
+		$data['qi'] = $this->m_inv_in->ambil_data_email_finance($id)->row_array();
+        $userdata = $this->session->userdata('user_logged');
+        $email = $userdata->email_Address;
+        $name = $userdata->full_Name;
+		// Konfigurasi email
+        $config = [
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'protocol'  => 'smtp',
+            'smtp_host' => 'smtp.hostinger.com',
+            'smtp_user' => 'finance@kodegiri.com',  // Email gmail
+            'smtp_pass'   => 'Finance1234',  // Password gmail
+            'smtp_crypto' => 'tls',
+            'smtp_port'   => 587,
+            'crlf'    => "\r\n",
+            'newline' => "\r\n"
+        ];
+
+        // Load library email dan konfigurasinya
+        $this->load->library('email', $config);
+
+        // Email dan nama pengirim
+        $this->email->from('finance@kodegiri.com', $name);
+
+        // Email penerima
+        $this->email->to($data['qi']['email']); // Ganti dengan email tujuan
+
+        // Lampiran email, isi dengan url/path file
+        $this->email->attach(base_url('assets/files/' . $data['qi']['no_invoice'] . '.pdf'));
+
+        // Subject email
+        if($mode=='create'){
+            $this->email->subject('Invoice Baru untuk project '. $data['qi']['project_Name_po']);
+        } else if($mode=='edit'){
+            $this->email->subject('Perubahan Invoice untuk project '. $data['qi']['project_Name_po']);
+        }
+
+        // Isi email
+        if($mode=='create'){
+            $this->email->message("berikut adalah Invoice Baru untuk project ".$data['qi']['project_Name_po']);
+        } else if($mode=='edit'){
+            $this->email->message("berikut adalah Perubahan Invoice untuk project ".$data['qi']['project_Name_po']);
+        }
+
+        // Tampilkan pesan sukses atau error
+        if ($this->email->send()) {
+            echo 'Sukses! email berhasil dikirim.';
+        } else {
+            echo 'Error! email tidak dapat dikirim.';
+            echo $this->email->print_debugger();
+        }
+	}
+
+    public function kirimemail_bast($id=NULL, $mode=NULL){
+		$data['qi'] = $this->m_inv_in->edit_data_bast($id)->row_array();
+        $userdata = $this->session->userdata('user_logged');
+        $email = $userdata->email_Address;
+        $name = $userdata->full_Name;
+		// Konfigurasi email
+        $config = [
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'protocol'  => 'smtp',
+            'smtp_host' => 'smtp.hostinger.com',
+            'smtp_user' => 'finance@kodegiri.com',  // Email gmail
+            'smtp_pass'   => 'Finance1234',  // Password gmail
+            'smtp_crypto' => 'tls',
+            'smtp_port'   => 587,
+            'crlf'    => "\r\n",
+            'newline' => "\r\n"
+        ];
+
+        // Load library email dan konfigurasinya
+        $this->load->library('email', $config);
+
+        // Email dan nama pengirim
+        $this->email->from('finance@kodegiri.com', $name);
+
+        // Email penerima
+        $this->email->to($data['qi']['email']); // Ganti dengan email tujuan
+
+        // Lampiran email, isi dengan url/path file
+        $this->email->attach(base_url('assets/files/' . $data['qi']['id_bast'] . '.pdf'));
+
+        // Subject email
+        if($mode=='create'){
+            $this->email->subject('Invoice Baru untuk project '. $data['qi']['type_of_work']);
+        } else if($mode=='edit'){
+            $this->email->subject('Perubahan Invoice untuk project '. $data['qi']['type_of_work']);
+        }
+
+        // Isi email
+        if($mode=='create'){
+            $this->email->message("berikut adalah Invoice Baru untuk project ".$data['qi']['type_of_work']);
+        } else if($mode=='edit'){
+            $this->email->message("berikut adalah Perubahan Invoice untuk project ".$data['qi']['type_of_work']);
+        }
+
+        // Tampilkan pesan sukses atau error
+        if ($this->email->send()) {
+            echo 'Sukses! email berhasil dikirim.';
+        } else {
+            echo 'Error! email tidak dapat dikirim.';
+            echo $this->email->print_debugger();
+        }
+	}
+
+    function preview_bast()
+    {
+        $data['user'][0] = $this->session->userdata('user_logged');
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+
+        $no_bast = $this->input->post('nobast');
+        $no_inv = $this->input->post('noinv');
+        $typeofwork = $this->input->post('swift');
+        $due_date = $this->input->post('duedate');
+        $project_name = $this->input->post('pn');
+        $pic_client = $this->input->post('cn');
+        $perihal = $this->input->post('perihal');
+        $company = $this->input->post('company');
+        $email = $this->input->post('email');
+        $first_party = $this->input->post('first_party');
+        $second_party = $this->input->post('second_party');
+        $jobdesc = $_POST['jobdesc'];
+        $volume = $_POST['volume'];
+        $unit = $_POST['unit'];
+        $status = $_POST['status'];
+
+        $data['b'][0] = (object) array(
+            'id_bast' => $no_bast,
+            'type_of_work' => $typeofwork,
+            'due_date' => $due_date,
+            'no_invoice' => $no_inv,
+            'project_name' => $project_name,
+            'pic_client' => $pic_client,
+            'perihal' => $perihal,
+            'company_name' => $company,
+            'email' => $email,
+            'first_party' => $first_party,
+            'second_party' => $second_party
+        );
+        if (!empty($jobdesc)) {
+            for ($a = 0; $a < count($jobdesc); $a++) {
+                if (!empty($jobdesc[$a])) {
+                    $data['bi'][0] = (object) array(
+                        'id_bast' => $no_bast,
+                        'item' => $jobdesc[$a],
+                        'qty' => $volume[$a],
+                        'Unit' => $unit[$a],
+                        'status' => $status[$a]
+                    );
+                }
+            }
+        }
+        $this->load->library('pdf_2');
+    
+        $this->pdf_2->setPaper('A4', 'potrait');
+        if ($level == "6") {
+            $this->pdf_2->load_view('finance/bastkdgr', $data, $no_bast);
+        } else {
+            $this->pdf_2->load_view('finance/baststar', $data, $no_inv);
+        }
+        
+    }
+
+    public function laporan_pdf_bast($no_bast){
+        $data['b'] = $this->m_inv_in->edit_data_bast($no_bast)->result();
+        $data['bi'] = $this->m_inv_in->ambil_data_bast_item($no_bast)->result();
+        $data['user'][0]=$this->session->userdata('user_logged');
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+    
+        $this->load->library('pdf');
+    
+        $this->pdf->setPaper('A4', 'potrait');
+        if ($level == "6") {
+            $this->pdf->load_view('finance/bastkdgr', $data, $no_bast);
+        } else {
+            $this->pdf->load_view('finance/baststar', $data, $no_bast);
         }
     }
 }

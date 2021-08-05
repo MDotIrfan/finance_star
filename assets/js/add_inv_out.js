@@ -54,7 +54,7 @@ $(document).on('click', '.remove-input-field2', function () {
 
 dinamisTable = $('#dinamisTable')
 dinamisRow = $('#dinamisRow')
-dinamisOption = $('#nopo')
+dinamisOption = $('#nopo_2')
 var jum_table = 0;
 var a = 0;
 var volume = [];
@@ -74,12 +74,13 @@ function addTable_local(jsonData = null) {
                       <th>Job Description</th>
                       <th>Volume</th>
                       <th>Unit</th>
-                      <th>Unit Price IDR</th>
+                      <th id='unit-text'>Unit Price IDR</th>
                       <th>
-                          <select style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
-                              <option selected="selected">Amount IDR</option>
-                              <option>Amount US</option>
-                              <option>Amount EURO</option>
+                            <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                            <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
+                              <option value='IDR'>Amount IDR</option>
+                              <option value='USD'>Amount USD</option>
+                              <option value='EUR'>Amount EURO</option>
                           </select>
                       </th>
                   </tr>
@@ -141,10 +142,11 @@ function addTable_luar(jsonData = null) {
                           <th>Number Word / page</th>
                           <th>Unit Price / Word</th>
                           <th>
-                              <select style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                                  <option selected="selected">Amount IDR</option>
-                                  <option>Amount US</option>
-                                  <option>Amount EURO</option>
+                          <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                              <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                                  <option value='IDR'>Amount IDR</option>
+                                  <option value='USD'>Amount US</option>
+                                  <option value='EUR'>Amount EURO</option>
                               </select>
                           </th>
                       </tr>
@@ -197,10 +199,11 @@ function addTable_spq(jsonData = null) {
                             <th>Qtt Words</th>
                             <th>Unit Price IDR</th>
                             <th>
-                                <select style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                                    <option selected="selected">Amount IDR</option>
-                                    <option>Amount US</option>
-                                    <option>Amount EURO</option>
+                            <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                                <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                                    <option value='IDR'>Amount IDR</option>
+                                    <option value='USD'>Amount US</option>
+                                    <option value='EUR'>Amount EURO</option>
                                 </select>
                             </th>
                         </tr>
@@ -251,10 +254,11 @@ function addTable_luar2(jsonData = null) {
                       <th>Star Number</th>
                       <th>Number Line</th>
                       <th>
-                          <select style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                              <option selected="selected">Amount IDR</option>
-                              <option>Amount US</option>
-                              <option>Amount EURO</option>
+                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                          <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                              <option value='IDR'>Amount IDR</option>
+                              <option value='USD'>Amount US</option>
+                              <option value='EUR'>Amount EURO</option>
                           </select>
                       </th>
                   </tr>
@@ -313,10 +317,11 @@ function addTable_spq2(jsonData = null) {
                       <th>Pre-invoice number</th>
                       <th>Date of Delivery</th>
                       <th>
-                          <select style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
-                              <option selected="selected">Amount IDR</option>
-                              <option>Amount US</option>
-                              <option>Amount EURO</option>
+                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                          <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                              <option value='IDR'>Amount IDR</option>
+                              <option value='USD'>Amount US</option>
+                              <option value='EUR'>Amount EURO</option>
                           </select>
                       </th>
                   </tr>
@@ -340,7 +345,7 @@ function addRow_spq2(jsonData = null) {
     <tr>
     <td><input style="color:#000000;font: size 20px;" type="text" class="form-control" id="jobdesc" name="jobdesc[]" value=""></td>
     <td><input style="color:#000000;font: size 20px;" type="date" class="form-control form-control-user" name="deliv[]" value="${my_var}"></td>
-    <td><input style="color:#000000;font: size 20px;" type="text" class="form-control price${index}" name="price[]" oninput="hitung2(${index})" value="${jsonData?.grand_Total ? jsonData.grand_Total : ''}" >
+    <td><input style="color:#000000;font: size 20px;" type="text" class="form-control price${index}" name="price[]" oninput="hitung2(${index})" value="${jsonData?.grand_Total_po ? jsonData.grand_Total_po : ''}" >
     </td>
     <td>
       <a href="javascript:void(0)" id="dynamic-ar-spq2">
@@ -371,12 +376,13 @@ function hitung2(a) {
 }
 
 function tampil() {
+    document.getElementById("total-text").innerHTML = tambah(cost).toFixed(2);
     $("#total").val(tambah(cost));
-    $("#grand").val(tambah(cost));
     hitungpajak()
 }
 
 function tampil2() {
+    document.getElementById("total-text").innerHTML = tambah(price).toFixed(2);
     $("#total").val(tambah(price));
     hitungpajak()
 }
@@ -425,14 +431,22 @@ function hitungpajak() {
         console.log(pajak);
     }
     if (fdn.checked) {
-        pajak[1] = total * 5 / 100;
+        if(total>=4500000){
+            pajak[1] = total * 5 / 100;
+        } else {
+            pajak[1] = 0;
+        }
         console.log(pajak);
     } else {
         pajak[1] = 0;
         console.log(pajak);
     }
     if (ftn.checked) {
-        pajak[2] = total * 6 / 100;
+        if(total>=4500000){
+            pajak[2] = total * 6 / 100;
+        } else {
+            pajak[2] = 0;
+        }
         console.log(pajak);
     } else {
         pajak[2] = 0;
@@ -462,5 +476,7 @@ function hitungpajak() {
     total_pajak = tambah(pajak);
     grand = total - total_pajak;
     console.log(total + " - " + total_pajak + " = " + grand);
+    document.getElementById("pajak-text").innerHTML = " - " + total_pajak.toFixed(2);
+    document.getElementById("grand-text").innerHTML = grand.toFixed(2);
     $("#grand").val(grand);
 }

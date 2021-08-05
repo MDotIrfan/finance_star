@@ -506,7 +506,7 @@ class Freelance extends CI_Controller
     function delete($id)
     {
         $data = $this->db->get_where('invoice_in', ['no_invoice' => $id])->row_array();
-        // unlink(APPPATH.'../assets/img/'.$data['profile_Photo']);
+        unlink(APPPATH.'../assets/files/'.$id.'.pdf');
         $where = array('no_invoice' => $id);
         $dat2 = array(
             'is_inv_in' => 0,
