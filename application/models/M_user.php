@@ -3,7 +3,7 @@
 class M_user extends CI_Model
 {
 
-    // var $_table = 'user';
+    var $_table = 'user';
     // var $column_order_user = array('id_User', 'user_Name','full_Name','position_Name','status_Name'); //field yang ada di table user
     // var $column_search_user = array('id_User', 'user_Name','full_Name','position_Name','status_Name'); //field yang diizin untuk pencarian 
     var $order = '';// default order 
