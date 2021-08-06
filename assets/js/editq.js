@@ -34,16 +34,18 @@ cost = [];
                   ubah_no();
               } else {
                 $('#jumlah').val(data['q'][0].jumlah_pembayaran);
-                  $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['q'].length)+1));
+                  $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['po'].length)+1));
                   $('#nopo_awal').val(data['q'][0].no_po_ori);
                   document.getElementById('jumlah').setAttribute('readonly', true);
                   $('#curr').val(data['q'][0].kurensi);
+                  $('#curr_awal').val(data['q'][0].kurensi);
                   $('#rs').val(data['q'][0].resource_Status);
                   $('#ps').val(data['q'][0].resource_Email);
                   $('#pm').val(data['q'][0].mobile_Phone);
                   $('#rn').val(data['q'][0].resource_Name);
+                  console.log($('#curr_awal').val());
               }
-              for(i=0; i<data['q'].length; i++){
+              for(i=0; i<data['item'].length; i++){
                 addRow(btoa(JSON.stringify(data['q'][i])));
                 tampil();
               }

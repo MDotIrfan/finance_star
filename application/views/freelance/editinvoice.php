@@ -6,7 +6,6 @@
         </ol>
     </nav>
     <?php $userdata = $this->session->userdata('user_logged'); ?>
-    <?php foreach ($res as $r) : ?>
         <?php foreach ($inv as $po) { ?>
             <form method="POST" action="" target="" id="myform">
                 <div class=" justify-content-start" style="font-size: 18px; color:#222B45;">
@@ -43,6 +42,7 @@
                         <div class="col">
                             <label for="cn">No. Invoice</label>
                             <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="noinv" name="noinv" aria-describedby="" placeholder="" value="<?= $po->no_invoice ?>" readonly>
+                            <input class="form-control form-control-user" id="company" name="company" aria-describedby="" placeholder="" type="hidden" value="<?= $po->company ?>">
                         </div>
                         <div class="col">
                             <label for="Pm">Mitra Name</label>
@@ -158,28 +158,16 @@
                             <hr>
                             <div class=" row text-left font-weight-normal" style="">
                                 <div class="col">
-                                    <script>
-                                        var jenis = '';
-                                    </script>
-                                    <?php if ($userdata->id_Status == '1') {
-                                        if ($r->jenis == 'biasa') {
-                                            if ($r->no_npwp <> NULL) {
-                                                echo 'PPh 21 (- 5%) <script>jenis=`fdn`</script>';
-                                            } else {
-                                                echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
-                                            }
-                                        } else if ($r->jenis == 'tenaga ahli') {
-                                            if ($r->no_npwp <> NULL) {
-                                                echo 'PPh 21 (- 50% x 5%) <script>jenis=`tadn`</script>';
-                                            } else {
-                                                echo 'PPh 21 (- 50% x 5% x 120%) <script>jenis=`tatn`</script>';
-                                            }
-                                        }
-                                    } else {
-                                        echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
-                                    }; ?>
-
+                                <script>
+                           var jenis = '';
+                        </script>
+                        <?php if ($userdata->id_Status == '1') {
+                           echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
+                    } else {
+                        echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
+                    };?>
                                 </div>
+                                <input type="hidden" id="tax" name="tax" value="" readonly>
                                 <div class="col" style="text-align: end;"><span id="pajak"></span></div>
                             </div>
                             <hr>
@@ -211,23 +199,7 @@
                             <script>
                                 var jenis = '';
                             </script>
-                            <?php if ($userdata->id_Status == '1') {
-                                if ($r->jenis == 'biasa') {
-                                    if ($r->no_npwp <> NULL) {
-                                        echo 'PPh 21 (- 5%) <script>jenis=`fdn`</script>';
-                                    } else {
-                                        echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
-                                    }
-                                } else if ($r->jenis == 'tenaga ahli') {
-                                    if ($r->no_npwp <> NULL) {
-                                        echo 'PPh 21 (- 50% x 5%) <script>jenis=`tadn`</script>';
-                                    } else {
-                                        echo 'PPh 21 (- 50% x 5% x 120%) <script>jenis=`tatn`</script>';
-                                    }
-                                }
-                            } else {
-                                echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
-                            }; ?>
+                            
                             <span id="pajak"></span>
                             <hr>
                             Grand Total <input type="text" id="grand" name="grand" value="<?= $po->grand_total ?>" readonly class="form-control">
@@ -283,7 +255,6 @@
 <!-- MODAL -->
 </form>
 <?php } ?>
-<?php endforeach; ?>
 <script>
     var item_list = [];
 

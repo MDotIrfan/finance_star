@@ -93,9 +93,12 @@ function tampil() {
     document.getElementById("pajak").innerHTML = '-' + grand;
   }
   grand_Total = hasil - grand;
+  $("#tax").val(grand);
   document.getElementById("grand-text").innerHTML = grand_Total.toFixed(2);
   $("#grand").val(grand_Total);
 }
+
+
 function tambah(input) {
 
   if (toString.call(input) !== "[object Array]")

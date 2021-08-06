@@ -156,7 +156,7 @@
             <td><u><?php foreach ($user as $u) { ?>
                     <?= $u->full_Name ?>
                 <?php } ?></u><br>
-                PT STAR Software Indonesia </td>
+                <?= $b->first_party ?> </td>
         </tr>
 
     </table>

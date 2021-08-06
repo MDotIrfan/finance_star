@@ -143,18 +143,39 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
             <?php if ($userdata->id_Position == '4') { ?>
                 <!-- Nav Item - User -->
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= site_url('user/dashboard') ?>">
-                        <i class="fas fa-fw fa-tachometer-alt sidebar-menu-icon <?php if($this->session->userdata('menu')=='Dashboard'){echo 'active';} ?>"></i>
-                        <span class="sidebar-menu-title <?php if($this->session->userdata('menu')=='Dashboard'){echo 'active';} ?>">Dashboard</span></a>
-                    <a class="nav-link" href="<?php echo base_url('user/list'); ?>">
-                        <i class="fas fa-user-friends sidebar-menu-icon <?php if($this->session->userdata('menu')=='User'||$this->session->userdata('menu')=='Create User'||$this->session->userdata('menu')=='Edit User'){echo 'active';} ?>"></i>
-                        <span  class="sidebar-menu-title <?php if($this->session->userdata('menu')=='User'||$this->session->userdata('menu')=='Create User'||$this->session->userdata('menu')=='Edit User'){echo 'active';}?>">User</span></a>
-                </li>
-                <!-- <li class="nav-item active">
-                    <a class="nav-link" href="<?php echo base_url('user/list_client'); ?>">
-                        <i class="fas fa-user-friends"></i>
-                        <span style="color: #FFFFFF;font-family: Poppins;font-style: normal;font-weight: normal; font-size: 16px;">Client</span></a>
-                </li> -->
+                <a class="nav-link" href="<?= site_url('user/dashboard') ?>">
+                    <i class="fas fa-fw fa-tachometer-alt sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Dashboard') {
+                                                                                echo 'active';
+                                                                            } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'Dashboard') {
+                                                        echo 'active';
+                                                    } ?>">Dashboard</span></a>
+                <a class="nav-link" href="<?php echo base_url('user/list'); ?>">
+                    <i class="fas fa-users sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'User' || $this->session->userdata('menu') == 'Create User' || $this->session->userdata('menu') == 'Edit User') {
+                                                                    echo 'active';
+                                                                } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'User' || $this->session->userdata('menu') == 'Create User' || $this->session->userdata('menu') == 'Edit User') {
+                                                        echo 'active';
+                                                    } ?>">User</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url('user/list_client'); ?>">
+                    <i class="fas fa-user-friends sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Client' || $this->session->userdata('menu') == 'Create Client' || $this->session->userdata('menu') == 'Edit Client') {
+                                                                        echo 'active';
+                                                                    } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'Client' || $this->session->userdata('menu') == 'Create Client' || $this->session->userdata('menu') == 'Edit Client') {
+                                                        echo 'active';
+                                                    } ?>">Client</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url('user/list_resource'); ?>">
+                    <i class="far fa-user sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Resource' || $this->session->userdata('menu') == 'Create Resource' || $this->session->userdata('menu') == 'Edit Resource') {
+                                                                echo 'active';
+                                                            } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'Resource' || $this->session->userdata('menu') == 'Create Resource' || $this->session->userdata('menu') == 'Edit Resource') {
+                                                        echo 'active';
+                                                    } ?>">Resource</span></a>
+            </li>
             <?php } ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= site_url('auth/logout') ?>">

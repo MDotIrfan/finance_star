@@ -34,7 +34,13 @@
             <td class="bold">Volume</td>
             <td class="bold">Unit</td>
             <td class="bold">Price/Unit</td>
-            <td class="bold">Cost in IDR</td>
+            <td class="bold"><?php if($qu->currency=='IDR'){
+               echo 'Cost in IDR';
+            } else if($qu->currency=='USD'){
+                echo 'Cost in USD';
+            } else if($qu->currency=='EUR'){
+                echo 'Cost in EUR';
+            } ?></td>
 
         </tr>
         <?php foreach ($qi as $q) { ?>
@@ -43,8 +49,20 @@
                 <td><br></td>
                 <td><?php echo $q->volume; ?></td>
                 <td><?php echo $q->unit; ?> Package</td>
-                <td><?php echo $q->price; ?></td>
-                <td><?php echo $q->cost; ?></td>
+                <td><?php if($qu->currency=='IDR'){
+                echo 'Rp. '.number_format($q->price,2,",",".");
+            } else if($qu->currency=='USD'){
+                echo '$ '.number_format($q->price,2,".",",");
+            } else if($qu->currency=='EUR'){
+                echo '€ '.number_format($q->price,2,".",",");
+            } ?></td>
+                <td><?php if($qu->currency=='IDR'){
+                echo 'Rp. '.number_format($q->cost,2,",",".");
+            } else if($qu->currency=='USD'){
+                echo '$ '.number_format($q->cost,2,".",",");
+            } else if($qu->currency=='EUR'){
+                echo '€ '.number_format($q->cost,2,".",",");
+            } ?></td>
             </tr>
         <?php } ?>
 
@@ -65,7 +83,13 @@
                 <td class="bold">Total Cost :</td>
                 <td></td>
                 <td></td>
-                <td class="bold"><?php echo $qu->total_Cost; ?></td>
+                <td class="bold"><?php if($qu->currency=='IDR'){
+               echo 'Rp. '.number_format($qu->total_Cost,2,",",".");
+            } else if($qu->currency=='USD'){
+                echo '$ '.number_format($qu->total_Cost,2,".",",");
+            } else if($qu->currency=='EUR'){
+                echo '€ '.number_format($qu->total_Cost,2,".",",");
+            } ?></td>
             </tr>
         <?php } ?>
         <tr>
@@ -85,7 +109,13 @@
                 <td class="bold"></td>
                 <td></td>
                 <td></td>
-                <td class="bold"><?php echo $qu->grand_Total; ?></td>
+                <td class="bold"><?php if($qu->currency=='IDR'){
+               echo 'Rp. '.number_format($qu->grand_Total,2,",",".");
+            } else if($qu->currency=='USD'){
+                echo '$ '.number_format($qu->grand_Total,2,".",",");
+            } else if($qu->currency=='EUR'){
+                echo '€ '.number_format($qu->grand_Total,2,".",",");
+            } ?></td>
             </tr>
         <?php } ?>
         <tr>

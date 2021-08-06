@@ -104,7 +104,13 @@
                 <td width="45%" style="text-align:center; background-color:pink" class="bold">Job Description</td>
                 <td style="text-align:center; background-color:pink" class="bold">STAR Number</td>
                 <td style="text-align:center; background-color:pink" class="bold">Number Line</td>
-                <td style="text-align:center; background-color:pink" class="bold">Amount uro</td>
+                <td style="text-align:center; background-color:pink" class="bold"><?php if($po->currency_inv=='IDR'){
+               echo 'Amount IDR';
+            } else if($po->currency_inv=='USD'){
+                echo 'Amount USD';
+            } else if($po->currency_inv=='EUR'){
+                echo 'Amount EUR';
+            } ?></td>
             </tr>
             <?php $i=1; foreach ($pi as $item) { ?>
             <tr>
@@ -112,14 +118,26 @@
                 <td width="45%" style="text-align:center;"><?=$item->jobdesc; ?></td>
                 <td style="text-align:center;"><?=$item->star_number; ?></td>
                 <td style="text-align:center;"><?=$item->number_line; ?></td>
-                <td style="text-align:center;"><?=$po->total_cost; ?></td>
+                <td style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($item->amount,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($item->amount,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($item->amount,2,".",",");
+            } ?></td>
             </tr>
             <?php $i++;} ?>
             <tr>
                 <td width="5%%" style="text-align:center;"></td>
                 <td width="45%" style="text-align:center;">GRAND TOTAL</td>
                 <td style="text-align:center;" colspan="2">PLEASE PAY</td>
-                <td style="text-align:center;"><?=$po->grand_total; ?></td>
+                <td style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+                echo number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($po->grand_total,2,".",",");
+            } ?></td>
             </tr>
         </table>
     </div>

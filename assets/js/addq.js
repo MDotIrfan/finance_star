@@ -259,12 +259,13 @@ function autocomplete(inp, arr) {
 //   } else { $('#ce').val(""); }
 // }
 
-var from_currencyEl = $('#curr_awal').val();;
+var from_currencyEl = $('#curr_awal').val();
 var to_currencyEl = '';
 // var to_ammountEl = document.getElementById('to_ammount');
 
 $("#curr").on('change', function (el) {
   tujuan = $('#curr').val();
+  from_currencyEl = $('#curr_awal').val();
   if (from_currencyEl == 'IDR' && tujuan == 'USD') {
     from_currencyEl = 'IDR'
     to_currencyEl = 'USD'

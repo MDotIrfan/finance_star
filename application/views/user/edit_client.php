@@ -31,6 +31,10 @@
                                 <div class="form-group">
                                     <textarea class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder=""><?= $c -> address ?></textarea>
                                 </div>
+                                <label for="email_address" class="col-lg-4 col-form-label">Company Name</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="company" name="company" aria-describedby="" placeholder=""  value="<?= $c -> company_name ?>">
+                                </div>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                     <a href=""><button type="submit button" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Save</button></a>
                                 </div>

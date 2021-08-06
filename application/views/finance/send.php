@@ -19,8 +19,7 @@
                     <div class="row">
                         <div class="col-lg">
                             <div>
-                                <form style="margin: 20px;">
-                                    <?php echo form_open_multipart('finance/kirimemail'); ?>
+                                    <form action="<?php echo base_url('finance/kirimemail_2'); ?>" method="post" enctype="multipart/form-data" style="margin: 20px;">
                                     <div class="row mb-3" style="margin-top: 50px;">
                                         <label for="inputEmail3" class="col-sm-2 col-form-label">To</label>
                                         <div class="col-sm-10">
@@ -40,9 +39,9 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3" style="">
-                                        <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
+                                        <label for="inputPassword3" class="col-sm-2 col-form-label" >Description</label>
                                         <div class="col-sm-10">
-                                            <input style="height: 137px;color:black;" type="text" class="form-control form-control-user" name="desc">
+                                            <textarea name="desc" class="form-control form-control-user"></textarea>
                                         </div>
                                     </div>
                                     <div class="row mb-3" style="">
@@ -52,43 +51,11 @@
                                         </div>
                                     </div>
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-center" style="margin-bottom: 50px;">
-                                        <a href=""><button type="submit button" class="btn btn-success" style="background: #169122;border-radius: 5px;"><i class="fa fa-print" aria-hidden="true"></i> Send</button></a>
+                                        <button type="submit button" class="btn btn-success" style="background: #169122;border-radius: 5px;"><i class="fa fa-print" ></i> Send</button>
                                     </div>
 
                                 </form>
                             </div>
-                            <!-- <div class="p-5">
-                                <?php echo form_open_multipart('finance/kirimemail'); ?>
-
-                                <div class="col">
-                                    <label for="username" class="col-lg-4 col-form-label">To</label>
-                                    <input type="text" class="form-control form-control-user" name="to">
-                                </div>
-                                <label for="password" class="col-lg-4 col-form-label">Cc</label>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="cc">
-                                </div>
-                                <label for="fullname" class="col-lg-4 col-form-label">Subject</label>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="subject">
-                                </div>
-                                <label for="email_address" class="col-lg-4 col-form-label">Description</label>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" name="desc">
-                                </div>
-
-                                <label for="gambar" class="col-lg-4 col-form-label">Upload File</label>
-                                <div class="form-group">
-                                    <input type="file" class="form-control form-control-user" id="gambar" name="gambar" aria-describedby="" placeholder="">
-                                </div>
-                                <br>
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                    <a href=""><button type="submit button" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Send</button></a>
-                                </div>
-                                </form>
-
-
-                            </div> -->
 
                         </div>
                     </div>

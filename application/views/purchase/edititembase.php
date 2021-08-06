@@ -236,11 +236,13 @@
 
 function kirim_email(){
    form.attr('action','<?php echo base_url('purchase/edit_po_item/email'); ?>');
+   form.attr('target','');
    console.log(form.attr('action'));
 }
 
 function submit_data(){
    form.attr('action','<?php echo base_url('purchase/edit_po_item'); ?>');
+   form.attr('target','');
    console.log(form.attr('action'));
 }
 

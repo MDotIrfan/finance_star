@@ -27,7 +27,8 @@
 </head>
 
 <body>
-    <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="mid" align="right">
+    <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="mid" align="right" style="height:150px">
+    <br><br><br><br><br><br><br><br><br><br><br>
     <table border="0" style="width: 25%" align="right">
         <tr>
             <td>
@@ -114,19 +115,37 @@
             <td style="text-align:center; " class="bold" width="5%">No</td>
             <td style="text-align:center; " class="bold" width="35%">Pre-invoice number</td>
             <td style="text-align:center; " class="bold" width="15%">Date of Delivery</td>
-            <td width="35%" style="text-align:center; " class="bold">Amount (USD)</td>
+            <td width="35%" style="text-align:center; " class="bold"><?php if($po->currency_inv=='IDR'){
+               echo 'Amount (IDR)';
+            } else if($po->currency_inv=='USD'){
+                echo 'Amount (USD)';
+            } else if($po->currency_inv=='EUR'){
+                echo 'Amount (EUR)';
+            } ?></td>
         </tr>
         <?php $i=1; foreach ($pi as $pi) {?>
         <tr class="bold" style="height: 60px;">
             <td style="text-align:center;" width="5%"><?= $i."." ?></td>
             <td width="35%" style="text-align:center;"><?= $pi->pre_invoice ?></td>
             <td width="30%" style="text-align:center;"><?= $pi->date_deliv ?></td>
-            <td width="30%" style="text-align:center;"><?= $pi->amount ?></td>
+            <td width="30%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($pi->amount,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($pi->amount,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($pi->amount,2,".",",");
+            } ?></td>
         </tr>
         <?php $i++;} ?>
         <tr class="bold">
             <td style="text-align:center;" colspan="3">Total</td>
-            <td width="35%" style="text-align:center;" colspan="1"><?= $po->grand_total ?></td>
+            <td width="35%" style="text-align:center;" colspan="1"><?php if($po->currency_inv=='IDR'){
+                echo number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($po->grand_total,2,".",",");
+            } ?></td>
         </tr>
     </table>
     <br>
@@ -134,7 +153,13 @@
         <tr>
             <td>
                 <p class="">
-                    Net sum: <?= $po->currency_inv ?> <?= $po->grand_total ?><br>
+                    Net sum: <?php if($po->currency_inv=='IDR'){
+                echo 'IDR '.number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo 'USD '.number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo 'EUR '.number_format($po->grand_total,2,".",",");
+            } ?><br>
                     VAT: 0
                 </p>
             </td>
@@ -145,7 +170,13 @@
         <tr>
             <td width="40%">
                 <p>
-                    <b>Total sum: <?= $po->grand_total ?></b> <br>
+                    <b>Total sum: <?php if($po->currency_inv=='IDR'){
+                echo 'IDR '.number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo 'USD '.number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo 'EUR '.number_format($po->grand_total,2,".",",");
+            } ?></b> <br>
 
                 </p>
             </td>
