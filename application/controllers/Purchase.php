@@ -33,11 +33,11 @@ class Purchase extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             if($field->currency_po=='IDR'){
-                $grand_total = 'Rp. '.$field->grand_Total_po;
+                $grand_total = 'Rp. '.number_format($field->grand_Total_po,2,",",".");
             } else if($field->currency_po=='USD'){
-                $grand_total = '$ '.$field->grand_Total_po;
+                $grand_total = '$ '.number_format($field->grand_Total_po,2,".",",");
             } else if($field->currency_po=='EUR'){
-                $grand_total = '€ '.$field->grand_Total_po;
+                $grand_total = '€ '.number_format($field->grand_Total_po,2,".",",");
             }
             $row = array();
             $row[] = $field->no_Po;
@@ -233,7 +233,7 @@ class Purchase extends CI_Controller
         // }
         // else
         // {
-            $userdata = $this->session->userdata('user_logged');
+        $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
         if ($level == "3") {
             $company = 'Speequal Jakarta';
@@ -363,7 +363,7 @@ class Purchase extends CI_Controller
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
             'protocol'  => 'smtp',
-            'smtp_host' => 'smtp.hostinger.com',
+            'smtp_host' => 'smtp.hostinger.co.id',
             'smtp_user' => 'finance@kodegiri.com',  // Email gmail
             'smtp_pass'   => 'Finance1234',  // Password gmail
             'smtp_crypto' => 'tls',
@@ -376,7 +376,7 @@ class Purchase extends CI_Controller
         $this->load->library('email', $config);
 
         // Email dan nama pengirim
-        $this->email->from('finance@kodegiri.com', $name);
+        $this->email->from($email, $name);
 
         // Email penerima
         $this->email->to($data['qi']['resource_Email']); // Ganti dengan email tujuan
@@ -411,6 +411,8 @@ class Purchase extends CI_Controller
     {
         $data['kode_po'] = $this->m_po->CreateCode();
         $data['q'] = $this->m_po->ambil_data_qi($id)->result();
+        $data['item'] = $this->m_po->ambil_data_qi_group($id)->result();
+        $data['po'] = $this->m_po->hitung_po($id)->result();
         echo json_encode($data);
     }
     public function tampilkanDataResource($id)
@@ -428,53 +430,56 @@ class Purchase extends CI_Controller
     }
     public function dashboard()
     {
-        for($i=1;$i<=12;$i++){
-                $check_date = date($i);
-                $data['total_po'][$check_date] = 0;
-            }
-        for($i=1;$i<=12;$i++){
-            // $month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            $grand_total = 0;
-            $po[$i] = $this->m_po->get_total_po($i)->result();
-            for($k=0;$k<count($po[$i]);$k++){
-            $total= array();
-            // echo '<pre>';
-            // print_r($po[$i][$k]->month);
-            // echo ' - ';
-            // print_r($po[$i][$k]->currency_po);
-            // echo ' - ';
-            // print_r($po[$i][$k]->grand_Total_po);
-            // echo ' - Converted Amount : ';
-            if($po[$i][$k]->currency_po=='IDR'){
-                // echo 'Rp. ';
-                // print_r($po[$i][$k]->grand_Total_po);
-                $total[$k] = $po[$i][$k]->grand_Total_po;
-            } else if($po[$i][$k]->currency_po=='USD'){
-                // echo 'Rp. ';
-                // print_r($this->currencyConverter('USD','IDR',$po[$i][$k]->grand_Total_po));
-                $total[$k] = $this->currencyConverter('USD','IDR',$po[$i][$k]->grand_Total_po);
-            } if($po[$i][$k]->currency_po=='EUR'){
-                $total[$k] = $this->currencyConverter('EUR','IDR',$po[$i][$k]->grand_Total_po);
-            }
-            // echo '</pre>';
-            // echo '<pre> total = ';
-            // print_r($total);
-            // echo 'end </pre>';
-            $grand_total+=  $total[$k];
-            }
-            $data['total_po'][$i] = $grand_total;
-            // echo '<pre> grand_total = ';
-            // print_r($data['total_po'][$i]);;
-            // echo ' end</pre>';
-        }
-
         // for($i=1;$i<=12;$i++){
-        //     $check_date = date($i);
-        //     $data['total_po'][$check_date] = 0;
+        //         $check_date = date($i);
+        //         $data['total_po'][$check_date] = 0;
+        //     }
+        // for($i=1;$i<=12;$i++){
+        //     // $month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        //     $grand_total = 0;
+        //     $po[$i] = $this->m_po->get_total_po($i)->result();
+        //     for($k=0;$k<count($po[$i]);$k++){
+        //     $total= array();
+        //     // echo '<pre>';
+        //     // print_r($po[$i][$k]->month);
+        //     // echo ' - ';
+        //     // print_r($po[$i][$k]->currency_po);
+        //     // echo ' - ';
+        //     // print_r($po[$i][$k]->grand_Total_po);
+        //     // echo ' - Converted Amount : ';
+        //     if($po[$i][$k]->currency_po=='IDR'){
+        //         // echo 'Rp. ';
+        //         // print_r($po[$i][$k]->grand_Total_po);
+        //         $total[$k] = $po[$i][$k]->grand_Total_po;
+        //     } else if($po[$i][$k]->currency_po=='USD'){
+        //         // echo 'Rp. ';
+        //         // print_r($this->currencyConverter('USD','IDR',$po[$i][$k]->grand_Total_po));
+        //         $total[$k] = $this->currencyConverter('USD','IDR',$po[$i][$k]->grand_Total_po);
+        //     } if($po[$i][$k]->currency_po=='EUR'){
+        //         $total[$k] = $this->currencyConverter('EUR','IDR',$po[$i][$k]->grand_Total_po);
+        //     }
+        //     // echo '</pre>';
+        //     // echo '<pre> total = ';
+        //     // print_r($total);
+        //     // echo 'end </pre>';
+        //     $grand_total+=  $total[$k];
+        //     }
+        //     $data['total_po'][$i] = $grand_total;
+        //     // echo '<pre> grand_total = ';
+        //     // print_r($data['total_po'][$i]);;
+        //     // echo ' end</pre>';
         // }
-        // foreach($po as $item){
-        //     $data['total_po'][$item->month] = $item->total;
-        // }
+
+        $po = $this->m_po->get_total_po()->result();
+        $data['total_po'] = [];
+
+        for($i=1;$i<=12;$i++){
+            $check_date = date($i);
+            $data['total_po'][$check_date] = 0;
+        }
+        foreach($po as $item){
+            $data['total_po'][$item->month] = $item->jumlah;
+        }
 
         $data['interval'] = $this->m_po->last_update_po()->row()->last_update;
         $data['tgl'] = $this->m_po->last_update_po()->row()->tgl_sebelum;
@@ -792,6 +797,8 @@ class Purchase extends CI_Controller
     }
 
     public function laporan_pdf($no_po){
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
 
         $data['p'] = $this->m_po->edit_data($no_po, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_word($no_po)->result();
@@ -800,10 +807,16 @@ class Purchase extends CI_Controller
         $this->load->library('pdf');
     
         $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->load_view('purchase/masterpo', $data, $no_po);
+        if ($level == "3"||$level == "4") {
+            $this->pdf->load_view('purchase/pospqm', $data, $no_po);
+        } else {
+            $this->pdf->load_view('purchase/masterpo', $data, $no_po);
+        }
     }
 
     public function laporan_pdf_item($no_po){
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
 
         $data['po'] = $this->m_po->edit_data($no_po, 'purchase_order')->result();
         $data['pi'] = $this->m_po->ambil_data_po_item($no_po)->result();
@@ -813,7 +826,11 @@ class Purchase extends CI_Controller
         $this->load->library('pdf');
     
         $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->load_view('purchase/poibm', $data, $no_po);
+        if ($level == "6") {
+            $this->pdf->load_view('purchase/pokdgr', $data, $no_po);
+        } else {
+            $this->pdf->load_view('purchase/poibm', $data, $no_po);
+        }
     }
 
     function delete_pi($id)
@@ -871,6 +888,9 @@ class Purchase extends CI_Controller
     }
     public function preview_po_word()
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+
         $data['position'] = $this->m_user->ambil_data_status()->result();
         $no_po = $this->input->post('nopo');
         $resource_name = $this->input->post('rn');
@@ -973,11 +993,18 @@ class Purchase extends CI_Controller
         $this->load->library('pdf_2');
     
         $this->pdf_2->setPaper('A4', 'potrait');
-        $this->pdf_2->load_view('purchase/masterpo', $data, $no_po);
+        if ($level == "3"||$level == "4") {
+            $this->pdf_2->load_view('purchase/pospqm', $data, $no_po);
+        } else {
+            $this->pdf_2->load_view('purchase/masterpo', $data, $no_po);
+        }
     }
 
     public function preview_po_item()
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+
         $data['position'] = $this->m_user->ambil_data_status()->result();
         $no_po = $this->input->post('nopo');
         $resource_name = $this->input->post('rn');
@@ -1057,6 +1084,11 @@ class Purchase extends CI_Controller
         $this->load->library('pdf_2');
     
         $this->pdf_2->setPaper('A4', 'potrait');
-        $this->pdf_2->load_view('purchase/poibm', $data, $no_po);
+        
+        if ($level == "6") {
+            $this->pdf_2->load_view('purchase/pokdgr', $data, $no_po);
+        } else {
+            $this->pdf_2->load_view('purchase/poibm', $data, $no_po);
+        }
     }
 }

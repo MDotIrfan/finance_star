@@ -24,7 +24,7 @@ class M_inv_in extends CI_Model
         if ($table == 'invoice_in') {
             $userdata = $this->session->userdata('user_logged');
             $name = $userdata->full_Name;
-            $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
+            $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total', 'currency_inv');
             $column_search = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
             $this->db->from('invoice_in po');
             $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
@@ -35,7 +35,7 @@ class M_inv_in extends CI_Model
         } else if ($table == 'invoice_in_finance') {
             $userdata = $this->session->userdata('user_logged');
             $level = $userdata->id_Status;
-            $column_order = array('p.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total');
+            $column_order = array('p.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total', 'currency_inv');
             $column_search = array('p.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
             $this->db->from('invoice_in p');
             $this->db->join('invoice_in_item q', 'p.no_invoice=q.no_invoice');
@@ -54,7 +54,7 @@ class M_inv_in extends CI_Model
         } else if ($table == 'invoice_out'||$table == 'project_dashboard') {
             $userdata = $this->session->userdata('user_logged');
             $level = $userdata->id_Status;
-            $column_order = array('po.no_invoice','client_name', 'project_Name_po', 'nama_Pm', 'invoice_date', 'grand_total');
+            $column_order = array('po.no_invoice','client_name', 'project_Name_po', 'nama_Pm', 'invoice_date', 'grand_total', 'currency_inv');
             $column_search = array('po.no_invoice','client_name', 'project_Name_po', 'nama_Pm', 'invoice_date');
             $this->db->from('invoice_out po');
             $this->db->join('purchase_order p', 'po.no_po=p.no_Po');
@@ -641,8 +641,9 @@ class M_inv_in extends CI_Model
     }
     function edit_data($where, $table)
     {
-        $this->db->select('*');
+        $this->db->select('*, p.company');
         $this->db->from('invoice_in po');
+        $this->db->join('purchase_order p', 'po.no_Po=p.no_Po');
         $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
         $this->db->where('po.no_invoice', $where);
         $this->db->group_by('po.no_invoice');

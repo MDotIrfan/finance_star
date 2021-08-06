@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="mid" align="right" style="margin-right: 115px;">
+    <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="mid" align="right" style="margin-right: 115px; height:150px;">
     <div style="margin-top: 50px;">
         <table border="0" style="width: 25%" align="right">
             <td>
@@ -73,12 +73,12 @@
 
                     </p>
                 </td>
-                <!-- <?php foreach ($p as $po) { ?>
+                <?php foreach ($p as $po) { ?>
                     <td width="85%">
 
                         <p>
                             <?php echo $po->date; ?><br>
-                            <b><?php echo $po->project_Name; ?></b><br><br>
+                            <b><?php echo $po->project_Name_po; ?></b><br><br>
 
                             <?php echo $po->date; ?><br><br>
 
@@ -89,11 +89,11 @@
                             <?php echo $po->address_Resource; ?><br>
                             <?php echo $po->mobile_Phone; ?><br>
                             <?php echo $po->resource_Email; ?><br>
-                            <?php echo $po->project_Name; ?><br><br>
-                            <b>MYR</b> <br><br>
+                            <?php echo $po->project_Name_po; ?><br><br>
+                            <b><?php echo $po->currency_po; ?></b> <br><br>
                         </p>
                     </td>
-                <?php } ?> -->
+                <?php } ?>
             </tr>
         </table>
     </div>
@@ -369,7 +369,7 @@
             <td style="text-align:center;" class="bold" width="25%"></td>
             <td width="25%" style="text-align:center;" class="bold"></td>
             <td style="text-align:center;" class="bold" width="25%"></td>
-            <td width="25%" style="text-align:center;color:blue;">Someone</td>
+            <td width="25%" style="text-align:center;color:blue;"><?php echo $po->nama_Pm; ?></td>
         </tr>
         <tr class="center">
             <td style="text-align:center;" class="bold" width="25%"></td>
@@ -383,7 +383,7 @@
             <td width="25%" style="text-align:center;">
             </td>
             <td width="25%" style="text-align:center;">
-                <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="midd" align="center">
+                <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="midd" align="center" style="height:150px;">
             </td>
         </tr>
 

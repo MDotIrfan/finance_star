@@ -207,21 +207,24 @@ class M_po extends CI_Model
         return $query = $this->db->get();
     }
 
-    function get_total_po($month){
+    function get_total_po(){
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
-        $this->db->select("grand_Total_po , currency_po, 
+        $this->db->select("count(no_Po) as 'jumlah', 
                         month(date) as 'month', 
                         year(date) as 'year'");
         $this->db->from('purchase_order');
-        $this->db->where('month(date)', $month);
+        if ($level == "3") {
+            $this->db->like('no_Po', 'SQ-');
+        } else if ($level == "4") {
+            $this->db->like('no_Po', 'SQM-');
+        } else if ($level == "6") {
+            $this->db->like('no_Po', 'KEB-');
+        } else {
+            $this->db->like('no_Po', 'ST-');
+        }
         $this->db->where('year(date) = year(now())');
-        $this->db->where('nama_Pm', $name);
-        if($level=="3"){$this->db->like('no_Po', 'SQ-');}
-        else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
-        else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
-        else {$this->db->like('no_Po', 'ST-');}
+        $this->db->group_by('(SELECT EXTRACT( YEAR_MONTH FROM `date` ))');
 		return $query = $this->db->get();
     }
 
@@ -286,12 +289,31 @@ class M_po extends CI_Model
         return $query = $this->db->get();
     }
 
+    function hitung_po($where)
+    {
+        $this->db->select('*');
+        $this->db->from('quotation q');
+        $this->db->join('purchase_order po', 'q.no_Quotation=po.id_quotation', 'left');
+        $this->db->where('q.no_Quotation', $where);
+        return $query = $this->db->get();
+    }
+
     function ambil_data_qi($where){
 		$this->db->select('*, q.project_Name as nama_projek, q.currency as kurensi');
         $this->db->from('quotation q');
         $this->db->join('quitation_item qi', 'q.no_Quotation=qi.no_Quotation', 'left');
         $this->db->join('purchase_order po', 'q.no_Quotation=po.id_quotation', 'left');
         $this->db->where('q.no_Quotation', $where);
+		return $query = $this->db->get();
+	}
+
+    function ambil_data_qi_group($where){
+		$this->db->select('*, q.project_Name as nama_projek, q.currency as kurensi');
+        $this->db->from('quotation q');
+        $this->db->join('quitation_item qi', 'q.no_Quotation=qi.no_Quotation', 'left');
+        $this->db->join('purchase_order po', 'q.no_Quotation=po.id_quotation', 'left');
+        $this->db->where('q.no_Quotation', $where);
+        $this->db->group_by('qi.job_Desc');
 		return $query = $this->db->get();
 	}
 

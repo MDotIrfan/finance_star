@@ -77,7 +77,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;" class="center" width="35%">
-                            <!-- <?php echo $p->project_Name; ?> -->
+                            <?php echo $p->project_Name_po; ?>
                         </td>
 
                     </tr>
@@ -365,11 +365,23 @@
         <table border="1" style="width: 50%" align="right" cellspacing="0" cellpadding="0">
             <td width="25%" style="text-align:center; background-color:pink" class="bold">Rate</td>
             <td width="25%" style="text-align:center;" class="bold">
-                <!-- <?php echo $pi->rate; ?> -->
+            <?php if($p->currency_po=='IDR'){
+                echo 'Rp. '.number_format($pi->rate,2,",",".");
+            } else if($p->currency_po=='USD'){
+                echo '$ '.number_format($pi->rate,2,".",",");
+            } else if($p->currency_po=='EUR'){
+                echo '€ '.number_format($pi->rate,2,".",",");
+            } ?>
             </td>
             <td width="25%" style="text-align:center; background-color:pink" class="bold">Total Fee</td>
             <td width="25%" style="text-align:center;" class="bold">
-                <!-- <?php echo $pi->grand_Total; ?> -->
+            <?php if($p->currency_po=='IDR'){
+                echo 'Rp. '.number_format($pi->grand_Total_po,2,",",".");
+            } else if($p->currency_po=='USD'){
+                echo '$ '.number_format($pi->grand_Total_po,2,".",",");
+            } else if($p->currency_po=='EUR'){
+                echo '€ '.number_format($pi->grand_Total_po,2,".",",");
+            } ?>
             </td>
         </table>
         <br>

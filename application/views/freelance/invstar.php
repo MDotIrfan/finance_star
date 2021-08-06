@@ -40,7 +40,7 @@
     <?php foreach ($inv as $po) { ?>
         <table border="0" style="width: 80%;margin-bottom: 30px;" align="center" cellspacing="0" cellpadding="0">
         <?php foreach ($a as $a) { ?>
-            <tr style="text-align:right;">
+            <!-- <tr style="text-align:right;">
                 <td>
                     <?= $po->mitra_name ?>
                 </td>
@@ -54,22 +54,8 @@
                 <td>
                     <?= $a->resource_Email ?>
                 </td>
-            </tr>
+            </tr> -->
             <?php } ?>
-            <!-- <?php foreach ($a as $a) { ?>
-                <tr style="text-align:right;">
-                    <td>
-                        telepon
-                        <?= $a->mobile_Phone ?>
-            </td>
-            </tr>
-            <tr style="text-align:right;">
-                <td>
-                    email
-                    <?= $a->resource_Email ?> 
-                </td>
-            </tr>
-        <?php } ?> -->
         <?php } ?>
         </table>
 
@@ -81,7 +67,8 @@
                 <td width="90%">
                     <a>Bill to :</a><br><br>
                     <a>
-                        <!-- <?= $a->nama_Pm ?> -->
+                        <?= $a->nama_Pm ?><br>
+                        <?= $a->email_pm ?>
                         <br><br>
                         PT. STAR Software Indonesia<br>
                         Citylofts Sudirman Unit 1512<br>
@@ -124,7 +111,14 @@
                 <tr>
                     <td style="text-align:center;width:5px" class="center">1</td>
                     <td style="text-align:center;width:50px; " class=" center"><?= $p->jobdesc ?></td>
-                    <td style="text-align:center;width:40px;" class="center"><?= $p->amount ?></td>
+                    <td style="text-align:center;width:40px;" class="center">
+                    <?php if($po->currency_inv=='IDR'){
+                echo number_format($p->amount,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($p->amount,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($p->amount,2,".",",");
+            } ?></td>
                 </tr>
                 <?php } ?>
 
@@ -141,8 +135,13 @@
                 <?php } ?> -->
                 <tr class="centerr">
                     <td colspan="2" style="text-align:center; ">TOTAL</td>
-                    <td style="text-align:center; ">IDR <?= $po->grand_total ?>
-                        <!-- <?= $po->grand_total ?> -->
+                    <td style="text-align:center; "><?php if($po->currency_inv=='IDR'){
+                echo 'IDR '.number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo 'USD '.number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo 'EUR '.number_format($po->grand_total,2,".",",");
+            } ?>
                     </td>
                 </tr>
 

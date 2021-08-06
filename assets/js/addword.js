@@ -27,6 +27,7 @@ cost = [];
                     document.getElementById('jumlah').removeAttribute('readonly', true);
                     $('#rate').val('0');
                     $('#curr').val(data['q'][0].kurensi);
+                  $('#curr_awal').val(data['q'][0].kurensi);
                     $('#rs').val('admin');
                     $('#ps').val('');
                     $('#pm').val('');
@@ -36,11 +37,12 @@ cost = [];
                 } else {
                   $('#pn').val(data['q'][0].project_Name_po);
                   $('#jumlah').val(data['q'][0].jumlah_pembayaran);
-                  $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['q'].length)+1));
+                  $('#nopo').val(data['q'][0].no_po_ori+'_'+(parseInt(data['po'].length)+1));
                   $('#nopo_awal').val(data['q'][0].no_po_ori);
                   document.getElementById('jumlah').setAttribute('readonly', true);
                   $('#rate').val(data['q'][0].rate);
-                  $('#curr').val(data['q'][0].currency_po);
+                  $('#curr').val(data['q'][0].kurensi);
+                  $('#curr_awal').val(data['q'][0].kurensi);
                   $('#rs').val(data['q'][0].resource_Status);
                   $('#ps').val(data['q'][0].resource_Email);
                   $('#pm').val(data['q'][0].mobile_Phone);
@@ -315,6 +317,7 @@ var from_currencyEl = $('#curr_awal').val();;
 var to_currencyEl = '';
 
 $("#curr").on('change', function(el) {
+from_currencyEl = $('#curr_awal').val();
 tujuan=$('#curr').val();
 if(from_currencyEl=='IDR' && tujuan=='USD'){
   from_currencyEl='IDR'

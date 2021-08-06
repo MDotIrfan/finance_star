@@ -22,12 +22,17 @@ class Finance extends CI_Controller
         $list = $this->m_inv_in->get_datatables($table);
         $data = array();
         foreach ($list as $field) {
+            if($field->currency_inv!='IDR'){
+                $conv = $this->currencyConverter($field->currency_inv,'IDR',$field->grand_total);
+            } else {
+                $conv = $field->grand_total;
+            }
             $row = array();
             $row[] = $field->no_invoice;
             $row[] = $field->mitra_name;
             $row[] = $field->jobdesc;
             $row[] = $field->invoice_date;
-            $row[] = $field->grand_total;
+            $row[] = "Rp. ".number_format($conv,2,",",".");
             $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
                     <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
 
@@ -49,13 +54,18 @@ class Finance extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             $row = array();
+            if($field->currency_inv!='IDR'){
+                $conv = $this->currencyConverter($field->currency_inv,'IDR',$field->grand_total);
+            } else {
+                $conv = $field->grand_total;
+            }
             $row[1] = $field->no_invoice;
             $row[2] = $field->client_name;
             $row[3] = $field->project_Name_po;
             $row[4] = $field->nama_Pm;
             $row[5] = $field->invoice_date;
             $row[6] = $field->due_date;
-            $row[7] = $field->grand_total;
+            $row[7] = "Rp. ".number_format($conv,2,",",".");
             $row[8] = '<a href="'.base_url('finance/editinvoiceout/' . $field->no_invoice).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
                     <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('finance/delete/' . $field->no_invoice).'"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
                     <a href="'.base_url('assets/files/' . $field->no_invoice . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
@@ -822,10 +832,10 @@ class Finance extends CI_Controller
         $mail->Host = 'smtp.hostinger.com';
         $mail->Port = 587;
         $mail->SMTPAuth = true;
-        $mail->Username = 'test@hostinger-tutorials.com';
-        $mail->Password = 'YOUR PASSWORD HERE';
-        $mail->setFrom($email_ini, $name);
-        $mail->addReplyTo($email_ini, $name);
+        $mail->Username = 'finance@kodegiri.com';
+        $mail->Password = 'Finance1234';
+        $mail->setFrom('randa@kodegiri.com', $name);
+        $mail->addReplyTo('finance@kodegiri.com', $name);
         $mail->addAddress($to, 'pm star 1');
         $mail->Subject = $subject;
         // $mail->msgHTML(file_get_contents('message.html'), __DIR__);
@@ -835,6 +845,7 @@ class Finance extends CI_Controller
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
             echo 'The email message was sent.';
+            redirect('finance/send');
         }
     }
 
@@ -1097,7 +1108,7 @@ class Finance extends CI_Controller
         $this->load->library('pdf');
     
         $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->load_view('finance/invspqm', $data, $no_inv);
+        $this->pdf->load_view('finance/invspqm', $data, $no_invoice);
     }
     public function laporan_pdf_inv4($no_invoice){
 
@@ -1305,4 +1316,28 @@ class Finance extends CI_Controller
             $this->pdf->load_view('finance/baststar', $data, $no_bast);
         }
     }
+
+    function currencyConverter($fromCurrency,$toCurrency,$amount) {	
+		$from = $fromCurrency;
+		$to = $toCurrency;	
+        $amount = number_format($amount,0,"","");
+		// $encode_amount = 1;
+
+        $url="https://api.exchangerate-api.com/v4/latest/".$from;
+        $get_url = file_get_contents($url);
+        $data = json_decode($get_url);
+
+        $data_array = array(
+            'datalist' => $data
+        );
+        $rates = $data_array['datalist']->rates->IDR;
+        $amountConverted = $rates*$amount;
+        return $amountConverted;
+        // echo '<pre>';
+        // print_r($data_array['datalist']->rates->USD);
+        // echo '</pre>';
+        // echo $from.' '.$to.' '.$amount;
+		// $data = array( 'exhangeRate' => $exhangeRate, 'convertedAmount' => $convertedAmount, 'fromCurrency' => strtoupper($fromCurrency), 'toCurrency' => strtoupper($toCurrency));
+		// echo json_encode( $data );	
+	}
 }

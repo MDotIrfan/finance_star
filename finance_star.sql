@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2021 at 01:41 PM
+-- Generation Time: Aug 06, 2021 at 05:38 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.27
 
@@ -47,10 +47,8 @@ CREATE TABLE `bast` (
 --
 
 INSERT INTO `bast` (`id_bast`, `type_of_work`, `due_date`, `no_invoice`, `project_name`, `pic_client`, `perihal`, `company_name`, `email`, `first_party`, `second_party`, `created_at`) VALUES
-('001-VI-PF1-2021', 'project item', '2021-06-30', 'STJAK-0012-2021', 'coba project 1', 'Darkah Subin', 'project', 'PT. Sentosa Abadi', 'sentosa@gmail.com', 'STAR', 'Darkah Subin', '2021-08-05 02:58:40'),
-('002-VI-FK-2021', 'project item', '2021-06-30', 'KEB-0004-06-2021', 'coba kodegiri', 'Darkah Subin', 'project', 'PT. Sentosa Abadi', 'sentosa@gmail.com', 'Cycas Rifki Yolanda', 'Darkah Subin', '2021-08-05 02:58:40'),
-('003-VIII-P1-2021', 'coba BAST', '2021-08-05', 'STJAK-0028-2021', 'der', 'Darkah Subin', 'coba BAST', 'PT. Sentosa Abadi', 'sentosa@gmail.com', 'PT.STAR', 'Darkah Subin', '2021-08-05 03:20:27'),
-('004-VIII-P1-2021', 'coba BAST', '2021-08-05', 'STJAK-0028-2021', 'der', 'Darkah Subin', 'coba BAST', 'PT. Sentosa Abadi', 'pmstarna1@gmail.com', 'PT. STAR', 'Darkah Subin', '2021-08-05 03:22:02');
+('001-VIII-RB-2021', 'coba BAST', '2021-08-12', 'STJAK-0006-2021', 'Distinctio Cum susc', 'Chadwick Mendoza', 'coba BAST', 'PT. Jaya Wijaya', 'pmstarna2@gmail.com', 'PT. STAR Software Indonesia', 'Chadwick Mendoza', '2021-08-06 05:55:42'),
+('002-VIII-BY-2021', 'coba BAST', '2021-08-19', 'KEB-0003-08-2021', 'Pariatur Ut ullamco', 'Vivian Gay', 'coba BAST', 'PT. Sentosa Abadi', 'pmstarna1@gmail.com', 'PT. Kode Evolusi Bangsa', 'Vivian Gay', '2021-08-06 06:07:55');
 
 -- --------------------------------------------------------
 
@@ -72,12 +70,10 @@ CREATE TABLE `bast_item` (
 --
 
 INSERT INTO `bast_item` (`id`, `id_bast`, `item`, `qty`, `Unit`, `status`) VALUES
-(21, '001-VI-PF1-2021', 'coba ini 1', 100, 'Days', 1),
-(22, '001-VI-PF1-2021', 'coba lagi', 700, 'Hours', 0),
-(23, '001-VI-PF1-2021', 'coba 1', 10, 'Years', 1),
-(29, '002-VI-FK-2021', 'coba kodegiri', 350, 'Hours', 1),
-(30, '003-VIII-P1-2021', 'nkkm/990/df', 1, 'word', 0),
-(32, '004-VIII-P1-2021', 'nkkm/990/df', 1, 'Unit', 1);
+(33, '001-VIII-RB-2021', 'Suscipit enim qui mo', 1, 'Years', 1),
+(34, '001-VIII-RB-2021', 'Aliquip et quaerat o', 20, 'Days', 1),
+(35, '001-VIII-RB-2021', 'Vero blanditiis amet', 2, 'Months', 0),
+(36, '002-VIII-BY-2021', 'Ipsam consequuntur q', 890, 'Hours', 1);
 
 -- --------------------------------------------------------
 
@@ -100,7 +96,7 @@ CREATE TABLE `client_data` (
 INSERT INTO `client_data` (`client_id`, `client_name`, `client_email`, `company_name`, `address`) VALUES
 ('CL001', 'Darkah Subin', 'sentosa@gmail.com', 'PT. Sentosa Abadi', 'Jln. Kaliurang, D . I. Yogyakarta'),
 ('CL002', 'Nur Minah', 'jaya@gmail.com', 'PT. Jaya Wijaya', 'Jln. Thamrin, Jakarta'),
-('CL003', 'Bambang Mustajab', 'bmclient@gmail.com', '', 'Jln. Siliwangi, Bandung');
+('CL003', 'xyxipo', 'qywivufe@mailinator.com', 'Osborne M', 'Rerum at');
 
 -- --------------------------------------------------------
 
@@ -110,7 +106,7 @@ INSERT INTO `client_data` (`client_id`, `client_name`, `client_email`, `company_
 
 CREATE TABLE `invoice_in` (
   `no_invoice` varchar(20) NOT NULL,
-  `no_Po` varchar(11) NOT NULL,
+  `no_Po` varchar(15) NOT NULL,
   `no_rekening` varchar(20) NOT NULL,
   `cabang_bank` varchar(30) NOT NULL,
   `mitra_name` varchar(50) NOT NULL,
@@ -130,31 +126,23 @@ CREATE TABLE `invoice_in` (
   `v_form` enum('0','1') NOT NULL,
   `is_Acc` int(11) NOT NULL DEFAULT 0,
   `currency_inv` varchar(36) DEFAULT 'IDR',
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `tax` decimal(11,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `invoice_in`
 --
 
-INSERT INTO `invoice_in` (`no_invoice`, `no_Po`, `no_rekening`, `cabang_bank`, `mitra_name`, `address`, `down_payment`, `invoice_date`, `due_date`, `email`, `no_npwp`, `public_notes`, `terms`, `signature`, `footer`, `total_cost`, `grand_total`, `tipe`, `v_form`, `is_Acc`, `currency_inv`, `created_at`) VALUES
-('KEB-0001-06-2021', 'KEB-PR0001', '3456789', 'BRI', 'Freelance Kodegiri', 'Jln. Panyawangan, Bandung', 500, '2021-06-25', '2021-06-30', 'flkg@gmail.com', '45767890', '', '', '', '', '193500.00', '189630.00', 'word', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('KEB-0002-06-2021', 'KEB-PR0002', '3456789', 'BRI', 'Freelance Kodegiri', 'Jln. Panyawangan, Bandung', 0, '2021-06-25', '2021-06-30', 'flkg@gmail.com', '45767890', '', '', '', '', '510000.00', '499800.00', 'item', '1', 0, 'IDR', '2021-08-02 19:45:39'),
-('SQJAK-0006-06-2021', 'SQ-PR0014', '5435345', 'BCA', 'freelance 1', 'coba address 1', 10000, '2021-06-15', '2021-06-23', 'fl1@gmail.com', '634345', '', '', '', '', '136200.00', '136200.00', 'word', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('SQJAK-0007-06-2021', 'SQ-PR0017', '5435345', 'BCA', 'freelance 1', 'coba address 1', 10000, '2021-06-15', '2021-06-19', 'fl1@gmail.com', '634345', '', '', '', '', '158190.00', '158190.00', 'item', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0003-2021', 'ST-PR0007', '5435345', 'BCA', 'ilham nur inzani', 'coba address 2', 500, '2021-06-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'rg', 'ar', 'ft', '92000.00', '92000.00', 'word', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0004-2021', 'ST-PR0010', '5435345', 'coba project', 'ilham nur inzani', 'coba address', 500, '2021-06-16', '2021-06-18', 'ilhamham@gmail.com', '634345', 'pn', 'reg', 'rress', 'foot', '142500.00', '142500.00', 'word', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0005-2021', 'ST-PR0011', '5435345', 'BCA', 'ilham nur inzani', 'coba address 1', 5000, '2021-05-15', '2021-06-19', 'ilhamham@gmail.com', '634345', 'pn', 'reg', 'addr', 'foot', '190190.00', '178779.00', 'item', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0006-2021', 'ST-PR0020', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 10000, '2021-05-14', '2021-06-24', 'ilhamham@gmail.com', '445653345', 'dsadasdas', '', '', '', '85410.00', '80285.00', 'word', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0009-2021', 'ST-PR0022', '2675889', 'BRI', 'Zoey Panda', 'Jln. Kedamaian No. 11', 5000, '2021-06-25', '2021-06-26', 'zoeypanda@gmail.com', '775684956', '', '', '', '', '82400.00', '80340.00', 'item', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0010-2021', 'ST-PR0021', '2675889', 'BRI', 'Zoey Panda', 'Jln. Kedamaian No. 11', 0, '2021-06-24', '2021-06-30', 'zoeypanda@gmail.com', '775684956', '', '', '', '', '193500.00', '188663.00', 'word', '0', 0, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0013-2021', 'ST-PR0024', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 5000, '2021-07-09', '2021-07-16', 'ilhamham@gmail.com', '445653345', '', '', '', '', '50000.00', '47000.00', 'item', '0', 1, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0014-2021', 'ST-PR0025_2', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 50000, '2021-07-15', '2021-07-17', 'ilhamham@gmail.com', '445653345', '', '', '', '', '4900000.00', '4606000.00', 'word', '0', 1, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0016-2021', 'ST-PR0028_1', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 300, '2021-07-17', '2021-07-21', 'ilhamham@gmail.com', '445653345', '', '', '', '', '5000000.00', '4700000.00', 'item', '0', 1, 'IDR', '2021-08-02 19:45:39'),
-('STJAK-0017-2021', 'ST-PR0027_2', '12345', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-03', '2021-08-03', 'ilhamham@gmail.com', '445653345', '', '', '', '', '7096740.00', '6670935.60', 'word', '0', 0, 'IDR', '2021-08-03 21:14:46'),
-('STJAK-0018-2021', 'ST-PR0027_1', '5679', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-03', '2021-08-03', 'ilhamham@gmail.com', '445653345', '', '', '', '', '245.00', '245.00', 'word', '0', 0, 'USD', '2021-08-03 21:29:19'),
-('STJAK-0020-2021', 'ST-PR0026_1', '776475890', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-04', '2021-08-04', 'ilhamham@gmail.com', '445653345', '', '', '', '', '60.80', '60.80', 'item', '0', 0, 'EUR', '2021-08-03 23:29:01'),
-('STJAK-0021-2021', 'ST-PR0026_2', '53533565', 'Bank Mandiri', 'ilham nur inzani', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-04', '2021-08-04', 'ilhamham@gmail.com', '445653345', '', '', '', '', '4662000.00', '4382280.00', 'item', '0', 0, 'IDR', '2021-08-03 23:37:37');
+INSERT INTO `invoice_in` (`no_invoice`, `no_Po`, `no_rekening`, `cabang_bank`, `mitra_name`, `address`, `down_payment`, `invoice_date`, `due_date`, `email`, `no_npwp`, `public_notes`, `terms`, `signature`, `footer`, `total_cost`, `grand_total`, `tipe`, `v_form`, `is_Acc`, `currency_inv`, `created_at`, `tax`) VALUES
+('KEB-0001-08-2021', 'KEB-PR0001_1', '12345', 'Bank Mandiri', 'Boston High', 'Jln. Kepatihan No. 8, Bandung', 0, '2021-08-06', '2021-08-06', 'larimysu@mailinator.com', '1234', '', '', '', '', '70.00', '68.60', 'word', '0', 0, 'USD', '2021-08-06 02:44:49', '1.40'),
+('KEB-0002-08-2021', 'KEB-PR0002_1', '12345', 'Bank Mandiri', 'Boston High', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-06', '2021-08-13', 'larimysu@mailinator.com', '1234', '', '', '', '', '4574956.00', '4483456.88', 'item', '0', 0, 'IDR', '2021-08-06 02:46:38', '0.00'),
+('SQJAK-0001-08-2021', 'SQ-PR0001_2', '12345', 'Bank Mandiri', 'Boston High', 'Jln. Batu No.6, Malang', 0, '2021-08-06', '2021-08-11', 'larimysu@mailinator.com', '1234', '', '', '', '', '21.00', '20.58', 'word', '0', 0, 'USD', '2021-08-06 01:41:17', '0.00'),
+('SQM-0001-08-2021', 'SQM-PR0002_3', '12345', 'Bank Mandiri', 'Boston High', 'Jln. Batu No.6, Malang', 0, '2021-08-06', '2021-08-06', 'larimysu@mailinator.com', '1234', '', '', '', '', '193.20', '189.34', 'item', '0', 0, 'EUR', '2021-08-06 02:47:18', '0.00'),
+('STJAK-0001-2021', 'ST-PR0001_1', '12345', 'Bank Mandiri', 'Denton Dodson', 'Jln. Kepatihan No. 8, Bandung', 0, '2021-08-06', '2021-08-21', 'freelnstar1@gmail.com', '1234', '', '', '', '', '3285000.00', '3285000.00', 'word', '0', 0, 'IDR', '2021-08-06 00:46:33', '0.00'),
+('STJAK-0002-2021', 'ST-PR0001_2', '12345', 'Bank Mandiri', 'Denton Dodson', 'Jln. Kepatihan No. 8, Bandung', 0, '2021-08-06', '2021-08-06', 'freelnstar1@gmail.com', '1234', '', '', '', '', '438.00', '438.00', 'word', '0', 0, 'USD', '2021-08-06 00:47:26', '0.00'),
+('STJAK-0003-2021', 'ST-PR0002_2', '12345', 'Bank Mandiri', 'Denton Dodson', 'Jln. Kepatihan No. 8, Bandung', 0, '2021-08-06', '2021-08-14', 'freelnstar1@gmail.com', '1234', '', '', '', '', '7839113.30', '7447157.64', 'item', '0', 0, 'IDR', '2021-08-06 00:49:41', '0.00'),
+('STJAK-0004-2021', 'ST-PR0002_3', '12345', 'Bank Mandiri', 'Denton Dodson', 'Jln. Kepatihan No. 8, Bandung', 0, '2021-08-06', '2021-08-06', 'freelnstar1@gmail.com', '1234', '', '', '', '', '751.71', '751.71', 'item', '0', 0, 'EUR', '2021-08-06 00:52:16', '0.00');
 
 -- --------------------------------------------------------
 
@@ -177,32 +165,16 @@ CREATE TABLE `invoice_in_item` (
 --
 
 INSERT INTO `invoice_in_item` (`id`, `no_invoice`, `jobdesc`, `qty`, `unit`, `rate`, `amount`) VALUES
-(70, 'STJAK-0004-2021', 'project ke 12', 830, '', '120.00', '99600.00'),
-(71, 'STJAK-0004-2021', 'coba 2', 110, '', '390.00', '42900.00'),
-(81, 'SQJAK-0006-06-2021', 'project ke 14', 810, '', '120.00', '97200.00'),
-(82, 'SQJAK-0006-06-2021', 'tambah project 1', 100, '', '390.00', '39000.00'),
-(86, 'SQJAK-0007-06-2021', 'coba 1', 100, 'Hours', '390.00', '39000.00'),
-(87, 'SQJAK-0007-06-2021', 'coba 2', 210, 'Hours', '339.00', '71190.00'),
-(88, 'SQJAK-0007-06-2021', 'coba 3', 480, 'Hours', '100.00', '48000.00'),
-(89, 'STJAK-0003-2021', 'Eu duis voluptatibus', 810, '', '100.00', '81000.00'),
-(90, 'STJAK-0003-2021', 'coba 1', 110, '', '100.00', '11000.00'),
-(121, 'STJAK-0009-2021', 'coba ini', 124, 'Days', '100.00', '12400.00'),
-(122, 'STJAK-0009-2021', 'coba lagi', 700, 'Hours', '100.00', '70000.00'),
-(125, 'STJAK-0010-2021', 'coba coba', 215, '', '900.00', '193500.00'),
-(127, 'KEB-0001-06-2021', 'coba project ke 2', 215, '', '900.00', '193500.00'),
-(128, 'KEB-0002-06-2021', 'coba 1', 300, 'Days', '200.00', '60000.00'),
-(129, 'KEB-0002-06-2021', 'coba 2', 500, 'Hours', '900.00', '450000.00'),
-(130, 'STJAK-0013-2021', 'coba 1', 100, 'Hours', '500.00', '50000.00'),
-(132, 'STJAK-0006-2021', 'coba project 15', 657, '', '130.00', '85410.00'),
-(133, 'STJAK-0005-2021', 'Ut id quibusdam quo ', 100, 'Hours', '512.00', '51200.00'),
-(134, 'STJAK-0005-2021', 'coba 2', 200, 'Hours', '339.00', '67800.00'),
-(135, 'STJAK-0005-2021', 'coba 3', 210, 'Hours', '339.00', '71190.00'),
-(138, 'STJAK-0014-2021', 'der', 700, '', '7000.00', '4900000.00'),
-(139, 'STJAK-0016-2021', 'coba po 1', 5000, 'Hours', '1000.00', '5000000.00'),
-(150, 'STJAK-0018-2021', 'coba quot baru', 3500, '', '0.07', '245.00'),
-(152, 'STJAK-0017-2021', 'coba quot baru', 7000, '', '1013.82', '7096740.00'),
-(155, 'STJAK-0020-2021', 'coba ii', 190, 'Hours', '0.32', '60.80'),
-(157, 'STJAK-0021-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00');
+(168, 'STJAK-0002-2021', 'Project Example 1', 7300, '', '0.06', '438.00'),
+(171, 'STJAK-0004-2021', 'Suscipit enim qui mo', 1, 'Years', '750.27', '750.27'),
+(172, 'STJAK-0004-2021', 'Aliquip et quaerat o', 20, 'Days', '0.03', '0.60'),
+(173, 'STJAK-0004-2021', 'Vero blanditiis amet', 2, 'Months', '0.42', '0.84'),
+(174, 'STJAK-0003-2021', 'Suscipit enim qui mo', 1, 'Years', '7839113.30', '7839113.30'),
+(175, 'STJAK-0001-2021', 'Project Example 1', 3650, '', '900.00', '3285000.00'),
+(181, 'KEB-0001-08-2021', 'Atque laudantium ve', 350, '', '0.20', '70.00'),
+(182, 'SQJAK-0001-08-2021', 'Ad sint sint omnis v', 350, '', '0.06', '21.00'),
+(183, 'KEB-0002-08-2021', 'Ipsam consequuntur q', 890, 'Hours', '5140.40', '4574956.00'),
+(184, 'SQM-0001-08-2021', 'Commodo id aperiam ', 230, 'Unit', '0.84', '193.20');
 
 -- --------------------------------------------------------
 
@@ -225,17 +197,9 @@ CREATE TABLE `invoice_item_local` (
 --
 
 INSERT INTO `invoice_item_local` (`id`, `no_invoice`, `domain`, `volume`, `unit`, `price`, `amount`) VALUES
-(7, 'STJAK-0012-2021', 'coba ini 1', 100, 'Days', '100.00', '10000.00'),
-(8, 'STJAK-0012-2021', 'coba lagi', 700, 'Hours', '100.00', '70000.00'),
-(10, 'KEB-0003-06-2021', 'cek', 1400, 'Hours', '1.00', '1400.00'),
-(11, 'STJAK-0022-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(12, 'STJAK-0023-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(13, 'STJAK-0024-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(14, 'STJAK-0025-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(15, 'STJAK-0026-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(16, 'STJAK-0027-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(17, 'STJAK-0029-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00'),
-(18, 'STJAK-0030-2021', 'coba', 9000, 'Hours', '518.00', '4662000.00');
+(28, 'STJAK-0006-2021', 'Suscipit enim qui mo', 1, 'Years', '890.00', '890.00'),
+(29, 'STJAK-0006-2021', 'Aliquip et quaerat o', 20, 'Days', '0.03', '0.60'),
+(30, 'STJAK-0006-2021', 'Vero blanditiis amet', 2, 'Months', '0.50', '1.00');
 
 -- --------------------------------------------------------
 
@@ -259,7 +223,7 @@ CREATE TABLE `invoice_item_luar` (
 --
 
 INSERT INTO `invoice_item_luar` (`id`, `no_invoice`, `jobdesc`, `project_manager`, `star_number`, `number_word`, `unit_price`, `amount`) VALUES
-(2, 'STJAK-0015-2021', 'der', 'ben zoskan', '', 700, '7000.00', '4900000.00');
+(4, 'STJAK-0005-2021', 'Project Example 1', 'Josiah Collier', '32332', 3650, '900.00', '3285000.00');
 
 -- --------------------------------------------------------
 
@@ -275,6 +239,13 @@ CREATE TABLE `invoice_item_luar_2` (
   `number_line` varchar(30) NOT NULL,
   `amount` decimal(11,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `invoice_item_luar_2`
+--
+
+INSERT INTO `invoice_item_luar_2` (`id`, `no_invoice`, `jobdesc`, `star_number`, `number_line`, `amount`) VALUES
+(3, 'KEB-0003-08-2021', 'Ipsam consequuntur q', '890', 'Hours', '5140.40');
 
 -- --------------------------------------------------------
 
@@ -296,11 +267,7 @@ CREATE TABLE `invoice_item_spq` (
 --
 
 INSERT INTO `invoice_item_spq` (`id`, `no_invoice`, `jobdesc`, `qtt_word`, `price`, `amount`) VALUES
-(9, 'KEB-0008-06-2021', 'coba project 15', 1600, 120, 192000),
-(20, 'STJAK-0004-2021', 'coba project 3', 1000, 200, 200000),
-(21, 'STJAK-0004-2021', 'coba 2', 210, 1000, 210000),
-(27, 'STJAK-0011-2021', 'coba coba', 215, 900, 193500),
-(28, 'KEB-0004-06-2021', 'coba kodegiri', 350, 900, 315000);
+(30, 'SQM-0002-08-2021', 'Numquam pariatur Ac', 350, 1, 175);
 
 -- --------------------------------------------------------
 
@@ -321,7 +288,7 @@ CREATE TABLE `invoice_item_spq_2` (
 --
 
 INSERT INTO `invoice_item_spq_2` (`id`, `no_invoice`, `pre_invoice`, `date_deliv`, `amount`) VALUES
-(3, 'STJAK-0028-2021', 'nkkm/990/df', '2021-08-05', 4900000);
+(4, 'SQJAK-0002-08-2021', 'inv/008/2021', '2021-08-06', 405000);
 
 -- --------------------------------------------------------
 
@@ -345,8 +312,8 @@ CREATE TABLE `invoice_out` (
   `terms` text NOT NULL,
   `signature` text NOT NULL,
   `footer` text NOT NULL,
-  `total_cost` int(11) NOT NULL,
-  `grand_total` int(11) NOT NULL,
+  `total_cost` decimal(11,2) NOT NULL,
+  `grand_total` decimal(11,2) NOT NULL,
   `tipe` int(11) NOT NULL,
   `currency_inv` varchar(36) NOT NULL DEFAULT 'IDR',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -357,20 +324,11 @@ CREATE TABLE `invoice_out` (
 --
 
 INSERT INTO `invoice_out` (`no_invoice`, `no_Po`, `client_name`, `account`, `swift_code`, `address`, `down_payment`, `invoice_date`, `due_date`, `email`, `no_rek`, `public_notes`, `terms`, `signature`, `footer`, `total_cost`, `grand_total`, `tipe`, `currency_inv`, `created_at`) VALUES
-('KEB-0003-06-2021', 'KEB-PR0004', 'Bambang Mustajab', 'financedept@bintang‐35.net', '', 'Jln. Siliwangi, Bandung', 0, '2021-06-15', '2021-06-25', 'bmclient@gmail.com', '5', '', '', '', '', 1400, 1176, 2, 'IDR', '2021-08-02 19:15:09'),
-('KEB-0004-06-2021', 'KEB-PR0003', 'Darkah Subin', '0902211411', 'BBBAIDJA', 'Jln. Kaliurang, D . I. Yogyakarta', 0, '2021-06-18', '2021-06-30', 'sentosa@gmail.com', '2', '', '', '', '', 315000, 315000, 3, 'IDR', '2021-08-02 19:15:09'),
-('SQJAK-0008-06-2021', 'SQ-PR0015', 'Darkah Subin', '090 2212221', 'BBBAIDJA', 'coba address 1', 10000, '2021-06-15', '2021-06-30', 'freelnastar11@gmail.com', '3', '', '', '', '', 192000, 192000, 4, 'IDR', '2021-08-02 19:15:09'),
-('STJAK-0012-2021', 'ST-PR0022', 'Darkah Subin', '0701137302', 'BBBAIDJA', 'Jln. Kaliurang, D . I. Yogyakarta', 0, '2021-06-26', '2021-06-30', 'sentosa@gmail.com', '1', 'ss', '', '', '', 80000, 66400, 2, 'IDR', '2021-08-02 19:15:09'),
-('STJAK-0015-2021', 'ST-PR0025_2', 'Darkah Subin', '0701137302', 'BBBAIDJA', 'Jln. Kaliurang, D . I. Yogyakarta', 0, '2021-08-01', '2021-08-06', 'sentosa@gmail.com', '1', '', '', '', '', 4900000, 4067000, 1, 'IDR', '2021-08-02 19:15:09'),
-('STJAK-0022-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-14', 'pmstarna1@gmail.com', '1', '', '', '', '', 4662000, 3962700, 2, 'IDR', '2021-08-05 01:01:36'),
-('STJAK-0023-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'pmstarna1@gmail.com', '1', '', '', '', '', 4662000, 3962700, 2, 'IDR', '2021-08-05 01:08:16'),
-('STJAK-0024-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'pmstarna1@gmail.com', '1', '', '', '', '', 4662000, 4195800, 2, 'IDR', '2021-08-05 01:11:29'),
-('STJAK-0025-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'jaya@gmail.com', '1', '', '', '', '', 4662000, 4662000, 2, 'IDR', '2021-08-05 01:15:12'),
-('STJAK-0026-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'jaya@gmail.com', '1', '', '', '', '', 4662000, 4195800, 2, 'IDR', '2021-08-05 01:16:33'),
-('STJAK-0027-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'jaya@gmail.com', '1', '', '', '', '', 4662000, 4195800, 2, 'IDR', '2021-08-05 01:18:07'),
-('STJAK-0028-2021', 'ST-PR0025_2', 'Darkah Subin', '0701137302', 'BBBAIDJA', 'Jln. Kaliurang, D . I. Yogyakarta', 0, '2021-08-05', '2021-08-05', 'pmstarna1@gmail.com', '1', '', '', '', '', 4900000, 4410000, 5, 'IDR', '2021-08-05 01:19:50'),
-('STJAK-0029-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'pmstarna1@gmail.com', '1', '', '', '', '', 4662000, 4195800, 2, 'IDR', '2021-08-05 01:27:23'),
-('STJAK-0030-2021', 'ST-PR0026_2', 'Nur Minah', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-05', '2021-08-05', 'pmstarna1@gmail.com', '1', '', '', '', '', 4662000, 4195800, 2, 'IDR', '2021-08-05 01:32:27');
+('KEB-0003-08-2021', 'KEB-PR0002_1', 'Vivian Gay', '0701137302', 'BBBAIDJA', 'Jln. Kaliurang, D . I. Yogyakarta', 0, '2021-08-06', '2021-08-19', 'vivian@gmail.com', '1', '', '', '', '', '4574956.00', '3888712.60', 4, 'IDR', '2021-08-06 04:09:40'),
+('SQJAK-0002-08-2021', 'SQ-PR0001_1', 'Barbara Casey', '0701137302', 'BBBAIDJA', 'Jln. Kaliurang, D . I. Yogyakarta', 0, '2021-08-06', '2021-08-13', 'barbara@gmail.com', '1', '', '', '', '', '405000.00', '405000.00', 5, 'IDR', '2021-08-06 04:04:29'),
+('SQM-0002-08-2021', 'SQM-PR0001_1', 'Tatum Marquez', '090 2212221', 'BBBAIDJA', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-06', '2021-08-06', 'tatum@gmail.com', '3', '', '', '', '', '175.00', '175.00', 3, 'EUR', '2021-08-06 03:55:27'),
+('STJAK-0005-2021', 'ST-PR0001_1', 'PT. Jua Bersama', '0701137302', 'BBBAIDJA', 'Jln. Thamrin, Jakarta', 0, '2021-08-06', '2021-08-13', 'finstarna2@gmail.com', '1', '', '', '', '', '3285000.00', '2956500.00', 1, 'IDR', '2021-08-06 03:00:32'),
+('STJAK-0006-2021', 'ST-PR0002_1', 'Chadwick Mendoza', '0902211411', 'BBBAIDJA', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', 0, '2021-08-06', '2021-08-12', 'finstarna2@gmail.com', '2', '', '', '', '', '891.60', '891.60', 2, 'USD', '2021-08-06 03:27:23');
 
 -- --------------------------------------------------------
 
@@ -404,7 +362,7 @@ INSERT INTO `position_item` (`id`, `position_Name`) VALUES
 
 CREATE TABLE `po_item_itembase` (
   `id` int(11) NOT NULL,
-  `no_Po` varchar(11) NOT NULL,
+  `no_Po` varchar(15) NOT NULL,
   `task` varchar(30) NOT NULL,
   `qty` int(11) NOT NULL,
   `unit` enum('Hours','Days','Months','Years','Unit') NOT NULL,
@@ -417,33 +375,20 @@ CREATE TABLE `po_item_itembase` (
 --
 
 INSERT INTO `po_item_itembase` (`id`, `no_Po`, `task`, `qty`, `unit`, `rate`, `amount`) VALUES
-(13, 'SQ-PR0005', 'Iure dolorem dolores', 400, 'Hours', '819.00', '327600.00'),
-(14, 'SQ-PR0005', 'Aperiam sunt ea quia', 70, 'Hours', '663.00', '46410.00'),
-(15, 'SQ-PR0005', 'Quis sint aliquip si', 6, 'Hours', '520.00', '3120.00'),
-(16, 'SQ-PR0006', 'Quaerat ipsum digni', 39, 'Hours', '390.00', '15210.00'),
-(17, 'SQ-PR0006', 'Blanditiis est quas', 345, 'Hours', '403.00', '139035.00'),
-(18, 'SQ-PR0006', 'Aspernatur amet in ', 678, 'Hours', '428.00', '290184.00'),
-(91, 'SQ-PR0017', 'coba 1', 100, 'Hours', '390.00', '39000.00'),
-(92, 'SQ-PR0017', 'coba 2', 210, 'Hours', '339.00', '71190.00'),
-(93, 'SQ-PR0016', 'coba 1', 39, 'Hours', '390.00', '15210.00'),
-(94, 'SQ-PR0016', 'Quaerat ipsum digni', 400, 'Hours', '1000.00', '400000.00'),
-(95, 'SQ-PR0016', 'coba 2', 200, 'Hours', '339.00', '67800.00'),
-(142, 'KEB-PR0002', 'coba 1', 300, 'Days', '200.00', '60000.00'),
-(143, 'KEB-PR0002', 'coba 2', 500, 'Hours', '900.00', '450000.00'),
-(144, 'KEB-PR0004', 'cek', 1400, 'Hours', '1.00', '1400.00'),
-(229, 'ST-PR0004', 'Iure dolorem dolores', 400, 'Hours', '8190.00', '3276000.00'),
-(230, 'ST-PR0004', 'Aperiam sunt ea quia', 70, 'Hours', '6630.00', '464100.00'),
-(231, 'ST-PR0004', 'Quis sint aliquip si', 6, 'Hours', '5200.00', '31200.00'),
-(232, 'ST-PR0004', 'coba 2', 200, 'Hours', '12000.00', '2400000.00'),
-(233, 'ST-PR0013', 'coba 1', 100, 'Hours', '10000.00', '1000000.00'),
-(234, 'ST-PR0022', 'coba ini', 124, 'Days', '1000.00', '124000.00'),
-(235, 'ST-PR0022', 'coba lagi', 700, 'Hours', '10000.00', '7000000.00'),
-(236, 'ST-PR0024', 'coba 1', 100, 'Hours', '50000.00', '5000000.00'),
-(241, 'ST-PR0029_1', 'coba ini ya! (diedit 3x)', 570, 'Hours', '0.05', '28.50'),
-(242, 'ST-PR0029_2', 'coba ini ya! (diedit 3x)', 120, 'Hours', '0.05', '6.00'),
-(243, 'ST-PR0029_2', 'bonus', 2, 'Hours', '0.10', '0.20'),
-(244, 'ST-PR0026_1', 'coba ii', 190, 'Hours', '0.32', '60.80'),
-(245, 'ST-PR0026_2', 'coba', 9000, 'Hours', '518.00', '4662000.00');
+(260, 'ST-PR0002_1', 'Suscipit enim qui mo', 1, 'Years', '890.00', '890.00'),
+(261, 'ST-PR0002_1', 'Aliquip et quaerat o', 20, 'Days', '0.03', '0.60'),
+(262, 'ST-PR0002_1', 'Vero blanditiis amet', 2, 'Months', '0.50', '1.00'),
+(263, 'ST-PR0002_2', 'Suscipit enim qui mo', 1, 'Years', '7839113.30', '7839113.30'),
+(264, 'ST-PR0002_3', 'Suscipit enim qui mo', 1, 'Years', '750.27', '750.27'),
+(265, 'ST-PR0002_3', 'Aliquip et quaerat o', 20, 'Days', '0.03', '0.60'),
+(266, 'ST-PR0002_3', 'Vero blanditiis amet', 2, 'Months', '0.42', '0.84'),
+(267, 'SQM-PR0002_1', 'Commodo id aperiam ', 230, 'Unit', '1.00', '230.00'),
+(268, 'SQM-PR0002_2', 'Commodo id aperiam ', 230, 'Unit', '14425.97', '3317973.10'),
+(269, 'SQM-PR0002_3', 'Commodo id aperiam ', 230, 'Unit', '0.84', '193.20'),
+(270, 'SQ-PR0002_1', 'Aliquip neque volupt', 190, 'Years', '5.00', '950.00'),
+(271, 'SQ-PR0002_2', 'Aliquip neque volupt', 190, 'Years', '25733.30', '4889327.00'),
+(272, 'KEB-PR0002_1', 'Ipsam consequuntur q', 890, 'Hours', '5140.40', '4574956.00'),
+(273, 'KEB-PR0002_2', 'Ipsam consequuntur q', 890, 'Hours', '0.03', '26.70');
 
 -- --------------------------------------------------------
 
@@ -453,7 +398,7 @@ INSERT INTO `po_item_itembase` (`id`, `no_Po`, `task`, `qty`, `unit`, `rate`, `a
 
 CREATE TABLE `po_item_wordbase` (
   `id` int(11) NOT NULL,
-  `no_Po` varchar(11) NOT NULL,
+  `no_Po` varchar(15) NOT NULL,
   `locked` int(11) NOT NULL,
   `repetitions` int(11) NOT NULL,
   `fuzzy100` int(11) NOT NULL,
@@ -477,19 +422,17 @@ CREATE TABLE `po_item_wordbase` (
 --
 
 INSERT INTO `po_item_wordbase` (`id`, `no_Po`, `locked`, `repetitions`, `fuzzy100`, `fuzzy95`, `fuzzy85`, `fuzzy75`, `fuzzy50`, `new`, `wwc1`, `wwc2`, `wwc3`, `wwc4`, `wwc5`, `wwc6`, `wwc7`, `wwc8`) VALUES
-(6, 'SQ-PR0007', 100, 100, 100, 100, 100, 100, 100, 110, 0, 0, 0, 0, 0, 0, 0, 0),
-(28, 'SQ-PR0015', 200, 200, 200, 200, 200, 200, 200, 200, 0, 0, 0, 0, 0, 0, 0, 0),
-(45, 'KEB-PR0001', 0, 0, 100, 100, 100, 100, 100, 100, 0, 0, 0, 10, 10, 25, 100, 70),
-(46, 'KEB-PR0003', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
-(112, 'ST-PR0025_1', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
-(117, 'ST-PR0025_2', 200, 200, 200, 200, 200, 200, 200, 200, 0, 0, 0, 60, 100, 140, 200, 200),
-(131, 'ST-PR0028_1', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
-(134, 'ST-PR0028_2', 50, 50, 50, 50, 50, 50, 50, 50, 0, 0, 0, 15, 25, 35, 50, 50),
-(135, 'ST-PR0010', 1000, 1000, 1000, 1000, 1000, 1000, 1100, 1200, 0, 0, 0, 100, 100, 250, 1100, 840),
-(136, 'ST-PR0018', 1000, 2000, 2000, 2000, 1000, 2000, 2000, 2000, 0, 0, 0, 600, 500, 1400, 2000, 1600),
-(140, 'ST-PR0027_3', 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 0, 0, 0, 300, 500, 700, 1000, 900),
-(142, 'ST-PR0027_1', 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 0, 0, 0, 300, 500, 700, 1000, 1000),
-(144, 'ST-PR0027_2', 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 0, 0, 0, 600, 1000, 1400, 2000, 2000);
+(152, 'ST-PR0001_2', 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 0, 300, 0, 600, 1000, 1400, 2000, 2000),
+(161, 'SQM-PR0001_1', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
+(162, 'SQM-PR0001_2', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
+(163, 'SQM-PR0001_3', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
+(166, 'SQ-PR0001_1', 100, 100, 100, 100, 100, 100, 100, 200, 0, 0, 0, 30, 50, 70, 100, 200),
+(167, 'SQ-PR0001_2', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
+(168, 'KEB-PR0001_1', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100),
+(169, 'KEB-PR0001_2', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 10, 10, 25, 100, 70),
+(170, 'ST-PR0001_1', 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 0, 150, 0, 300, 500, 700, 1000, 1000),
+(176, 'ST-PR0001_3', 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 0, 0, 0, 300, 500, 700, 1000, 800),
+(177, 'ST-PR0003_1', 100, 100, 100, 100, 100, 100, 100, 100, 0, 0, 0, 30, 50, 70, 100, 100);
 
 -- --------------------------------------------------------
 
@@ -498,7 +441,7 @@ INSERT INTO `po_item_wordbase` (`id`, `no_Po`, `locked`, `repetitions`, `fuzzy10
 --
 
 CREATE TABLE `purchase_order` (
-  `no_Po` varchar(11) NOT NULL,
+  `no_Po` varchar(15) NOT NULL,
   `nama_Pm` varchar(50) NOT NULL,
   `email_pm` varchar(50) NOT NULL,
   `resource_Name` varchar(50) NOT NULL,
@@ -530,33 +473,27 @@ CREATE TABLE `purchase_order` (
 --
 
 INSERT INTO `purchase_order` (`no_Po`, `nama_Pm`, `email_pm`, `resource_Name`, `resource_Email`, `resource_Status`, `mobile_Phone`, `date`, `project_Name_po`, `id_quotation`, `public_Notes`, `regards`, `footer`, `rate`, `address_Resource`, `grand_Total_po`, `tipe`, `tipe_Po`, `is_inv_in`, `v_form`, `currency_po`, `jumlah_pembayaran`, `no_po_ori`, `created_at`, `company`) VALUES
-('KEB-PR0001', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'admin', '08956673455', '2021-06-30', 'coba project ke 2', 'KEB-Q0004', '', '', '', '900.00', '', '193500.00', 'word', '4', 1, '0', 'IDR', 1, '', '2021-08-01', 'kodegiri'),
-('KEB-PR0002', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'Freelance', '08956673455', '2021-06-26', 'coba project kodegiri', 'KEB-Q0003', '', '', '', '0.00', '', '510000.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01', 'kodegiri'),
-('KEB-PR0003', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'Freelance', '08956673455', '2021-06-25', 'coba kodegiri', 'KEB-Q0001', '', '', '', '900.00', '', '315000.00', 'word', '1', 0, '0', 'IDR', 1, '', '2021-08-01', 'kodegiri'),
-('KEB-PR0004', 'project manager kodegiri', 'pmkg@gmail.com', 'Freelance Kodegiri', 'flkg@gmail.com', 'admin', '08956673455', '2021-06-25', 'coba 3', 'KEB-Q0005', '', '', '', '0.00', '', '1400.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01', 'kodegiri'),
-('SQ-PR0005', 'project manager 1', 'kiviw@mailinator.com', 'Provident totam sed', 'Reuben Steele', 'Freelance', 'Eveniet volupta', '1995-10-18', 'Consectetur veniam ', 'ST-Q0009', 'Qui sit cum tempori', 'Et nihil sit sequi d', 'Cupidatat ex nemo of', '0.00', 'Quia aliquid archite', '377130.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01', 'Speequal Jakarta'),
-('SQ-PR0006', 'project manager 1', 'rore@mailinator.com', 'Distinctio Amet nu', 'Iola Beck', 'Freelance', 'Sequi laborum a', '1996-04-06', 'Eu duis voluptatibus', 'ST-Q0008', 'Pariatur Est qui a', 'Quo magna Nam ut ut ', 'Aut tenetur ipsam au', '0.00', 'Quo ducimus totam e', '444429.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01', 'Speequal Jakarta'),
-('SQ-PR0007', 'project manager 1', 'pm1@gmail.com', 'coba edit 1', 'Jaden Andrews', 'In House (Speequel Jakarta)', 'Sapiente expedi', '1920-11-22', 'Eu duis voluptatibus', 'ST-Q0008', 'Perspiciatis conseq', 'Non officia illum o', 'In aute sed obcaecat', '100.00', 'Minima proident ape', '33800.00', 'word', '3', 1, '0', 'IDR', 1, '', '2021-08-01', 'Speequal Jakarta'),
-('SQ-PR0015', 'project manager 1', 'pm1@gmail.com', 'fl1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 15', '', '', '', '', '120.00', '', '87600.00', 'word', '2', 1, '0', 'IDR', 1, '', '2021-08-01', 'Speequal Jakarta'),
-('SQ-PR0016', 'project manager 1', 'pm1@gmail.com', 'freelance 1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project 3', 'ST-Q0014', '', '', '', '0.00', '', '483010.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01', 'Speequal Jakarta'),
-('SQ-PR0017', 'project manager 1', 'pm1@gmail.com', 'freelance 1', 'fl1@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'coba project', '', '', '', '', '0.00', '', '110190.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01', 'Speequal Jakarta'),
-('ST-PR0004', 'ben zoskan', 'ben@mailinator.com', 'Soluta incididunt ve', 'mod@gmail.com', 'Freelance', '0897654678', '2010-11-17', 'Consectetur veniam ', 'ST-Q0009', '', '', '', '0.00', '', '6171300.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0010', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'ilham@gmail.com', 'Freelance', '08136728690', '2021-06-15', 'project ke 12', 'ST-Q0012', 'coba pn', 'coba reg', 'coba foot', '1200.00', 'coba addr', '2868000.00', 'word', '4', 1, '0', 'IDR', 1, '', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0013', 'ben zoskan', 'bneks@gmail.com', 'Ilham Nur Inzani', 'beck@gmail.com', 'Freelance', '0897654678', '2021-06-16', 'coba project', '', '', '', '', '0.00', '', '1000000.00', 'item', '', 0, '0', 'IDR', 1, '', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0018', 'ben zoskan', 'bneks@gmail.com', 'freelance 1', 'dsadsa', 'Freelance', '0897654678', '2021-06-16', 'project ke 13', 'ST-Q0013', '', '', '', '1000.00', '', '6100000.00', 'word', '3', 0, '0', 'IDR', 1, '', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0022', 'ben zoskan', 'bneks@gmail.com', 'Zoey Panda', 'zoeypanda@gmail.com', 'Freelance', '0897655432', '2021-06-26', 'coba project', 'ST-Q0017', '', '', '', '0.00', '', '7124000.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0024', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-08', 'coba ini', 'ST-Q0022', '', '', '', '0.00', '', '5000000.00', 'item', '', 1, '0', 'IDR', 1, '', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0025_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'der', 'ST-Q0021', '', '', '', '7000.00', '', '2450000.00', 'word', '1', 0, '0', 'IDR', 2, 'ST-PR0025', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0025_2', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '0000-00-00', 'der', 'ST-Q0021', '', '', '', '7000.00', '', '4900000.00', 'word', '1', 1, '0', 'IDR', 2, 'ST-PR0025', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0026_1', 'ben zoskan', 'pmstarna1@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba', 'ST-Q0020', '', '', '', '0.00', '', '60.80', 'item', '', 1, '0', 'EUR', 2, 'ST-PR0026', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0026_2', 'ben zoskan', 'pmstarna1@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba', 'ST-Q0020', '', '', '', '0.00', '', '4662000.00', 'item', '', 1, '0', 'IDR', 2, 'ST-PR0026', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0027_1', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-14', 'coba quot baru', 'ST-Q0023', '', '', '', '0.07', '', '241.50', 'word', '1', 1, '0', 'USD', 3, 'ST-PR0027', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0027_2', 'ben zoskan', 'pmstarna1@gmail.com', 'ilham nur inzani', 'ilhamham@gmail.com', 'Freelance', '0856879465', '2021-07-17', 'coba quot baru', 'ST-Q0023', '', '', '', '1013.82', '', '7096740.00', 'word', '1', 1, '0', 'IDR', 3, 'ST-PR0027', '2021-08-01', 'STAR Jakarta'),
-('ST-PR0027_3', 'ben zoskan', 'bneks@gmail.com', 'ilham nur inzani', 'pmstarna1@gmail.com', 'Freelance', '0856879465', '2021-08-01', 'coba quot baru2', 'ST-Q0023', '', '', '', '0.07', '', '234.60', 'word', '1', 0, '0', 'USD', 3, 'ST-PR0027', '2021-08-02', 'STAR Jakarta'),
-('ST-PR0028_1', 'ben zoskan', 'bneks@gmail.com', 'sam', 'pmstarna1@gmail.com', 'admin', '089667485767', '2021-08-02', 'fgy', 'ST-Q0027', '', '', '', '1.50', '', '525.00', 'word', '1', 0, '0', 'EUR', 2, 'ST-PR0028', '2021-08-02', 'STAR Jakarta'),
-('ST-PR0028_2', 'ben zoskan', 'bneks@gmail.com', 'sam', 'pmstarna1@gmail.com', 'admin', '089667485767', '2021-08-02', 'fgy', 'ST-Q0027', '', '', '', '1.50', '', '262.50', 'word', '1', 0, '0', 'EUR', 2, 'ST-PR0028', '2021-08-02', 'STAR Jakarta'),
-('ST-PR0029_1', 'ben zoskan', 'pmstarna1@gmail.com', 'monsieur', 'pmstarna1@gmail.com', 'Freelance', '345578', '2021-08-02', 'edit quot', 'ST-Q0026', '', '', '', '0.00', '', '28.50', 'item', '', 0, '0', 'USD', 2, 'ST-PR0029', '2021-08-02', 'STAR Jakarta'),
-('ST-PR0029_2', 'ben zoskan', 'pmstarna1@gmail.com', 'monsieur', 'pmstarna1@gmail.com', 'Freelance', '345578', '2021-08-02', 'edit quot', 'ST-Q0026', '', '', '', '0.00', '', '6.20', 'item', '', 0, '0', 'USD', 2, 'ST-PR0029', '2021-08-02', 'STAR Jakarta');
+('KEB-PR0001_1', 'Jenette Boone', 'vupevaze@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '78900887', '2021-08-06', 'Atque laudantium ve', 'KEB-Q0002', '', '', '', '0.20', 'Jln. Batu No.8, Malang', '70.00', 'word', '1', 1, '0', 'USD', 3, 'KEB-PR0001', '2021-08-06', 'kodegiri'),
+('KEB-PR0001_2', 'Jenette Boone', 'vupevaze@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '78900887', '2021-08-06', 'Atque laudantium ve', 'KEB-Q0002', '', '', '', '2885.19', 'Jln. Batu No.6, Malang', '620315.85', 'word', '4', 0, '0', 'IDR', 3, 'KEB-PR0001', '2021-08-06', 'kodegiri'),
+('KEB-PR0002_1', 'Jenette Boone', 'vupevaze@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '78695867', '2021-08-06', 'Pariatur Ut ullamco', 'KEB-Q0001', '', '', '', '0.00', 'Jln. Batu No.6, Malang', '4574956.00', 'item', '', 1, '0', 'IDR', 3, 'KEB-PR0002', '2021-08-06', 'kodegiri'),
+('KEB-PR0002_2', 'Jenette Boone', 'vupevaze@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '78695867', '2021-08-06', 'Pariatur Ut ullamco', 'KEB-Q0001', '', '', '', '0.00', '', '26.70', 'item', '', 0, '0', 'EUR', 3, 'KEB-PR0002', '2021-08-06', 'kodegiri'),
+('SQ-PR0001_1', 'Carl Flynn', 'ropesiwip@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '74657499', '2021-08-06', 'Ad sint sint omnis v', 'SQ-Q0002', '', '', '', '900.00', 'Jln. Batu No.8, Bandung', '405000.00', 'word', '1', 0, '0', 'IDR', 3, 'SQ-PR0001', '2021-08-06', 'Speequal Jakarta'),
+('SQ-PR0001_2', 'Carl Flynn', 'ropesiwip@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '74657499', '2021-08-06', 'Ad sint sint omnis v', 'SQ-Q0002', '', '', '', '0.06', '', '21.00', 'word', '1', 1, '0', 'USD', 3, 'SQ-PR0001', '2021-08-06', 'Speequal Jakarta'),
+('SQ-PR0002_1', 'Carl Flynn', 'ropesiwip@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '4433256', '2021-08-06', 'Et proident cupidat', 'SQ-Q0003', '', '', '', '0.00', 'Jln. Batu no.8, Bandung', '950.00', 'item', '', 0, '0', 'EUR', 3, 'SQ-PR0002', '2021-08-06', 'Speequal Jakarta'),
+('SQ-PR0002_2', 'Carl Flynn', 'ropesiwip@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '4433256', '2021-08-06', 'Et proident cupidat', 'SQ-Q0003', '', '', '', '0.00', 'Jln. Batu No.8, Bandung', '4889327.00', 'item', '', 0, '0', 'IDR', 3, 'SQ-PR0002', '2021-08-06', 'Speequal Jakarta'),
+('SQM-PR0001_1', 'Porter Gilliam', 'nufu@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '0765352788', '2021-08-06', 'Numquam pariatur Ac', 'SQM-Q0001', '', '', '', '0.50', 'Jln. Batu No.6, Malang', '175.00', 'word', '1', 1, '0', 'EUR', 3, 'SQM-PR0001', '2021-08-06', 'Speequal Malaysia'),
+('SQM-PR0001_2', 'Porter Gilliam', 'nufu@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '0765352788', '2021-08-06', 'Numquam pariatur Ac', 'SQM-Q0001', '', '', '', '8573.33', '', '3000665.50', 'word', '1', 1, '0', 'IDR', 3, 'SQM-PR0001', '2021-08-06', 'Speequal Malaysia'),
+('SQM-PR0001_3', 'Porter Gilliam', 'nufu@mailinator.com', 'Boston High', 'freelnastar1@gmail.com', 'Freelance', '0765352788', '2021-08-06', 'Numquam pariatur Ac', 'SQM-Q0001', '', '', '', '0.59', '', '206.50', 'word', '1', 0, '0', 'USD', 3, 'SQM-PR0001', '2021-08-06', 'Speequal Malaysia'),
+('SQM-PR0002_1', 'Porter Gilliam', 'nufu@mailinator.com', 'Boston High', 'boston@gmail.com', 'Freelance', '8697586746', '2021-08-06', 'Voluptas et voluptat', 'SQM-Q0002', '', '', '', '0.00', 'Jln. Batu No.8, Malang', '230.00', 'item', '', 0, '0', 'USD', 3, 'SQM-PR0002', '2021-08-06', 'Speequal Malaysia'),
+('SQM-PR0002_2', 'Porter Gilliam', 'nufu@mailinator.com', 'Boston High', 'boston@gmail.com', 'Freelance', '8697586746', '2021-08-06', 'Voluptas et voluptat', 'SQM-Q0002', '', '', '', '0.00', '', '3317973.10', 'item', '', 0, '0', 'IDR', 3, 'SQM-PR0002', '2021-08-06', 'Speequal Malaysia'),
+('SQM-PR0002_3', 'Porter Gilliam', 'nufu@mailinator.com', 'Boston High', 'boston@gmail.com', 'Freelance', '8697586746', '2021-08-06', 'Voluptas et voluptat', 'SQM-Q0002', '', '', '', '0.00', '', '193.20', 'item', '', 1, '0', 'EUR', 3, 'SQM-PR0002', '2021-08-06', 'Speequal Malaysia'),
+('ST-PR0001_1', 'Josiah Collier', 'pmstarna1@gmail.com', 'Denton Dodson', 'freelnstarna1@gmail.com', 'Freelance', '65748857', '2021-08-05', 'Project Example 1', 'ST-Q0001', '', '', '', '900.00', 'Jln. Kepatihan 5, Bandung', '3285000.00', 'word', '2', 1, '0', 'IDR', 3, 'ST-PR0001', '2021-08-05', 'STAR Jakarta'),
+('ST-PR0001_2', 'Josiah Collier', 'pmstarna1@gmail.com', 'Denton Dodson', 'freelnstarna1@gmail.com', 'Freelance', '65748857', '2021-08-05', 'Project Example 1', 'ST-Q0001', '', '', '', '0.06', '', '438.00', 'word', '2', 1, '0', 'USD', 3, 'ST-PR0001', '2021-08-05', 'STAR Jakarta'),
+('ST-PR0001_3', 'Josiah Collier', 'pmstarna1@gmail.com', 'Denton Dodson', 'freelnstarna1@gmail.com', 'Freelance', '65748857', '2021-08-05', 'Project Example 1', 'ST-Q0001', '', '', '', '0.05', '', '165.00', 'word', '3', 0, '0', 'EUR', 3, 'ST-PR0001', '2021-08-05', 'STAR Jakarta'),
+('ST-PR0002_1', 'Josiah Collier', 'pmstarna1@gmail.com', 'Denton Dodson', 'freelnastar1@gmail.com', 'Freelance', '56789976', '2021-08-05', 'Distinctio Cum susc', 'ST-Q0003', '', '', '', '0.00', '', '891.60', 'item', '', 0, '0', 'USD', 3, 'ST-PR0002', '2021-08-05', 'STAR Jakarta'),
+('ST-PR0002_2', 'Josiah Collier', 'pmstarna1@gmail.com', 'Denton Dodson', 'freelnastar1@gmail.com', 'Freelance', '56789976', '2021-08-05', 'Distinctio Cum susc', 'ST-Q0003', '', '', '', '0.00', 'Jln. Kepatihan No.8, Bandung', '7839113.30', 'item', '', 1, '0', 'IDR', 3, 'ST-PR0002', '2021-08-05', 'STAR Jakarta'),
+('ST-PR0002_3', 'Josiah Collier', 'pmstarna1@gmail.com', 'Denton Dodson', 'freelnastar1@gmail.com', 'Freelance', '56789976', '2021-08-05', 'Distinctio Cum susc', 'ST-Q0003', '', '', '', '0.00', 'Jln. Kepatihan No.8, Bandung', '751.71', 'item', '', 1, '0', 'EUR', 3, 'ST-PR0002', '2021-08-05', 'STAR Jakarta'),
+('ST-PR0003_1', 'Josiah Collier', 'host@kodegiri.com', 'Boston High', 'freelnastar1@gmail.com', 'admin', '9788667', '2021-08-06', 'Ducimus non at quis', 'ST-Q0002', '', '', '', '154.00', '', '53900.00', 'word', '1', 0, '0', 'IDR', 3, 'ST-PR0003', '2021-08-06', 'STAR Jakarta');
 
 -- --------------------------------------------------------
 
@@ -579,61 +516,22 @@ CREATE TABLE `quitation_item` (
 --
 
 INSERT INTO `quitation_item` (`id_q_num`, `no_Quotation`, `job_Desc`, `volume`, `unit`, `price`, `cost`) VALUES
-(11, 'ST-Q0005', 'Minim aperiam consec', 100, 'Unit', '1200.00', '120000.00'),
-(12, 'ST-Q0005', 'Unde aut eiusmod ess', 23, 'Hours', '872.00', '20056.00'),
-(13, 'ST-Q0005', 'Perspiciatis cillum', 500, 'Months', '800.00', '400000.00'),
-(14, 'ST-Q0005', 'Consequatur Corpori', 400, 'Unit', '758.00', '303200.00'),
-(19, 'ST-Q0006', 'Ullamco maxime moles', 10, 'Hours', '752.00', '7520.00'),
-(20, 'ST-Q0006', 'Culpa minima corpor', 12, 'Days', '354.00', '4248.00'),
-(21, 'ST-Q0006', 'Assumenda commodo am', 23, 'Days', '14.00', '322.00'),
-(22, 'ST-Q0007', 'Dignissimos voluptas', 100, 'Years', '426.00', '42600.00'),
-(23, 'ST-Q0007', 'Eaque doloribus magn', 500, 'Months', '276.00', '138000.00'),
-(24, 'ST-Q0007', 'Aspernatur a qui lab', 30000, 'Months', '826.00', '24780000.00'),
-(25, 'ST-Q0008', 'Quaerat ipsum digni', 39, 'Hours', '390.00', '15210.00'),
-(26, 'ST-Q0008', 'Blanditiis est quas', 345, 'Months', '403.00', '139035.00'),
-(27, 'ST-Q0008', 'Aspernatur amet in ', 678, 'Days', '428.00', '290184.00'),
-(35, 'ST-Q0009', 'Iure dolorem dolores', 400, 'Hours', '819.00', '327600.00'),
-(36, 'ST-Q0009', 'Aperiam sunt ea quia', 70, 'Hours', '663.00', '46410.00'),
-(37, 'ST-Q0009', 'Quis sint aliquip si', 6, 'Hours', '520.00', '3120.00'),
-(38, 'ST-Q0010', 'Ut id quibusdam quo ', 100, 'Unit', '512.00', '51200.00'),
-(42, 'ST-Q0011', 'Culpa vel voluptate', 60, 'Hours', '711.00', '42660.00'),
-(43, 'ST-Q0011', 'Dolore iure officiis', 10, 'Hours', '883.00', '8830.00'),
-(44, 'ST-Q0011', 'Rerum magnam velit r', 48, 'Hours', '53.00', '2544.00'),
-(45, 'ST-Q0012', 'list project 1', 100, 'Days', '390.00', '39000.00'),
-(46, 'ST-Q0012', 'list project 2', 200, 'Hours', '426.00', '85200.00'),
-(47, 'ST-Q0013', 'list pekerjaan 1', 100, 'Hours', '390.00', '39000.00'),
-(48, 'ST-Q0013', 'list pekerjaan 2', 200, 'Hours', '426.00', '85200.00'),
-(51, 'ST-Q0015', 'coba 1', 810, 'Hours', '100.00', '81000.00'),
-(54, 'ST-Q0014', 'coba 1', 39, 'Hours', '390.00', '15210.00'),
-(55, 'ST-Q0014', 'Quaerat ipsum digni', 400, 'Years', '1000.00', '400000.00'),
-(62, 'ST-Q0016', 'coba 1', 100, 'Hours', '150.00', '15000.00'),
-(63, 'ST-Q0016', 'coba 2', 12, 'Months', '100.00', '1200.00'),
-(76, 'SQM-Q0001', 'coba coba', 130, 'Days', '90.00', '11700.00'),
-(77, 'SQM-Q0002', 'coba 1', 140, 'Hours', '150.00', '21000.00'),
-(78, 'SQM-Q0003', 'kodegiri 1', 56, 'Days', '1678.00', '93968.00'),
-(84, 'SQM-Q0004', 'fgfdgfd', 300, 'Hours', '459.00', '137700.00'),
-(85, 'SQM-Q0004', 'ddghtre', 366, 'Hours', '567.00', '207522.00'),
-(92, 'SQM-Q0005', 'sdsda123', 4579, 'Hours', '100.00', '457900.00'),
-(93, 'SQM-Q0005', 'dfgttr321', 400, 'Hours', '200.00', '80000.00'),
-(94, 'KEB-Q0001', 'asasd', 120, 'Hours', '100.00', '12000.00'),
-(95, 'ST-Q0017', 'coba ini', 124, 'Days', '100.00', '12400.00'),
-(96, 'ST-Q0017', 'coba lagi', 700, 'Hours', '100.00', '70000.00'),
-(97, 'ST-Q0018', 'coba ini', 700, 'Hours', '800.00', '560000.00'),
-(110, 'KEB-Q0002', 'coba 1', 300, 'Hours', '100.00', '1.74'),
-(111, 'KEB-Q0002', 'coba 2', 46, 'Days', '1000.00', '2.66'),
-(114, 'KEB-Q0003', 'coba 1', 300, 'Days', '200.00', '59855.76'),
-(115, 'KEB-Q0003', 'coba 2', 500, 'Hours', '900.00', '449280.52'),
-(116, 'KEB-Q0004', 'coba lagi', 400, 'Hours', '900.00', '360000.00'),
-(117, 'KEB-Q0005', 'cek', 1400, 'Hours', '1.00', '1400.00'),
-(118, 'KEB-Q0006', 'coba item', 3, 'Hours', '67.00', '201.00'),
-(133, 'ST-Q0020', 'coba', 190, 'Hours', '560.00', '106400.00'),
-(143, 'ST-Q0021', 'der', 600, 'Hours', '900.00', '37.26'),
-(147, 'ST-Q0022', 'coba 1', 100, 'Hours', '500.00', '50000.00'),
-(148, 'ST-Q0023', 'coba 1', 4900, 'Hours', '1000.00', '4900000.00'),
-(149, 'ST-Q0024', 'coba po 1', 5000, 'Hours', '1000.00', '5000000.00'),
-(195, 'ST-Q0028', 'fer', 459, 'Hours', '678.00', '311202.00'),
-(197, 'ST-Q0027', 'dsdas', 567, 'Hours', '0.04', '22.68'),
-(198, 'ST-Q0026', 'coba ini ya! (diedit 3x)', 570, 'Hours', '0.05', '28.50');
+(213, 'ST-Q0001', 'cobain project 1', 1000, 'Hours', '1500.00', '1500000.00'),
+(214, 'ST-Q0001', 'cobain project 2', 50, 'Days', '67800.00', '3390000.00'),
+(215, 'ST-Q0002', 'Sit obcaecati culpa ', 100, 'Hours', '0.20', '20.00'),
+(216, 'ST-Q0002', '2', 20, 'Days', '10.00', '200.00'),
+(217, 'ST-Q0003', 'Suscipit enim qui mo', 1, 'Years', '890.00', '890.00'),
+(218, 'ST-Q0003', 'Aliquip et quaerat o', 20, 'Days', '0.03', '0.60'),
+(219, 'ST-Q0003', 'Vero blanditiis amet', 2, 'Months', '0.50', '1.00'),
+(220, 'SQM-Q0001', 'Dolores laborum Rat', 890, 'Hours', '0.40', '356.00'),
+(222, 'SQM-Q0003', 'Eum rerum minima sit', 200, 'Unit', '34500.00', '6900000.00'),
+(223, 'SQM-Q0002', 'Commodo id aperiam ', 230, 'Unit', '1.00', '230.00'),
+(224, 'SQ-Q0001', 'Non sed dolore rerum', 120, 'Days', '0.20', '24.00'),
+(225, 'SQ-Q0002', 'Mollit eiusmod volup', 150, 'Days', '7620.00', '1143000.00'),
+(226, 'SQ-Q0003', 'Aliquip neque volupt', 190, 'Years', '5.00', '950.00'),
+(227, 'KEB-Q0001', 'Ipsam consequuntur q', 890, 'Hours', '0.03', '26.70'),
+(229, 'KEB-Q0002', 'Eiusmod ut sed deser', 5, 'Years', '238.00', '1190.00'),
+(230, 'KEB-Q0003', 'Nulla architecto in ', 300, 'Hours', '4500.00', '1350000.00');
 
 -- --------------------------------------------------------
 
@@ -666,39 +564,18 @@ CREATE TABLE `quotation` (
 --
 
 INSERT INTO `quotation` (`no_Quotation`, `project_Name`, `client_Name`, `project_Start`, `due_Date`, `client_Email`, `public_Notes`, `header`, `footer`, `total_Cost`, `grand_Total`, `is_Acc`, `is_Q`, `v_form`, `sales_name`, `currency`, `created_at`) VALUES
-('KEB-Q0001', 'coba kodegiri', 'Darkah Subin', '2021-06-23', '2021-06-23', 'sentosa@gmail.com', '', '', '', '12000.00', '12000.00', 1, 1, '0', 'Sales Kodegiri', 'IDR', '2021-07-31 13:37:27'),
-('KEB-Q0002', 'coba project kodegiri', 'Darkah Subin', '2021-06-25', '2021-06-25', 'sentosa@gmail.com', '', '', '', '4.40', '4.40', 0, 0, '1', 'Sales Kodegiri', 'EUR', '2021-07-31 13:37:27'),
-('KEB-Q0003', 'coba project kodegiri', 'Bambang Mustajab', '2021-06-30', '2021-06-26', 'bmclient@gmail.com', '', '', '', '509136.28', '509136.28', 1, 1, '1', 'Sales Kodegiri', 'IDR', '2021-07-31 13:37:27'),
-('KEB-Q0004', 'coba project ke 2', 'Bambang Mustajab', '2021-06-29', '2021-06-24', 'bmclient@gmail.com', '', '', '', '360000.00', '360000.00', 1, 1, '0', 'Sales Kodegiri', 'IDR', '2021-07-31 13:37:27'),
-('KEB-Q0005', 'coba 3', 'Bambang Mustajab', '2021-06-25', '2021-06-25', 'bmclient@gmail.com', '', '', '', '1400.00', '1400.00', 1, 1, '0', 'Sales Kodegiri', 'IDR', '2021-07-31 13:37:27'),
-('KEB-Q0006', 'coba 4', 'Darkah Subin', '2021-06-25', '2021-06-25', 'sentosa@gmail.com', '', '', '', '201.00', '201.00', 1, 0, '0', 'Sales Kodegiri', 'IDR', '2021-07-31 13:37:27'),
-('SQM-Q0001', 'coba 1', 'Nur Minah', '2021-06-16', '2021-06-16', 'jaya@gmail.com', '', '', '', '11700.00', '11700.00', 1, 0, '1', 'sales ke 1', 'IDR', '2021-07-31 13:37:27'),
-('SQM-Q0002', 'coba ke 1', 'Nur Minah', '2021-06-16', '2021-06-16', 'jaya@gmail.com', '', '', '', '21000.00', '21000.00', 1, 0, '1', 'sales ke 1', 'IDR', '2021-07-31 13:37:27'),
-('SQM-Q0003', 'coba project', 'Darkah Subin', '2021-06-19', '2021-06-16', 'sentosa@gmail.com', '', '', '', '93968.00', '93968.00', 1, 0, '0', 'sales ke 1', 'IDR', '2021-07-31 13:37:27'),
-('SQM-Q0004', 'coba ini edu', 'Nur Minah', '2021-06-23', '2021-06-23', 'jaya@gmail.com', '', '', '', '345222.00', '345222.00', 0, 0, '0', 'sales ke 1', 'IDR', '2021-07-31 13:37:27'),
-('SQM-Q0005', 'mozif track 22', 'Darkah Subin', '2021-06-23', '2021-06-23', 'sentosa@gmail.com', '', '', '', '537900.00', '537900.00', 0, 0, '0', 'sales ke 1', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0005', 'Recusandae Dolorem ', 'Clare Becker', '1998-04-14', '1988-12-18', 'Exercitation et labo', 'Ea pariatur Molesti', 'Et reiciendis est v', 'Ullam ut totam recus', '843256.00', '843256.00', 0, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0006', 'Ullamco soluta simil', 'Frances Bird', '1980-12-11', '1998-06-19', 'Et nemo facilis haru', 'Deserunt elit dolor', 'Proident quia hic l', 'Est dolore ex non m', '12090.00', '12090.00', 0, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0007', 'Est cum consectetur', 'Pandora Potts', '1970-03-10', '2003-02-18', 'Harum sit nesciunt', 'Nobis voluptate offi', 'Quia ut non ut omnis', 'Corporis molestiae c', '24960600.00', '24960600.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0008', 'Eu duis voluptatibus', 'Jakeem Roach', '2007-02-22', '1990-03-22', 'Voluptas vel sequi c', 'Est architecto sequi', 'Ut asperiores sint ', 'Ut ipsa laboris dol', '444429.00', '444429.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0009', 'Consectetur veniam ', 'Zephr Larsen', '2014-09-06', '1996-12-25', 'Ab id excepteur repu', 'Et impedit alias co', 'Aute vero ut qui har', 'Ipsam quos est nesci', '377130.00', '377130.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0010', 'Aliquid sunt ex magn', 'Daria Cox', '1992-02-14', '2003-12-05', 'Est suscipit adipis', 'Ex aliquid deserunt ', 'In Nam inventore ius', 'Expedita possimus d', '51200.00', '51200.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0011', 'Deserunt facilis fac 1', 'Ashely Adkins', '1983-07-04', '1978-05-09', 'Consectetur dolor n', 'Velit aperiam eum a', 'Quo iusto voluptatem', 'Quia vitae harum mol', '54034.00', '54034.00', 0, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0012', 'project ke 12', 'PT. sutarma', '2021-06-15', '2021-06-30', 'sutarma@pt.com', 'coba public notes', 'coba header', 'coba footer', '124200.00', '124200.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0013', 'project ke 13', 'PT. Abadi', '2021-06-17', '2021-06-30', 'abadi@gmail.com', 'coba ', 'coba', 'coba', '124200.00', '124200.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0014', 'coba project 3', 'Clare Becker', '2021-06-18', '2021-06-17', 'kod@gmail.com', '', '', '', '415210.00', '415210.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0015', 'coba project 15', 'Trevor Thomas', '2021-06-15', '2021-06-17', 'trev@gmail.com', '', '', '', '81000.00', '81000.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0016', 'coba project ke-16', 'PT. Sentosa Abadi', '2021-06-16', '2021-06-30', 'sentosa@gmail.com', '', '', '', '16200.00', '16200.00', 1, 0, '1', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0017', 'coba project', 'Darkah Subin', '2021-06-23', '2021-06-23', 'sentosa@gmail.com', '', '', '', '82400.00', '82400.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0018', 'coba coba', 'Nur Minah', '2021-06-23', '2021-06-23', 'jaya@gmail.com', '', '', '', '560000.00', '560000.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0020', 'coba', 'Nur Minah', '2021-06-25', '2021-06-25', 'jaya@gmail.com', '', '', '', '106400.00', '106400.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0021', 'der', 'Darkah Subin', '2021-06-25', '2021-06-25', 'sentosa@gmail.com', '', '', '', '37.26', '37.26', 1, 1, '0', 'muhammad irfan', 'USD', '2021-07-31 13:37:27'),
-('ST-Q0022', 'coba ini', 'Darkah Subin', '2021-07-08', '2021-07-31', 'sentosa@gmail.com', '', '', '', '50000.00', '50000.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0023', 'coba quot baru', 'Nur Minah', '2021-07-14', '2021-07-14', 'jaya@gmail.com', '', '', '', '4900000.00', '4900000.00', 1, 1, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0024', 'coba quot 2', 'Darkah Subin', '2021-07-14', '2021-07-14', 'sentosa@gmail.com', '', '', '', '5000000.00', '5000000.00', 1, 0, '0', 'muhammad irfan', 'IDR', '2021-07-31 13:37:27'),
-('ST-Q0026', 'edit quot', 'bb', '2021-07-31', '2021-07-31', 'pmstarna1@gmail.com', '', '', '', '28.50', '28.50', 1, 1, '0', 'muhammad irfan', 'USD', '2021-08-01 04:00:24'),
-('ST-Q0027', 'fgy', 'dffgh', '2021-08-01', '2021-08-14', 'pmstarna1@gmail.com', '', '', '', '22.68', '22.68', 1, 1, '0', 'muhammad irfan', 'EUR', '2021-08-01 17:20:30'),
-('ST-Q0028', 'coba baru', 'cobaaja', '2021-08-01', '2021-08-01', 'pmstarna1@gmail.com', '', '', '', '311202.00', '311202.00', 0, 0, '0', 'cobain aja', 'IDR', '2021-08-01 23:47:18');
+('KEB-Q0001', 'Pariatur Ut ullamco', 'Vivian Gay', '2021-08-06', '2021-08-21', 'vivian@gmail.com', 'Enim ut molestias cu', 'Distinctio Sint do', 'Quia soluta qui exce', '26.70', '26.70', 1, 0, '0', 'Unity Talley', 'EUR', '2021-08-06 05:48:23'),
+('KEB-Q0002', 'Atque laudantium ve', 'Lunea Cobb', '1996-10-01', '1994-08-23', 'lunea@gmail.com', 'Voluptatum voluptatu', 'Dolorem minima est d', 'Occaecat beatae eius', '1190.00', '1190.00', 1, 0, '0', 'Unity Talley', 'USD', '2021-08-06 05:50:26'),
+('KEB-Q0003', 'Magni tempora dolore', 'Kareem Bray', '1996-08-23', '1977-11-01', 'kareem@gmail.com', 'Laboriosam et nesci', 'Voluptatem laborios', 'Aliquam sapiente Nam', '1350000.00', '1350000.00', 1, 0, '1', 'Unity Talley', 'IDR', '2021-08-06 05:51:06'),
+('SQ-Q0001', 'Doloremque modi quis', 'Kadeem Conner', '2021-08-06', '2021-08-08', 'kadeem@gmail.com', 'Atque aut at volupta', 'Id tempor quibusdam ', 'Earum enim adipisici', '24.00', '24.00', 1, 0, '0', 'Hannah Bates', 'EUR', '2021-08-06 05:43:36'),
+('SQ-Q0002', 'Ad sint sint omnis v', 'Barbara Casey', '2021-08-06', '2021-08-13', 'barbara@gmail.com', 'Vero dolorum dolor q', 'Mollit anim doloremq', 'Ad animi neque et m', '1143000.00', '1143000.00', 1, 0, '1', 'Hannah Bates', 'IDR', '2021-08-06 05:44:27'),
+('SQ-Q0003', 'Et proident cupidat', 'Yuri Steele', '2021-08-06', '2021-08-13', 'yuri@gmail.com', 'Sint laborum Est ', 'Irure reprehenderit', 'Aut non quibusdam do', '950.00', '950.00', 1, 0, '1', 'Hannah Bates', 'EUR', '2021-08-06 05:46:30'),
+('SQM-Q0001', 'Numquam pariatur Ac', 'Tatum Marquez', '2021-08-06', '2021-08-21', 'tatum@gmail.com', 'Sequi consequuntur c', 'Est qui lorem recus', 'Eos nobis eum pariat', '356.00', '356.00', 1, 1, '0', 'Louis Rush', 'EUR', '2021-08-06 05:38:27'),
+('SQM-Q0002', 'Voluptas et voluptat', 'Cherokee Moss', '2021-08-06', '2021-08-18', 'cherokee@gmail.com', 'Quo minim reprehende', 'At debitis saepe vel', 'Nihil vero est quas ', '230.00', '230.00', 1, 1, '1', 'Louis Rush', 'USD', '2021-08-06 05:39:52'),
+('SQM-Q0003', 'Omnis aliqua Saepe ', 'Caleb Montgomery', '2021-08-06', '2021-08-21', 'Caleb@gmail.com', 'Quis voluptatum lore', 'Ut consectetur do v', 'Eum est in Nam maxi', '6900000.00', '6900000.00', 1, 0, '0', 'Louis Rush', 'IDR', '2021-08-06 05:41:10'),
+('ST-Q0001', 'Project Example 1', 'PT. Jua Bersama', '2021-08-05', '2021-08-21', 'finstarna2@gmail.com', '', '', '', '4890000.00', '4890000.00', 1, 1, '0', 'Odessa Bolton', 'IDR', '2021-08-05 19:08:58'),
+('ST-Q0002', 'Ducimus non at quis', 'Winifred Kaufman', '2021-08-05', '2021-08-14', 'finstarna2@gmail.com', 'Pariatur Maiores mi', 'Perspiciatis qui vo', 'Facilis magni volupt', '220.00', '220.00', 1, 0, '0', 'Odessa Bolton', 'EUR', '2021-08-05 19:13:12'),
+('ST-Q0003', 'Distinctio Cum susc', 'Chadwick Mendoza', '2021-08-05', '2021-08-21', 'finstarna2@gmail.com', 'Rerum impedit rem v', 'Pariatur Qui ut in ', 'Est distinctio Et ', '891.60', '891.60', 1, 1, '1', 'Odessa Bolton', 'USD', '2021-08-05 19:19:34');
 
 -- --------------------------------------------------------
 
@@ -707,8 +584,8 @@ INSERT INTO `quotation` (`no_Quotation`, `project_Name`, `client_Name`, `project
 --
 
 CREATE TABLE `resource_data` (
-  `id` int(11) NOT NULL,
-  `id_user` varchar(7) NOT NULL,
+  `id_resource` varchar(12) NOT NULL,
+  `resource_name` varchar(30) NOT NULL,
   `mobile_phone` varchar(15) NOT NULL,
   `cabang_bank` varchar(30) NOT NULL,
   `no_rekening` varchar(30) NOT NULL,
@@ -721,11 +598,9 @@ CREATE TABLE `resource_data` (
 -- Dumping data for table `resource_data`
 --
 
-INSERT INTO `resource_data` (`id`, `id_user`, `mobile_phone`, `cabang_bank`, `no_rekening`, `address`, `no_npwp`, `jenis`) VALUES
-(1, 'STR004', '0856879465', 'Bank Mandiri', '776475890', 'Jln. Kabupaten, No. 15, Sleman, D. I. Yogyakarta.', '445653345', 'biasa'),
-(2, 'STR008', '08134657849', 'BRI', '3332456674565', 'Jln. Aspal No. 56, Pengangsaan, Jakarta Timur.', '01234577', 'biasa'),
-(4, 'STR016', '0897655432', 'BRI', '2675889', 'Jln. Kedamaian No. 11', '775684956', 'tenaga ahli'),
-(5, 'STR018', '08956673455', 'BRI', '3456789', 'Jln. Panyawangan, Bandung', '45767890', 'vendor');
+INSERT INTO `resource_data` (`id_resource`, `resource_name`, `mobile_phone`, `cabang_bank`, `no_rekening`, `address`, `no_npwp`, `jenis`) VALUES
+('RES001', 'Ilham Nur Inzani', '0217843814', 'Mandiri', '32252235325', 'ar3erw3radf', '52354', 'tenaga ahli'),
+('RES002', 'Gary Andrews', '+1 (445) 346-99', 'Cupidatat ad optio ', 'Magna nostrum conseq', 'Recusandae Vel fugi', 'At quas magna nostru', 'vendor');
 
 -- --------------------------------------------------------
 
@@ -768,25 +643,10 @@ CREATE TABLE `tax_invoice` (
 --
 
 INSERT INTO `tax_invoice` (`id`, `no_invoice`, `jenis_tax`) VALUES
-(14, 'STJAK-0012-2021', '1'),
-(15, 'STJAK-0012-2021', '2'),
-(16, 'STJAK-0012-2021', '6'),
-(19, 'STJAK-0011-2021', '4'),
-(21, 'KEB-0003-06-2021', '1'),
-(22, 'KEB-0003-06-2021', '3'),
-(23, 'STJAK-0015-2021', '1'),
-(24, 'STJAK-0015-2021', '2'),
-(25, 'STJAK-0015-2021', '6'),
-(26, 'STJAK-0022-2021', '1'),
-(27, 'STJAK-0022-2021', '2'),
-(28, 'STJAK-0023-2021', '1'),
-(29, 'STJAK-0023-2021', '2'),
-(30, 'STJAK-0024-2021', '1'),
-(31, 'STJAK-0026-2021', '1'),
-(32, 'STJAK-0027-2021', '1'),
-(34, 'STJAK-0029-2021', '1'),
-(35, 'STJAK-0030-2021', '1'),
-(36, 'STJAK-0028-2021', '1');
+(39, 'STJAK-0005-2021', '1'),
+(40, 'STJAK-0005-2021', '2'),
+(41, 'KEB-0003-08-2021', '1'),
+(42, 'KEB-0003-08-2021', '2');
 
 -- --------------------------------------------------------
 
@@ -814,26 +674,22 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_User`, `user_Name`, `pass_Word`, `full_Name`, `email_Address`, `id_Position`, `id_Status`, `profile_Photo`, `last_Login`, `created_at`, `inisial`, `is_active`) VALUES
-('STR002', 'irfan', '3ef3699d13dcb525f7dc10cae32eb7b7', 'muhammad irfan', 'muhammadirfan.9f@gmail.com', 5, 2, 'STR002.jpg', '2021-08-02 10:03:36', '2021-05-19 17:12:39', 'MI', 0),
-('STR003', 'benben', 'e3d644dea859dba15669f1f0b8107974', 'ben zoskan', 'pmstarna1@gmail.com', 1, 2, 'STR003.jpg', '2021-08-04 09:29:00', '2021-06-10 09:42:27', 'BZ', 0),
-('STR004', 'ilham', 'b63d204bf086017e34d8bd27ab969f28', 'ilham nur inzani', 'ilhamham@gmail.com', 7, 1, 'STR004.jpg', '2021-08-05 11:33:00', '2021-06-14 17:34:53', 'II', 0),
-('STR005', 'putri', '4093fed663717c843bea100d17fb67c8', 'putri finance 1', 'finstarna2@gmail.com', 3, 2, 'STR005.jpg', '2021-08-04 20:54:26', '2021-06-14 23:05:46', 'P1', 0),
-('STR006', 'sales1', 'sales1', 'sales ke 1', 'sales1@gmail.com', 5, 4, 'STR006.jpg', '2021-06-25 02:58:05', '2021-06-15 06:37:16', 'SK1', 0),
-('STR007', 'pm1', 'pm1', 'project manager 1', 'pm1@gmail.com', 1, 3, 'STR007.jpg', '2021-06-17 05:59:33', '2021-06-15 06:37:56', 'PM1', 0),
-('STR008', 'fl1', 'fl1', 'freelance 1', 'fl1@gmail.com', 7, 1, 'STR008.jpg', '2021-06-23 03:10:13', '2021-06-15 06:38:39', 'FL1', 0),
-('STR009', 'finance1', 'fn1', 'finance ke 1', 'fn1@gmail.com', 3, 6, 'STR009.jpg', '2021-07-14 00:43:04', '2021-06-15 06:39:16', 'F1', 0),
-('STR010', 'financespq', 'fnspq', 'finance speequel', 'financespq1@gmail.com', 3, 3, 'STR010.jpg', '2021-06-22 13:33:19', '2021-06-15 07:42:11', 'FS', 0),
-('STR011', 'sales2', 'sales2', 'sales ke 2', 'sales2@gmail.com', 5, 4, 'STR011.jpg', '2021-06-16 21:07:51', '2021-06-16 21:04:06', 'SK2', 0),
-('STR012', 'pm2', 'pm2', 'project manager 2', 'pm2@gmail.com', 1, 3, 'STR012.jpg', '2021-06-16 21:05:12', '2021-06-16 21:04:59', 'PM2', 0),
-('STR013', 'finance2', 'fn2', 'Salam Selem', 'financestarna2@gmail.com', 3, 2, 'STR013.jpg', '2021-06-23 03:11:05', '2021-06-22 15:23:55', 'SS', 0),
-('STR014', 'saleskg', 'saleskg', 'Sales Kodegiri', 'skg@gmail.com', 5, 6, 'STR014.jpg', '2021-06-25 08:08:13', '2021-06-23 11:53:03', 'SK', 0),
-('STR015', 'pmkg', 'pmkg', 'project manager kodegiri', 'pmkg@gmail.com', 1, 6, 'STR015.jpg', '2021-06-25 07:54:21', '2021-06-23 11:53:51', 'PK', 0),
-('STR016', 'zoey_panda', 'zoey', 'Zoey Panda', 'zoeypanda@gmail.com', 7, 1, 'STR016.jpg', '2021-06-24 07:47:51', '2021-06-23 15:19:53', 'ZP', 0),
-('STR017', 'finkg', 'finkg', 'Finance Kodegiri', 'pmstarna1@gmail.com', 3, 6, 'STR017.jpg', '2021-06-25 07:55:05', '2021-06-25 04:56:36', 'FK', 0),
-('STR018', 'flkodegiri', 'flkg', 'Freelance Kodegiri', 'flkg@gmail.com', 6, 5, 'STR018.jpg', '2021-06-25 07:43:45', '2021-06-25 07:15:14', 'FK', 0),
-('STR019', 'topman_star', '0a8831bdd11507bc948742931ff985e7', 'Top Management 1', 'topman1@gmail.com', 2, 2, 'STR019.jpg', '2021-08-04 10:04:23', '2021-07-08 20:20:31', 'T1', 0),
-('STR022', 'admin', '7a25b0bc04e77a2f7453dd021168cdc2', 'Admin Finance 1', 'adminfinance@gmail.com', 4, 0, 'STR022.jpg', '2021-08-03 23:49:59', '2021-07-30 23:47:54', 'A1', 0),
-('STR023', 'userbaru', '827ccb0eea8a706c4c34a16891f84e7b', 'cobain aja', 'fd@gmail.com', 5, 2, 'default.jpg', '2021-08-01 16:46:37', '2021-08-01 16:45:49', 'CA', 0);
+('STR001', 'admin', '7a25b0bc04e77a2f7453dd021168cdc2', 'Admin Finance 1', 'adminfinance@gmail.com', 4, 0, 'STR001.jpg', '2021-08-06 13:42:52', '2021-07-30 23:47:54', 'A1', 0),
+('STR002', 'salesstar', 'cd2e3b502b265957378ba6f011e7a313', 'Odessa Bolton', 'freelnastar2@gmail.com', 5, 2, 'default.jpg', '2021-08-06 08:42:41', '2021-08-05 11:57:16', 'OB', 0),
+('STR003', 'pmstar', '0cb672d8e4c23c5be2622d1322fde0a6', 'Josiah Collier', 'host@kodegiri.com', 1, 2, 'default.jpg', '2021-08-06 11:46:39', '2021-08-05 12:00:58', 'JC', 0),
+('STR004', 'bosab', '6871aa3c9b1fbad62bf6ef25365055e0', 'Denton Dodson', 'freelnstar1@gmail.com', 7, 1, 'default.jpg', '2021-08-06 11:50:32', '2021-08-05 12:01:27', 'DD', 0),
+('STR005', 'financestar', 'a67dfaec8217db3d775f9768025d7739', 'Rhea Buckner', 'finstarna2@gmail.com', 3, 2, 'default.jpg', '2021-08-06 11:54:56', '2021-08-05 12:02:01', 'RB', 0),
+('STR006', 'topman_star', '0a8831bdd11507bc948742931ff985e7', 'Julian Burke', 'pmstarna2@gmail.com', 2, 2, 'default.jpg', '2021-08-06 08:12:58', '2021-08-05 12:02:46', 'JB', 0),
+('STR007', 'salesspqm', 'e8d054fa99df3418690f6c3fe75bad8b', 'Louis Rush', 'vymocikozo@mailinator.com', 5, 4, 'default.jpg', '2021-08-05 23:40:21', '2021-08-05 22:10:48', 'LR', 0),
+('STR008', 'salesspqj', '9cceb2a0d66dd9fe8eefe3ce27fd235a', 'Hannah Bates', 'nagumuku@mailinator.com', 5, 3, 'default.jpg', '2021-08-05 23:40:36', '2021-08-05 22:13:18', 'HB', 0),
+('STR009', 'saleskg', '7d0eb03122982ce8adbbb181eba0b693', 'Unity Talley', 'nifujux@mailinator.com', 5, 6, 'default.jpg', '2021-08-06 11:43:15', '2021-08-05 22:13:56', 'UT', 0),
+('STR010', 'pmspqm', 'cf76fdcd60212535578824b348c76fa1', 'Porter Gilliam', 'nufu@mailinator.com', 1, 4, 'default.jpg', '2021-08-06 08:17:48', '2021-08-05 22:14:28', 'PG', 0),
+('STR011', 'pmspqj', '50f774d3b8a7d82a9b37534530da753f', 'Carl Flynn', 'ropesiwip@mailinator.com', 1, 3, 'default.jpg', '2021-08-06 00:18:47', '2021-08-05 22:15:22', 'CF', 0),
+('STR012', 'pmkg', 'dd0631a49ac5242df59b1921307e5cf8', 'Jenette Boone', 'vupevaze@mailinator.com', 1, 6, 'default.jpg', '2021-08-06 08:33:34', '2021-08-05 22:18:21', 'JB', 0),
+('STR013', 'boston', '6aecdfe8b004d1e8cb1e42c4414687a9', 'Boston High', 'larimysu@mailinator.com', 6, 5, 'default.jpg', '2021-08-06 08:13:42', '2021-08-05 22:19:17', 'BH', 0),
+('STR014', 'financespqm', '33ca8da8482b802ac88045298b088924', 'Imani Richardson', 'bamona@mailinator.com', 3, 4, 'default.jpg', '2021-08-06 03:39:31', '2021-08-05 22:20:34', 'IR', 0),
+('STR015', 'financespqj', 'eb8777af3b5d11f42d4892eca5b744db', 'Sheila Daugherty', 'kotobuny@mailinator.com', 3, 3, 'default.jpg', '2021-08-06 03:55:58', '2021-08-05 22:21:28', 'SD', 0),
+('STR016', 'financekg', '8965f29e5a4877c1cbb2a7b62afaf66c', 'Berk Yang', 'komojymeh@mailinator.com', 3, 6, 'default.jpg', '2021-08-06 09:00:10', '2021-08-05 22:21:51', 'BY', 0);
 
 --
 -- Indexes for dumped tables
@@ -850,12 +706,6 @@ ALTER TABLE `bast`
 --
 ALTER TABLE `bast_item`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `client_data`
---
-ALTER TABLE `client_data`
-  ADD PRIMARY KEY (`client_id`);
 
 --
 -- Indexes for table `invoice_in`
@@ -942,12 +792,6 @@ ALTER TABLE `quotation`
   ADD PRIMARY KEY (`no_Quotation`);
 
 --
--- Indexes for table `resource_data`
---
-ALTER TABLE `resource_data`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `status_item`
 --
 ALTER TABLE `status_item`
@@ -973,73 +817,67 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bast_item`
 --
 ALTER TABLE `bast_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `invoice_in_item`
 --
 ALTER TABLE `invoice_in_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT for table `invoice_item_local`
 --
 ALTER TABLE `invoice_item_local`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `invoice_item_luar`
 --
 ALTER TABLE `invoice_item_luar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `invoice_item_luar_2`
 --
 ALTER TABLE `invoice_item_luar_2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `invoice_item_spq`
 --
 ALTER TABLE `invoice_item_spq`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `invoice_item_spq_2`
 --
 ALTER TABLE `invoice_item_spq_2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `po_item_itembase`
 --
 ALTER TABLE `po_item_itembase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT for table `po_item_wordbase`
 --
 ALTER TABLE `po_item_wordbase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 
 --
 -- AUTO_INCREMENT for table `quitation_item`
 --
 ALTER TABLE `quitation_item`
-  MODIFY `id_q_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
-
---
--- AUTO_INCREMENT for table `resource_data`
---
-ALTER TABLE `resource_data`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_q_num` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT for table `tax_invoice`
 --
 ALTER TABLE `tax_invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

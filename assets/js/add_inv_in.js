@@ -18,6 +18,8 @@ jum_table=0;
                     addRow(btoa(JSON.stringify(data.po[i]))); 
                     $('#curr_awal').val(data.po[0].currency_po);
                     $('#company').val(data.po[0].company);
+                    // $('#ps').val(data.po[0].nama_Pm);
+                    // $('#email').val(data.po[0].email_pm);
                     if(data.po[0].currency_po=='IDR'){
                         document.getElementById("curr").innerHTML = 'Amount IDR';
                     } else if (data.po[0].currency_po=='USD'){
@@ -36,6 +38,8 @@ jum_table=0;
         document.getElementById("curr").innerHTML = 'Amount IDR';
         $('#curr_awal').val('IDR');
         $('#company').val('');
+        // $('#ps').val('');
+        // $('#email').val('');
     }   
 });
 

@@ -20,6 +20,13 @@ class Freelance extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             $row = array();
+            if($field->currency_inv=='IDR'){
+                $grand_total = 'Rp. '.number_format($field->grand_total,2,",",".");
+            } else if($field->currency_inv=='USD'){
+                $grand_total = '$ '.number_format($field->grand_total,2,".",",");
+            } else if($field->currency_inv=='EUR'){
+                $grand_total = '€ '.number_format($field->grand_total,2,".",",");
+            }
             if ($field->tipe == 'word') {
                 $action1 = '<a href="'.base_url('freelance/editwordbase/' . $field->no_invoice).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>';  
             } else {
@@ -31,7 +38,7 @@ class Freelance extends CI_Controller
             $row[] = $field->no_invoice;
             $row[] = $field->jobdesc;
             $row[] = $field->invoice_date;
-            $row[] = $field->grand_total;
+            $row[] = $grand_total;
             $row[] = $action;
 
             $data[] = $row;
@@ -102,6 +109,7 @@ class Freelance extends CI_Controller
         $tipe = $this->input->post('tipe');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
+        $tax = $this->input->post('tax');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $price = $_POST['price'];
@@ -126,7 +134,8 @@ class Freelance extends CI_Controller
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
-            'currency_inv' =>$currency
+            'currency_inv' =>$currency,
+            'tax'=>$tax
         );
         $this->m_po->input_data($data, 'invoice_in');
         if (!empty($jobdesc)) {
@@ -187,6 +196,7 @@ class Freelance extends CI_Controller
         $v_form = $this->input->post('v_form');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
+        $tax = $this->input->post('tax');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -213,7 +223,8 @@ class Freelance extends CI_Controller
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
-            'currency_inv'=>$currency
+            'currency_inv'=>$currency,
+            'tax'=>$tax
         );
         $this->m_po->input_data($data, 'invoice_in');
         if (!empty($jobdesc)) {
@@ -291,14 +302,24 @@ class Freelance extends CI_Controller
 
     public function tampilkanData($id)
     {
-        $no_po = substr($id, 0, -6);
+        if(strlen($id)<=10){
+            $no_po = substr($id, 0, -6);
+        } else {
+            $no_po = substr($id, 0, -8);
+        }
+        
         $data['no_inv'] = $this->m_inv_in->CreateCode($no_po);
         $data['po'] = $this->m_inv_in->ambil_data_po_word($id)->result();
         echo json_encode($data);
     }
     public function tampilkanDataitem($id)
     {
-        $no_po = substr($id, 0, -6);
+        if(strlen($id)<=10){
+            $no_po = substr($id, 0, -6);
+        } else {
+            $no_po = substr($id, 0, -8);
+        }
+
         $data['no_inv'] = $this->m_inv_in->CreateCode($no_po);
         $data['po'] = $this->m_inv_in->ambil_data_po_item($id)->result();
         echo json_encode($data);
@@ -349,6 +370,7 @@ class Freelance extends CI_Controller
         $tipe = $this->input->post('tipe');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
+        $tax = $this->input->post('tax');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $price = $_POST['price'];
@@ -373,7 +395,8 @@ class Freelance extends CI_Controller
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
-            'currency_inv' => $currency
+            'currency_inv' => $currency,
+            'tax'=>$tax
         );
         $where = array(
             'no_invoice' => $no_inv,
@@ -429,6 +452,7 @@ class Freelance extends CI_Controller
         $tipe = $this->input->post('tipe');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
+        $tax = $this->input->post('tax');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -454,7 +478,8 @@ class Freelance extends CI_Controller
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
-            'currency_inv' => $currency
+            'currency_inv' => $currency,
+            'tax'=>$tax
         );
         $where = array(
             'no_invoice' => $no_inv,
@@ -620,6 +645,8 @@ class Freelance extends CI_Controller
         $grand_total = $this->input->post('grand');
         $company = $this->input->post('company');
         $tipe = $this->input->post('tipe');
+        $currency = $this->input->post('curr_awal');
+        $tax = $this->input->post('tax');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $price = $_POST['price'];
@@ -650,6 +677,8 @@ class Freelance extends CI_Controller
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
+            'currency_inv' => $currency,
+            'tax' => $tax
         );
         if (!empty($jobdesc)) {
             for ($a = 0; $a < count($jobdesc); $a++) {

@@ -105,8 +105,20 @@
                 <td width="10%" style="text-align:center; background-color:pink" class="bold">Project Manager</td>
                 <td width="10%" style="text-align:center; background-color:pink" class="bold">STAR Number</td>
                 <td width="10%" style="text-align:center; background-color:pink" class="bold">Number word/page</td>
-                <td width="10%" style="text-align:center; background-color:pink" class="bold">Unit Price euro/word</td>
-                <td width="10%" style="text-align:center; background-color:pink" class="bold">Amount uro</td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold"><?php if($po->currency_inv=='IDR'){
+               echo 'Unit Price IDR/word';
+            } else if($po->currency_inv=='USD'){
+                echo 'Unit Price USD/word';
+            } else if($po->currency_inv=='EUR'){
+                echo 'Unit Price EUR/word';
+            } ?></td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold"><?php if($po->currency_inv=='IDR'){
+               echo 'Amount IDR';
+            } else if($po->currency_inv=='USD'){
+                echo 'Amount USD';
+            } else if($po->currency_inv=='EUR'){
+                echo 'Amount EUR';
+            } ?></td>
             </tr>
             <?php $i=1; foreach ($pi as $item) { ?>
             <tr>
@@ -115,20 +127,44 @@
                 <td width="10%" style="text-align:center;"><?=$item->project_manager; ?></td>
                 <td width="10%" style="text-align:center;"><?=$item->star_number; ?></td>
                 <td width="10%" style="text-align:center;"><?=$item->number_word; ?></td>
-                <td width="10%" style="text-align:center;"><?=$item->unit_price; ?></td>
-                <td width="10%" style="text-align:center;"><?=$item->amount; ?></td>
+                <td width="10%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($item->unit_price,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($item->unit_price,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($item->unit_price,2,".",",");
+            } ?></td>
+                <td width="10%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($item->amount,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($item->amount,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($item->amount,2,".",",");
+            } ?></td>
             </tr>
             <?php $i++;} ?>
             <tr>
                 <td width="5%%" style="text-align:center;"></td>
                 <td colspan="2" style="text-align:center;">TOTAL</td>
                 <td colspan="3" style="text-align:center;"></td>
-                <td style="text-align:center;"><?=$po->total_cost; ?></td>
+                <td style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($po->total_cost,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($po->total_cost,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($po->total_cost,2,".",",");
+            } ?></td>
             </tr>
             <tr>
 
                 <td colspan="6" style="text-align:center;">GRAND TOTAL</td>
-                <td style="text-align:center;"><?=$po->grand_total; ?></td>
+                <td style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($po->grand_total,2,".",",");
+            } ?></td>
             </tr>
         </table>
     </div>

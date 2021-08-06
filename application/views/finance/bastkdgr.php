@@ -75,7 +75,10 @@
             <td>
                 <p style="text-align:center; font-size:x-large">
                     <b><u>BERITA ACARA</u></b><br>
-                    <u>022/6/2021</u>
+                    <u><?php
+                            $tgl = date('d/m/Y');
+                            echo $tgl;
+                            ?></u>
                 </p>
 
 
@@ -92,22 +95,22 @@
                 Nama project <br>
                 Nama perusahaan <br>
                 PIC Client <br>
-                Item :
+                Item
             </td>
             <td width="80%" style="text-align:left; ">
-
-                : 1 file softcopy
+            <?php foreach ($b as $b) { ?>
+                    : <?= $b->perihal ?><br>
+                    : <?= $b->type_of_work ?><br>
+                    : <?= $b->project_name ?><br>
+                    : <?= $b->company_name ?><br>
+                    : <?= $b->pic_client ?><br>
+                    <?php foreach ($bi as $bi) { ?>
+                : <?= $bi->qty ?> <?= $bi->Unit ?> of  <?= $bi->item ?> work<br>
+                <?php } ?>
             </td>
-            <!-- <?php foreach ($bi as $bi) { ?> -->
-            <td width="85%" style="text-align:left; ">
-                <!-- : <?= $bi->perihal ?><br>
-                    : <?= $bi->type_of_work ?><br>
-                    : <?= $bi->project_name ?><br>
-                    : <?= $bi->company_name ?><br>
-                    : <?= $bi->pic_client ?><br> -->
-                : 1 file softcopy
-            </td>
-            <!-- <?php } ?> -->
+            
+            <!-- 
+                
         </tr>
     </table>
     <div>
@@ -157,9 +160,9 @@
                                         echo $tgl;
                                         ?>, kami PT Kode Evolusi Bangsa telah menyelesaikan seluruh pekerjaan tersebut
                 untuk
-                <!-- <?= $bi->company_name ?>. -->
+                <?= $b->project_name ?>.
 
-                Seluruh pekerjaan telah kami selesaikan dengan baik serta telah sesuai dengan permintaan dari pihak KeDA Tech.
+                Seluruh pekerjaan telah kami selesaikan dengan baik serta telah sesuai dengan permintaan dari pihak <?= $b->company_name ?>.
                 Demikian berita acara ini dibuat untuk kelengkapan proses administrasi.
         </tr>
 
@@ -185,8 +188,10 @@
             <td><br></td>
         </tr>
         <tr style="text-align:center; ">
-            <td><u>Cycas Rifky Yolanda Kurniawan</u><br>
-                PT Kode Evolusi Bangsa</td>
+            <td><u><?php foreach ($user as $u) { ?>
+                    <?= $u->full_Name ?>
+                <?php } ?></u><br>
+                <?= $b->first_party ?> </td>
         </tr>
 
     </table>
@@ -208,8 +213,8 @@
             <td><br></td>
         </tr>
         <tr style="text-align:center; ">
-            <td><u>Cycas Rifky Yolanda Kurniawan</u><br>
-                PT Kode Evolusi Bangsa</td>
+            <td><u> <?= $b->pic_client ?></u><br>
+                <?= $b->company_name ?></td>
         </tr>
         <tr style="text-align:center; ">
 
@@ -222,7 +227,7 @@
 
     </table>
 
-
+    <?php } ?>
 </body>
 <script type=" text/javascript">
     window.print();

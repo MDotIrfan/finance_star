@@ -60,18 +60,18 @@ class Quitation extends CI_Controller
                 $conv = $field->grand_Total;
             }
             if($field->currency=='IDR'){
-                $grand_total = 'Rp. '.$field->grand_Total;
+                $grand_total = "Rp. ".number_format($field->grand_Total,2,",",".");
             } else if($field->currency=='USD'){
-                $grand_total = '$ '.$field->grand_Total;
+                $grand_total = '$ '.number_format($field->grand_Total,2,".",",");
             } else if($field->currency=='EUR'){
-                $grand_total = '€ '.$field->grand_Total;
+                $grand_total = '€ '.number_format($field->grand_Total,2,".",",");
             }
             $row = array();
             $row[] = $field->no_Quotation;
             $row[] = $field->client_Name;
             $row[] = $field->project_Name;
             $row[] = $grand_total;
-            $row[] = "Rp. ".number_format($conv,2,".","");
+            $row[] = "Rp. ".number_format($conv,2,",",".");
             $str1 = '<a href="'.base_url('quitation/edit/' . $field->no_Quotation).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
             <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('quitation/delete/' . $field->no_Quotation).'"><button type="button" class="btn" style="color:red"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
             if($field->is_Acc == "0") {

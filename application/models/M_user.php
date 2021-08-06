@@ -3,9 +3,9 @@
 class M_user extends CI_Model
 {
 
-    var $_table = 'user';
-    var $column_order_user = array('id_User', 'user_Name','full_Name','position_Name','status_Name'); //field yang ada di table user
-    var $column_search_user = array('id_User', 'user_Name','full_Name','position_Name','status_Name'); //field yang diizin untuk pencarian 
+    // var $_table = 'user';
+    // var $column_order_user = array('id_User', 'user_Name','full_Name','position_Name','status_Name'); //field yang ada di table user
+    // var $column_search_user = array('id_User', 'user_Name','full_Name','position_Name','status_Name'); //field yang diizin untuk pencarian 
     var $order = '';// default order 
  
     public function __construct()
@@ -16,18 +16,28 @@ class M_user extends CI_Model
  
     private function _get_datatables_query($table)
     {
-        
-        if($table=='user'){
+        if ($table == 'user') {
+            $column_order = array('id_User', 'user_Name', 'full_Name', 'position_Name', 'status_Name');
+            $column_search = array('id_User', 'user_Name', 'full_Name', 'position_Name', 'status_Name');
             $this->db->from('user u');
             $this->db->join('position_item p', 'p.id=u.id_Position', 'left');
             $this->db->join('status_item s', 's.id=u.id_Status', 'left');
-            
-            $this->order = array('id_User' => 'asc'); 
+            $this->order = array('id_User' => 'asc');
+        } else if ($table == 'resource_data') {
+            $column_order = array('id_resource', 'resource_name', 'mobile_phone', 'cabang_bank', 'no_rekening', 'address', 'no_npwp', 'jenis');
+            $column_search = array('id_resource', 'resource_name', 'mobile_phone', 'cabang_bank', 'no_rekening', 'address', 'no_npwp', 'jenis');
+            $this->db->from('resource_data');
+            $this->order = array('id_resource' => 'asc');
+        } else if ($table == 'client_data') {
+            $column_order = array('client_id', 'client_name', 'client_email', 'company_name', 'address');
+            $column_search = array('client_id', 'client_name', 'client_email', 'company_name', 'address');
+            $this->db->from('client_data');
+            $this->order = array('client_id' => 'asc');
         }
  
         $i = 0;
      
-        foreach ($this->column_search_user as $item) // looping awal
+        foreach ($column_search as $item) // looping awal
         {
             if($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
             {
@@ -42,7 +52,7 @@ class M_user extends CI_Model
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
  
-                if(count($this->column_search_user) - 1 == $i) 
+                if(count($column_search) - 1 == $i) 
                     $this->db->group_end(); 
             }
             $i++;
@@ -50,7 +60,7 @@ class M_user extends CI_Model
          
         if(isset($_POST['order'])) 
         {
-            $this->db->order_by($this->column_order_user[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+            $this->db->order_by($column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } 
         else if(isset($this->order))
         {
@@ -77,10 +87,50 @@ class M_user extends CI_Model
  
     public function count_all($table)
     {
-        if($table=='user'){
-            $this->db->from('user u'); 
+        if ($table == 'user') {
+            $this->db->from('user u');
+            $this->db->join('position_item p', 'p.id=u.id_Position', 'left');
+            $this->db->join('status_item s', 's.id=u.id_Status', 'left');
+        } else if ($table == 'resource_data') {
+            $this->db->from('resource_data');
+        } else if ($table == 'client_data') {
+            $this->db->from('client_data');
         }
         return $this->db->count_all_results();
+    }
+
+        function tampil_data_client()
+    {
+        $this->db->select('*');
+        $this->db->from('client_data');
+        return $query = $this->db->get();
+    }
+    function tampil_data_resource()
+    {
+        $this->db->select('*');
+        $this->db->from('resource_data');
+        return $query = $this->db->get();
+    }
+
+    function last_update_client()
+    {
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `client_data` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `client_data` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('client_data');
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
+    }
+    function last_update_resource()
+    {
+        $this->db->select('DATE(created_at) as tgl,
+        DATE(DATE_SUB((SELECT created_at as date FROM `resource_data` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
+        DATEDIFF(NOW(),(SELECT created_at as date FROM `resource_data` ORDER BY created_at DESC LIMIT 1)) as last_update');
+        $this->db->from('resource_data');
+        $this->db->order_by('tgl', 'ASC');
+        $this->db->limit(1);
+        return $query = $this->db->get();
     }
 
     function doLogin()
@@ -225,6 +275,22 @@ class M_user extends CI_Model
         $kodetampil = "CL" . $batas;
         return $kodetampil;
     }
+    public function CreateCodeResource()
+    {
+        $this->db->select('RIGHT(resource_data.id_resource,3) as kode_resource', FALSE);
+        $this->db->order_by('kode_resource', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('resource_data');
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $kode = intval($data->kode_resource) + 1;
+        } else {
+            $kode = 1;
+        }
+        $batas = str_pad($kode, 3, "0", STR_PAD_LEFT);
+        $kodetampil = "RES" . $batas;
+        return $kodetampil;
+    }
     function input_data($data, $table)
     {
         $this->db->insert($table, $data);
@@ -244,6 +310,13 @@ class M_user extends CI_Model
         $this->db->select('*');
         $this->db->from('client_data');
         $this->db->where('client_id', $where);
+        return $query = $this->db->get();
+    }
+    function edit_data_resource($where, $table)
+    {
+        $this->db->select('*');
+        $this->db->from('resource_data');
+        $this->db->where('id_resource', $where);
         return $query = $this->db->get();
     }
     function update_data($where, $data, $table)

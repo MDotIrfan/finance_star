@@ -27,8 +27,9 @@
 </head>
 
 <body>
-    <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="mid" align="right">
+    <img src="<?= base_url('assets/img/logospq.jpg') ?>" class="mid" align="right" style="height:150px">
     <table border="0" style="width: 30%" align="right">
+    <br><br><br><br><br><br><br><br><br>
         <tr>
             <td>
                 <p style="text-align:right;">
@@ -78,22 +79,52 @@
             <td style="text-align:center; " class="bold" width="5%">No</td>
             <td width="35%" style="text-align:center; " class="bold" width="35%">Job Description</td>
             <td width="15%" style="text-align:center; " class="bold" width="15%">Qtt<br>Word</td>
-            <td width="15%" style="text-align:center; " class="bold">Unit Price<br>(MYR)</td>
-            <td width="20%" style="text-align:center; " class="bold">Amount<br>(MYR)</td>
+            <td width="15%" style="text-align:center; " class="bold"><?php if($po->currency_inv=='IDR'){
+               echo 'Unit Price<br>(IDR)';
+            } else if($po->currency_inv=='USD'){
+                echo 'Unit Price<br>(USD)';
+            } else if($po->currency_inv=='EUR'){
+                echo 'Unit Price<br>(EUR)';
+            } ?></td>
+            <td width="20%" style="text-align:center; " class="bold"><?php if($po->currency_inv=='IDR'){
+               echo 'Amount<br>(IDR)';
+            } else if($po->currency_inv=='USD'){
+                echo 'Amount<br>(USD)';
+            } else if($po->currency_inv=='EUR'){
+                echo 'Amount<br>(EUR)';
+            } ?></td>
         </tr>
         <?php $i=1; foreach ($pi as $pi) {?>
         <tr>
             <td style="text-align:center;height:60px" width="5%"><?= $i."." ?></td>
             <td width="35%" style="text-align:center;"><?= $pi->jobdesc ?></td>
             <td width="15%" style="text-align:center;"><?= $pi->qtt_word ?></td>
-            <td width="15%" style="text-align:center;"><?= $pi->price ?></td>
-            <td width="20%" style="text-align:center;"><?= $pi->amount ?></td>
+            <td width="15%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($pi->price,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($pi->price,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($pi->price,2,".",",");
+            } ?></td>
+            <td width="20%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+               echo number_format($pi->amount,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($pi->amount,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($pi->amount,2,".",",");
+            } ?></td>
         </tr>
         <?php $i++;} ?>
         <tr class="bold">
             <td style="text-align:center;" colspan="2">Grand Total</td>
             <td width="35%" style="text-align:center;" colspan="2">Please Pay</td>
-            <td style="text-align:center;" colspan="1"> <?= $po->grand_total; ?></td>
+            <td style="text-align:center;" colspan="1"> <?php if($po->currency_inv=='IDR'){
+                echo number_format($po->grand_total,2,",",".");
+            } else if($po->currency_inv=='USD'){
+                echo number_format($po->grand_total,2,".",",");
+            } else if($po->currency_inv=='EUR'){
+                echo number_format($po->grand_total,2,".",",");
+            } ?></td>
         </tr>
     </table>
     <br>
