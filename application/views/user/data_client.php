@@ -2,10 +2,12 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">DATA CLIENT</h1>
+    <div class="row align-items-start" style="margin-bottom: 25px; margin-left: 5px;">
+        <div class="col">
+            <span style="color: black; font-size: 24px;">Freelance</span><br>
+            <span style="color: #9599A6; font-size: 16px;">For <?= @$interval->last_update ?> Last Days</span>
+        </div>
     </div>
-    <p class="fs-6">For Last 356 Days</p>
 
 
     <!-- Content Row -->
@@ -22,16 +24,19 @@
     <div class="table-responsive">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3" style="width: auto;">
             <input type="text" id="myInputTextField" class="data-table-search mr-3" placeholder="Filter">
-            <a style="margin-right: 20px;" href="<?php echo base_url('user/add_client'); ?>"><button type="submit button" class="btn btn-success btn-add">Tambah Client</button></a>
+            <a style="margin-right: 20px;" href="<?php echo base_url('user/add_client'); ?>"><button type="submit button" class="btn btn-success btn-add">New Freelance</button></a>
         </div>
         <table id="table" class="table table-borderless data-table-all" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th scope="col">ID Client</th>
-                    <th scope="col">Client Name</th>
-                    <th scope="col">Client Email</th>
-                    <th scope="col">Company Name</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Whatsapp Number</th>
                     <th scope="col">Address</th>
+                    <th scope="col">NPWP</th>
+                    <th scope="col">No. Rekening</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -69,37 +74,52 @@
             "dom": '<"top">rt<"bottom"il><"right"p><"clear">',
 
             "ajax": {
-                "url": "<?php echo site_url('user/get_data_client/client_data') ?>",
+                "url": "<?php echo site_url('user/get_data_client/freelance_data') ?>",
                 "type": "POST"
             },
 
             "columns": [{
                     data: '0',
-                    name: 'client_id',
+                    name: 'id',
                     className: 'data-table-row',
                 },
                 {
                     data: '1',
-                    name: 'client_name',
+                    name: 'firstname',
                     className: 'data-table-row',
                 },
                 {
                     data: '2',
-                    name: 'client_email',
+                    name: 'lastname',
                     className: 'data-table-row'
                 },
                 {
                     data: '3',
-                    name: 'address',
+                    name: 'email',
                     className: 'data-table-row'
                 },
                 {
                     data: '4',
-                    name: 'company_name',
+                    name: 'wa',
                     className: 'data-table-row'
                 },
                 {
                     data: '5',
+                    name: 'address',
+                    className: 'data-table-row'
+                },
+                {
+                    data: '6',
+                    name: 'npwp',
+                    className: 'data-table-row'
+                },
+                {
+                    data: '7',
+                    name: 'rekening',
+                    className: 'data-table-row'
+                },
+                {
+                    data: '8',
                     orderable: false,
                     searchable: false
                 },

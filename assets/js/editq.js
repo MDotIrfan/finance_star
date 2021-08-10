@@ -11,7 +11,7 @@ cost = [];
     if(ids!=''){
         $.ajax({
             type: 'ajax',
-            url: `http://localhost/finance/purchase/tampilkanData/`+ids,
+            url: base_url(`purchase/tampilkanData/`)+ids,
             async: false,
             dataType: 'json',
             success: function (data) {
@@ -27,10 +27,6 @@ cost = [];
                   $('#nopo').val(data['kode_po'][0]);
                 $('#nopo_awal').val(data['kode_po']);
                   document.getElementById('jumlah').removeAttribute('readonly', true);
-                  $('#rs').val('admin');
-                  $('#ps').val('');
-                  $('#pm').val('');
-                  $('#rn').val('');
                   ubah_no();
               } else {
                 $('#jumlah').val(data['q'][0].jumlah_pembayaran);
@@ -59,7 +55,7 @@ cost = [];
     }
   
    });
-    } else {addRow();$('#pn').val("");}
+    } else {addRow();$('#pn').val("");$('#rs').val('Freelance');}
        
 });
 
@@ -166,45 +162,42 @@ function autocomplete(inp, arr) {
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("rn"), countries);
 
-// $("#rn").on('input', function(el) {
-//   let ids = $(el.target).val();
-//   console.log(ids);
-//   change(ids);
-// });
+$("#rn").on('input', function(el) {
+  let ids = $(el.target).val();
+  console.log(ids);
+  change(ids);
+});
 
 function change(ids){
   if(ids!=''){
     $.ajax({
         type: 'ajax',
-        url: `http://localhost/finance/purchase/tampilkanDataResource/`+ids,
+        url: base_url(`purchase/tampilkanDataResource/`)+ids,
         async: false,
         dataType: 'json',
         success: function (data) {
           console.log(data)
-                id = data[0].email_Address;
-                id2 = data[0].mobile_phone;
-            $('#ps').val(id);
-            $('#pm').val(id2);
-            if(data[0].id_Status=='0'){
-              $('#rs').val('admin');
-            } else if(data[0].id_Status=='1'){
-              $('#rs').val('Freelance');
-            } else if(data[0].id_Status=='2'){
-              $('#rs').val('In House (Star Jakarta)');
-            } else if(data[0].id_Status=='3'){
-              $('#rs').val('In House (Speequal Jakarta)');
-            } else if(data[0].id_Status=='4'){
-              $('#rs').val('In House (Speequal Malaysia)');
-            } else if(data[0].id_Status=='5'){
-              $('#rs').val('Vendor');
-            } else if(data[0].id_Status=='6'){
-              $('#rs').val('Kodegiri');
-            }
+          id = data[0].email_Address;
+          $('#ps').val(id);
+          $('#id_fl').val(data[0].id_User);
+          if(data[0].id_Status=='1'){
+            $('#pm').val(data[0].wa_fl);
+            $('#rs').val('Freelance');
+            $('#address_resource').val(data[0].address_fl);
+          } else if(data[0].id_Status=='5'){
+            $('#rs').val('Vendor');
+            $('#pm').val(data[0].wa_vendor);
+            $('#address_resource').val(data[0].address_vendor);
+          }
 }
 
 });
 } else {$('#ps').val('');
-$('#pm').val('');}
+$('#pm').val('');
+$('#id_fl').val('');
+$('#rs').val('');
+$('#address_resource').val('');
+}
 }
 
 function ubah_no(){

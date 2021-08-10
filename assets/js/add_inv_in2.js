@@ -8,7 +8,7 @@ jum_table=0;
     if(ids!=''){
         $.ajax({
             type: 'ajax',
-            url: `http://localhost/finance/freelance/tampilkanDataitem/`+ids,
+            url: base_url(`freelance/tampilkanDataitem/`)+ids,
             async: false,
             dataType: 'json',
             success: function (data) {
@@ -19,6 +19,17 @@ jum_table=0;
                     addRow(btoa(JSON.stringify(data.po[i])));
                     $('#curr_awal').val(data.po[0].currency_po);
                     $('#company').val(data.po[0].company);
+                    if(data.po[0].resource_Status=='Freelance'){
+                        jenis='ftn';
+                    } else if(data.po[0].resource_Status=='Tenaga Ahli'){
+                        jenis='tatn';
+                    } else if(data.po[0].resource_Status=='Vendor'){
+                        jenis='vendor';
+                    }
+                    console.log(jenis);
+                    $('#tax-tipe').val(jenis);
+                    // $('#ps').val(data.po[0].nama_Pm);
+                    // $('#email').val(data.po[0].email_pm);
                     if(data.po[0].currency_po=='IDR'){
                         document.getElementById("curr").innerHTML = 'Amount IDR';
                     } else if (data.po[0].currency_po=='USD'){
@@ -26,6 +37,7 @@ jum_table=0;
                     } else if (data.po[0].currency_po=='EUR'){
                         document.getElementById("curr").innerHTML = 'Amount EUR';
                     }
+                    tampil()
                 }
             
     }
@@ -36,6 +48,7 @@ jum_table=0;
         document.getElementById("curr").innerHTML = 'Amount IDR';
         $('#curr_awal').val('IDR');
         $('#company').val('');
+        tampil()
     }
        
 });

@@ -18,6 +18,7 @@
                 <div class="col">
                     <label for="ps">Resource Name</label>
                     <input style="color:black;" class="form-control form-control-user" id="rn" name="rn" aria-describedby="" placeholder="" value="<?php echo set_value('pm')?>">
+                    <input type="hidden" style="color:black;" class="form-control form-control-user" id="id_fl" name="id_fl" aria-describedby="" placeholder="" value="">
                     <?php echo form_error('rn'); ?>
                 </div>
                 <div class="col">
@@ -40,6 +41,7 @@
                 <div class="col">
                     <label for="cn">PM Name</label>
                     <input type="" style="color:black;" class="form-control form-control-user" id="pmn" name="pmn" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>">
+                    <input type="hidden" style="color:black;" class="form-control form-control-user" id="id_pm" name="id_pm" aria-describedby="" placeholder="" value="<?php echo $userdata->id_User; ?>">
                 </div>
                 <div class="col">
                     <label for="Pm">Resource Email</label>
@@ -76,9 +78,9 @@
                 <div class="col">
                     <label for="Pm">Resource Status</label>
                     <select style="color:black;" class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="rs" name="rs">
-                        <?php foreach ($position as $p) : ?>
-                            <option value="<?php echo $p->status_Name; ?>"> <?php echo $p->status_Name; ?></option>
-                        <?php endforeach; ?>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Tenaga Ahli">Tenaga Ahli</option>
+                        <option value="Vendor">Vendor</option>
                     </select>
                 </div>
                 <div class="col">
@@ -205,16 +207,16 @@
                         <thead>
                             <tr>
                                 <th>Public Notes</th>
-                                <th>Regards</th>
-                                <th>Footer</th>
+                                <!-- <th>Regards</th>
+                                <th>Footer</th> -->
                                 <th>Address Resource</th>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="public_notes"></textarea></td>
-                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
-                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="footer"></textarea></td>
-                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td>
+                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="public_notes"id="public_notes"></textarea></td>
+                                <!-- <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
+                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="footer"></textarea></td> -->
+                                <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="address_resource" id="address_resource"></textarea></td>
                             </tr>
 
 
@@ -296,11 +298,11 @@
 
     <script>
         var countries = [];
-        // <?php
-        // foreach ($res as $q) {
-        //     echo "countries.push('" . $q->full_Name . "');";
-        // }
-        // ?>
+         <?php
+        foreach ($res as $q) {
+            echo "countries.push('" . $q->full_Name . "');";
+        }
+        ?>
 
 function kirim_email(){
    form.attr('action','<?php echo base_url('purchase/add_po_word/email'); ?>');

@@ -37,8 +37,6 @@
         <?php } ?>
         <?php } ?>
 
-        <?php foreach($jumlah_3 as $jumlah) { ?>
-        <?php foreach($selisih_3 as $selisih) { ?>
         <!-- Total Revenue Card Example -->
         <div class="col">
             <div class="card border-left shadow h-100 py-3" style="border-radius: 8px;">
@@ -50,20 +48,18 @@
                                 Total Revenue
                             </div>
                             <br>
-                            <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;">Rp. <?= $jumlah->revenue?></div>
+                            <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;">Rp. <?= number_format($jumlah_revenue,2,",",".")?></div>
                         </div>
                         <div>
-                        <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_revenue!=0){echo number_format(( $jumlah->revenue - $selisih->jum_revenue) / $selisih->jum_revenue * 100, 2);}else{echo 0;}?>%</div>
+                        <div class="divbox" style="color: #FFFFFF">+ <?php //if($selisih->jum_revenue!=0){echo number_format(( $jumlah->revenue - $selisih->jum_revenue) / $selisih->jum_revenue * 100, 2);}else{echo 0;}?>%</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php } ?>
-        <?php } ?>
 
-        <?php foreach($jumlah_2 as $jumlah) { ?>
-        <?php foreach($selisih_2 as $selisih) { ?>
+
+
         <!-- Cost Card Example -->
         <div class="col">
             <div class="card border-left shadow h-100 py-3" style="border-radius: 8px;">
@@ -75,18 +71,17 @@
                                 Cost
                             </div>
                             <br>
-                            <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;">Rp. <?= $jumlah->cost?></div>
+                            <div class="h5 mb-0 font-weight-bold" style="color: #222B45;font-family: Poppins;font-style: normal;font-weight: bold;font-size: 26px;line-height: 24px;">Rp. <?= number_format($jumlah_cost,2,",",".")?></div>
                         </div>
                         <div>
-                        <div class="divbox" style="color: #FFFFFF">+ <?php if($selisih->jum_cost!=0){echo number_format(( $jumlah->cost - $selisih->cost) / $selisih->jum_cost * 100, 2);}else{echo 0;}?>%</div>
+                        <div class="divbox" style="color: #FFFFFF">+ <?php //if($selisih->jum_cost!=0){echo number_format(( $jumlah->cost - $selisih->cost) / $selisih->jum_cost * 100, 2);}else{echo 0;}?>%</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <?php } ?>
-    <?php } ?>
+
 
     <br>
     <div class="row row-cols-1 row-cols-md-2 g-4">

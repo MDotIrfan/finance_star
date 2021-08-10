@@ -18,6 +18,7 @@
                     <div class="col">
                         <label for="ps">Resource Name</label>
                         <input type="" style="color:black;" class="form-control form-control-user" id="rn" name="rn" aria-describedby="" placeholder="" value="<?= $pi->resource_Name ?>">
+                        <input type="hidden" style="color:black;" class="form-control form-control-user" id="id_fl" name="id_fl" aria-describedby="" placeholder="" value="<?= $pi->id_fl ?>">
                     </div>
                     <div class="col">
                         <label for="ps">Mobile Phone</label>
@@ -37,6 +38,7 @@
                     <div class="col">
                         <label for="cn">PM Name</label>
                         <input type="" style="color:black;" class="form-control form-control-user" id="pmn" name="pmn" aria-describedby="" placeholder="" value="<?= $pi->nama_Pm ?>">
+                        <input type="hidden" style="color:black;" class="form-control form-control-user" id="id_pm" name="id_pm" aria-describedby="" placeholder="" value="<?= $pi->id_pm ?>">
                     </div>
                     <div class="col">
                         <label for="Pm">Resource Email</label>
@@ -73,10 +75,9 @@
                     <div class="col">
                         <label for="Pm">Resource Status</label>
                         <select style="color:black;" class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="rs" name="rs">
-                            <?php foreach ($position as $p) {
-                                $selected = ($p->status_Name == $pi->resource_Status) ? "selected" : "";
-                                echo '<option ' . $selected . ' value="' . $p->status_Name . '">' . $p->status_Name . '</option>';
-                            } ?>
+                            <option value="Freelance" <?php if($pi->resource_Status=='Freelance'){echo 'selected';}?>>Freelance</option>
+                            <option value="Tenaga Ahli"  <?php if($pi->resource_Status=='Tenaga Ahli'){echo 'selected';}?>>Tenaga Ahli</option>
+                            <option value="Vendor"  <?php if($pi->resource_Status=='Vendor'){echo 'selected';}?>>Vendor</option>
                         </select>
                     </div>
                     <div class="col">
@@ -333,15 +334,15 @@
                             <thead>
                                 <tr>
                                     <th>Public Notes</th>
-                                    <th>Regards</th>
-                                    <th>Footer</th>
+                                    <!-- <th>Regards</th>
+                                    <th>Footer</th> -->
                                     <th>Address Resource</th>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="public_notes" class="form-control"><?= $pi->public_Notes ?></textarea></td>
-                                    <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="regards" class="form-control"><?= $pi->regards ?></textarea></td>
-                                    <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="footer" class="form-control"><?= $pi->footer ?></textarea></td>
+                                    <!-- <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="regards" class="form-control"><?= $pi->regards ?></textarea></td>
+                                    <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="footer" class="form-control"><?= $pi->footer ?></textarea></td> -->
                                     <td><textarea class="form-control" style="border-color: #FFFFFF;color:black;" name="address_resource" class="form-control"><?= $pi->address_Resource ?></textarea></td>
                                 </tr>
 
@@ -427,11 +428,11 @@
 <?php } ?>
 <script>
     var countries = [];
-    // <?php
-    // foreach ($res as $q) {
-    //     echo "countries.push('" . $q->full_Name . "');";
-    // }
-    // ?>
+    <?php
+    foreach ($res as $q) {
+        echo "countries.push('" . $q->full_Name . "');";
+    }
+    ?>
 
 function kirim_email(){
    form.attr('action','<?php echo base_url('purchase/edit_po_word/email'); ?>');

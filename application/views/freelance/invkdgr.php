@@ -155,7 +155,9 @@
             <?php } ?>
         </table>
     </div>
+
     <hr>
+    <div style="width: 50%;">Note : <?php echo $po->public_notes; ?></div>
     <div style="margin-top: 50px;">
         <table border="0" style="width: 40%" class="table" cellspacing="0" cellpadding="0" align="right">
 

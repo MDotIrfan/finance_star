@@ -163,33 +163,34 @@
             <tr>
                 <td style="text-align:left;" width="25%"><?php echo $p->task; ?></td>
                 <td width="25%" style="text-align:center;"><?php echo $p->qty; ?></td>
-                <td width="25%" style="text-align:center;"> <?php if($po->currency_po=='IDR'){
+                <td width="25%" style="text-align:center;"> <?php if($po->currency_po=='IDR'&&$p->rate!=''){
                 echo number_format($p->rate,2,",",".");
-            } else if($po->currency_po=='USD'){
+            } else if($po->currency_po=='USD'&&$p->rate!=''){
                 echo number_format($p->rate,2,".",",");
-            } else if($po->currency_po=='EUR'){
+            } else if($po->currency_po=='EUR'&&$p->rate!=''){
                 echo number_format($p->rate,2,".",",");
             } ?></td>
-                <td width="25%" style="text-align:center;"><?php if($po->currency_po=='IDR'){
+                <td width="25%" style="text-align:center;"><?php if($po->currency_po=='IDR'&&$p->amount!=''){
                 echo number_format($p->amount,2,",",".");
-            } else if($po->currency_po=='USD'){
+            } else if($po->currency_po=='USD'&&$p->amount!=''){
                 echo number_format($p->amount,2,".",",");
-            } else if($po->currency_po=='EUR'){
+            } else if($po->currency_po=='EUR'&&$p->amount!=''){
                 echo number_format($p->amount,2,".",",");
             } ?></td>
             </tr>
         <?php } ?>
     </table>
+    <div style="width: 50%">Note : <?php echo $po->public_Notes; ?></div>
     <br>
     <table border="1" style="width: 50%" align="right" cellspacing="0" cellpadding="0">
 
         <td width="25%" style="text-align:center; background-color:pink" class="bold">Total Fee</td>
         <td width="25%" style="text-align:center;" class="bold">
-            <?php if($po->currency_po=='IDR'){
+            <?php if($po->currency_po=='IDR'&&$p->grand_Total_po!=''){
                 echo 'Rp. '.number_format($p->grand_Total_po,2,",",".");
-            } else if($po->currency_po=='USD'){
+            } else if($po->currency_po=='USD'&&$p->grand_Total_po!=''){
                 echo '$ '.number_format($p->grand_Total_po,2,".",",");
-            } else if($po->currency_po=='EUR'){
+            } else if($po->currency_po=='EUR'&&$p->grand_Total_po!=''){
                 echo '€ '.number_format($p->grand_Total_po,2,".",",");
             } ?>
         </td>

@@ -16,7 +16,7 @@ class Quitation extends CI_Controller
     {
         $data['quotation']=$this->m_quotation->tampil_data_q()->result();
         $this->session->set_userdata('menu', 'Quotation');
-        $data['interval'] = $this->m_quotation->last_update_quotation()->row()->last_update;
+        $data['interval'] = $this->m_quotation->last_update_quotation()->row();
         $this->load->view('templates/header', [
             'load' => ['dataq.js']
            ]);
@@ -71,7 +71,7 @@ class Quitation extends CI_Controller
             $row[] = $field->client_Name;
             $row[] = $field->project_Name;
             $row[] = $grand_total;
-            $row[] = "Rp. ".number_format($conv,2,",",".");
+            $row[] = $grand_total;
             $str1 = '<a href="'.base_url('quitation/edit/' . $field->no_Quotation).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
             <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('quitation/delete/' . $field->no_Quotation).'"><button type="button" class="btn" style="color:red"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
             if($field->is_Acc == "0") {
@@ -400,9 +400,7 @@ class Quitation extends CI_Controller
             'currency' => $curr,
             );
         
-            if(!empty($jobdesc[0])){
                 for($a = 0; $a < count($jobdesc); $a++){
-                    if(!empty($jobdesc[$a])){
                         $data['qi'][$a] = (object) array(
                             'no_Quotation' => $noquitation,
                             'job_Desc' => $jobdesc[$a],
@@ -412,18 +410,7 @@ class Quitation extends CI_Controller
                             'cost' => $cost[$a],
                             );
                     }
-                }
-            } else {
-                $data['qi'][0] = (object) array(
-                    'no_Quotation' => $noquitation,
-                    'job_Desc' => $jobdesc[0],
-                    'volume' => $volume[0],
-                    'unit' => $unit[0],
-                    'price' => $price[0],
-                    'cost' => $cost[0],
-                    );
-            }
-
+               
         // echo '<pre>';
         // print_r($data);
         // echo '</pre>';

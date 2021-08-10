@@ -71,7 +71,7 @@
                      <th>Unit</th>
                      <th>Price/Unit</th>
                      <th>
-                        <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
+                        <!-- <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR"> -->
                         <select id="curr" name="curr" class="form-control font-weight-bold form-trans">
                            <option value="IDR" selected="selected">
                               Cost In IDR
@@ -107,7 +107,11 @@
                   <tbody>
                      <tr>
                         <td><textarea name="public_notes" class="form-control" style="border-color: #FFFFFF;color:black;"></textarea></td>
-                        <td><textarea name="header" class="form-control" style="border-color: #FFFFFF;color:black;"></textarea></td>
+                        <td><textarea name="header" class="form-control" style="border-color: #FFFFFF;color:black;"><?php 
+                           if($userdata->id_Status=='2'){echo 'PT. Star Software Indonesia';}
+                           else if($userdata->id_Status=='3'||$userdata->id_Status=='4'){echo 'Speequal';}
+                           else if($userdata->id_Status=='6'){echo 'PT. Kode Evolusi Bangsa (Kodegiri)';}
+                        ?></textarea></td>
                         <td><textarea name="footer" class="form-control" style="border-color: #FFFFFF;color:black;"></textarea></td>
                      </tr>
                </table>

@@ -56,38 +56,95 @@ function tampil() {
   var hasil = tambah(cost);
   var grand = 0;
   var grand_Total = 0;
-  document.getElementById("total-text").innerHTML = hasil.toFixed(2);
+  kurensi = $('#curr_awal').val()
+  npwp = $('#ce').val()
+  console.log(npwp);
+  if(kurensi=='IDR'){
+    document.getElementById("total-text").innerHTML = 'Rp. ' + hasil.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else if (kurensi=='USD'){
+    document.getElementById("total-text").innerHTML = '$ ' + hasil.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else if (kurensi=='EUR'){
+    document.getElementById("total-text").innerHTML = '€ ' + hasil.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   $("#total").val(hasil);
-  if (jenis == 'ftn') {
-    if (hasil>=4500000){
-      grand = hasil * 5 / 100;
-      console.log('tepotong');
-    } else {
-      grand = 0;
-      console.log('tak');
+  if(kurensi=='IDR'){
+    if (jenis == 'ftn') {
+      if(npwp!=0){
+        if (hasil>=4500000){
+          grand = hasil * 5 / 100;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 5%)';
+        } else {
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 5%)';
+        }
+      } else {
+        if (hasil>=4500000){
+          grand = hasil * 6 / 100;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 6%)';
+        } else {
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 6%)';
+        }
+      }
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if (jenis == 'tatn') {
+      if(npwp!=0){
+        if (hasil>=4500000){
+          grand = hasil * (50 / 100) * (5 / 100);
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 50% x 5%)';
+        } else {
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 50% x 5%)';
+        }
+      } else {
+        if (hasil>=4500000){
+          grand = hasil * (50 / 100) * (5 / 100) * (120 / 100);
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 50% x 5% x 120%)';
+        } else {
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 50% x 5% x 120%)';
+        }
+      }
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if (jenis == 'vendor') {
+      grand = hasil * 2 / 100;
+      document.getElementById("tax-label").innerHTML = 'PPh 23 (- 2%)';
+      document.getElementById("pajak").innerHTML = '-' + grand;
     }
-    document.getElementById("pajak").innerHTML = '-' + grand;
-  } else if (jenis == 'fdn') {
-    if (hasil>=4500000){
-      grand = hasil * 6 / 100;
-      console.log('tepotong');
-    } else {
-      grand = 0;
-      console.log('tak');
+  } else {
+    if (jenis == 'ftn') {
+      if(npwp!=0){
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 5%)';
+      } else {
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 6%)';
+      }
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if (jenis == 'tatn') {
+      if(npwp!=0){
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 50% x 5%)';
+      } else {
+          grand = 0;
+          document.getElementById("tax-label").innerHTML = 'PPh 21 (- 50% x 5% x 120%)';
+      }
+      document.getElementById("pajak").innerHTML = '-' + grand;
+    } else if (jenis == 'vendor') {
+      grand = hasil * 0;
+      document.getElementById("tax-label").innerHTML = 'PPh 23 (- 2%)';
+      document.getElementById("pajak").innerHTML = '-' + grand;
     }
-    document.getElementById("pajak").innerHTML = '-' + grand;
-  } else if (jenis == 'tadn') {
-    grand = hasil * (50 / 100) * (5 / 100);
-    document.getElementById("pajak").innerHTML = '-' + grand;
-  } else if (jenis == 'tatn') {
-    grand = hasil * (50 / 100) * (5 / 100) * (120 / 100);
-    document.getElementById("pajak").innerHTML = '-' + grand;
-  } else if (jenis == 'vendor') {
-    grand = hasil * 2 / 100;
-    document.getElementById("pajak").innerHTML = '-' + grand;
   }
   grand_Total = hasil - grand;
-  document.getElementById("grand-text").innerHTML = grand_Total.toFixed(2);
+  $("#tax").val(grand);
+  if(kurensi=='IDR'){
+    document.getElementById("grand-text").innerHTML = 'Rp. ' + grand_Total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else if (kurensi=='USD'){
+    document.getElementById("grand-text").innerHTML = '$ ' + grand_Total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else if (kurensi=='EUR'){
+    document.getElementById("grand-text").innerHTML = '€ ' + grand_Total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   $("#grand").val(grand_Total);
 }
 

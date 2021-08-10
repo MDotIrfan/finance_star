@@ -16,13 +16,13 @@ class M_po extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         
         if($table=='purchase_order_word'){
             $this->db->from('purchase_order po');
             $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
             $this->db->where('po.tipe', 'word');
-            $this->db->where('po.nama_Pm', $name);
+            $this->db->where('po.id_pm', $id_user);
             if($level=="3"){$this->db->like('no_Po', 'SQ-');}
             else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
             else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
@@ -33,7 +33,7 @@ class M_po extends CI_Model
             $this->db->from('purchase_order po');
             $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
             $this->db->where('po.tipe', 'item');
-            $this->db->where('po.nama_Pm', $name);
+            $this->db->where('po.id_pm', $id_user);
             if($level=="3"){$this->db->like('no_Po', 'SQ-');}
             else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
             else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
@@ -96,13 +96,13 @@ class M_po extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         
         if($table=='purchase_order_word'){
             $this->db->from('purchase_order po');
             $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
             $this->db->where('po.tipe', 'word');
-            $this->db->where('po.nama_Pm', $name);
+            $this->db->where('po.id_pm', $id_user);
             if($level=="3"){$this->db->like('no_Po', 'SQ-');}
             else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
             else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
@@ -113,7 +113,7 @@ class M_po extends CI_Model
             $this->db->from('purchase_order po');
             $this->db->join('quotation q', 'po.id_quotation=q.no_Quotation', 'left');
             $this->db->where('po.tipe', 'item');
-            $this->db->where('po.nama_Pm', $name);
+            $this->db->where('po.id_pm', $id_user);
             if($level=="3"){$this->db->like('no_Po', 'SQ-');}
             else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
             else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
@@ -134,11 +134,11 @@ class M_po extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $this->db->select('*');
         $this->db->from('purchase_order po');
         $this->db->where('po.tipe', $where);
-        $this->db->where('po.nama_Pm', $name);
+        $this->db->where('po.id_pm', $id_user);
         if($level=="3"){$this->db->like('no_Po', 'SQ-');}
         else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
         else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
@@ -152,12 +152,12 @@ class M_po extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $this->db->select('DATE(created_at) as tgl,
         DATE(DATE_SUB((SELECT created_at as date FROM `purchase_order` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
         DATEDIFF(NOW(),(SELECT created_at as date FROM `purchase_order` ORDER BY created_at DESC LIMIT 1)) as last_update');
         $this->db->from('purchase_order');
-        $this->db->where('nama_Pm', $name);
+        $this->db->where('id_pm', $id_user);
         if($tipe){
             $this->db->where('tipe', $tipe);
         }
@@ -175,10 +175,10 @@ class M_po extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $this->db->select("count(no_Po) as 'po'");
         $this->db->from('purchase_order');
-        $this->db->where('nama_Pm', $name);
+        $this->db->where('id_pm', $id_user);
         if($level=="3"){$this->db->like('no_Po', 'SQ-');}
         else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
         else if($level=="6"){$this->db->like('no_Po', 'KEB-');}
@@ -192,12 +192,12 @@ class M_po extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $level = $userdata->id_Status;
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $days_first = $this->m_po->last_update_po()->row()->tgl;
         $days_before = $this->m_po->last_update_po()->row()->tgl_sebelum;
         $this->db->select("count(no_Po) as 'jum_po'");
         $this->db->from('purchase_order');
-        $this->db->where('nama_Pm', $name);
+        $this->db->where('id_pm', $id_user);
         $this->db->where("created_at BETWEEN '".$days_first."' and '".$days_before."'");
         if($level=="3"){$this->db->like('no_Po', 'SQ-');}
         else if($level=="4"){$this->db->like('no_Po', 'SQM-');}
@@ -373,15 +373,18 @@ class M_po extends CI_Model
     function get_resource()
     {
         $this->db->select('*');
-        $this->db->from('resource_data r');
-        $this->db->join('user u', 'r.id_user = u.id_User', 'left');
+        $this->db->from('user u');
+        $this->db->join('freelance_data fl', 'fl.id = u.id_resource', 'left');
+        $this->db->join('vendor v', 'v.id = u.id_resource', 'left');
+        $this->db->where("u.id_Status = '1' or u.id_Status = '5'");
         return $this->db->get();
     }
     function get_resource_data($id)
     {
-        $this->db->select('*');
-        $this->db->from('resource_data r');
-        $this->db->join('user u', 'r.id_user = u.id_User', 'left');
+        $this->db->select("*, fl.wa as 'wa_fl', v.wa as 'wa_vendor', fl.address as 'address_fl', v.address as 'address_vendor' ");
+        $this->db->from('user u');
+        $this->db->join('freelance_data fl', 'fl.id = u.id_resource', 'left');
+        $this->db->join('vendor v', 'v.id = u.id_resource', 'left');
         $this->db->where('u.full_Name', $id);
         return $this->db->get();
     }

@@ -185,6 +185,13 @@ font-size: 16px!important;
     color:#000000;
   }
 
+  .btn-fl{
+    float: right;
+    width: 167px;
+    height: 47px;
+    background: #169122;
+    border-radius: 5px;
+        }
 
     .divbox {
       position: relative;

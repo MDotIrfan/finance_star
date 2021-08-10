@@ -348,6 +348,7 @@
             </tr>
         <?php } ?>
     </table>
+    <div style="width: 50%">Note : <?php echo $po->public_Notes; ?></div>
     <br>
     <table border="0" style="width: 100%" class="center" cellspacing="0" cellpadding="0">
 

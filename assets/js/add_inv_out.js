@@ -376,13 +376,29 @@ function hitung2(a) {
 }
 
 function tampil() {
-    document.getElementById("total-text").innerHTML = tambah(cost).toFixed(2);
+    var kurensi = $('#curr').val()
+    total = tambah(cost);
+     if(kurensi=='IDR'){
+        document.getElementById("total-text").innerHTML = 'Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      } else if (kurensi=='USD'){
+        document.getElementById("total-text").innerHTML = '$ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else if (kurensi=='EUR'){
+        document.getElementById("total-text").innerHTML = '€ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
     $("#total").val(tambah(cost));
     hitungpajak()
 }
 
 function tampil2() {
-    document.getElementById("total-text").innerHTML = tambah(price).toFixed(2);
+    var kurensi = $('#curr').val()
+    total = tambah(cost);
+     if(kurensi=='IDR'){
+        document.getElementById("total-text").innerHTML = 'Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      } else if (kurensi=='USD'){
+        document.getElementById("total-text").innerHTML = '$ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else if (kurensi=='EUR'){
+        document.getElementById("total-text").innerHTML = '€ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
     $("#total").val(tambah(price));
     hitungpajak()
 }
@@ -412,6 +428,7 @@ function append_item() {
 append_item();
 
 function hitungpajak() {
+    var kurensi = $('#curr').val()
     var total = $("#total").val();
     var pajak = [];
     var total_pajak = 0;
@@ -476,7 +493,15 @@ function hitungpajak() {
     total_pajak = tambah(pajak);
     grand = total - total_pajak;
     console.log(total + " - " + total_pajak + " = " + grand);
-    document.getElementById("pajak-text").innerHTML = " - " + total_pajak.toFixed(2);
-    document.getElementById("grand-text").innerHTML = grand.toFixed(2);
+    if(kurensi=='IDR'){
+        document.getElementById("grand-text").innerHTML = 'Rp. ' + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        document.getElementById("pajak-text").innerHTML = "- Rp.  " + total_pajak.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      } else if (kurensi=='USD'){
+        document.getElementById("grand-text").innerHTML = '$ ' + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.getElementById("pajak-text").innerHTML = "- $  " + total_pajak.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else if (kurensi=='EUR'){
+        document.getElementById("grand-text").innerHTML = '€ ' + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.getElementById("pajak-text").innerHTML = "- €  " + total_pajak.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
     $("#grand").val(grand);
 }

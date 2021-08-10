@@ -146,7 +146,9 @@
                 </tr>
 
             </table>
+            <div style="width: 50%; margin-left:10%;" class="centerr">Note : <?php echo $po->public_notes; ?></div>
         </div>
+        
         <table border="0" style="width: 80%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0" align="center">
 
 

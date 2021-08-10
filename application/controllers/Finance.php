@@ -22,17 +22,19 @@ class Finance extends CI_Controller
         $list = $this->m_inv_in->get_datatables($table);
         $data = array();
         foreach ($list as $field) {
-            if($field->currency_inv!='IDR'){
-                $conv = $this->currencyConverter($field->currency_inv,'IDR',$field->grand_total);
-            } else {
-                $conv = $field->grand_total;
+            if($field->currency_inv=='IDR'){
+                $grand_total = 'Rp. '.number_format($field->grand_total,2,",",".");
+            } else if($field->currency_inv=='USD'){
+                $grand_total = '$ '.number_format($field->grand_total,2,".",",");
+            } else if($field->currency_inv=='EUR'){
+                $grand_total = '€ '.number_format($field->grand_total,2,".",",");
             }
             $row = array();
             $row[] = $field->no_invoice;
             $row[] = $field->mitra_name;
             $row[] = $field->jobdesc;
             $row[] = $field->invoice_date;
-            $row[] = "Rp. ".number_format($conv,2,",",".");
+            $row[] = $grand_total;
             $row[] = '<a href=""><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
                     <a onclick="return confirm(\'Yakin ingin hapus?\')" href=""><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
 
@@ -54,10 +56,12 @@ class Finance extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             $row = array();
-            if($field->currency_inv!='IDR'){
-                $conv = $this->currencyConverter($field->currency_inv,'IDR',$field->grand_total);
-            } else {
-                $conv = $field->grand_total;
+            if($field->currency_inv=='IDR'){
+                $grand_total = 'Rp. '.number_format($field->grand_total,2,",",".");
+            } else if($field->currency_inv=='USD'){
+                $grand_total = '$ '.number_format($field->grand_total,2,".",",");
+            } else if($field->currency_inv=='EUR'){
+                $grand_total = '€ '.number_format($field->grand_total,2,".",",");
             }
             $row[1] = $field->no_invoice;
             $row[2] = $field->client_name;
@@ -65,7 +69,7 @@ class Finance extends CI_Controller
             $row[4] = $field->nama_Pm;
             $row[5] = $field->invoice_date;
             $row[6] = $field->due_date;
-            $row[7] = "Rp. ".number_format($conv,2,",",".");
+            $row[7] = $grand_total;
             $row[8] = '<a href="'.base_url('finance/editinvoiceout/' . $field->no_invoice).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
                     <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('finance/delete/' . $field->no_invoice).'"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>
                     <a href="'.base_url('assets/files/' . $field->no_invoice . '.pdf').'" target="_blank"><button type="button" class="btn" style="color:black"><i class="fas fa-print" aria-hidden="true"></i></button></a>
@@ -132,7 +136,7 @@ class Finance extends CI_Controller
         }
 
         $data['inv'] = $this->m_inv_in->tampil_data_inv_out()->result();
-        $data['interval'] = $this->m_inv_in->last_update_data_finance()->row()->last_update;
+        $data['interval'] = $this->m_inv_in->last_update_data_finance()->row();
         $data['jumlah_1'] = $this->m_inv_in->count_project_finance()->result();
         $data['selisih_1'] = $this->m_inv_in->selisih_count_project_finance()->result();
         $data['jumlah_2'] = $this->m_inv_in->count_bast_finance()->result();
@@ -288,7 +292,7 @@ class Finance extends CI_Controller
     public function datainvoicein()
     {
         $data['inv'] = $this->m_inv_in->tampil_data_inv_all()->result();
-        $data['interval'] = $this->m_inv_in->last_update_inv_in()->row()->last_update;
+        $data['interval'] = $this->m_inv_in->last_update_inv_in()->row();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('finance/datainvoicein', $data);
@@ -309,9 +313,9 @@ class Finance extends CI_Controller
         $email = $this->input->post('email');
         $no_rek = $this->input->post('no_rek');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $currency = $this->input->post('curr_awal');
@@ -334,9 +338,9 @@ class Finance extends CI_Controller
             'email' => $email,
             'no_rek' => $no_rek,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
@@ -538,9 +542,9 @@ class Finance extends CI_Controller
         $email = $this->input->post('email');
         $no_rek = $this->input->post('no_rek');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $currency = $this->input->post('curr_awal');
@@ -563,9 +567,9 @@ class Finance extends CI_Controller
             'email' => $email,
             'no_rek' => $no_rek,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
@@ -917,6 +921,8 @@ class Finance extends CI_Controller
 
     function preview_inv_out()
     {
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
         $no_inv = $this->input->post('noinv');
         $no_po = $this->input->post('nopo');
         $client_name = $this->input->post('cn');
@@ -929,9 +935,9 @@ class Finance extends CI_Controller
         $email = $this->input->post('email');
         $no_rek = $this->input->post('no_rek');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $currency = $this->input->post('curr_awal');
@@ -950,9 +956,9 @@ class Finance extends CI_Controller
             'email' => $email,
             'no_rek' => $no_rek,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
@@ -965,9 +971,8 @@ class Finance extends CI_Controller
             $volume = $_POST['volume'];
             $price = $_POST['price'];
             $cost = $_POST['cost'];
-            if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
-                    if (!empty($jobdesc[$a])) {
+                    
                         $data['pi'][$a] = (object) array(
                             'no_invoice' => $no_inv,
                             'jobdesc' => $jobdesc[$a],
@@ -977,18 +982,15 @@ class Finance extends CI_Controller
                             'unit_price' => $price[$a],
                             'amount' => $cost[$a],
                         );
-                    }
+                    
                 }
-            }
         } else if ($tipe == '2') {
             $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
         $price = $_POST['price'];
         $cost = $_POST['cost'];
-            if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
-                    if (!empty($jobdesc[$a])) {
                         $data['pi'][$a] = (object) array(
                             'no_invoice' => $no_inv,
                             'domain' => $jobdesc[$a],
@@ -997,17 +999,13 @@ class Finance extends CI_Controller
                             'price' => $price[$a],
                             'amount' => $cost[$a],
                         );
-                    }
                 }
-            }
         } else if ($tipe == '3') {
             $jobdesc = $_POST['jobdesc'];
             $volume = $_POST['volume'];
             $price = $_POST['price'];
             $cost = $_POST['cost'];
-            if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
-                    if (!empty($jobdesc[$a])) {
                         $data['pi'][$a] = (object) array(
                             'no_invoice' => $no_inv,
                             'jobdesc' => $jobdesc[$a],
@@ -1015,17 +1013,13 @@ class Finance extends CI_Controller
                             'price' => $price[$a],
                             'amount' => $cost[$a],
                         );
-                    }
                 }
-            }
         } else if ($tipe == '4') {
             $jobdesc = $_POST['jobdesc'];
             $volume = $_POST['volume'];
             $unit = $_POST['unit'];
             $price = $_POST['price'];
-            if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
-                    if (!empty($jobdesc[$a])) {
                         $data['pi'][$a] = (object) array(
                             'no_invoice' => $no_inv,
                             'jobdesc' => $jobdesc[$a],
@@ -1034,15 +1028,11 @@ class Finance extends CI_Controller
                             'amount' => $price[$a],
                         );
                     }
-                }
-            }
         } else if ($tipe == '5') {
             $jobdesc = $_POST['jobdesc'];
             $price = $_POST['price'];
             $deliv = $_POST['deliv'];
-            if (!empty($jobdesc)) {
                 for ($a = 0; $a < count($jobdesc); $a++) {
-                    if (!empty($jobdesc[$a])) {
                         $data['pi'][$a] = (object) array(
                             'no_invoice' => $no_inv,
                             'pre_invoice' => $jobdesc[$a],
@@ -1050,8 +1040,6 @@ class Finance extends CI_Controller
                             'amount' => $price[$a],
                         );
                     }
-                }
-            }
         }
         
         // echo '<pre>';
@@ -1064,7 +1052,11 @@ class Finance extends CI_Controller
         if ($tipe == '1') {
             $this->pdf_2->load_view('finance/invstarluar', $data, $no_inv);
         } else if ($tipe == '2') {
-            $this->pdf_2->load_view('finance/invlokal', $data, $no_inv);
+            if($level=='6'){
+                $this->pdf_2->load_view('finance/invlokalkdgr', $data, $no_inv);
+            } else {
+                $this->pdf_2->load_view('finance/invlokal', $data, $no_inv);
+            }
         } else if ($tipe == '3') {
             $this->pdf_2->load_view('finance/invspqm', $data, $no_inv);
         } else if ($tipe == '4') {
@@ -1086,6 +1078,9 @@ class Finance extends CI_Controller
     }
     public function laporan_pdf_inv2($no_invoice){
 
+        $userdata = $this->session->userdata('user_logged');
+        $level = $userdata->id_Status;
+
         $data['inv'] = $this->m_inv_in->ambil_data_inv_out($no_invoice)->result();
         $data['pi'] = $this->m_inv_in->ambil_data_qi_local($no_invoice)->result();
         $data['user'][0]=$this->session->userdata('user_logged');
@@ -1097,7 +1092,11 @@ class Finance extends CI_Controller
         $this->load->library('pdf');
     
         $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->load_view('finance/invlokal', $data, $no_invoice);
+        if($level=='6'){
+            $this->pdf->load_view('finance/invlokalkdgr', $data, $no_invoice);
+        } else {
+            $this->pdf->load_view('finance/invlokal', $data, $no_invoice);
+        }
     }
     public function laporan_pdf_inv3($no_invoice){
 

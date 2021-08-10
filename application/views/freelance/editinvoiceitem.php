@@ -20,11 +20,12 @@
                             <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="" value="<?= $po->cabang_bank ?>">
                         </div>
                         <div class="col">
-                            <label for="Duedate">Down Payment </label>
+                        <label for="Duedate">Due Date </label>
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
+                                    <!-- <div class="input-group-text"><i class="fas fa-calendar-alt"></i></i></div> -->
                                 </div>
-                                <input type="text" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="dp" name="dp" value="<?= $po->down_payment ?>">
+                                <input type="date" style="background: #E2EFFC;color:black;" class="form-control form-control-user datepicker" id="dd" name="duedate" value="<?= $po->due_date ?>">
                             </div>
                         </div>
                         <div class="col">
@@ -48,6 +49,7 @@
                             <label for="Pm">Mitra Name</label>
                             <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="ps" name="ps" aria-describedby="" placeholder="" value="<?= $po->mitra_name ?>">
                             <input class="form-control form-control-user" id="tipe" name="tipe" aria-describedby="" placeholder="" type="hidden" value="item">
+                            <input type="hidden" style="color:black;" class="form-control form-control-user" id="id_fl" name="id_fl" aria-describedby="" placeholder="" value="<?php echo $po->id_fl; ?>">
                         </div>
                         <div class="col">
                             <label for="Duedate">Invoice Date </label>
@@ -60,7 +62,7 @@
                         </div>
                         <div class="col">
                             <label for="dd">No. NPWP</label>
-                            <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="" value="<?= $po->no_npwp ?>">
+                            <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="" value="<?= $po->no_npwp ?>" oninput="tampil()">
                         </div>
 
 
@@ -78,13 +80,7 @@
                             <input type="" style="background: #E2EFFC;color:black;" class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" value="<?= $po->address ?>">
                         </div>
                         <div class="col">
-                            <label for="Duedate">Due Date </label>
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <!-- <div class="input-group-text"><i class="fas fa-calendar-alt"></i></i></div> -->
-                                </div>
-                                <input type="date" style="background: #E2EFFC;color:black;" class="form-control form-control-user datepicker" id="dd" name="duedate" value="<?= $po->due_date ?>">
-                            </div>
+                            
                         </div>
                         <div class="col">
                         </div>
@@ -137,48 +133,56 @@
                 <div class="" style="border-radius: 10px;">
                     <div class="row">
 
-                        <div class="col-lg-6" style="margin-right: 80px">
+                        <div class="col-lg-4 style="margin-right: 80px">
                             <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;font-size: 18px; color:#222B45;font-weight: normal;">
                                 <thead>
                                     <tr>
                                         <th>Public Notes</th>
-                                        <th>Regards</th>
+                                        <!-- <th>Regards</th>
                                         <th>Footer</th>
-                                        <th>Address Resource</th>
+                                        <th>Address Resource</th> -->
                                 </thead>
                                 <tbody>
                                     <tr>
                                     <tr>
                                         <td><textarea style="border-color: #FFFFFF;color:black;" name="public_notes" class="form-control"><?= $po->public_notes ?></textarea></td>
-                                        <td><textarea style="border-color: #FFFFFF;color:black;" name="regards" class="form-control"><?= $po->terms ?></textarea></td>
+                                        <!-- <td><textarea style="border-color: #FFFFFF;color:black;" name="regards" class="form-control"><?= $po->terms ?></textarea></td>
                                         <td><textarea style="border-color: #FFFFFF;color:black;" name="footer" class="form-control"><?= $po->footer ?></textarea></td>
-                                        <td><textarea style="border-color: #FFFFFF;color:black;" name="address_resource" class="form-control"><?= $po->signature ?></textarea></td>
+                                        <td><textarea style="border-color: #FFFFFF;color:black;" name="address_resource" class="form-control"><?= $po->signature ?></textarea></td> -->
                                     </tr>
                                     </tr>
 
 
                             </table>
                         </div>
-                        <div class="col-lg" style="width: 464px;color:#222B45;font: size 18px;">
+                        <div class="col-lg-3">
+                  
+                        </div>
+                        <div class="col-lg-5" style="width: 464px;color:#222B45;font: size 18px;">
                             <div class=" row text-left font-weight-normal" style="width: 464px;">
                                 <input type="hidden" id="total" name="total" value="0" readonly class="form-control font-weight-bold">
                                 <div class="col">Total Cost</div>
                                 <div class="col" style="text-align: end;" id="total-text">0</div>
                             </div>
                             <hr>
-                            <div class=" row text-left font-weight-normal" style="width: 464px;">
-                            <div class="col">
-                            <script>
-                           var jenis = '';
-                        </script>
-                        <?php if ($userdata->id_Status == '1') {
-                           echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
-                    } else {
-                        echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
-                    };?>
-                                </div>
-                                <input type="hidden" id="tax" name="tax" value="" readonly>
-                                <div class="col" style="text-align: end;"><span id="pajak"></span></div>
+                            <div class=" row text-left font-weight-normal" style="">
+                            <div class="col" id="tax-label">
+                                <script>
+                                var jenis = '';
+                                </script>
+                             <?php 
+                                if($po->tax_tipe=='ftn'){
+                                    echo '<script>jenis="ftn"</script>';
+                                } else if($po->tax_tipe=='tatn'){
+                                    echo '<script>jenis="tatn"</script>';
+                                } else if($po->tax_tipe=='vendor'){
+                                    echo '<script>jenis="vendor"</script>';
+                                }
+                            ?>
+                            </div>
+                            <input type="hidden" id="tax-tipe" name="tax-tipe" value="<?= $po->tax_tipe ?>" readonly>
+                            <input type="hidden" id="tax" name="tax" value="" readonly>
+                            <div class="col" style="text-align: end;"><span id="pajak"></span></div>
                             </div>
                             <hr>
                             <div class=" row text-left font-weight-bold" style="width: 464px;">
