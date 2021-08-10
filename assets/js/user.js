@@ -9,37 +9,14 @@ change_form(ids);
 });
 
 function change_form(ids=null){
-    if(ids==1||ids==5){
-        document.getElementById("labelmp").style.display = "block";
-        document.getElementById("mp").style.display = "block";
-        document.getElementById("labelcb").style.display = "block";
-        document.getElementById("cb").style.display = "block";
-        document.getElementById("labelnorek").style.display = "block";
-        document.getElementById("norek").style.display = "block";
-        document.getElementById("labeladdress").style.display = "block";
-        document.getElementById("address").style.display = "block";
-        document.getElementById("labelnpwp").style.display = "block";
-        document.getElementById("npwp").style.display = "block";
-        document.getElementById("labeljenis").style.display = "block";
-        document.getElementById("jenis").style.display = "block";
+    if(ids==1){
+        document.getElementById("space-fl").style.display = "flex";
+        document.getElementById("space-vendor").style.display = "none";
+    } else if(ids==5){
+        document.getElementById("space-vendor").style.display = "flex";
+        document.getElementById("space-fl").style.display = "none";
     } else {
-        document.getElementById("labelmp").style.display = "none";
-        document.getElementById("mp").style.display = "none";
-        document.getElementById("labelcb").style.display = "none";
-        document.getElementById("cb").style.display = "none";
-        document.getElementById("labelnorek").style.display = "none";
-        document.getElementById("norek").style.display = "none";
-        document.getElementById("labeladdress").style.display = "none";
-        document.getElementById("address").style.display = "none";
-        document.getElementById("labelnpwp").style.display = "none";
-        document.getElementById("npwp").style.display = "none";
-        document.getElementById("labeljenis").style.display = "none";
-        document.getElementById("jenis").style.display = "none";
-        $('#mp').val('');
-        $('#cb').val('');
-        $('#norek').val('');
-        $('#address').val('');
-        $('#npwp').val('');
-        $('#jenis').val('');
+        document.getElementById("space-vendor").style.display = "none";
+        document.getElementById("space-fl").style.display = "none";
     }
 }

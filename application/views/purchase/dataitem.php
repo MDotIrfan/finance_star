@@ -8,7 +8,7 @@
             <li class="breadcrumb-item active" aria-current="page" style="color:black;">Item Base</li>
         </ol>
     </nav>
-    <span class="container" style="color: #9599A6; font-size: 16px;">For Last <?= $interval ?> Days</span>
+    <span class="container" style="color: #9599A6; font-size: 16px;">For Last <?= @$interval->last_update ?> Days</span>
 
 
     <!-- Content Row -->

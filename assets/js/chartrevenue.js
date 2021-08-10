@@ -26,7 +26,9 @@ var myBarChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
-                    min: 0,
+                    callback: function(value, index, values) {
+                        return 'Rp. ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    },
                 }
             }],
             xAxes: [{

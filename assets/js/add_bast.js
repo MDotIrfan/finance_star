@@ -10,7 +10,7 @@ $("#noinv").on('change', function (el) {
     if (ids != '') {
         $.ajax({
             type: 'ajax',
-            url: `http://localhost/finance/finance/tampilkanDataInv/` + ids,
+            url: base_url(`finance/tampilkanDataInv/`) + ids,
             async: false,
             dataType: 'json',
             success: function (data) {

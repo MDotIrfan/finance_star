@@ -23,12 +23,12 @@ class M_inv_in extends CI_Model
 
         if ($table == 'invoice_in') {
             $userdata = $this->session->userdata('user_logged');
-            $name = $userdata->full_Name;
+            $id_user = $userdata->id_User;
             $column_order = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date', 'grand_total', 'currency_inv');
             $column_search = array('po.no_invoice', 'mitra_name', 'jobdesc', 'invoice_date');
             $this->db->from('invoice_in po');
             $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
-            $this->db->where('po.mitra_name', $name);
+            $this->db->where('po.id_fl', $id_user);
             $this->db->group_by('po.no_invoice');
 
             $this->order = array('po.no_invoice' => 'asc');
@@ -141,9 +141,9 @@ class M_inv_in extends CI_Model
     {
         if ($table == 'invoice_in') {
             $userdata = $this->session->userdata('user_logged');
-            $name = $userdata->full_Name;
+            $id_user = $userdata->id_User;
             $this->db->from('invoice_in po');
-            $this->db->where('po.mitra_name', $name);
+            $this->db->where('po.id_fl', $id_user);
         } else if ($table == 'invoice_in_finance') {
             $userdata = $this->session->userdata('user_logged');
             $level = $userdata->id_Status;
@@ -190,11 +190,11 @@ class M_inv_in extends CI_Model
     function tampil_data_inv()
     {
         $userdata = $this->session->userdata('user_logged');
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $this->db->select('*');
         $this->db->from('invoice_in po');
         $this->db->join('invoice_in_item i', 'po.no_invoice=i.no_invoice');
-        $this->db->where('po.mitra_name', $name);
+        $this->db->where('po.id_fl', $id_user);
         $this->db->group_by('po.no_invoice');
         return $query = $this->db->get();
     }
@@ -280,24 +280,24 @@ class M_inv_in extends CI_Model
     function ambil_data_po_w($where1)
     {
         $userdata = $this->session->userdata('user_logged');
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $this->db->select('*');
         $this->db->from('purchase_order po');
         $this->db->join('po_item_wordbase i', 'po.no_Po=i.no_Po');
         $this->db->where('po.is_inv_in', $where1);
-        $this->db->where('po.resource_Name', $name);
+        $this->db->where('po.id_fl', $id_user);
         return $query = $this->db->get();
     }
 
     function ambil_data_po_i($where1)
     {
         $userdata = $this->session->userdata('user_logged');
-        $name = $userdata->full_Name;
+        $id_user = $userdata->id_User;
         $this->db->select('*');
         $this->db->from('purchase_order po');
         $this->db->join('po_item_itembase i', 'po.no_Po=i.no_Po');
         $this->db->where('po.is_inv_in', $where1);
-        $this->db->where('po.resource_Name', $name);
+        $this->db->where('po.id_fl', $id_user);
         $this->db->group_by('po.no_Po');
         return $query = $this->db->get();
     }
@@ -369,9 +369,15 @@ class M_inv_in extends CI_Model
     {
         $userdata = $this->session->userdata('user_logged');
         $id = $userdata->id_User;
+        $level = $userdata->id_Status;
         $this->db->select('*');
-        $this->db->from('resource_data');
-        $this->db->where('id_user', $id);
+        $this->db->from('user u');
+        if($level=='1') {
+            $this->db->join('freelance_data fl', 'fl.id=u.id_resource', 'left');
+        } else if($level=='5'){
+            $this->db->join('vendor v', 'v.id=u.id_resource', 'left');
+        }
+        $this->db->where('id_User', $id);
         return $query = $this->db->get();
     }
 

@@ -384,6 +384,7 @@
             } ?>
             </td>
         </table>
+        <div style="width: 50%">Note : <?php echo $p->public_Notes; ?></div>
         <br>
         <div style="margin-top: 10px;">
             <table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
@@ -416,6 +417,7 @@
 
 
             </table>
+            
         </div>
         <div style="text-align:center;margin-top:40px;">For questions concerning this purchase order, please contact <br>
             respective PM who issued this purchase order.

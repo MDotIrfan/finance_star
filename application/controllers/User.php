@@ -22,12 +22,39 @@ class User extends CI_Controller
             $row[] = $field->full_Name;
             $row[] = $field->position_Name;
             $row[] = $field->status_Name;
-            $row[] = '<a href="'.base_url('user/edit/' . $field->id_User).'"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="'.base_url('user/delete/' . $field->id_User).'"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
- 
+            $row[] = '<a href="' . base_url('user/edit/' . $field->id_User) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="' . base_url('user/delete/' . $field->id_User) . '"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+
             $data[] = $row;
         }
- 
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->m_user->count_all($table),
+            "recordsFiltered" => $this->m_user->count_filtered($table),
+            "data" => $data,
+        );
+        //output dalam format JSON
+        echo json_encode($output);
+    }
+
+    function get_data_client2($table)
+    {
+        $list = $this->m_user->get_datatables($table);
+        $data = array();
+        foreach ($list as $field) {
+            $row = array();
+            $row[] = $field->client_id;
+            $row[] = $field->client_name;
+            $row[] = $field->client_email;
+            $row[] = $field->company_name;
+            $row[] = $field->address;
+            $row[] = '<a href="' . base_url('user/edit_client2/' . $field->client_id) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="' . base_url('user/delete_client2/' . $field->client_id) . '"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+
+            $data[] = $row;
+        }
+
         $output = array(
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->m_user->count_all($table),
@@ -44,13 +71,16 @@ class User extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             $row = array();
-            $row[] = $field->client_id;
-            $row[] = $field->client_name;
-            $row[] = $field->client_email;
-            $row[] = $field->company_name;
+            $row[] = $field->id;
+            $row[] = $field->firstname;
+            $row[] = $field->lastname;
+            $row[] = $field->email;
+            $row[] = $field->wa;
             $row[] = $field->address;
-            $row[] = '<a href="' . base_url('user/edit_client/' . $field->client_id) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="' . base_url('user/delete_client/' . $field->client_id) . '"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+            $row[] = $field->npwp;
+            $row[] = $field->rekening;
+            $row[] = '<a href="' . base_url('user/edit_client/' . $field->id) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="' . base_url('user/delete_client/' . $field->id) . '"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
 
             $data[] = $row;
         }
@@ -70,16 +100,16 @@ class User extends CI_Controller
         $data = array();
         foreach ($list as $field) {
             $row = array();
-            $row[] = $field->id_resource;
-            $row[] = $field->resource_name;
-            $row[] = $field->mobile_phone;
-            $row[] = $field->cabang_bank;
-            $row[] = $field->no_rekening;
+            $row[] = $field->id;
+            $row[] = $field->pic_name;
+            $row[] = $field->company;
+            $row[] = $field->email;
+            $row[] = $field->wa;
             $row[] = $field->address;
-            $row[] = $field->no_npwp;
-            $row[] = $field->jenis;
-            $row[] = '<a href="' . base_url('user/edit_resource/' . $field->id_resource) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
-                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="' . base_url('user/delete_resource/' . $field->id_resource) . '"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
+            $row[] = $field->npwp;
+            $row[] = $field->rekening;
+            $row[] = '<a href="' . base_url('user/edit_resource/' . $field->id) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
+                    <a onclick="return confirm(\'Yakin ingin hapus?\')" href="' . base_url('user/delete_resource/' . $field->id) . '"><button type="button" class="btn" style="color:red" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash" aria-hidden="true"></i></button></a>';
 
             $data[] = $row;
         }
@@ -99,8 +129,8 @@ class User extends CI_Controller
     public function dashboard()
     {
         $data['user'] = $this->m_user->tampil_data_user()->result();
-        $data['interval'] = $this->m_user->last_update_user()->row()->last_update;
-        $data['tgl'] = $this->m_user->last_update_user()->row()->tgl_sebelum;
+        $data['interval'] = $this->m_user->last_update_user()->row();
+        // $data['tgl'] = $this->m_user->last_update_user()->row()->tgl_sebelum;
         $data['jumlah'] = $this->m_user->count_user()->result();
         $data['selisih'] = $this->m_user->selisih_count_user()->result();
         $this->session->set_userdata('menu', 'Dashboard');
@@ -114,7 +144,7 @@ class User extends CI_Controller
     public function list()
     {
         $data['user'] = $this->m_user->tampil_data_user()->result();
-        $data['interval'] = $this->m_user->last_update_user()->row()->last_update;
+        $data['interval'] = $this->m_user->last_update_user()->row();
         $this->session->set_userdata('menu', 'User');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
@@ -122,9 +152,20 @@ class User extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function list_client()
+    public function list_client2()
     {
         $data['client'] = $this->m_user->tampil_data_client()->result();
+        $data['interval'] = $this->m_user->last_update_user()->row();
+        $this->load->view('templates/header',);
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/data_client2', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function list_client()
+    {
+        $data['client'] = $this->m_user->tampil_data_freelance()->result();
+        $data['interval'] = $this->m_user->last_update_freelance()->row();
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/data_client', $data);
@@ -133,7 +174,8 @@ class User extends CI_Controller
     //menampilkan halaman data resource
     public function list_resource()
     {
-        $data['resource'] = $this->m_user->tampil_data_resource()->result();
+        $data['resource'] = $this->m_user->tampil_data_vendor()->result();
+        $data['interval'] = $this->m_user->last_update_vendor()->row();
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/data_resource', $data);
@@ -144,28 +186,62 @@ class User extends CI_Controller
         $data['position'] = $this->m_user->ambil_data_position()->result();
         $data['status'] = $this->m_user->ambil_data_status()->result();
         $data['kode_user']= $this->m_user->CreateCode();
+        $data['fl'] = $this->m_user->tampil_data_freelance()->result();
+        $data['vendor'] = $this->m_user->tampil_data_vendor()->result();
         $this->session->set_userdata('menu', 'Create User');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/add', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer', [
+            'load' => ['user.js']
+        ]);
     }
-    public function add_client()
+
+    public function add_client2()
     {
         $data['kode_client'] = $this->m_user->CreateCodeClient();
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
-        $this->load->view('user/add_client', $data);
+        $this->load->view('user/add_client2', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function add_client()
+    {
+        $data['kode_freelance'] = $this->m_user->CreateCodeClient();
+        $data['province'] = $this->m_user->get_prov()->result();
+        $this->load->view('templates/header',);
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/add_client', $data);
+        $this->load->view('templates/footer', [
+            'load' => ['data_freelance.js']
+        ]);
     }
     public function add_resource()
     {
-        $data['kode_resource'] = $this->m_user->CreateCodeResource();
+        $data['kode_vendor'] = $this->m_user->CreateCodeResource();
+        $data['province'] = $this->m_user->get_prov()->result();
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/add_resource', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer', [
+            'load' => ['data_freelance.js']
+        ]);
     }
+    
+    public function tampilkanDataKota($id)
+    {
+        $url = urldecode($id);
+        $data = $this->m_user->get_city($url)->result();
+        echo json_encode($data);
+    }
+    public function tampilkanDataPostal($id)
+    {
+        $url = urldecode($id);
+        $data = $this->m_user->get_postal($url)->result();
+        echo json_encode($data);
+    }
+    
     public function generate(string $name) : string
     {
         $words = explode(' ', $name);
@@ -204,6 +280,11 @@ class User extends CI_Controller
             $email_address = $this->input->post('email_address');
             $id_position = $this->input->post('position');
             $id_status = $this->input->post('status');
+            if($id_status=='1'){
+                $id_resource = $this->input->post('id_fl');
+            } else if($id_status=='5'){
+                $id_resource = $this->input->post('id_vendor');
+            }
             if (!empty($_FILES["gambar"]["name"])) {
                $photo = $this->_uploadImage($id);
             } else {
@@ -219,7 +300,8 @@ class User extends CI_Controller
                 'id_Position' => $id_position,
                 'id_Status' => $id_status,
                 'profile_Photo' => $photo,
-                'inisial' => $inisial
+                'inisial' => $inisial,
+                'id_resource' => $id_resource
 			    );
 		    $this->m_user->input_data($data,'user');
 
@@ -244,45 +326,92 @@ class User extends CI_Controller
     function add_client_data()
     {
         $id = $this->input->post('id');
+        $firstname = $this->input->post('firstname');
+        $lastname = $this->input->post('lastname');
+        $email = $this->input->post('email');
+        $wa = $this->input->post('wa');
+        $address = $this->input->post('address');
+        $npwp = $this->input->post('npwp');
+        $rekening = $this->input->post('rekening');
+        $district = $this->input->post('district');
+        $subdistrict = $this->input->post('subdistrict');
+        $postal_code = $this->input->post('postal_code');
+
+        $data = array(
+            'id' => $id,
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'wa' => $wa,
+            'address' => $address,
+            'npwp' => $npwp,
+            'rekening' => $rekening,
+            'district' => $district,
+            'subdistrict' => $subdistrict,
+            'postal_code' => $postal_code,
+        );
+        $this->m_user->input_data($data, 'freelance_data');
+        redirect('user/list_client');
+    }
+    function add_resource_data()
+    {
+        $id = $this->input->post('id');
+        $pic_name = $this->input->post('pic_name');
+        $company = $this->input->post('company');
+        $email = $this->input->post('email');
+        $wa = $this->input->post('wa');
+        $address = $this->input->post('address');
+        $npwp = $this->input->post('npwp');
+        $rekening = $this->input->post('rekening');
+        $district = $this->input->post('district');
+        $subdistrict = $this->input->post('subdistrict');
+        $postal_code = $this->input->post('postal_code');
+
+        $data = array(
+            'id' => $id,
+            'pic_name' => $pic_name,
+            'company' => $company,
+            'email' => $email,
+            'wa' => $wa,
+            'address' => $address,
+            'npwp' => $npwp,
+            'rekening' => $rekening,
+            'district' => $district,
+            'subdistrict' => $subdistrict,
+            'postal_code' => $postal_code,
+        );
+        $this->m_user->input_data($data, 'vendor');
+        redirect('user/list_resource');
+    }
+
+    public function edit_client2($id)
+    {
+        $data['client'] = $this->m_user->edit_data_client2($id, 'client_data')->result();
+        $this->load->view('templates/header',);
+        $this->load->view('templates/sidebar');
+        $this->load->view('user/edit_client2', $data);
+        $this->load->view('templates/footer');
+    }
+
+    function add_client_data2()
+    {
+        $id = $this->input->post('id');
         $client_name = $this->input->post('username');
         $email_address = $this->input->post('email_address');
-        $company = $this->input->post('company');
         $address = $this->input->post('address');
+        $company = $this->input->post('company');
 
         $data = array(
             'client_id' => $id,
             'client_name' => $client_name,
             'client_email' => $email_address,
-            'address' => $address,
             'company_name' => $company,
+            'address' => $address,
         );
         $this->m_user->input_data($data, 'client_data');
-        redirect('user/list_client');
+        redirect('user/list_client2');
     }
-    function add_resource_data()
-    {
-        $id_resource = $this->input->post('id_resource');
-        $resource_name = $this->input->post('resource_name');
-        $mobile_phone = $this->input->post('mobile_phone');
-        $cabang_bank = $this->input->post('cabang_bank');
-        $no_rekening = $this->input->post('no_rekening');
-        $address = $this->input->post('address');
-        $no_npwp = $this->input->post('no_npwp');
-        $jenis = $this->input->post('jenis');
 
-        $data = array(
-            'id_resource' => $id_resource,
-            'resource_name' => $resource_name,
-            'mobile_phone' => $mobile_phone,
-            'cabang_bank' => $cabang_bank,
-            'no_rekening' => $no_rekening,
-            'address' => $address,
-            'no_npwp' => $no_npwp,
-            'jenis' => $jenis,
-        );
-        $this->m_user->input_data($data, 'resource_data');
-        redirect('user/list_resource');
-    }
     
     function _uploadImage($id)
     {
@@ -309,6 +438,8 @@ class User extends CI_Controller
 		$data['user'] = $this->m_user->edit_data($id,'user')->result();
         $data['position'] = $this->m_user->ambil_data_position()->result();
         $data['status'] = $this->m_user->ambil_data_status()->result();
+        $data['fl'] = $this->m_user->tampil_data_freelance()->result();
+        $data['vendor'] = $this->m_user->tampil_data_vendor()->result();
         $this->session->set_userdata('menu', 'Edit User');
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
@@ -320,19 +451,27 @@ class User extends CI_Controller
 
     public function edit_client($id)
     {
-        $data['client'] = $this->m_user->edit_data_client($id, 'client_data')->result();
+        $this->session->set_userdata('menu', 'Edit Freelance');
+        $data['freelance'] = $this->m_user->edit_data_client($id, 'freelance_data')->result();
+        $data['province'] = $this->m_user->get_prov()->result();
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/edit_client', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer', [
+            'load' => ['data_freelance.js']
+        ]);
     }
     public function edit_resource($id)
     {
-        $data['resource'] = $this->m_user->edit_data_resource($id, 'resource_data')->result();
+        $this->session->set_userdata('menu', 'Edit Vendor');
+        $data['vendor'] = $this->m_user->edit_data_resource($id, 'resource_data')->result();
+        $data['province'] = $this->m_user->get_prov()->result();
         $this->load->view('templates/header',);
         $this->load->view('templates/sidebar');
         $this->load->view('user/edit_resource', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('templates/footer', [
+            'load' => ['data_freelance.js']
+        ]);
     }
 
     function edit_user(){
@@ -356,6 +495,11 @@ class User extends CI_Controller
             $email_address = $this->input->post('email_address');
             $id_position = $this->input->post('position');
             $id_status = $this->input->post('status');
+            if($id_status=='1'){
+                $id_resource = $this->input->post('id_fl');
+            } else if($id_status=='5'){
+                $id_resource = $this->input->post('id_vendor');
+            }
             if (!empty($_FILES["gambar"]["name"])) {
                $photo = $this->_uploadImage($id);
             } else {
@@ -370,7 +514,8 @@ class User extends CI_Controller
                 'id_Position' => $id_position,
                 'id_Status' => $id_status,
                 'profile_Photo' => $photo,
-                'inisial' => $inisial
+                'inisial' => $inisial,
+                'id_resource' => $id_resource
             );
 
             if($this->input->post('password')!=''){
@@ -405,20 +550,21 @@ class User extends CI_Controller
 
        
     }
-    function edit_client_data()
+
+    function edit_client_data2()
     {
         $id = $this->input->post('id');
         $client_name = $this->input->post('username');
         $email_address = $this->input->post('email_address');
-        $company = $this->input->post('company');
         $address = $this->input->post('address');
+        $company = $this->input->post('company');
 
         $data = array(
             'client_id' => $id,
             'client_name' => $client_name,
             'client_email' => $email_address,
             'company_name' => $company,
-            'address' => $address
+            'address' => $address,
         );
 
         $where = array(
@@ -426,37 +572,88 @@ class User extends CI_Controller
         );
 
         $this->m_user->update_data($where, $data, 'client_data');
+        redirect('user/list_client2');
+    }
+
+    function delete_client2($id)
+    {
+        $where = array('client_id' => $id);
+        $this->m_user->hapus_data($where, 'client_data');
+        redirect('user/list_client2');
+    }
+
+    function edit_client_data()
+    {
+        $id = $this->input->post('id');
+        $firstname = $this->input->post('firstname');
+        $lastname = $this->input->post('lastname');
+        $email = $this->input->post('email');
+        $wa = $this->input->post('wa');
+        $address = $this->input->post('address');
+        $npwp = $this->input->post('npwp');
+        $rekening = $this->input->post('rekening');
+        $district = $this->input->post('district');
+        $subdistrict = $this->input->post('subdistrict');
+        $postal_code = $this->input->post('postal_code');
+
+
+        $data = array(
+            'id' => $id,
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'wa' => $wa,
+            'address' => $address,
+            'npwp' => $npwp,
+            'rekening' => $rekening,
+            'district' => $district,
+            'subdistrict' => $subdistrict,
+            'postal_code' => $postal_code
+        );
+
+        $where = array(
+            'id' => $id
+        );
+
+        $this->m_user->update_data($where, $data, 'freelance_data');
         redirect('user/list_client');
     }
     function edit_resource_data()
     {
-        $id_resource = $this->input->post('id_resource');
-        $resource_name = $this->input->post('resource_name');
-        $mobile_phone = $this->input->post('mobile_phone');
-        $cabang_bank = $this->input->post('cabang_bank');
-        $no_rekening = $this->input->post('no_rekening');
+        $id = $this->input->post('id');
+        $pic_name = $this->input->post('pic_name');
+        $company = $this->input->post('company');
+        $email = $this->input->post('email');
+        $wa = $this->input->post('wa');
         $address = $this->input->post('address');
-        $no_npwp = $this->input->post('no_npwp');
-        $jenis = $this->input->post('jenis');
+        $npwp = $this->input->post('npwp');
+        $rekening = $this->input->post('rekening');
+        $district = $this->input->post('district');
+        $subdistrict = $this->input->post('subdistrict');
+        $postal_code = $this->input->post('postal_code');
 
         $data = array(
-            'id_resource' => $id_resource,
-            'resource_name' => $resource_name,
-            'mobile_phone' => $mobile_phone,
-            'cabang_bank' => $cabang_bank,
-            'no_rekening' => $no_rekening,
+            'id' => $id,
+            'pic_name' => $pic_name,
+            'company' => $company,
+            'email' => $email,
+            'wa' => $wa,
             'address' => $address,
-            'no_npwp' => $no_npwp,
-            'jenis' => $jenis,
+            'npwp' => $npwp,
+            'rekening' => $rekening,
+            'district' => $district,
+            'subdistrict' => $subdistrict,
+            'postal_code' => $postal_code,
         );
 
         $where = array(
-            'id_resource' => $id_resource
+            'id' => $id
         );
 
-        $this->m_user->update_data($where, $data, 'resource_data');
+        $this->m_user->update_data($where, $data, 'vendor');
         redirect('user/list_resource');
     }
+
     function delete($id)
     {
         $data = $this->db->get_where('user', ['id_User' => $id])->row_array();
@@ -471,14 +668,14 @@ class User extends CI_Controller
 
     function delete_client($id)
     {
-        $where = array('client_id' => $id);
-        $this->m_user->hapus_data($where, 'client_data');
+        $where = array('id' => $id);
+        $this->m_user->hapus_data($where, 'freelance_data');
         redirect('user/list_client');
     }
     function delete_resource($id)
     {
-        $where = array('id_resource' => $id);
-        $this->m_user->hapus_data($where, 'resource_data');
+        $where = array('id' => $id);
+        $this->m_user->hapus_data($where, 'vendor');
         redirect('user/list_resource');
     }
     

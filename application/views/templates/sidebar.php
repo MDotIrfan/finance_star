@@ -158,7 +158,7 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
                                                         echo 'active';
                                                     } ?>">User</span></a>
             </li>
-            <li class="nav-item active">
+            <!-- <li class="nav-item active">
                 <a class="nav-link" href="<?php echo base_url('user/list_client'); ?>">
                     <i class="fas fa-user-friends sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Client' || $this->session->userdata('menu') == 'Create Client' || $this->session->userdata('menu') == 'Edit Client') {
                                                                         echo 'active';
@@ -176,6 +176,34 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
                                                         echo 'active';
                                                     } ?>">Resource</span></a>
             </li>
+             -->
+             <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url('user/list_client'); ?>">
+                    <i class="fas fa-house-user sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Freelance' || $this->session->userdata('menu') == 'Create Freelance' || $this->session->userdata('menu') == 'Edit Freelance') {
+                                                                        echo 'active';
+                                                                    } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'Freelance' || $this->session->userdata('menu') == 'Create Freelance' || $this->session->userdata('menu') == 'Edit Freelance') {
+                                                        echo 'active';
+                                                    } ?>">Freelance</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url('user/list_resource'); ?>">
+                    <i class="far fa-handshake sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Vendor' || $this->session->userdata('menu') == 'Create Vendor' || $this->session->userdata('menu') == 'Edit Vendor') {
+                                                                        echo 'active';
+                                                                    } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'Vendor' || $this->session->userdata('menu') == 'Create Vendor' || $this->session->userdata('menu') == 'Edit Vendor') {
+                                                        echo 'active';
+                                                    } ?>">Vendor</span></a>
+            </li>
+            <!-- <li class="nav-item active">
+                <a class="nav-link" href="<?php echo base_url('user/list_client2'); ?>">
+                    <i class="fas fa-user-friends sidebar-menu-icon <?php if ($this->session->userdata('menu') == 'Client' || $this->session->userdata('menu') == 'Create Client' || $this->session->userdata('menu') == 'Edit Client') {
+                                                                        echo 'active';
+                                                                    } ?>"></i>
+                    <span class="sidebar-menu-title <?php if ($this->session->userdata('menu') == 'Client' || $this->session->userdata('menu') == 'Create Client' || $this->session->userdata('menu') == 'Edit Client') {
+                                                        echo 'active';
+                                                    } ?>">Client</span></a>
+            </li> -->
             <?php } ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= site_url('auth/logout') ?>">
@@ -303,14 +331,14 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
                     </li> -->
 
                 <!-- Nav Item - Alerts -->
-                <li class="nav-item dropdown no-arrow mx-1 right-item">
+                <!-- <li class="nav-item dropdown no-arrow mx-1 right-item">
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell fa-fw" style="color:#BDC9D3;"></i>
+                            <i class="fas fa-bell fa-fw" style="color:#BDC9D3;"></i> -->
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
+                <!-- <span class="badge badge-danger badge-counter">3+</span> -->
                         </a>
                 <!-- Dropdown - Alerts -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <!-- <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                             <h6 class="dropdown-header">
                                 Alerts Center
                             </h6>
@@ -349,7 +377,7 @@ background: linear-gradient(211.1deg, #232D52 -5.73%, #0A1332 65.94%);">
                             </a>
                             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                         </div>
-                    </li>
+                    </li> -->
 
                 <!-- Nav Item - Messages -->
                 <!-- <li class="nav-item dropdown no-arrow mx-1">

@@ -41,8 +41,8 @@
                     Tel : +62 21 2555-8856 <br>
                     Fax : +62 21 2555-8767 <br>
                     e-mail : <?php foreach ($user as $u) { ?>
-                    <?= $u->email_Address ?>
-                <?php } ?><br>
+                        <?= $u->email_Address ?>
+                    <?php } ?><br>
                     web : www.star-group.net
                 </p>
             </td>
@@ -67,13 +67,13 @@
             <tr>
                 <td>
                     <?php foreach ($inv as $po) { ?>
-                    <a class="bold">
-                        <?=$po->client_name;?><br>
-                    </a>
-                    <a><?=$po->address;?><br>
-                        <br>
-                        Attn.: <?=$po->client_name;?><br>
-                    </a>
+                        <a class="bold">
+                            <?= $po->client_name; ?><br>
+                        </a>
+                        <a><?= $po->address; ?><br>
+                            <br>
+                            Attn.: <?= $po->client_name; ?><br>
+                        </a>
                 </td>
             </tr>
         </table>
@@ -85,8 +85,8 @@
             <tr>
                 <td>
 
-                    <a> <?=$po->invoice_date; ?> <br><br></a>
-                    <a class="bold"><u><?=$po->no_invoice; ?></u><br><br></a>
+                    <a> <?= $po->invoice_date; ?> <br><br></a>
+                    <a class="bold"><u><?= $po->no_invoice; ?></u><br><br></a>
                     <a>Page 1/2</a>
                 </td>
 
@@ -105,66 +105,68 @@
                 <td width="10%" style="text-align:center; background-color:pink" class="bold">Project Manager</td>
                 <td width="10%" style="text-align:center; background-color:pink" class="bold">STAR Number</td>
                 <td width="10%" style="text-align:center; background-color:pink" class="bold">Number word/page</td>
-                <td width="10%" style="text-align:center; background-color:pink" class="bold"><?php if($po->currency_inv=='IDR'){
-               echo 'Unit Price IDR/word';
-            } else if($po->currency_inv=='USD'){
-                echo 'Unit Price USD/word';
-            } else if($po->currency_inv=='EUR'){
-                echo 'Unit Price EUR/word';
-            } ?></td>
-                <td width="10%" style="text-align:center; background-color:pink" class="bold"><?php if($po->currency_inv=='IDR'){
-               echo 'Amount IDR';
-            } else if($po->currency_inv=='USD'){
-                echo 'Amount USD';
-            } else if($po->currency_inv=='EUR'){
-                echo 'Amount EUR';
-            } ?></td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold"><?php if ($po->currency_inv == 'IDR') {
+                                                                                                    echo 'Unit Price IDR/word';
+                                                                                                } else if ($po->currency_inv == 'USD') {
+                                                                                                    echo 'Unit Price USD/word';
+                                                                                                } else if ($po->currency_inv == 'EUR') {
+                                                                                                    echo 'Unit Price EUR/word';
+                                                                                                } ?></td>
+                <td width="10%" style="text-align:center; background-color:pink" class="bold"><?php if ($po->currency_inv == 'IDR') {
+                                                                                                    echo 'Amount IDR';
+                                                                                                } else if ($po->currency_inv == 'USD') {
+                                                                                                    echo 'Amount USD';
+                                                                                                } else if ($po->currency_inv == 'EUR') {
+                                                                                                    echo 'Amount EUR';
+                                                                                                } ?></td>
             </tr>
-            <?php $i=1; foreach ($pi as $item) { ?>
-            <tr>
-                <td width="5%%" style="text-align:center;"><?=$i."."; ?></td>
-                <td width="45%" style="text-align:center;"><?=$item->jobdesc; ?></td>
-                <td width="10%" style="text-align:center;"><?=$item->project_manager; ?></td>
-                <td width="10%" style="text-align:center;"><?=$item->star_number; ?></td>
-                <td width="10%" style="text-align:center;"><?=$item->number_word; ?></td>
-                <td width="10%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
-               echo number_format($item->unit_price,2,",",".");
-            } else if($po->currency_inv=='USD'){
-                echo number_format($item->unit_price,2,".",",");
-            } else if($po->currency_inv=='EUR'){
-                echo number_format($item->unit_price,2,".",",");
-            } ?></td>
-                <td width="10%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
-               echo number_format($item->amount,2,",",".");
-            } else if($po->currency_inv=='USD'){
-                echo number_format($item->amount,2,".",",");
-            } else if($po->currency_inv=='EUR'){
-                echo number_format($item->amount,2,".",",");
-            } ?></td>
-            </tr>
-            <?php $i++;} ?>
+            <?php $i = 1;
+                        foreach ($pi as $item) { ?>
+                <tr>
+                    <td width="5%%" style="text-align:center;"><?= $i . "."; ?></td>
+                    <td width="45%" style="text-align:center;"><?= $item->jobdesc; ?></td>
+                    <td width="10%" style="text-align:center;"><?= $item->project_manager; ?></td>
+                    <td width="10%" style="text-align:center;"><?= $item->star_number; ?></td>
+                    <td width="10%" style="text-align:center;"><?= $item->number_word; ?></td>
+                    <td width="10%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                                                                    echo number_format($item->unit_price, 2, ",", ".");
+                                                                } else if ($po->currency_inv == 'USD') {
+                                                                    echo number_format($item->unit_price, 2, ".", ",");
+                                                                } else if ($po->currency_inv == 'EUR') {
+                                                                    echo number_format($item->unit_price, 2, ".", ",");
+                                                                } ?></td>
+                    <td width="10%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                                                                    echo number_format($item->amount, 2, ",", ".");
+                                                                } else if ($po->currency_inv == 'USD') {
+                                                                    echo number_format($item->amount, 2, ".", ",");
+                                                                } else if ($po->currency_inv == 'EUR') {
+                                                                    echo number_format($item->amount, 2, ".", ",");
+                                                                } ?></td>
+                </tr>
+            <?php $i++;
+                        } ?>
             <tr>
                 <td width="5%%" style="text-align:center;"></td>
                 <td colspan="2" style="text-align:center;">TOTAL</td>
                 <td colspan="3" style="text-align:center;"></td>
-                <td style="text-align:center;"><?php if($po->currency_inv=='IDR'){
-               echo number_format($po->total_cost,2,",",".");
-            } else if($po->currency_inv=='USD'){
-                echo number_format($po->total_cost,2,".",",");
-            } else if($po->currency_inv=='EUR'){
-                echo number_format($po->total_cost,2,".",",");
-            } ?></td>
+                <td style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                                                    echo number_format($po->total_cost, 2, ",", ".");
+                                                } else if ($po->currency_inv == 'USD') {
+                                                    echo number_format($po->total_cost, 2, ".", ",");
+                                                } else if ($po->currency_inv == 'EUR') {
+                                                    echo number_format($po->total_cost, 2, ".", ",");
+                                                } ?></td>
             </tr>
             <tr>
 
                 <td colspan="6" style="text-align:center;">GRAND TOTAL</td>
-                <td style="text-align:center;"><?php if($po->currency_inv=='IDR'){
-               echo number_format($po->grand_total,2,",",".");
-            } else if($po->currency_inv=='USD'){
-                echo number_format($po->grand_total,2,".",",");
-            } else if($po->currency_inv=='EUR'){
-                echo number_format($po->grand_total,2,".",",");
-            } ?></td>
+                <td style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                                                    echo number_format($po->grand_total, 2, ",", ".");
+                                                } else if ($po->currency_inv == 'USD') {
+                                                    echo number_format($po->grand_total, 2, ".", ",");
+                                                } else if ($po->currency_inv == 'EUR') {
+                                                    echo number_format($po->grand_total, 2, ".", ",");
+                                                } ?></td>
             </tr>
         </table>
     </div>
@@ -174,11 +176,11 @@
             <td>
                 <p class="">
                     Payment <?php
-                    $date1=date_create($po->invoice_date);
-                    $date2=date_create($po->due_date);
-                    $date=date_diff($date1,$date2); 
-                    echo $date->format("%a days");
-                    ?><br>
+                            $date1 = date_create($po->invoice_date);
+                            $date2 = date_create($po->due_date);
+                            $date = date_diff($date1, $date2);
+                            echo $date->format("%a days");
+                            ?><br>
                     Transfer to:<br>
                 </p>
             </td>
@@ -194,8 +196,8 @@
                         PT STAR Software Indonesia<br>
                         Permata Bank, Mid plazza Branch<br>
                         Jakarta, Indonesia<br>
-                        Swift Code: <?=$po->swift_code; ?><br>
-                        RP Account <?=$po->account; ?>
+                        Swift Code: <?= $po->swift_code; ?><br>
+                        RP Account <?= $po->account; ?>
                     </p>
                 </td>
             </tr>
@@ -245,11 +247,9 @@
                 <td style="text-align:center;" class="bold" width="20%"></td>
                 <td width="20%" style="text-align:center;" class="bold"></td>
                 <td style="text-align:center;" class="bold" width="20%"></td>
-                <?php foreach ($user as $u) { ?>
-                    <td style="text-align:center;" width="40%"><?= $u->full_Name ?></td>
-                <?php } ?>
+                <td style="text-align:center;" width="40%">Afrizal Lisdianta</td>
             </tr>
-            <?php }?>
+        <?php } ?>
         </table>
     </div>
 </body>

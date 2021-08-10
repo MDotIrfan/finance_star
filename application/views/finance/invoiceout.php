@@ -158,25 +158,28 @@
          </div>
          <div class=" " style="border-radius: 10px;color:#222B45;">
              <div class="row">
-                 <div class="col-lg-8">
+                 <div class="col-lg-4">
                      <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;font-size: 18px; color:#222B45;font-weight: normal;">
                          <thead>
                              <tr>
                                  <th>Public Notes</th>
-                                 <th>Terms</th>
+                                 <!-- <th>Terms</th>
                                  <th>Signature</th>
-                                 <th>Footer</th>
+                                 <th>Footer</th> -->
                          </thead>
                          <tbody>
                              <tr>
                                  <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="public_notes"></textarea></td>
-                                 <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
+                                 <!-- <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
                                  <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="footer"></textarea></td>
-                                 <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td>
+                                 <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td> -->
                              </tr>
 
 
                      </table>
+                 </div>
+                 <div class="col-lg-4">
+                     
                  </div>
                  <div class="col-lg-4" style="color:#222B45;font: size 18px;">
                      <div class=" row text-left font-weight-normal" style="">

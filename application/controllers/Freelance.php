@@ -57,7 +57,7 @@ class Freelance extends CI_Controller
     public function dashboard()
     {
         $data['inv'] = $this->m_inv_in->tampil_data_inv()->result();
-        $data['interval'] = $this->m_inv_in->last_update_inv()->row()->last_update;
+        $data['interval'] = $this->m_inv_in->last_update_inv()->row();
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('freelance/dashboard', $data);
@@ -95,21 +95,23 @@ class Freelance extends CI_Controller
         $cabang_bank = $this->input->post('pm');
         $mitra_name = $this->input->post('ps');
         $address = $this->input->post('address');
-        $dp = $this->input->post('dp');
+        // $dp = $this->input->post('dp');
         $inv_date = $this->input->post('invoicedate');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $npwp = $this->input->post('ce');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
+        $id_fl = $this->input->post('id_fl');
         $tipe = $this->input->post('tipe');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
         $tax = $this->input->post('tax');
+        $tax_tipe = $this->input->post('tax-tipe');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $price = $_POST['price'];
@@ -122,20 +124,22 @@ class Freelance extends CI_Controller
             'cabang_bank' => $cabang_bank,
             'mitra_name' => $mitra_name,
             'address' => $address,
-            'down_payment' => $dp,
+            // 'down_payment' => $dp,
             'invoice_date' => $inv_date,
             'due_date' => $due_date,
             'email' => $email,
             'no_npwp' => $npwp,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
+            'id_fl' => $id_fl,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
             'currency_inv' =>$currency,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'tax_tipe'=>$tax_tipe
         );
         $this->m_po->input_data($data, 'invoice_in');
         if (!empty($jobdesc)) {
@@ -181,15 +185,17 @@ class Freelance extends CI_Controller
         $cabang_bank = $this->input->post('pm');
         $mitra_name = $this->input->post('ps');
         $address = $this->input->post('address');
-        $dp = $this->input->post('dp');
+        // $dp = $this->input->post('dp');
         $inv_date = $this->input->post('invoicedate');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $npwp = $this->input->post('ce');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        $id_fl = $this->input->post('id_fl');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
+        $tax_tipe = $this->input->post('tax-tipe');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
@@ -210,21 +216,23 @@ class Freelance extends CI_Controller
             'cabang_bank' => $cabang_bank,
             'mitra_name' => $mitra_name,
             'address' => $address,
-            'down_payment' => $dp,
+            // 'down_payment' => $dp,
             'invoice_date' => $inv_date,
             'due_date' => $due_date,
             'email' => $email,
             'no_npwp' => $npwp,
+            'id_fl' =>$id_fl,
             'public_notes' => $public_notes,
-            'terms' => $terms,
+            // 'terms' => $terms,
             'v_form' => $v_form,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
             'currency_inv'=>$currency,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'tax_tipe'=>$tax_tipe
         );
         $this->m_po->input_data($data, 'invoice_in');
         if (!empty($jobdesc)) {
@@ -356,21 +364,23 @@ class Freelance extends CI_Controller
         $cabang_bank = $this->input->post('pm');
         $mitra_name = $this->input->post('ps');
         $address = $this->input->post('address');
-        $dp = $this->input->post('dp');
+        // $dp = $this->input->post('dp');
         $inv_date = $this->input->post('invoicedate');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $npwp = $this->input->post('ce');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
+        $id_fl = $this->input->post('id_fl');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
         $tax = $this->input->post('tax');
+        $tax_tipe = $this->input->post('tax-tipe');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $price = $_POST['price'];
@@ -383,20 +393,22 @@ class Freelance extends CI_Controller
             'cabang_bank' => $cabang_bank,
             'mitra_name' => $mitra_name,
             'address' => $address,
-            'down_payment' => $dp,
+            // 'down_payment' => $dp,
             'invoice_date' => $inv_date,
             'due_date' => $due_date,
             'email' => $email,
             'no_npwp' => $npwp,
+            'id_fl' => $id_fl,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
             'currency_inv' => $currency,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'tax_tipe'=>$tax_tipe
         );
         $where = array(
             'no_invoice' => $no_inv,
@@ -438,21 +450,23 @@ class Freelance extends CI_Controller
         $cabang_bank = $this->input->post('pm');
         $mitra_name = $this->input->post('ps');
         $address = $this->input->post('address');
-        $dp = $this->input->post('dp');
+        // $dp = $this->input->post('dp');
         $inv_date = $this->input->post('invoicedate');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $npwp = $this->input->post('ce');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
+        $id_fl = $this->input->post('id_fl');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
         $company = $this->input->post('company');
         $currency = $this->input->post('curr_awal');
         $tax = $this->input->post('tax');
+        $tax_tipe = $this->input->post('tax-tipe');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -466,20 +480,22 @@ class Freelance extends CI_Controller
             'cabang_bank' => $cabang_bank,
             'mitra_name' => $mitra_name,
             'address' => $address,
-            'down_payment' => $dp,
+            // 'down_payment' => $dp,
             'invoice_date' => $inv_date,
             'due_date' => $due_date,
             'email' => $email,
             'no_npwp' => $npwp,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            'id_fl' => $id_fl,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_Total' => $grand_total,
             'tipe' => $tipe,
             'currency_inv' => $currency,
-            'tax'=>$tax
+            'tax'=>$tax,
+            'tax_tipe'=>$tax_tipe
         );
         $where = array(
             'no_invoice' => $no_inv,
@@ -632,15 +648,15 @@ class Freelance extends CI_Controller
         $cabang_bank = $this->input->post('pm');
         $mitra_name = $this->input->post('ps');
         $address = $this->input->post('address');
-        $dp = $this->input->post('dp');
+        // $dp = $this->input->post('dp');
         $inv_date = $this->input->post('invoicedate');
         $due_date = $this->input->post('duedate');
         $email = $this->input->post('email');
         $npwp = $this->input->post('ce');
         $public_notes = $this->input->post('public_notes');
-        $terms = $this->input->post('regards');
-        $footer = $this->input->post('footer');
-        $signature = $this->input->post('address_resource');
+        // $terms = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        // $signature = $this->input->post('address_resource');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
         $company = $this->input->post('company');
@@ -665,24 +681,22 @@ class Freelance extends CI_Controller
             'cabang_bank' => $cabang_bank,
             'mitra_name' => $mitra_name,
             'address' => $address,
-            'down_payment' => $dp,
+            // 'down_payment' => $dp,
             'invoice_date' => $inv_date,
             'due_date' => $due_date,
             'email' => $email,
             'no_npwp' => $npwp,
             'public_notes' => $public_notes,
-            'terms' => $terms,
-            'footer' => $footer,
-            'signature' => $signature,
+            // 'terms' => $terms,
+            // 'footer' => $footer,
+            // 'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
             'currency_inv' => $currency,
             'tax' => $tax
         );
-        if (!empty($jobdesc)) {
             for ($a = 0; $a < count($jobdesc); $a++) {
-                if (!empty($jobdesc[$a])) {
                     $data['pi'][$a] = (object) array(
                         'no_invoice' => $no_inv,
                         'jobdesc' => $jobdesc[$a],
@@ -690,17 +704,7 @@ class Freelance extends CI_Controller
                         'rate' => $price[$a],
                         'amount' => $cost[$a],
                     );
-                }
             }
-        } else {
-            $data['pi'][0] = (object) array(
-                'no_invoice' => $no_inv,
-                'jobdesc' => $jobdesc[0],
-                'qty' => $volume[0],
-                'rate' => $price[0],
-                'amount' => $cost[0],
-            );
-        }
         
         // echo '<pre>';
         // print_r($data);

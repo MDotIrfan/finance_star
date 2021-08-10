@@ -9,6 +9,7 @@
 
    <?php $userdata = $this->session->userdata('user_logged'); ?>
    <form method="POST" action="" target="" id="myform">
+      <?php foreach ($res as $res) : ?>
          <div class=" " style="font-size: 18px;">
             <div class="row ">
                <div class="col">
@@ -25,11 +26,14 @@
                   <input type="" class="form-control form-control-user" id="pm" name="pm" aria-describedby="" placeholder="" value="" style="background: #E2EFFC;color:black;">
                </div>
                <div class="col">
-                  <label for="Duedate">Down Payment </label>
+               <label for="Duedate">Due Date </label>
                   <div class="input-group mb-2">
                      <div class="input-group-prepend">
+                        <!-- <div class="input-group-text"><i class="fas fa-calendar-alt"></i></i></div> -->
                      </div>
-                     <input type="text" class="form-control form-control-user" id="dp" name="dp" style="background: #E2EFFC;color:black;">
+                     <input type="date" class="form-control form-control-user datepicker" id="dd" name="duedate" style="background: #E2EFFC;color:black;" value="<?php $this->load->helper('date');
+                                                                                                                                                                  $format = "%Y-%m-%d";
+                                                                                                                                                                  echo @mdate($format); ?>">
                   </div>
                </div>
                <div class="col">
@@ -50,6 +54,7 @@
                   <label for="Pm">Mitra Name</label>
                   <input type="" class="form-control form-control-user" id="ps" name="ps" aria-describedby="" placeholder="" value="<?php echo $userdata->full_Name; ?>" style="background: #E2EFFC;color:black;">
                   <input class="form-control form-control-user" id="tipe" name="tipe" aria-describedby="" placeholder="" type="hidden" value="word">
+                  <input type="hidden" style="color:black;" class="form-control form-control-user" id="id_fl" name="id_fl" aria-describedby="" placeholder="" value="<?php echo $userdata->id_User; ?>">
                </div>
                <div class="col">
                   <label for="Duedate">Invoice Date </label>
@@ -64,7 +69,7 @@
                </div>
                <div class="col">
                   <label for="dd">No. NPWP</label>
-                  <input type="" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="" value="" style="background: #E2EFFC;color:black;">
+                  <input type="" class="form-control form-control-user" id="ce" name="ce" aria-describedby="" placeholder="" value="<?php echo $res->npwp; ?>" style="background: #E2EFFC;color:black;" oninput="tampil()">
                </div>
             </div>
          </div>
@@ -73,22 +78,14 @@
             <div class="row">
                <div class="col">
                   <label for="cn">No. Rekening </label>
-                  <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="" style="background: #E2EFFC;color:black;">
+                  <input type="" class="form-control form-control-user" id="cn" name="cn" aria-describedby="" placeholder="" value="<?php echo $res->rekening; ?>" style="background: #E2EFFC;color:black;">
                </div>
                <div class="col">
                   <label for="Pm">Address</label>
-                  <input type="" class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" value="" style="background: #E2EFFC;color:black;">
+                  <input type="" class="form-control form-control-user" id="address" name="address" aria-describedby="" placeholder="" value="<?php echo $res->address; ?>" style="background: #E2EFFC;color:black;">
                </div>
                <div class="col">
-                  <label for="Duedate">Due Date </label>
-                  <div class="input-group mb-2">
-                     <div class="input-group-prepend">
-                        <!-- <div class="input-group-text"><i class="fas fa-calendar-alt"></i></i></div> -->
-                     </div>
-                     <input type="date" class="form-control form-control-user datepicker" id="dd" name="duedate" style="background: #E2EFFC;color:black;" value="<?php $this->load->helper('date');
-                                                                                                                                                                  $format = "%Y-%m-%d";
-                                                                                                                                                                  echo @mdate($format); ?>">
-                  </div>
+                  
                </div>
                <div class="col">
                </div>
@@ -116,24 +113,27 @@
          <div class=" " style="border-radius: 10px;color:#222B45;">
             <div class="row">
 
-               <div class="col-lg-7" style="margin-right: 80px">
+               <div class="col-lg-4" style="margin-right: 80px">
                   <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;font-size: 18px; color:#222B45;font-weight: normal;">
                      <thead>
                         <tr>
                            <th>Public Notes</th>
-                           <th>Trems</th>
+                           <!-- <th>Trems</th>
                            <th>Signature</th>
-                           <th>Footer</th>
+                           <th>Footer</th> -->
                      </thead>
                      <tbody>
                         <tr>
                            <!-- <td colspan="4"></td> -->
                            <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="public_notes"></textarea></td>
-                           <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
+                           <!-- <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
                            <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="footer"></textarea></td>
-                           <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td>
+                           <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td> -->
                         </tr>
                   </table>
+               </div>
+               <div class="col-lg-3">
+                  
                </div>
                <!-- <div class="col-lg-4" style="width: 464px;">
                <div class="text-left font-weight-bold" style="width: 464px;">
@@ -156,20 +156,15 @@
                      <div class="col" style="text-align: end;" id="total-text">0</div>
                   </div>
                   <hr>
-                  <div class=" row text-left font-weight-normal" style="">
-                     <div class="col">
+                  <div class="row text-left font-weight-normal" style="">
+                     <div class="col" id="tax-label">
                         <script>
                            var jenis = '';
                         </script>
-                        <?php 
-                        if ($userdata->id_Status == '1') {
-                           echo 'PPh 21 (- 6%) <script>jenis=`ftn`</script>';
-                    } else {
-                        echo 'PPh 23 (- 2%) <script>jenis=`vendor`</script>';
-                    };?>
-
+                        
                      </div>
                      <input type="hidden" id="tax" name="tax" value="" readonly>
+                     <input type="hidden" id="tax-tipe" name="tax-tipe" value="" readonly>
                      <div class="col" style="text-align: end;"><span id="pajak"></span></div>
                   </div>
                   <hr>
@@ -180,6 +175,7 @@
                   </div>
                   <hr>
                </div>
+               <?php endforeach; ?>
                <script>
                   var form = $('#myform');
                </script>

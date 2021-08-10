@@ -28,11 +28,8 @@ cost = [];
                     $('#rate').val('0');
                     $('#curr').val(data['q'][0].kurensi);
                   $('#curr_awal').val(data['q'][0].kurensi);
-                    $('#rs').val('admin');
-                    $('#ps').val('');
-                    $('#pm').val('');
-                    $('#rn').val('');
                     $('#tipe_Po').val('1');
+                    $('#rs').val('Freelance');
                     ubah_no();
                 } else {
                   $('#pn').val(data['q'][0].project_Name_po);
@@ -53,7 +50,11 @@ cost = [];
     }
   
    });
-    } else {$('#pn').val(""); $('#jumlah').val('1');}
+    } else {
+      $('#pn').val("");
+      $('#jumlah').val('1');
+      $('#rs').val('Freelance');
+    }
        
 });
 
@@ -137,6 +138,8 @@ function change_table(ids=null){
 }
 
 function hitung(){
+  kurensi = $('#curr').val()
+  console.log(kurensi);
     var mw1 = $('#w1').val() * $('#wc1').val() / 100;
     $('#wwc1').val(mw1);
     var mw2 = $('#w2').val() * $('#wc2').val() / 100;
@@ -157,7 +160,14 @@ function hitung(){
     var grand =$('#rate').val() * hasil;
     console.log($('#rate').val())
     $('#grand').val(grand);
-    document.getElementById("grand-text").innerHTML = grand.toFixed(2);
+    
+  if(kurensi=='IDR'){
+    document.getElementById("grand-text").innerHTML = 'Rp. ' + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else if (kurensi=='USD'){
+    document.getElementById("grand-text").innerHTML = '$ ' + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else if (kurensi=='EUR'){
+    document.getElementById("grand-text").innerHTML = '€ ' + grand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 }
 
 //dom
@@ -271,118 +281,112 @@ function autocomplete(inp, arr) {
     change(ids);
   });
   
-  $("#rn").on('input', function(el) {
-    let ids = $(el.target).val();
-    console.log(ids);
-    change(ids);
-  });
   
   function change(ids){
     if(ids!=''){
       $.ajax({
           type: 'ajax',
-          url: `http://localhost/finance/purchase/tampilkanDataResource/`+ids,
+          url: base_url(`purchase/tampilkanDataResource/`)+ids,
           async: false,
           dataType: 'json',
           success: function (data) {
             console.log(data)
                   id = data[0].email_Address;
-                  id2 = data[0].mobile_phone;
               $('#ps').val(id);
-              $('#pm').val(id2);
-              if(data[0].id_Status=='0'){
-                $('#rs').val('admin');
-              } else if(data[0].id_Status=='1'){
+              $('#id_fl').val(data[0].id_User);
+              $('#address_resource').val(data[0].address);
+              if(data[0].id_Status=='1'){
+                $('#pm').val(data[0].wa_fl);
                 $('#rs').val('Freelance');
-              } else if(data[0].id_Status=='2'){
-                $('#rs').val('In House (Star Jakarta)');
-              } else if(data[0].id_Status=='3'){
-                $('#rs').val('In House (Speequal Jakarta)');
-              } else if(data[0].id_Status=='4'){
-                $('#rs').val('In House (Speequal Malaysia)');
+                $('#address_resource').val(data[0].address_fl);
               } else if(data[0].id_Status=='5'){
                 $('#rs').val('Vendor');
-              } else if(data[0].id_Status=='6'){
-                $('#rs').val('Kodegiri');
+                $('#pm').val(data[0].wa_vendor);
+                $('#address_resource').val(data[0].address_vendor);
               }
   }
   
   });
   } else {$('#ps').val('');
-  $('#pm').val('');}
+  $('#pm').val('');
+  $('#id_fl').val('');
+  $('#rs').val('Freelance');
+  $('#address_resource').val('');
+  }
   }
 
   
-var from_currencyEl = $('#curr_awal').val();;
-var to_currencyEl = '';
+// var from_currencyEl = $('#curr_awal').val();;
+// var to_currencyEl = '';
 
 $("#curr").on('change', function(el) {
-from_currencyEl = $('#curr_awal').val();
-tujuan=$('#curr').val();
-if(from_currencyEl=='IDR' && tujuan=='USD'){
-  from_currencyEl='IDR'
-  to_currencyEl = 'USD'
-  calculate();
-  from_currencyEl = 'USD'
-  $('#curr_awal').val(from_currencyEl);
-}
-if(from_currencyEl=='IDR' && tujuan=='EUR'){
-  from_currencyEl='IDR'
-  to_currencyEl = 'EUR'
-  calculate();
-  from_currencyEl = 'EUR'
-  $('#curr_awal').val(from_currencyEl);
-}
-if(from_currencyEl=='USD' && tujuan=='IDR'){
-  from_currencyEl='USD'
-  to_currencyEl = 'IDR'
-  calculate();
-  from_currencyEl = 'IDR'
-  $('#curr_awal').val(from_currencyEl);
-}
-if(from_currencyEl=='EUR' && tujuan=='IDR'){
-  from_currencyEl='EUR'
-  to_currencyEl = 'IDR'
-  calculate();
-  from_currencyEl = 'IDR'
-  $('#curr_awal').val(from_currencyEl);
-}
-if(from_currencyEl=='USD' && tujuan=='EUR'){
-  from_currencyEl='USD'
-  to_currencyEl = 'EUR'
-  calculate();
-  from_currencyEl = 'EUR'
-  $('#curr_awal').val(from_currencyEl);
-}
-if(from_currencyEl=='EUR' && tujuan=='USD'){
-  from_currencyEl='EUR'
-  to_currencyEl = 'USD'
-  calculate();
-  from_currencyEl = 'USD'
-  $('#curr_awal').val(from_currencyEl);
-}
+  hitung();
+// from_currencyEl = $('#curr_awal').val();
+// tujuan=$('#curr').val();
+// if(from_currencyEl=='IDR' && tujuan=='USD'){
+//   from_currencyEl='IDR'
+//   to_currencyEl = 'USD'
+//   calculate();
+//   from_currencyEl = 'USD'
+//   $('#curr_awal').val(from_currencyEl);
+// }
+// if(from_currencyEl=='IDR' && tujuan=='EUR'){
+//   from_currencyEl='IDR'
+//   to_currencyEl = 'EUR'
+//   calculate();
+//   from_currencyEl = 'EUR'
+//   $('#curr_awal').val(from_currencyEl);
+// }
+// if(from_currencyEl=='USD' && tujuan=='IDR'){
+//   from_currencyEl='USD'
+//   to_currencyEl = 'IDR'
+//   calculate();
+//   from_currencyEl = 'IDR'
+//   $('#curr_awal').val(from_currencyEl);
+// }
+// if(from_currencyEl=='EUR' && tujuan=='IDR'){
+//   from_currencyEl='EUR'
+//   to_currencyEl = 'IDR'
+//   calculate();
+//   from_currencyEl = 'IDR'
+//   $('#curr_awal').val(from_currencyEl);
+// }
+// if(from_currencyEl=='USD' && tujuan=='EUR'){
+//   from_currencyEl='USD'
+//   to_currencyEl = 'EUR'
+//   calculate();
+//   from_currencyEl = 'EUR'
+//   $('#curr_awal').val(from_currencyEl);
+// }
+// if(from_currencyEl=='EUR' && tujuan=='USD'){
+//   from_currencyEl='EUR'
+//   to_currencyEl = 'USD'
+//   calculate();
+//   from_currencyEl = 'USD'
+//   $('#curr_awal').val(from_currencyEl);
+// }
 });
 
-function calculate() {
-var rt = $("#rate").val();
-var total = $("#grand").val();
-const from_currency = from_currencyEl;
-const to_currency = to_currencyEl;
+// function calculate() {
+// var rt = $("#rate").val();
+// var total = $("#grand").val();
+// const from_currency = from_currencyEl;
+// const to_currency = to_currencyEl;
 
-console.log(from_currency);
-console.log(to_currency);
+// console.log(from_currency);
+// console.log(to_currency);
 
-fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
-.then(res => res.json())
-.then(res => {
-const rate = res.rates[to_currency];
-rt = (rt * rate).toFixed(2);
-total = (total * rate).toFixed(2);
-$("#rate").val(rt);
-$("#grand").val(total);
-document.getElementById("grand-text").innerHTML = total;
-})
-}
+// fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
+// .then(res => res.json())
+// .then(res => {
+// const rate = res.rates[to_currency];
+// rt = (rt * rate).toFixed(2);
+// total = (total * rate).toFixed(2);
+// $("#rate").val(rt);
+// $("#grand").val(total);
+// document.getElementById("grand-text").innerHTML = total;
+// })
+// }
 
 function ubah_no(){
   var jum_pembayaran = $('#jumlah').val();

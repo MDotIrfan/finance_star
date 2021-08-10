@@ -23,111 +23,122 @@ class M_user extends CI_Model
             $this->db->join('position_item p', 'p.id=u.id_Position', 'left');
             $this->db->join('status_item s', 's.id=u.id_Status', 'left');
             $this->order = array('id_User' => 'asc');
-        } else if ($table == 'resource_data') {
-            $column_order = array('id_resource', 'resource_name', 'mobile_phone', 'cabang_bank', 'no_rekening', 'address', 'no_npwp', 'jenis');
-            $column_search = array('id_resource', 'resource_name', 'mobile_phone', 'cabang_bank', 'no_rekening', 'address', 'no_npwp', 'jenis');
-            $this->db->from('resource_data');
-            $this->order = array('id_resource' => 'asc');
+        } else if ($table == 'vendor') {
+            $column_order = array('id', 'pic_name', 'company', 'email', 'wa', 'address', 'npwp', 'rekening');
+            $column_search = array('id', 'pic_name', 'company', 'email', 'wa', 'address', 'npwp', 'rekening');
+            $this->db->from('vendor');
+            $this->order = array('id' => 'asc');
+        } else if ($table == 'freelance_data') {
+            $column_order = array('id', 'firstname', 'lastname', 'email', 'wa', 'address', 'npwp', 'rekening');
+            $column_search = array('id', 'firstname', 'lastname', 'email', 'wa', 'address', 'npwp', 'rekening');
+            $this->db->from('freelance_data');
+            $this->order = array('id' => 'asc');
         } else if ($table == 'client_data') {
             $column_order = array('client_id', 'client_name', 'client_email', 'company_name', 'address');
             $column_search = array('client_id', 'client_name', 'client_email', 'company_name', 'address');
             $this->db->from('client_data');
             $this->order = array('client_id' => 'asc');
         }
- 
+
         $i = 0;
-     
+
         foreach ($column_search as $item) // looping awal
         {
-            if($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            if ($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
             {
-                 
-                if($i===0) // looping awal
+
+                if ($i === 0) // looping awal
                 {
-                    $this->db->group_start(); 
+                    $this->db->group_start();
                     $this->db->like($item, $_POST['search']['value']);
-                }
-                else
-                {
+                } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
- 
-                if(count($column_search) - 1 == $i) 
-                    $this->db->group_end(); 
+
+                if (count($column_search) - 1 == $i)
+                    $this->db->group_end();
             }
             $i++;
         }
-         
-        if(isset($_POST['order'])) 
-        {
+
+        if (isset($_POST['order'])) {
             $this->db->order_by($column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        } 
-        else if(isset($this->order))
-        {
+        } else if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
- 
+
     function get_datatables($table)
     {
         $this->_get_datatables_query($table);
-        if($_POST['length'] != -1)
-        $this->db->limit($_POST['length'], $_POST['start']);
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
- 
+
     function count_filtered($table)
     {
         $this->_get_datatables_query($table);
         $query = $this->db->get();
         return $query->num_rows();
     }
- 
+
     public function count_all($table)
     {
         if ($table == 'user') {
             $this->db->from('user u');
             $this->db->join('position_item p', 'p.id=u.id_Position', 'left');
             $this->db->join('status_item s', 's.id=u.id_Status', 'left');
-        } else if ($table == 'resource_data') {
-            $this->db->from('resource_data');
+        } else if ($table == 'vendor') {
+            $this->db->from('vendor');
+        } else if ($table == 'freelance_data') {
+            $this->db->from('freelance_data');
         } else if ($table == 'client_data') {
             $this->db->from('client_data');
         }
         return $this->db->count_all_results();
     }
 
-        function tampil_data_client()
+    function tampil_data_freelance()
+    {
+        $this->db->select('*');
+        $this->db->from('freelance_data');
+        return $query = $this->db->get();
+    }
+
+    function tampil_data_client()
     {
         $this->db->select('*');
         $this->db->from('client_data');
         return $query = $this->db->get();
     }
-    function tampil_data_resource()
+
+
+    function tampil_data_vendor()
     {
         $this->db->select('*');
-        $this->db->from('resource_data');
+        $this->db->from('vendor');
         return $query = $this->db->get();
     }
 
-    function last_update_client()
+    function last_update_freelance()
     {
         $this->db->select('DATE(created_at) as tgl,
         DATE(DATE_SUB((SELECT created_at as date FROM `client_data` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
         DATEDIFF(NOW(),(SELECT created_at as date FROM `client_data` ORDER BY created_at DESC LIMIT 1)) as last_update');
-        $this->db->from('client_data');
+        $this->db->from('freelance_data');
         $this->db->order_by('tgl', 'ASC');
         $this->db->limit(1);
         return $query = $this->db->get();
     }
-    function last_update_resource()
+    function last_update_vendor()
     {
         $this->db->select('DATE(created_at) as tgl,
         DATE(DATE_SUB((SELECT created_at as date FROM `resource_data` ORDER BY created_at DESC LIMIT 1), INTERVAL 1 DAY)) as tgl_sebelum, 
         DATEDIFF(NOW(),(SELECT created_at as date FROM `resource_data` ORDER BY created_at DESC LIMIT 1)) as last_update');
-        $this->db->from('resource_data');
+        $this->db->from('vendor');
         $this->db->order_by('tgl', 'ASC');
         $this->db->limit(1);
         return $query = $this->db->get();
@@ -261,35 +272,54 @@ class M_user extends CI_Model
     }
     public function CreateCodeClient()
     {
-        $this->db->select('RIGHT(client_data.client_id,3) as kode_client', FALSE);
-        $this->db->order_by('kode_client', 'DESC');
+        $this->db->select('RIGHT(freelance_data.id,3) as kode_freelance', FALSE);
+        $this->db->order_by('kode_freelance', 'DESC');
         $this->db->limit(1);
-        $query = $this->db->get('client_data');
+        $query = $this->db->get('freelance_data');
         if ($query->num_rows() <> 0) {
             $data = $query->row();
-            $kode = intval($data->kode_client) + 1;
+            $kode = intval($data->kode_freelance) + 1;
         } else {
             $kode = 1;
         }
         $batas = str_pad($kode, 3, "0", STR_PAD_LEFT);
-        $kodetampil = "CL" . $batas;
+        $kodetampil = "FL" . $batas;
         return $kodetampil;
     }
     public function CreateCodeResource()
     {
-        $this->db->select('RIGHT(resource_data.id_resource,3) as kode_resource', FALSE);
-        $this->db->order_by('kode_resource', 'DESC');
+        $this->db->select('RIGHT(vendor.id,3) as kode_vendor', FALSE);
+        $this->db->order_by('kode_vendor', 'DESC');
         $this->db->limit(1);
-        $query = $this->db->get('resource_data');
+        $query = $this->db->get('vendor');
         if ($query->num_rows() <> 0) {
             $data = $query->row();
-            $kode = intval($data->kode_resource) + 1;
+            $kode = intval($data->kode_vendor) + 1;
         } else {
             $kode = 1;
         }
         $batas = str_pad($kode, 3, "0", STR_PAD_LEFT);
-        $kodetampil = "RES" . $batas;
+        $kodetampil = "VEN" . $batas;
         return $kodetampil;
+    }
+    function get_prov(){
+        $this->db->select('prov_id, prov_name');
+        $this->db->from('ec_provinces');
+        return $query = $this->db->get();
+    }
+    function get_city($prov_id){
+        $this->db->select('city_name, p.prov_id, city_id');
+        $this->db->from('ec_cities c');
+        $this->db->join('ec_provinces p', 'c.prov_id=p.prov_id');
+        $this->db->where('p.prov_name', $prov_id);
+        return $query = $this->db->get();
+    }
+    function get_postal($prov_id){
+        $this->db->select('postal_code, postal_id, c.city_id');
+        $this->db->from('ec_postalcode p');
+        $this->db->join('ec_cities c', 'c.city_id=p.city_id');
+        $this->db->where('c.city_name', $prov_id);
+        return $query = $this->db->get();
     }
     function input_data($data, $table)
     {
@@ -301,11 +331,17 @@ class M_user extends CI_Model
         $this->db->from('user u');
         $this->db->join('position_item p', 'p.id=u.id_Position', 'left');
         $this->db->join('status_item s', 's.id=u.id_Status', 'left');
-        $this->db->join('resource_data r', 'r.id_user=u.id_User', 'left');
         $this->db->where('u.id_User', $where);
         return $query = $this->db->get();
     }
     function edit_data_client($where, $table)
+    {
+        $this->db->select('*');
+        $this->db->from('freelance_data');
+        $this->db->where('id', $where);
+        return $query = $this->db->get();
+    }
+    function edit_data_client2($where, $table)
     {
         $this->db->select('*');
         $this->db->from('client_data');
@@ -315,8 +351,8 @@ class M_user extends CI_Model
     function edit_data_resource($where, $table)
     {
         $this->db->select('*');
-        $this->db->from('resource_data');
-        $this->db->where('id_resource', $where);
+        $this->db->from('vendor');
+        $this->db->where('id', $where);
         return $query = $this->db->get();
     }
     function update_data($where, $data, $table)

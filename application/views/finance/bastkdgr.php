@@ -76,9 +76,9 @@
                 <p style="text-align:center; font-size:x-large">
                     <b><u>BERITA ACARA</u></b><br>
                     <u><?php
-                            $tgl = date('d/m/Y');
-                            echo $tgl;
-                            ?></u>
+                        $tgl = date('d/m/Y');
+                        echo $tgl;
+                        ?></u>
                 </p>
 
 
@@ -98,19 +98,17 @@
                 Item
             </td>
             <td width="80%" style="text-align:left; ">
-            <?php foreach ($b as $b) { ?>
+                <?php foreach ($b as $b) { ?>
                     : <?= $b->perihal ?><br>
                     : <?= $b->type_of_work ?><br>
                     : <?= $b->project_name ?><br>
                     : <?= $b->company_name ?><br>
                     : <?= $b->pic_client ?><br>
-                    <?php foreach ($bi as $bi) { ?>
-                : <?= $bi->qty ?> <?= $bi->Unit ?> of  <?= $bi->item ?> work<br>
-                <?php } ?>
+                    : 1 Softfile<br>
             </td>
-            
-            <!-- 
-                
+
+
+
         </tr>
     </table>
     <div>
@@ -122,32 +120,34 @@
                 <td width="30%" style="text-align:center; " class="bold">QTY</td>
                 <td width="30%" style="text-align:center; " class="bold">Check (√/X)</td>
             </tr>
+            <?php foreach ($bi as $bii) { ?>
             <tr>
                 <td width="40%" style="text-align:center;height:30px">
-                    a
+                    <?= $bii->item ?>
                 </td>
                 <td width="30%" style="text-align:center; ">
-                    a
-                    Unit
+                     <?= $bii->Unit ?>
                 </td>
                 <td width="30%" style="text-align:center; ">
-                    fasa
+                    <?php if($bii->status == '1') {echo 'done';}
+                        else {echo 'X';}
+                    ?>
                 </td>
             </tr>
-            <!-- <?php foreach ($bii as $bii) { ?> -->
-            <tr>
-                <td width="40%" style="text-align:center; ">
-                    <!-- <?= $bii->item ?> -->
-                </td>
-                <td width="30%" style="text-align:center; ">
-                    <!-- <?= $bii->Unit ?> -->
-                    Unit
-                </td>
-                <td width="30%" style="text-align:center; ">
-                    <!-- <?= $bii->status ?> -->
-                </td>
-            </tr>
-            <!-- <?php } ?> -->
+            <!-- 
+                <tr>
+                    <td width="40%" style="text-align:center; ">
+                        <?= $bii->item ?>
+                    </td>
+                    <td width="30%" style="text-align:center; ">
+                        <?= $bii->Unit ?>
+                        Unit
+                    </td>
+                    <td width="30%" style="text-align:center; ">
+                        <?= $bii->status ?>
+                    </td>
+                </tr>
+            <?php } ?> -->
         </table>
     </div>
     <table border="0" style="width: 100%; margin-bottom: 25px;" class="table" cellspacing="0" cellpadding="0">
@@ -189,8 +189,8 @@
         </tr>
         <tr style="text-align:center; ">
             <td><u><?php foreach ($user as $u) { ?>
-                    <?= $u->full_Name ?>
-                <?php } ?></u><br>
+                        <?= $u->full_Name ?>
+                    <?php } ?></u><br>
                 <?= $b->first_party ?> </td>
         </tr>
 
@@ -219,15 +219,15 @@
         <tr style="text-align:center; ">
 
             <td><u>
-                    <!-- <?= $bi->pic_client ?> -->
+                    <?= $bi->pic_client ?>
                 </u><br>
-                <!-- <?= $bi->company_name ?> -->
+                <?= $bi->company_name ?>
             </td>
         </tr>
 
     </table>
 
-    <?php } ?>
+<?php } ?>
 </body>
 <script type=" text/javascript">
     window.print();

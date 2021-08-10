@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <center><img src=" <?= base_url('assets/img/sslogostar.PNG') ?>" class="mid"></center>
+    <center><img src="<?= base_url('assets/img/Logokdgr.jpg') ?>" class="mid"></center>
     <table border="0" style="width: 40%" align="right">
         <tr>
             <td>
@@ -150,7 +150,7 @@
             <td style="text-align:left;" width="25%"></td>
             <td width="25%" style="text-align:center;"></td>
             <td width="25%" style="text-align:center;"></td>
-            <td width="25%" style="text-align:center;" class="bold">SOMEONE</td>
+            <td width="25%" style="text-align:center;" class="bold">Cycas Rifky Yolanda Kurniawan</td>
         </tr>
 
     </table>

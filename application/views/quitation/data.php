@@ -10,7 +10,7 @@
             </ol>
         </div>
         <div class="col-lg-12">
-            <span style="color: #9599A6; font-size: 16px;margin-left:15px;">For Last <?= $interval ?> Days</span>
+            <span style="color: #9599A6; font-size: 16px;margin-left:15px;">For Last <?= @$interval->last_update ?> Days</span>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
                     <th class="data-table-head"  scope="col">Client Name</th>
                     <th class="data-table-head"  scope="col">Project Name</th>
                     <th class="data-table-head"  scope="col">Price / Unit</th>
-                    <th class="data-table-head"  scope="col">Cost In IDR</th>
+                    <th class="data-table-head"  scope="col">Cost</th>
                     <th class="data-table-head"  scope="col">Action</th>
                 </tr>
             </thead>

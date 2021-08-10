@@ -37,7 +37,9 @@ var myBarChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
-                    min: 0,
+                    callback: function(value, index, values) {
+                        return 'Rp. ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    }
                 }
             }],
             xAxes: [{
@@ -46,5 +48,18 @@ var myBarChart = new Chart(ctx, {
                 }
             }]
         }
-    }
+    },
+    plugins: {
+        tooltip: {
+          callbacks: {
+              
+            label : function(tooltipItem, data){
+                console.log(tooltipItem);
+                var label = myBarChart.data.labels[tooltipItem.dataIndex];
+                var value = myBarChart.data.datasets[tooltipItem.datasetIndex].data[tooltipItem.dataIndex];
+                return label + ': Testing Cuy ' + value;
+            }
+          }
+        }
+      }
 });

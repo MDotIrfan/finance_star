@@ -5,7 +5,7 @@
     <div class="row align-items-start" style="margin-bottom: 25px;">
         <div class="col">
             <span style="color: black; font-size: 24px;">Invoice</span><br>
-            <span style="color: #9599A6; font-size: 16px;">For Last <?= $interval ?> Days</span>
+            <span style="color: #9599A6; font-size: 16px;">For Last <?= @$interval->last_update ?> Days</span>
         </div>
         <div class="col">
             <ol class=" breadcrumb breadcrumb-dot justify-content-end" style="font-size: 14px;background:transparent">

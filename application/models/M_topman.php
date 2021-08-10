@@ -88,6 +88,16 @@ class M_topman extends CI_Model{
 		return $query = $this->db->get();
     }
 
+    function get_total_cost_2($month){
+            $this->db->select("grand_total as 'total', currency_inv,
+                            month(invoice_date) as 'month', 
+                            year(invoice_date) as 'year'");
+            $this->db->from('invoice_in');
+            $this->db->where('month(invoice_date)', $month);
+            $this->db->where('year(invoice_date) = year(now())');
+        	return $query = $this->db->get();
+        }
+
     function get_total_revenue(){
         $this->db->select("sum(grand_total) as 'total',
                         count(no_invoice) as 'jumlah', 
@@ -96,6 +106,16 @@ class M_topman extends CI_Model{
         $this->db->from('invoice_out');
         $this->db->where('year(invoice_date) = year(now())');
         $this->db->group_by('(SELECT EXTRACT( YEAR_MONTH FROM `invoice_date` ))');
+		return $query = $this->db->get();
+    }
+
+    function get_total_revenue_2($month){
+        $this->db->select("grand_total as 'total', currency_inv, 
+                        month(invoice_date) as 'month', 
+                        year(invoice_date) as 'year'");
+        $this->db->from('invoice_out');
+        $this->db->where('month(invoice_date)', $month);
+        $this->db->where('year(invoice_date) = year(now())');
 		return $query = $this->db->get();
     }
 

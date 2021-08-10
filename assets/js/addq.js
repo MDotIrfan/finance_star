@@ -2,7 +2,7 @@ window.onload = function () {
   if (jum_table < 1) {
     addRow();
   }
-
+  tampil()
 };
 
 
@@ -84,10 +84,21 @@ function hitung(a) {
 // cek
 
 function tampil() {
-  document.getElementById("total-text").innerHTML = tambah(cost).toFixed(2);
-  document.getElementById("grand-text").innerHTML = tambah(cost).toFixed(2);
-  $("#total").val(tambah(cost).toFixed(2));
-  $("#grand").val(tambah(cost).toFixed(2));
+  kurensi = $('#curr').val()
+  console.log(kurensi);
+  total = tambah(cost);
+  if(kurensi=='IDR'){
+    document.getElementById("total-text").innerHTML = 'Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    document.getElementById("grand-text").innerHTML = 'Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else if (kurensi=='USD'){
+    document.getElementById("total-text").innerHTML = '$ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById("grand-text").innerHTML = '$ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else if (kurensi=='EUR'){
+    document.getElementById("total-text").innerHTML = '€ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.getElementById("grand-text").innerHTML = '€ ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  $("#total").val(total.toFixed(2));
+  $("#grand").val(total.toFixed(2));
 }
 
 function formatRupiah(angka, prefix) {
@@ -233,111 +244,111 @@ function autocomplete(inp, arr) {
 /*An array containing all the country names in the world:*/
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-// autocomplete(document.getElementById("cn"), countries);
+autocomplete(document.getElementById("cn"), countries);
 
-// $("#cn").on('input', function (el) {
-//   let ids = $(el.target).val();
-//   console.log(ids)
-//   change(ids);
-// });
+$("#cn").on('input', function (el) {
+  let ids = $(el.target).val();
+  console.log(ids)
+  change(ids);
+});
 
-// function change(ids) {
-//   if (ids != '') {
-//     $.ajax({
-//       type: 'ajax',
-//       url: `http://localhost/finance/quitation/tampilkanData/` + ids,
-//       async: false,
-//       dataType: 'json',
-//       success: function (data) {
-//         console.log(data)
-//         id = data[0].client_email;
-//         $('#ce').val(id);
+function change(ids) {
+  if (ids != '') {
+    $.ajax({
+      type: 'ajax',
+      url: base_url(`quitation/tampilkanData/`) + ids,
+      async: false,
+      dataType: 'json',
+      success: function (data) {
+        console.log(data)
+        id = data[0].client_email;
+        $('#ce').val(id);
+      }
 
-//       }
+    });
+  } else { $('#ce').val(""); }
+}
 
-//     });
-//   } else { $('#ce').val(""); }
-// }
-
-var from_currencyEl = $('#curr_awal').val();
-var to_currencyEl = '';
+// var from_currencyEl = $('#curr_awal').val();
+// var to_currencyEl = '';
 // var to_ammountEl = document.getElementById('to_ammount');
 
 $("#curr").on('change', function (el) {
-  tujuan = $('#curr').val();
-  from_currencyEl = $('#curr_awal').val();
-  if (from_currencyEl == 'IDR' && tujuan == 'USD') {
-    from_currencyEl = 'IDR'
-    to_currencyEl = 'USD'
-    calculate();
-    from_currencyEl = 'USD'
-    $('#curr_awal').val(from_currencyEl);
-  }
-  if (from_currencyEl == 'IDR' && tujuan == 'EUR') {
-    from_currencyEl = 'IDR'
-    to_currencyEl = 'EUR'
-    calculate();
-    from_currencyEl = 'EUR'
-    $('#curr_awal').val(from_currencyEl);
-  }
-  if (from_currencyEl == 'USD' && tujuan == 'IDR') {
-    from_currencyEl = 'USD'
-    to_currencyEl = 'IDR'
-    calculate();
-    from_currencyEl = 'IDR'
-    $('#curr_awal').val(from_currencyEl);
-  }
-  if (from_currencyEl == 'EUR' && tujuan == 'IDR') {
-    from_currencyEl = 'EUR'
-    to_currencyEl = 'IDR'
-    calculate();
-    from_currencyEl = 'IDR'
-    $('#curr_awal').val(from_currencyEl);
-  }
-  if (from_currencyEl == 'USD' && tujuan == 'EUR') {
-    from_currencyEl = 'USD'
-    to_currencyEl = 'EUR'
-    calculate();
-    from_currencyEl = 'EUR'
-    $('#curr_awal').val(from_currencyEl);
-  }
-  if (from_currencyEl == 'EUR' && tujuan == 'USD') {
-    from_currencyEl = 'EUR'
-    to_currencyEl = 'USD'
-    calculate();
-    from_currencyEl = 'USD'
-    $('#curr_awal').val(from_currencyEl);
-  }
+  tampil();
+  // tujuan = $('#curr').val();
+  // from_currencyEl = $('#curr_awal').val();
+  // if (from_currencyEl == 'IDR' && tujuan == 'USD') {
+  //   from_currencyEl = 'IDR'
+  //   to_currencyEl = 'USD'
+  //   calculate();
+  //   from_currencyEl = 'USD'
+  //   $('#curr_awal').val(from_currencyEl);
+  // }
+  // if (from_currencyEl == 'IDR' && tujuan == 'EUR') {
+  //   from_currencyEl = 'IDR'
+  //   to_currencyEl = 'EUR'
+  //   calculate();
+  //   from_currencyEl = 'EUR'
+  //   $('#curr_awal').val(from_currencyEl);
+  // }
+  // if (from_currencyEl == 'USD' && tujuan == 'IDR') {
+  //   from_currencyEl = 'USD'
+  //   to_currencyEl = 'IDR'
+  //   calculate();
+  //   from_currencyEl = 'IDR'
+  //   $('#curr_awal').val(from_currencyEl);
+  // }
+  // if (from_currencyEl == 'EUR' && tujuan == 'IDR') {
+  //   from_currencyEl = 'EUR'
+  //   to_currencyEl = 'IDR'
+  //   calculate();
+  //   from_currencyEl = 'IDR'
+  //   $('#curr_awal').val(from_currencyEl);
+  // }
+  // if (from_currencyEl == 'USD' && tujuan == 'EUR') {
+  //   from_currencyEl = 'USD'
+  //   to_currencyEl = 'EUR'
+  //   calculate();
+  //   from_currencyEl = 'EUR'
+  //   $('#curr_awal').val(from_currencyEl);
+  // }
+  // if (from_currencyEl == 'EUR' && tujuan == 'USD') {
+  //   from_currencyEl = 'EUR'
+  //   to_currencyEl = 'USD'
+  //   calculate();
+  //   from_currencyEl = 'USD'
+  //   $('#curr_awal').val(from_currencyEl);
+  // }
 });
 
-function calculate() {
-  var awal = [];
-  var akhir = [];
-  for (let i = 0; i < index; i++) {
-    awal[i] = $(".price" + i).val();
-  }
-  console.log(awal);
-  const from_currency = from_currencyEl;
-  const to_currency = to_currencyEl;
+// function calculate() {
+//   var awal = [];
+//   var akhir = [];
+//   for (let i = 0; i < index; i++) {
+//     awal[i] = $(".price" + i).val();
+//   }
+//   console.log(awal);
+//   const from_currency = from_currencyEl;
+//   const to_currency = to_currencyEl;
 
-  console.log(from_currency);
-  console.log(to_currency);
+//   console.log(from_currency);
+//   console.log(to_currency);
 
-  fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
-    .then(res => res.json())
-    .then(res => {
-      const rate = res.rates[to_currency];
-      for (let i = 0; i < index; i++) {
-        akhir[i] = (awal[i] * rate).toFixed(2);
-        if (isNaN(akhir[i])) {
-          $(".price" + i).val(0);
-        } else {
-          $(".price" + i).val(akhir[i]);
-        }
-        cost[i] = akhir[i]
-        tampil();
-        hitung(i);
-      }
-      console.log(akhir);
-    })
-}
+//   fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
+//     .then(res => res.json())
+//     .then(res => {
+//       const rate = res.rates[to_currency];
+//       for (let i = 0; i < index; i++) {
+//         akhir[i] = (awal[i] * rate).toFixed(2);
+//         if (isNaN(akhir[i])) {
+//           $(".price" + i).val(0);
+//         } else {
+//           $(".price" + i).val(akhir[i]);
+//         }
+//         cost[i] = akhir[i]
+//         tampil();
+//         hitung(i);
+//       }
+//       console.log(akhir);
+//     })
+// }

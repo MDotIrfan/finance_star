@@ -189,7 +189,7 @@
                     </td>
             </table>
         </div>
-
+        <div style="width: 50%;">Note : <?php echo $po->public_notes; ?></div>
         <div>
             <table rules="none" border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
                 <tr>
@@ -201,7 +201,7 @@
                     <td>
                         <?php foreach ($res as $res) { ?>
                             <p>
-                                Phone: <?= $res->mobile_phone ?>
+                                Phone: <?= $res->wa ?>
                             </p>
                         <?php } ?>
                     </td>

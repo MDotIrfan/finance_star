@@ -43,7 +43,7 @@
                     <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Project Name</th>
                     <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Employee Name</th>
                     <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Invoice Date</th>
-                    <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Cost in IDR</th>
+                    <th style="border-right: 1px solid #EDF2F6;border-bottom: 1px solid #EDF2F6;" scope="col">Cost</th>
                     <th style="border-bottom: 1px solid #EDF2F6;" scope="col">Action</th>
                 </tr>
             </thead>

@@ -71,6 +71,28 @@
                                     <?php echo form_error('status'); ?>
                                     </div>
                                 </div>
+                                <div class="form-group form-inline" id="space-fl" style="display:none">
+                                    <label for="status" class="col-sm-4 control-label" class="label-fl">ID Freelance</label>
+                                    <div class="col-sm-7">
+                                    <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="id_fl" name="id_fl">
+                                        <option value="" selected disabled>- Pilih ID Freelance -</option> 
+                                        <?php foreach ($fl as $item) : ?>
+                                            <option value="<?php echo $item->id; ?>"> <?php echo $item->id.' - '.$item->firstname.' '.$item->lastname; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline" id="space-vendor" style="display:none">
+                                    <label for="status" class="col-sm-4 control-label" class="label-vendor">ID Vendor</label>
+                                    <div class="col-sm-7">
+                                    <select class="custom-select lg mb-3 col-lg" aria-label=".form-select-lg example" id="id_vendor" name="id_vendor">
+                                        <option value="" selected disabled>- Pilih ID Vendor -</option> 
+                                        <?php foreach ($vendor as $item) : ?>
+                                            <option value="<?php echo $item->id; ?>"> <?php echo $item->id.' - '.$item->pic_name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    </div>
+                                </div>
                                 <div class="form-group form-inline">
                                     <label for="gambar" class="col-sm-4 control-label">Profile Photo</label>
                                     <div class="col-sm-7">

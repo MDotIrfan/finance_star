@@ -17,7 +17,7 @@ class Purchase extends CI_Controller
     public function data()
     {
         $data['po'] = $this->m_po->tampil_data_po_item('word')->result();
-        $data['interval'] = $this->m_po->last_update_po('word')->row()->last_update;
+        $data['interval'] = $this->m_po->last_update_po('word')->row();
         $this->session->set_userdata('menu', 'Purchase Order Word Based');
         $this->load->view('templates/header', [
             'load' => ['data_po_word.js']
@@ -72,7 +72,7 @@ class Purchase extends CI_Controller
     public function dataitem()
     {
         $data['po'] = $this->m_po->tampil_data_po_item('item')->result();
-        $data['interval'] = $this->m_po->last_update_po('item')->row()->last_update;
+        $data['interval'] = $this->m_po->last_update_po('item')->row();
         $this->session->set_userdata('menu', 'Purchase Order Item Based');
         $this->load->view('templates/header', [
             'load' => ['data_po_item.js']
@@ -131,8 +131,10 @@ class Purchase extends CI_Controller
         $pm_email = $this->input->post('pme');
         $res_status = $this->input->post('rs');
         $public_notes = $this->input->post('public_notes');
-        $regards = $this->input->post('regards');
-        $footer = $this->input->post('footer');
+        // $regards = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        $id_pm = $this->input->post('id_pm');
+        $id_fl = $this->input->post('id_fl');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
@@ -158,15 +160,17 @@ class Purchase extends CI_Controller
             'date' => $date,
             'id_quotation' => $no_quitation,
             'public_Notes' => $public_notes,
-            'regards' => $regards,
-            'footer' => $footer,
+            // 'regards' => $regards,
+            // 'footer' => $footer,
             'address_Resource' => $address_resource,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
             'currency_po' => $curr,
             'jumlah_pembayaran' => $jumlah,
             'no_po_ori' => $nopo_awal,
-            'company' => $company
+            'company' => $company,
+            'id_pm' => $id_pm,
+            'id_fl' => $id_fl
         );
         $this->m_po->input_data($data, 'purchase_order');
         if (!empty($jobdesc)) {
@@ -257,8 +261,10 @@ class Purchase extends CI_Controller
         $res_status = $this->input->post('rs');
         $rate = $this->input->post('rate');
         $public_notes = $this->input->post('public_notes');
-        $regards = $this->input->post('regards');
-        $footer = $this->input->post('footer');
+        // $regards = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        $id_pm = $this->input->post('id_pm');
+        $id_fl = $this->input->post('id_fl');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
@@ -294,8 +300,8 @@ class Purchase extends CI_Controller
             'date' => $date,
             'id_quotation' => $no_quitation,
             'public_Notes' => $public_notes,
-            'regards' => $regards,
-            'footer' => $footer,
+            // 'regards' => $regards,
+            // 'footer' => $footer,
             'address_Resource' => $address_resource,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
@@ -304,7 +310,9 @@ class Purchase extends CI_Controller
             'currency_po' => $curr,
             'jumlah_pembayaran' => $jumlah,
             'no_po_ori' => $nopo_awal,
-            'company' => $company
+            'company' => $company,
+            'id_pm' => $id_pm,
+            'id_fl' => $id_fl
         );
         $this->m_po->input_data($data, 'purchase_order');
         $data2 = array(
@@ -376,7 +384,7 @@ class Purchase extends CI_Controller
         $this->load->library('email', $config);
 
         // Email dan nama pengirim
-        $this->email->from($email, $name);
+        $this->email->from('finance@kodegiri.com', $name);
 
         // Email penerima
         $this->email->to($data['qi']['resource_Email']); // Ganti dengan email tujuan
@@ -481,8 +489,8 @@ class Purchase extends CI_Controller
             $data['total_po'][$item->month] = $item->jumlah;
         }
 
-        $data['interval'] = $this->m_po->last_update_po()->row()->last_update;
-        $data['tgl'] = $this->m_po->last_update_po()->row()->tgl_sebelum;
+        $data['interval'] = $this->m_po->last_update_po()->row();
+        // $data['tgl'] = $this->m_po->last_update_po()->row()->tgl_sebelum;
         $data['jumlah'] = $this->m_po->count_po()->result();
         $data['selisih'] = $this->m_po->selisih_count_po()->result();
         $this->session->set_userdata('menu', 'Dashboard');
@@ -572,8 +580,10 @@ class Purchase extends CI_Controller
         $pm_email = $this->input->post('pme');
         $res_status = $this->input->post('rs');
         $public_notes = $this->input->post('public_notes');
-        $regards = $this->input->post('regards');
-        $footer = $this->input->post('footer');
+        // $regards = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        $id_pm = $this->input->post('id_pm');
+        $id_fl = $this->input->post('id_fl');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $v_form = $this->input->post('v_form');
@@ -597,14 +607,16 @@ class Purchase extends CI_Controller
             'date' => $date,
             'id_quotation' => $no_quitation,
             'public_Notes' => $public_notes,
-            'regards' => $regards,
-            'footer' => $footer,
+            // 'regards' => $regards,
+            // 'footer' => $footer,
             'address_Resource' => $address_resource,
             'v_form' => $v_form,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
             'currency_po' => $curr,
-            'company' => $company
+            'company' => $company,
+            'id_pm' => $id_pm,
+            'id_fl' => $id_fl
         );
         $where = array(
             'no_Po' => $no_po,
@@ -680,8 +692,10 @@ class Purchase extends CI_Controller
         $res_status = $this->input->post('rs');
         $rate = $this->input->post('rate');
         $public_notes = $this->input->post('public_notes');
-        $regards = $this->input->post('regards');
-        $footer = $this->input->post('footer');
+        // $regards = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
+        $id_pm = $this->input->post('id_pm');
+        $id_fl = $this->input->post('id_fl');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
@@ -726,15 +740,17 @@ class Purchase extends CI_Controller
             'date' => $date,
             'id_quotation' => $no_quitation,
             'public_Notes' => $public_notes,
-            'regards' => $regards,
-            'footer' => $footer,
+            // 'regards' => $regards,
+            // 'footer' => $footer,
             'address_Resource' => $address_resource,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
             'tipe_Po' => $t_po,
             'rate' => $rate,
             'currency_po' => $curr,
-            'company' => $company
+            'company' => $company,
+            'id_pm' => $id_pm,
+            'id_fl' => $id_fl
         );
         $where = array(
             'no_Po' => $no_po,
@@ -809,6 +825,8 @@ class Purchase extends CI_Controller
         $this->pdf->setPaper('A4', 'potrait');
         if ($level == "3"||$level == "4") {
             $this->pdf->load_view('purchase/pospqm', $data, $no_po);
+        } else if ($level == "6") {
+            $this->pdf->load_view('purchase/powordkd', $data, $no_po);
         } else {
             $this->pdf->load_view('purchase/masterpo', $data, $no_po);
         }
@@ -905,8 +923,8 @@ class Purchase extends CI_Controller
         $res_status = $this->input->post('rs');
         $rate = $this->input->post('rate');
         $public_notes = $this->input->post('public_notes');
-        $regards = $this->input->post('regards');
-        $footer = $this->input->post('footer');
+        // $regards = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
@@ -951,8 +969,8 @@ class Purchase extends CI_Controller
             'date' => $date,
             'id_quotation' => $no_quitation,
             'public_Notes' => $public_notes,
-            'regards' => $regards,
-            'footer' => $footer,
+            // 'regards' => $regards,
+            // 'footer' => $footer,
             'address_Resource' => $address_resource,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
@@ -995,6 +1013,8 @@ class Purchase extends CI_Controller
         $this->pdf_2->setPaper('A4', 'potrait');
         if ($level == "3"||$level == "4") {
             $this->pdf_2->load_view('purchase/pospqm', $data, $no_po);
+        } else if ($level == "6") {
+            $this->pdf_2->load_view('purchase/powordkd', $data, $no_po);
         } else {
             $this->pdf_2->load_view('purchase/masterpo', $data, $no_po);
         }
@@ -1017,8 +1037,8 @@ class Purchase extends CI_Controller
         $pm_email = $this->input->post('pme');
         $res_status = $this->input->post('rs');
         $public_notes = $this->input->post('public_notes');
-        $regards = $this->input->post('regards');
-        $footer = $this->input->post('footer');
+        // $regards = $this->input->post('regards');
+        // $footer = $this->input->post('footer');
         $address_resource = $this->input->post('address_resource');
         $grand_total = $this->input->post('grand');
         $tipe = $this->input->post('tipe');
@@ -1043,8 +1063,8 @@ class Purchase extends CI_Controller
             'date' => $date,
             'id_quotation' => $no_quitation,
             'public_Notes' => $public_notes,
-            'regards' => $regards,
-            'footer' => $footer,
+            // 'regards' => $regards,
+            // 'footer' => $footer,
             'address_Resource' => $address_resource,
             'grand_Total_po' => $grand_total,
             'tipe' => $tipe,
@@ -1052,9 +1072,8 @@ class Purchase extends CI_Controller
             'jumlah_pembayaran' => $jumlah,
             'no_po_ori' => $nopo_awal
         );
-        if (!empty($jobdesc[0])) {
+
             for ($a = 0; $a < count($jobdesc); $a++) {
-                if (!empty($jobdesc[$a])) {
                     $data['pi'][$a] = (object) array(
                         'no_Po' => $no_po,
                         'task' => $jobdesc[$a],
@@ -1065,18 +1084,7 @@ class Purchase extends CI_Controller
                         'grand_Total_po' => $grand_total,
                     );
                 }
-            }
-        } else {
-            $data['pi'][0] = (object) array(
-                'no_Po' => $no_po,
-                        'task' => $jobdesc[0],
-                        'qty' => $volume[0],
-                        'unit' => $unit[0],
-                        'rate' => $price[0],
-                        'amount' => $cost[0],
-                        'grand_Total_po' => $grand_total,
-            );
-        }
+        
 
         // echo '<pre>';
         // print_r($data);

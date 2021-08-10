@@ -18,11 +18,29 @@
             height: 75px;
             width: 200px;
         }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            text-align: left;
+            color: black;
+            width: 1000;
+        }
+
+        .header {
+            position: absolute;
+            top: 35.53px;
+            text-align: left;
+            padding: 10px;
+            color: black;
+        }
     </style>
+
 </head>
 <?php foreach ($quotation as $qu) { ?>
-    <h1 align='center' style="background-color:lightgreen">Quitation <?php echo $qu->project_Name; ?> Project</h1>
-    <h2 align='left' style="background-color:Pink">Cost for <?php echo $qu->project_Name; ?> Project</h2>
+    <header><?php echo $qu->header; ?></header>
+    <h1 align='center' style="background-color:lightgreen">Quotation For <?php echo $qu->project_Name; ?></h1>
+    <h2 align='left' style="background-color:Pink">Cost for <?php echo $qu->project_Name; ?></h2>
 <?php } ?>
 
 <body>
@@ -34,13 +52,13 @@
             <td class="bold">Volume</td>
             <td class="bold">Unit</td>
             <td class="bold">Price/Unit</td>
-            <td class="bold"><?php if($qu->currency=='IDR'){
-               echo 'Cost in IDR';
-            } else if($qu->currency=='USD'){
-                echo 'Cost in USD';
-            } else if($qu->currency=='EUR'){
-                echo 'Cost in EUR';
-            } ?></td>
+            <td class="bold"><?php if ($qu->currency == 'IDR') {
+                                    echo 'Cost in IDR';
+                                } else if ($qu->currency == 'USD') {
+                                    echo 'Cost in USD';
+                                } else if ($qu->currency == 'EUR') {
+                                    echo 'Cost in EUR';
+                                } ?></td>
 
         </tr>
         <?php foreach ($qi as $q) { ?>
@@ -49,20 +67,20 @@
                 <td><br></td>
                 <td><?php echo $q->volume; ?></td>
                 <td><?php echo $q->unit; ?> Package</td>
-                <td><?php if($qu->currency=='IDR'){
-                echo 'Rp. '.number_format($q->price,2,",",".");
-            } else if($qu->currency=='USD'){
-                echo '$ '.number_format($q->price,2,".",",");
-            } else if($qu->currency=='EUR'){
-                echo '€ '.number_format($q->price,2,".",",");
-            } ?></td>
-                <td><?php if($qu->currency=='IDR'){
-                echo 'Rp. '.number_format($q->cost,2,",",".");
-            } else if($qu->currency=='USD'){
-                echo '$ '.number_format($q->cost,2,".",",");
-            } else if($qu->currency=='EUR'){
-                echo '€ '.number_format($q->cost,2,".",",");
-            } ?></td>
+                <td><?php if ($qu->currency == 'IDR'&&$q->price!='') {
+                        echo 'Rp. ' . number_format($q->price, 2, ",", ".");
+                    } else if ($qu->currency == 'USD'&&$q->price!='') {
+                        echo '$ ' . number_format($q->price, 2, ".", ",");
+                    } else if ($qu->currency == 'EUR'&&$q->price!='') {
+                        echo '€ ' . number_format($q->price, 2, ".", ",");
+                    } ?></td>
+                <td><?php if ($qu->currency == 'IDR'&&$q->cost!='') {
+                        echo 'Rp. ' . number_format($q->cost, 2, ",", ".");
+                    } else if ($qu->currency == 'USD'&&$q->cost!='') {
+                        echo '$ ' . number_format($q->cost, 2, ".", ",");
+                    } else if ($qu->currency == 'EUR'&&$q->cost!='') {
+                        echo '€ ' . number_format($q->cost, 2, ".", ",");
+                    } ?></td>
             </tr>
         <?php } ?>
 
@@ -83,13 +101,13 @@
                 <td class="bold">Total Cost :</td>
                 <td></td>
                 <td></td>
-                <td class="bold"><?php if($qu->currency=='IDR'){
-               echo 'Rp. '.number_format($qu->total_Cost,2,",",".");
-            } else if($qu->currency=='USD'){
-                echo '$ '.number_format($qu->total_Cost,2,".",",");
-            } else if($qu->currency=='EUR'){
-                echo '€ '.number_format($qu->total_Cost,2,".",",");
-            } ?></td>
+                <td class="bold"><?php if ($qu->currency == 'IDR'&&$qu->total_Cost!='') {
+                                        echo 'Rp. ' . number_format($qu->total_Cost, 2, ",", ".");
+                                    } else if ($qu->currency == 'USD'&&$qu->total_Cost!='') {
+                                        echo '$ ' . number_format($qu->total_Cost, 2, ".", ",");
+                                    } else if ($qu->currency == 'EUR'&&$qu->total_Cost!='') {
+                                        echo '€ ' . number_format($qu->total_Cost, 2, ".", ",");
+                                    } ?></td>
             </tr>
         <?php } ?>
         <tr>
@@ -109,13 +127,13 @@
                 <td class="bold"></td>
                 <td></td>
                 <td></td>
-                <td class="bold"><?php if($qu->currency=='IDR'){
-               echo 'Rp. '.number_format($qu->grand_Total,2,",",".");
-            } else if($qu->currency=='USD'){
-                echo '$ '.number_format($qu->grand_Total,2,".",",");
-            } else if($qu->currency=='EUR'){
-                echo '€ '.number_format($qu->grand_Total,2,".",",");
-            } ?></td>
+                <td class="bold"><?php if ($qu->currency == 'IDR'&&$qu->grand_Total!='') {
+                                        echo 'Rp. ' . number_format($qu->grand_Total, 2, ",", ".");
+                                    } else if ($qu->currency == 'USD'&&$qu->grand_Total!='') {
+                                        echo '$ ' . number_format($qu->grand_Total, 2, ".", ",");
+                                    } else if ($qu->currency == 'EUR'&&$qu->grand_Total!='') {
+                                        echo '€ ' . number_format($qu->grand_Total, 2, ".", ",");
+                                    } ?></td>
             </tr>
         <?php } ?>
         <tr>
@@ -174,8 +192,11 @@
             </tr>
         <?php } ?>
     </table>
+    <p>Note : <?php echo $qu->public_Notes; ?> </p>
+    <footer>
+        <?php echo $qu->footer; ?>
+    </footer>
 </body>
-
 <script type="text/javascript">
     window.print();
 </script>

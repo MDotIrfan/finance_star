@@ -8,7 +8,7 @@ jum_table=0;
     if(ids!=''){
         $.ajax({
             type: 'ajax',
-            url: `http://localhost/finance/freelance/tampilkanData/`+ids,
+            url: base_url(`freelance/tampilkanData/`)+ids,
             async: false,
             dataType: 'json',
             success: function (data) {
@@ -18,6 +18,15 @@ jum_table=0;
                     addRow(btoa(JSON.stringify(data.po[i]))); 
                     $('#curr_awal').val(data.po[0].currency_po);
                     $('#company').val(data.po[0].company);
+                    if(data.po[0].resource_Status=='Freelance'){
+                        jenis='ftn';
+                    } else if(data.po[0].resource_Status=='Tenaga Ahli'){
+                        jenis='tatn';
+                    } else if(data.po[0].resource_Status=='Vendor'){
+                        jenis='vendor';
+                    }
+                    console.log(jenis);
+                    $('#tax-tipe').val(jenis);
                     // $('#ps').val(data.po[0].nama_Pm);
                     // $('#email').val(data.po[0].email_pm);
                     if(data.po[0].currency_po=='IDR'){
@@ -27,6 +36,7 @@ jum_table=0;
                     } else if (data.po[0].currency_po=='EUR'){
                         document.getElementById("curr").innerHTML = 'Amount EUR';
                     }
+                    tampil()
                 }
             
     } });
@@ -38,6 +48,7 @@ jum_table=0;
         document.getElementById("curr").innerHTML = 'Amount IDR';
         $('#curr_awal').val('IDR');
         $('#company').val('');
+        tampil()
         // $('#ps').val('');
         // $('#email').val('');
     }   
@@ -55,7 +66,7 @@ jum_table=0;
         if(tipe=='1'||tipe=='3'||tipe=='5'){
             $.ajax({
                 type: 'ajax',
-                url: `http://localhost/finance/finance/tampilkanData/`+ids,
+                url: base_url(`finance/tampilkanData/`)+ids,
                 async: false,
                 dataType: 'json',
                 success: function (data) {
@@ -83,7 +94,7 @@ jum_table=0;
         } else {
             $.ajax({
                 type: 'ajax',
-                url: `http://localhost/finance/finance/tampilkanDataitem/`+ids,
+                url: base_url(`finance/tampilkanDataitem/`)+ids,
                 async: false,
                 dataType: 'json',
                 success: function (data) {
@@ -123,7 +134,7 @@ jum_table=0;
         if(tipe=='1'||tipe=='3'||tipe=='5'){
             $.ajax({
                 type: 'ajax',
-                url: `http://localhost/finance/finance/tampilkanData/`+ids,
+                url: base_url(`finance/tampilkanData/`)+ids,
                 async: false,
                 dataType: 'json',
                 success: function (data) {
@@ -160,7 +171,7 @@ jum_table=0;
         } else {
             $.ajax({
                 type: 'ajax',
-                url: `http://localhost/finance/finance/tampilkanDataitem/`+ids,
+                url: base_url(`finance/tampilkanDataitem/`)+ids,
                 async: false,
                 dataType: 'json',
                 success: function (data) {
@@ -229,7 +240,7 @@ cost = [];
     if(ids=='1'||ids=='3'||ids=='5'){
         $.ajax({
             type: 'ajax',
-            url: `http://localhost/finance/finance/tampilkanDataPoWord/`,
+            url: base_url(`finance/tampilkanDataPoWord/`),
             async: false,
             dataType: 'json',
             success: function (data) {
@@ -241,7 +252,7 @@ cost = [];
     } });
     } else {$.ajax({
         type: 'ajax',
-        url: `http://localhost/finance/finance/tampilkanDataPoItem/`,
+        url: base_url(`finance/tampilkanDataPoItem/`),
         async: false,
         dataType: 'json',
         success: function (data) {
@@ -288,80 +299,81 @@ function change_table(ids=null){
 }
 
 $("#curr").on('change', function (el) {
-    tujuan = $('#curr').val();
-    console.log(tujuan);
-    if (from_currencyEl == 'IDR' && tujuan == 'USD') {
-      from_currencyEl = 'IDR'
-      to_currencyEl = 'USD'
-      calculate();
-      from_currencyEl = 'USD'
-      $('#curr_awal').val(from_currencyEl);
-    }
-    if (from_currencyEl == 'IDR' && tujuan == 'EUR') {
-      from_currencyEl = 'IDR'
-      to_currencyEl = 'EUR'
-      calculate();
-      from_currencyEl = 'EUR'
-      $('#curr_awal').val(from_currencyEl);
-    }
-    if (from_currencyEl == 'USD' && tujuan == 'IDR') {
-      from_currencyEl = 'USD'
-      to_currencyEl = 'IDR'
-      calculate();
-      from_currencyEl = 'IDR'
-      $('#curr_awal').val(from_currencyEl);
-    }
-    if (from_currencyEl == 'EUR' && tujuan == 'IDR') {
-      from_currencyEl = 'EUR'
-      to_currencyEl = 'IDR'
-      calculate();
-      from_currencyEl = 'IDR'
-      $('#curr_awal').val(from_currencyEl);
-    }
-    if (from_currencyEl == 'USD' && tujuan == 'EUR') {
-      from_currencyEl = 'USD'
-      to_currencyEl = 'EUR'
-      calculate();
-      from_currencyEl = 'EUR'
-      $('#curr_awal').val(from_currencyEl);
-    }
-    if (from_currencyEl == 'EUR' && tujuan == 'USD') {
-      from_currencyEl = 'EUR'
-      to_currencyEl = 'USD'
-      calculate();
-      from_currencyEl = 'USD'
-      $('#curr_awal').val(from_currencyEl);
-    }
+    tampil();
+    // tujuan = $('#curr').val();
+    // console.log(tujuan);
+    // if (from_currencyEl == 'IDR' && tujuan == 'USD') {
+    //   from_currencyEl = 'IDR'
+    //   to_currencyEl = 'USD'
+    //   calculate();
+    //   from_currencyEl = 'USD'
+    //   $('#curr_awal').val(from_currencyEl);
+    // }
+    // if (from_currencyEl == 'IDR' && tujuan == 'EUR') {
+    //   from_currencyEl = 'IDR'
+    //   to_currencyEl = 'EUR'
+    //   calculate();
+    //   from_currencyEl = 'EUR'
+    //   $('#curr_awal').val(from_currencyEl);
+    // }
+    // if (from_currencyEl == 'USD' && tujuan == 'IDR') {
+    //   from_currencyEl = 'USD'
+    //   to_currencyEl = 'IDR'
+    //   calculate();
+    //   from_currencyEl = 'IDR'
+    //   $('#curr_awal').val(from_currencyEl);
+    // }
+    // if (from_currencyEl == 'EUR' && tujuan == 'IDR') {
+    //   from_currencyEl = 'EUR'
+    //   to_currencyEl = 'IDR'
+    //   calculate();
+    //   from_currencyEl = 'IDR'
+    //   $('#curr_awal').val(from_currencyEl);
+    // }
+    // if (from_currencyEl == 'USD' && tujuan == 'EUR') {
+    //   from_currencyEl = 'USD'
+    //   to_currencyEl = 'EUR'
+    //   calculate();
+    //   from_currencyEl = 'EUR'
+    //   $('#curr_awal').val(from_currencyEl);
+    // }
+    // if (from_currencyEl == 'EUR' && tujuan == 'USD') {
+    //   from_currencyEl = 'EUR'
+    //   to_currencyEl = 'USD'
+    //   calculate();
+    //   from_currencyEl = 'USD'
+    //   $('#curr_awal').val(from_currencyEl);
+    // }
   });
   
-  function calculate() {
-    var awal = [];
-    var akhir = [];
-    for (let i = 0; i < index; i++) {
-      awal[i] = $(".price" + i).val();
-    }
-    console.log(awal);
-    const from_currency = from_currencyEl;
-    const to_currency = to_currencyEl;
+//   function calculate() {
+//     var awal = [];
+//     var akhir = [];
+//     for (let i = 0; i < index; i++) {
+//       awal[i] = $(".price" + i).val();
+//     }
+//     console.log(awal);
+//     const from_currency = from_currencyEl;
+//     const to_currency = to_currencyEl;
   
-    console.log(from_currency);
-    console.log(to_currency);
+//     console.log(from_currency);
+//     console.log(to_currency);
   
-    fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
-      .then(res => res.json())
-      .then(res => {
-        const rate = res.rates[to_currency];
-        for (let i = 0; i < index; i++) {
-          akhir[i] = (awal[i] * rate).toFixed(2);
-          if (isNaN(akhir[i])) {
-            $(".price" + i).val(0);
-          } else {
-            $(".price" + i).val(akhir[i]);
-          }
-          cost[i] = akhir[i]
-          tampil();
-          hitung(i);
-        }
-        console.log(akhir);
-      })
-  }
+//     fetch(`https://api.exchangerate-api.com/v4/latest/${from_currency}`)
+//       .then(res => res.json())
+//       .then(res => {
+//         const rate = res.rates[to_currency];
+//         for (let i = 0; i < index; i++) {
+//           akhir[i] = (awal[i] * rate).toFixed(2);
+//           if (isNaN(akhir[i])) {
+//             $(".price" + i).val(0);
+//           } else {
+//             $(".price" + i).val(akhir[i]);
+//           }
+//           cost[i] = akhir[i]
+//           tampil();
+//           hitung(i);
+//         }
+//         console.log(akhir);
+//       })
+//   }
