@@ -50,35 +50,37 @@
 
          <div class=" justify-content-start" style="font-size: 18px; color:#939393;margin-left: 30px;margin-right: 30px;">
              <div class="row">
-                 <div class="col">
-                     <label for="dd">District</label>
-                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="district" name="district">
-                         <option selected>- Choose District -</option>
+                <div class="col">
+                     <label for="dd">Province</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="province" name="province">
+                         <option selected>- Choose Province -</option>
                          <?php foreach ($province as $province) : ?>
                             <option value="<?php echo $province->prov_name; ?>"> <?php echo $province->prov_name; ?></option>
                         <?php endforeach; ?>
                      </select>
                  </div>
-                 <div class=" col">
-                     <label for="dd">Subdistrict</label>
-                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="subdistrict" name="subdistrict">
-                         <option selected>- Choose Subistrict -</option>
+                 <div class="col">
+                     <label for="dd">District</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="district" name="district">
+                         <option selected>- Choose District -</option>
                      </select>
                  </div>
              </div>
          </div>
          <div class=" justify-content-start" style="font-size: 18px; color:#939393;margin-left: 30px;margin-right: 30px;">
              <div class="row">
+             <div class=" col">
+                     <label for="dd">Subdistrict</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="subdistrict" name="subdistrict">
+                         <option selected>- Choose Subistrict -</option>
+                     </select>
+                 </div>
                  <div class="col">
                      <label for="dd">Postal Code</label>
                      <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="postal_code" name="postal_code">
                          <option selected>- Choose Postalcode -</option>
 
                      </select>
-                 </div>
-                 <div class="col">
-                     <label for="dd" hidden>Subdistrict</label>
-
                  </div>
              </div>
          </div>

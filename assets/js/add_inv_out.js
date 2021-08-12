@@ -77,7 +77,7 @@ function addTable_local(jsonData = null) {
                       <th id='unit-text'>Unit Price IDR</th>
                       <th>
                             <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
-                            <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
+                            <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" style="color:#000000;" onchange="tampil()">
                               <option value='IDR'>Amount IDR</option>
                               <option value='USD'>Amount USD</option>
                               <option value='EUR'>Amount EURO</option>
@@ -143,7 +143,7 @@ function addTable_luar(jsonData = null) {
                           <th>Unit Price / Word</th>
                           <th>
                           <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
-                              <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                              <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" onchange="tampil()">
                                   <option value='IDR'>Amount IDR</option>
                                   <option value='USD'>Amount US</option>
                                   <option value='EUR'>Amount EURO</option>
@@ -200,7 +200,7 @@ function addTable_spq(jsonData = null) {
                             <th>Unit Price IDR</th>
                             <th>
                             <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
-                                <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                                <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" onchange="tampil()">
                                     <option value='IDR'>Amount IDR</option>
                                     <option value='USD'>Amount US</option>
                                     <option value='EUR'>Amount EURO</option>
@@ -255,7 +255,7 @@ function addTable_luar2(jsonData = null) {
                       <th>Number Line</th>
                       <th>
                       <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
-                          <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                          <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" onchange="tampil()">
                               <option value='IDR'>Amount IDR</option>
                               <option value='USD'>Amount US</option>
                               <option value='EUR'>Amount EURO</option>
@@ -318,7 +318,7 @@ function addTable_spq2(jsonData = null) {
                       <th>Date of Delivery</th>
                       <th>
                       <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="IDR">
-                          <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold">
+                          <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" onchange="tampil2()">
                               <option value='IDR'>Amount IDR</option>
                               <option value='USD'>Amount US</option>
                               <option value='EUR'>Amount EURO</option>
@@ -391,7 +391,7 @@ function tampil() {
 
 function tampil2() {
     var kurensi = $('#curr').val()
-    total = tambah(cost);
+    total = tambah(price);
      if(kurensi=='IDR'){
         document.getElementById("total-text").innerHTML = 'Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       } else if (kurensi=='USD'){

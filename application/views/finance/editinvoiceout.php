@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="noquitation">No. Purchase Order</label>
-                        <input type="" style="color:black;background: #E2EFFC;border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" id="nopo" name="nopo" aria-describedby="" placeholder="" value="<?= $po->no_Po; ?>" readonly>
+                        <input type="" style="color:black;background: #E2EFFC;border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" id="nopo_2" name="nopo" aria-describedby="" placeholder="" value="<?= $po->no_Po; ?>" readonly>
                     </div>
                     <div class="col">
                         <label for="Pm">Address</label>
@@ -187,6 +187,9 @@
 
                 </div>
             </div>
+            <script>
+                var currency = '<?= $po->currency_inv ?>';
+            </script>
             <div class="" style="border-radius: 10px; color:#000000;">
                 <div>
                     <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;" id="dinamisTable">
@@ -197,27 +200,27 @@
             </div>
             <div class=" " style="border-radius: 10px;color:#222B45;">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <table class="table table-bordered shadow" style="border-radius: 10px;background-color: #FFFFFF;font-size: 16px; color:#222B45;font-weight: normal;">
                             <thead>
                                 <tr>
                                     <th>Public Notes</th>
-                                    <!-- <th>Terms</th>
+                                    <!-- <th>Terms</th> -->
                                     <th>Signature</th>
-                                    <th>Footer</th> -->
+                                    <!-- <th>Footer</th> -->
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="public_notes"></textarea></td>
-                                    <!-- <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td>
-                                    <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="footer"></textarea></td>
-                                    <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td> -->
+                                    <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="public_notes"><?= $po->public_notes; ?></textarea></td>
+                                    <!-- <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="regards"></textarea></td> -->
+                                    <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="signature"><?= $po->signature; ?></textarea></td>
+                                    <!-- <td><textarea class="form-control form-control-user" style="border-color: #FFFFFF;color:black;" name="address_resource"></textarea></td> -->
                                 </tr>
 
 
                         </table>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
                         
                     </div>
                     <div class="col-lg-4" style="color:#222B45;font: size 16px;">

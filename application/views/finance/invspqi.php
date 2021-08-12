@@ -128,36 +128,37 @@
             <td style="text-align:center;" width="5%"><?= $i."." ?></td>
             <td width="35%" style="text-align:center;"><?= $pi->pre_invoice ?></td>
             <td width="30%" style="text-align:center;"><?= $pi->date_deliv ?></td>
-            <td width="30%" style="text-align:center;"><?php if($po->currency_inv=='IDR'){
+            <td width="30%" style="text-align:center;"><?php if($po->currency_inv=='IDR'&&$pi->amount!=''){
                echo number_format($pi->amount,2,",",".");
-            } else if($po->currency_inv=='USD'){
+            } else if($po->currency_inv=='USD'&&$pi->amount!=''){
                 echo number_format($pi->amount,2,".",",");
-            } else if($po->currency_inv=='EUR'){
+            } else if($po->currency_inv=='EUR'&&$pi->amount!=''){
                 echo number_format($pi->amount,2,".",",");
             } ?></td>
         </tr>
         <?php $i++;} ?>
         <tr class="bold">
             <td style="text-align:center;" colspan="3">Total</td>
-            <td width="35%" style="text-align:center;" colspan="1"><?php if($po->currency_inv=='IDR'){
+            <td width="35%" style="text-align:center;" colspan="1"><?php if($po->currency_inv=='IDR'&&$po->grand_total!=''){
                 echo number_format($po->grand_total,2,",",".");
-            } else if($po->currency_inv=='USD'){
+            } else if($po->currency_inv=='USD'&&$po->grand_total!=''){
                 echo number_format($po->grand_total,2,".",",");
-            } else if($po->currency_inv=='EUR'){
+            } else if($po->currency_inv=='EUR'&&$po->grand_total!=''){
                 echo number_format($po->grand_total,2,".",",");
             } ?></td>
         </tr>
     </table>
+    <div style="width: 50%">Note : <?php echo $po->public_notes; ?></div>
     <br>
     <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
         <tr>
             <td>
                 <p class="">
-                    Net sum: <?php if($po->currency_inv=='IDR'){
+                    Net sum: <?php if($po->currency_inv=='IDR'&&$po->grand_total!=''){
                 echo 'IDR '.number_format($po->grand_total,2,",",".");
-            } else if($po->currency_inv=='USD'){
+            } else if($po->currency_inv=='USD'&&$po->grand_total!=''){
                 echo 'USD '.number_format($po->grand_total,2,".",",");
-            } else if($po->currency_inv=='EUR'){
+            } else if($po->currency_inv=='EUR'&&$po->grand_total!=''){
                 echo 'EUR '.number_format($po->grand_total,2,".",",");
             } ?><br>
                     VAT: 0
@@ -170,11 +171,11 @@
         <tr>
             <td width="40%">
                 <p>
-                    <b>Total sum: <?php if($po->currency_inv=='IDR'){
+                    <b>Total sum: <?php if($po->currency_inv=='IDR'&&$po->grand_total!=''){
                 echo 'IDR '.number_format($po->grand_total,2,",",".");
-            } else if($po->currency_inv=='USD'){
+            } else if($po->currency_inv=='USD'&&$po->grand_total!=''){
                 echo 'USD '.number_format($po->grand_total,2,".",",");
-            } else if($po->currency_inv=='EUR'){
+            } else if($po->currency_inv=='EUR'&&$po->grand_total!=''){
                 echo 'EUR '.number_format($po->grand_total,2,".",",");
             } ?></b> <br>
 

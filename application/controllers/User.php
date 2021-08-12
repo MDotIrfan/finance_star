@@ -76,7 +76,7 @@ class User extends CI_Controller
             $row[] = $field->lastname;
             $row[] = $field->email;
             $row[] = $field->wa;
-            $row[] = $field->address;
+            $row[] = $field->district;
             $row[] = $field->npwp;
             $row[] = $field->rekening;
             $row[] = '<a href="' . base_url('user/edit_client/' . $field->id) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
@@ -105,7 +105,7 @@ class User extends CI_Controller
             $row[] = $field->company;
             $row[] = $field->email;
             $row[] = $field->wa;
-            $row[] = $field->address;
+            $row[] = $field->district;
             $row[] = $field->npwp;
             $row[] = $field->rekening;
             $row[] = '<a href="' . base_url('user/edit_resource/' . $field->id) . '"><button type="button" class="btn" style="color:blue"><i class="fa fa-edit" aria-hidden="true"></i></button></a>
@@ -235,6 +235,12 @@ class User extends CI_Controller
         $data = $this->m_user->get_city($url)->result();
         echo json_encode($data);
     }
+    public function tampilkanDataSubDis($id)
+    {
+        $url = urldecode($id);
+        $data = $this->m_user->get_district($url)->result();
+        echo json_encode($data);
+    }
     public function tampilkanDataPostal($id)
     {
         $url = urldecode($id);
@@ -333,6 +339,7 @@ class User extends CI_Controller
         $address = $this->input->post('address');
         $npwp = $this->input->post('npwp');
         $rekening = $this->input->post('rekening');
+        $province = $this->input->post('province');
         $district = $this->input->post('district');
         $subdistrict = $this->input->post('subdistrict');
         $postal_code = $this->input->post('postal_code');
@@ -347,6 +354,7 @@ class User extends CI_Controller
             'npwp' => $npwp,
             'rekening' => $rekening,
             'district' => $district,
+            'province' => $province,
             'subdistrict' => $subdistrict,
             'postal_code' => $postal_code,
         );
@@ -363,6 +371,7 @@ class User extends CI_Controller
         $address = $this->input->post('address');
         $npwp = $this->input->post('npwp');
         $rekening = $this->input->post('rekening');
+        $province = $this->input->post('province');
         $district = $this->input->post('district');
         $subdistrict = $this->input->post('subdistrict');
         $postal_code = $this->input->post('postal_code');
@@ -376,6 +385,7 @@ class User extends CI_Controller
             'address' => $address,
             'npwp' => $npwp,
             'rekening' => $rekening,
+            'province' => $province,
             'district' => $district,
             'subdistrict' => $subdistrict,
             'postal_code' => $postal_code,
@@ -458,7 +468,7 @@ class User extends CI_Controller
         $this->load->view('templates/sidebar');
         $this->load->view('user/edit_client', $data);
         $this->load->view('templates/footer', [
-            'load' => ['data_freelance.js']
+            'load' => ['edit_data_fl.js']
         ]);
     }
     public function edit_resource($id)
@@ -470,7 +480,7 @@ class User extends CI_Controller
         $this->load->view('templates/sidebar');
         $this->load->view('user/edit_resource', $data);
         $this->load->view('templates/footer', [
-            'load' => ['data_freelance.js']
+            'load' => ['edit_data_fl.js']
         ]);
     }
 
@@ -592,6 +602,7 @@ class User extends CI_Controller
         $address = $this->input->post('address');
         $npwp = $this->input->post('npwp');
         $rekening = $this->input->post('rekening');
+        $province = $this->input->post('province');
         $district = $this->input->post('district');
         $subdistrict = $this->input->post('subdistrict');
         $postal_code = $this->input->post('postal_code');
@@ -606,6 +617,7 @@ class User extends CI_Controller
             'address' => $address,
             'npwp' => $npwp,
             'rekening' => $rekening,
+            'province' => $province,
             'district' => $district,
             'subdistrict' => $subdistrict,
             'postal_code' => $postal_code
@@ -628,6 +640,7 @@ class User extends CI_Controller
         $address = $this->input->post('address');
         $npwp = $this->input->post('npwp');
         $rekening = $this->input->post('rekening');
+        $province = $this->input->post('province');
         $district = $this->input->post('district');
         $subdistrict = $this->input->post('subdistrict');
         $postal_code = $this->input->post('postal_code');
@@ -641,6 +654,7 @@ class User extends CI_Controller
             'address' => $address,
             'npwp' => $npwp,
             'rekening' => $rekening,
+            'province' => $province,
             'district' => $district,
             'subdistrict' => $subdistrict,
             'postal_code' => $postal_code,

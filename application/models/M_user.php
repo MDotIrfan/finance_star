@@ -305,6 +305,7 @@ class M_user extends CI_Model
     function get_prov(){
         $this->db->select('prov_id, prov_name');
         $this->db->from('ec_provinces');
+        $this->db->order_by('prov_name', 'ASC');
         return $query = $this->db->get();
     }
     function get_city($prov_id){
@@ -312,13 +313,24 @@ class M_user extends CI_Model
         $this->db->from('ec_cities c');
         $this->db->join('ec_provinces p', 'c.prov_id=p.prov_id');
         $this->db->where('p.prov_name', $prov_id);
+        $this->db->order_by('city_name', 'ASC');
+        return $query = $this->db->get();
+    }
+    function get_district($prov_id){
+        $this->db->select('dis_name, c.city_id, dis_id');
+        $this->db->from('ec_districts d');
+        $this->db->join('ec_cities c', 'c.city_id=d.city_id');
+        $this->db->where('c.city_name', $prov_id);
+        $this->db->order_by('dis_name', 'ASC');
         return $query = $this->db->get();
     }
     function get_postal($prov_id){
-        $this->db->select('postal_code, postal_id, c.city_id');
+        $this->db->select('postal_code, postal_id, d.dis_id');
         $this->db->from('ec_postalcode p');
-        $this->db->join('ec_cities c', 'c.city_id=p.city_id');
-        $this->db->where('c.city_name', $prov_id);
+        $this->db->join('ec_districts d', 'd.dis_id=p.dis_id');
+        $this->db->where('d.dis_name', $prov_id);
+        $this->db->order_by('postal_code', 'ASC');
+        $this->db->group_by('postal_code');
         return $query = $this->db->get();
     }
     function input_data($data, $table)
