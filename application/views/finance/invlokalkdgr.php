@@ -76,14 +76,12 @@
             <tr>
                 <td>
                     <?php foreach ($inv as $po) { ?>
-                        <a class="bold">
-                            Citylofts Sudirman, Unit 1512<br>
-                            Jl. K.H. Mas Mansyur No.121<br>
-                            Jakarta 10220,<br>
-                            Indonesia
-                        </a>
+                        <div style="width: 50%"><a class="bold">
+                            <?= $po->address; ?><br>
+                        </a></div>
+                        <br>
                         <a>
-                            Attn.: Mr. Afrizal Lisdianta<br><br>
+                            Attn.: <?= $po->client_name; ?><br><br>
                         </a>
                 </td>
                 <td></td>
@@ -143,20 +141,20 @@
                         <?= $pi->volume ?>
                     </td>
                     <td width="20%" style="text-align:center;">
-                        <?php if ($po->currency_inv == 'IDR') {
+                        <?php if ($po->currency_inv == 'IDR'&&$pi->price!='') {
                                 echo number_format($pi->price, 2, ",", ".");
-                            } else if ($po->currency_inv == 'USD') {
+                            } else if ($po->currency_inv == 'USD'&&$pi->price!='') {
                                 echo number_format($pi->price, 2, ".", ",");
-                            } else if ($po->currency_inv == 'EUR') {
+                            } else if ($po->currency_inv == 'EUR'&&$pi->price!='') {
                                 echo number_format($pi->price, 2, ".", ",");
                             } ?>
                     </td>
                     <td width="27%" style="text-align:center;">
-                        <?php if ($po->currency_inv == 'IDR') {
+                        <?php if ($po->currency_inv == 'IDR'&&$pi->amount!='') {
                                 echo number_format($pi->amount, 2, ",", ".");
-                            } else if ($po->currency_inv == 'USD') {
+                            } else if ($po->currency_inv == 'USD'&&$pi->amount!='') {
                                 echo number_format($pi->amount, 2, ".", ",");
-                            } else if ($po->currency_inv == 'EUR') {
+                            } else if ($po->currency_inv == 'EUR'&&$pi->amount!='') {
                                 echo number_format($pi->amount, 2, ".", ",");
                             } ?>
                     </td>
@@ -167,11 +165,11 @@
                     <td width="30%" style="text-align:center;" colspan="2">Total</td>
                     <td width="20%" style="text-align:center;" colspan="2">Please Pay</td>
                     <td width="27%" style="text-align:center;">
-                        <?php if ($po->currency_inv == 'IDR') {
+                        <?php if ($po->currency_inv == 'IDR'&&$po->grand_total!='') {
                             echo 'Rp ' . number_format($po->grand_total, 2, ",", ".");
-                        } else if ($po->currency_inv == 'USD') {
+                        } else if ($po->currency_inv == 'USD'&&$po->grand_total!='') {
                             echo '$ ' . number_format($po->grand_total, 2, ".", ",");
-                        } else if ($po->currency_inv == 'EUR') {
+                        } else if ($po->currency_inv == 'EUR'&&$po->grand_total!='') {
                             echo '€ ' . number_format($po->grand_total, 2, ".", ",");
                         } ?>
                     </td>
@@ -179,6 +177,7 @@
             <?php } ?>
         </table>
     </div>
+    <div style="width: 50%">Note : <?php echo $po->public_notes; ?></div>
     <br>
     <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
         <tr>
@@ -256,9 +255,7 @@
                 <td style="text-align:center;" class="bold" width="20%"></td>
                 <td width="20%" style="text-align:center;" class="bold"></td>
                 <td style="text-align:center;" class="bold" width="20%"></td>
-                <?php foreach ($user as $u) { ?>
-                    <td style="text-align:center;" width="40%"> Cycas Rifky Yolanda Kurniawan</td>
-                <?php } ?>
+                <td style="text-align:center;" width="40%"><?php echo $po->signature; ?></td>
             </tr>
 
 

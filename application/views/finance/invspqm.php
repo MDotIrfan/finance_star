@@ -100,18 +100,18 @@
                 <td style="text-align:center;height:60px" width="5%"><?= $i . "." ?></td>
                 <td width="35%" style="text-align:center;"><?= $pi->jobdesc ?></td>
                 <td width="15%" style="text-align:center;"><?= $pi->qtt_word ?></td>
-                <td width="15%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                <td width="15%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR'&&$pi->price!='') {
                                                                 echo number_format($pi->price, 2, ",", ".");
-                                                            } else if ($po->currency_inv == 'USD') {
+                                                            } else if ($po->currency_inv == 'USD'&&$pi->price!='') {
                                                                 echo number_format($pi->price, 2, ".", ",");
-                                                            } else if ($po->currency_inv == 'EUR') {
+                                                            } else if ($po->currency_inv == 'EUR'&&$pi->price!='') {
                                                                 echo number_format($pi->price, 2, ".", ",");
                                                             } ?></td>
-                <td width="20%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                <td width="20%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR'&&$pi->amount!='') {
                                                                 echo number_format($pi->amount, 2, ",", ".");
-                                                            } else if ($po->currency_inv == 'USD') {
+                                                            } else if ($po->currency_inv == 'USD'&&$pi->amount!='') {
                                                                 echo number_format($pi->amount, 2, ".", ",");
-                                                            } else if ($po->currency_inv == 'EUR') {
+                                                            } else if ($po->currency_inv == 'EUR'&&$pi->amount!='') {
                                                                 echo number_format($pi->amount, 2, ".", ",");
                                                             } ?></td>
             </tr>
@@ -120,15 +120,16 @@
         <tr class="bold">
             <td style="text-align:center;" colspan="2">Grand Total</td>
             <td width="35%" style="text-align:center;" colspan="2">Please Pay</td>
-            <td style="text-align:center;" colspan="1"> <?php if ($po->currency_inv == 'IDR') {
+            <td style="text-align:center;" colspan="1"> <?php if ($po->currency_inv == 'IDR'&&$po->grand_total!='') {
                                                             echo number_format($po->grand_total, 2, ",", ".");
-                                                        } else if ($po->currency_inv == 'USD') {
+                                                        } else if ($po->currency_inv == 'USD'&&$po->grand_total!='') {
                                                             echo number_format($po->grand_total, 2, ".", ",");
-                                                        } else if ($po->currency_inv == 'EUR') {
+                                                        } else if ($po->currency_inv == 'EUR'&&$po->grand_total!='') {
                                                             echo number_format($po->grand_total, 2, ".", ",");
                                                         } ?></td>
         </tr>
     </table>
+    <div style="width: 50%">Note : <?php echo $po->public_notes; ?></div>
     <br>
     <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
         <tr>
@@ -170,7 +171,7 @@
                     <br>
                     <br><br>
                     <br><br>
-                    Afian Mangoendihardjo
+                    <?php echo $po->signature; ?>
                 </p>
             </td>
         </tr>

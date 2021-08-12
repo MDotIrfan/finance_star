@@ -1,8 +1,9 @@
 $(document).ready(function() {
-    dinamisOption1 = $('#subdistrict');
-dinamisOption2 = $('#postal_code');
+    dinamisOption1 = $('#district');
+dinamisOption2 = $('#subdistrict');
+dinamisOption3 = $('#postal_code');
 
-$("#district").on('change', function(el) {
+$("#province").on('change', function(el) {
     let ids = $(el.target).val();
     console.log(ids);
     dinamisOption1.html('');
@@ -20,13 +21,13 @@ $("#district").on('change', function(el) {
     } });
 });
 
-$("#subdistrict").on('change', function(el) {
+$("#district").on('change', function(el) {
     let ids = $(el.target).val();
     console.log(ids);
     dinamisOption2.html('');
     $.ajax({
         type: 'ajax',
-        url: base_url(`user/tampilkanDataPostal/`)+ids,
+        url: base_url(`user/tampilkanDataSubDis/`)+ids,
         async: false,
         dataType: 'json',
         success: function (data) {
@@ -38,13 +39,31 @@ $("#subdistrict").on('change', function(el) {
     } });
 });
 
+$("#subdistrict").on('change', function(el) {
+    let ids = $(el.target).val();
+    console.log(ids);
+    dinamisOption3.html('');
+    $.ajax({
+        type: 'ajax',
+        url: base_url(`user/tampilkanDataPostal/`)+ids,
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            addoption3();
+            for(i=0; i<data.length; i++){
+                console.log(data[i]);
+                addoption3(btoa(JSON.stringify(data[i])));}
+        
+    } });
+});
+
 function addoption (jsonData=null) {
     console.log(jsonData);
     if(jsonData) jsonData = JSON.parse(atob(jsonData));
     else jsonData = {};
   
   let opt = `
-  <option value="${jsonData?.city_name ? jsonData.city_name : ''}">${jsonData?.city_name ? jsonData.city_name : '- Choose Subdistrict -'}</option>
+  <option value="${jsonData?.city_name ? jsonData.city_name : ''}">${jsonData?.city_name ? jsonData.city_name : '- Choose District -'}</option>
   `
 
   dinamisOption1.append(opt)
@@ -56,11 +75,24 @@ function addoption (jsonData=null) {
     else jsonData = {};
   
   let opt = `
-  <option value="${jsonData?.postal_code ? jsonData.postal_code : ''}">${jsonData?.postal_code ? jsonData.postal_code : '- Choose Postalcode -'}</option>
+  <option value="${jsonData?.dis_name ? jsonData.dis_name : ''}">${jsonData?.dis_name ? jsonData.dis_name : '- Choose Subdistrict -'}</option>
   `
 
   dinamisOption2.append(opt)
   }
+
+  function addoption3 (jsonData=null) {
+    console.log(jsonData);
+    if(jsonData) jsonData = JSON.parse(atob(jsonData));
+    else jsonData = {};
+  
+  let opt = `
+  <option value="${jsonData?.postal_code ? jsonData.postal_code : ''}">${jsonData?.postal_code ? jsonData.postal_code : '- Choose Postal Code -'}</option>
+  `
+
+  dinamisOption3.append(opt)
+  }
+  $("#province").change();
   $("#district").change();
   $("#subdistrict").change();
 });

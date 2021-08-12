@@ -51,52 +51,43 @@
 
              <div class=" justify-content-start" style="font-size: 18px; color:#939393;margin-left: 30px;margin-right: 30px;">
                  <div class="row">
-                     <div class="col">
-                         <label for="dd">District</label>
-                         <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="district" name="district">
-                         <?php foreach ($province as $p) {
-                                                $selected = ($p->prov_name == $fl->district) ? "selected" : "";
+                 <div class="col">
+                     <label for="dd">Province</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="province" name="province">
+                             <?php foreach ($province as $p) {
+                                                $selected = ($p->prov_name == $fl->province) ? "selected" : "";
                                                 echo '<option ' . $selected . ' value="' . $p->prov_name . '">' . $p->prov_name . '</option>';
                                             } ?>
                          </select>
                      </div>
-                     <div class=" col">
-                         <label for="dd">Subdistrict</label>
-                         <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="subdistrict" name="subdistrict">
-                             <option value="JATENG" <?php if ($fl->subdistrict == 'JATENG') {
-                                                        echo 'selected';
-                                                    } ?>>JATENG</option>
-                             <option value="JAKARTA" <?php if ($fl->subdistrict == 'JAKARTA') {
-                                                            echo 'selected';
-                                                        } ?>>JAKARTA</option>
-                             <option value="JABAR" <?php if ($fl->subdistrict == 'JABAR') {
-                                                        echo 'selected';
-                                                    } ?>>JABAR</option>
-                         </select>
-                     </div>
+                     <div class="col">
+                        <script>
+                            var city = '<?= $fl->district ?>';
+                            var district = '<?= $fl->subdistrict ?>';
+                            var postal_code = '<?= $fl->postal_code ?>';
+                        </script>
+                     <label for="dd">District</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="district" name="district">
+                         <option selected>- Choose District -</option>
+                     </select>
+                 </div>
                  </div>
              </div>
              <div class=" justify-content-start" style="font-size: 18px; color:#939393;margin-left: 30px;margin-right: 30px;">
                  <div class="row">
-                     <div class="col">
-                         <label for="dd">Postal Code</label>
-                         <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="postal_code" name="postal_code">
-                             <option value="552334" <?php if ($fl->postal_code == '552334') {
-                                                        echo 'selected';
-                                                    } ?>>552334</option>
-                             <option value="43545" <?php if ($fl->postal_code == '43545') {
-                                                        echo 'selected';
-                                                    } ?>>43545</option>
-                             <option value="32424" <?php if ($fl->postal_code == '32424') {
-                                                        echo 'selected';
-                                                    } ?>>32424</option>
+                 <div class=" col">
+                     <label for="dd">Subdistrict</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="subdistrict" name="subdistrict">
+                         <option selected>- Choose Subistrict -</option>
+                     </select>
+                 </div>
+                 <div class="col">
+                     <label for="dd">Postal Code</label>
+                     <select style="border: 1px solid #B4C9DE;box-sizing: border-box;border-radius: 7px;color:black;" class="form-control form-control-user" aria-label=".form-select-lg example" id="postal_code" name="postal_code">
+                         <option selected>- Choose Postalcode -</option>
 
-                         </select>
-                     </div>
-                     <div class="col">
-                         <label for="dd" hidden>Subdistrict</label>
-
-                     </div>
+                     </select>
+                 </div>
                  </div>
              </div>
              <div class="justify-content-start" style="font-size: 18px; color:#939393;margin-left: 30px;margin-right: 30px;">

@@ -315,10 +315,10 @@ class Finance extends CI_Controller
         $public_notes = $this->input->post('public_notes');
         // $terms = $this->input->post('regards');
         // $footer = $this->input->post('footer');
-        // $signature = $this->input->post('address_resource');
+        $signature = $this->input->post('signature');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
-        $currency = $this->input->post('curr_awal');
+        $currency = $this->input->post('curr');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -340,7 +340,7 @@ class Finance extends CI_Controller
             'public_notes' => $public_notes,
             // 'terms' => $terms,
             // 'footer' => $footer,
-            // 'signature' => $signature,
+            'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
@@ -544,10 +544,10 @@ class Finance extends CI_Controller
         $public_notes = $this->input->post('public_notes');
         // $terms = $this->input->post('regards');
         // $footer = $this->input->post('footer');
-        // $signature = $this->input->post('address_resource');
+        $signature = $this->input->post('signature');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
-        $currency = $this->input->post('curr_awal');
+        $currency = $this->input->post('curr');
         $jobdesc = $_POST['jobdesc'];
         $volume = $_POST['volume'];
         $unit = $_POST['unit'];
@@ -569,7 +569,7 @@ class Finance extends CI_Controller
             'public_notes' => $public_notes,
             // 'terms' => $terms,
             // 'footer' => $footer,
-            // 'signature' => $signature,
+            'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,
@@ -937,10 +937,10 @@ class Finance extends CI_Controller
         $public_notes = $this->input->post('public_notes');
         // $terms = $this->input->post('regards');
         // $footer = $this->input->post('footer');
-        // $signature = $this->input->post('address_resource');
+        $signature = $this->input->post('signature');
         $total_cost = $this->input->post('total');
         $grand_total = $this->input->post('grand');
-        $currency = $this->input->post('curr_awal');
+        $currency = $this->input->post('curr');
 
         $data['user'][0] = $this->session->userdata('user_logged');
 
@@ -958,7 +958,7 @@ class Finance extends CI_Controller
             'public_notes' => $public_notes,
             // 'terms' => $terms,
             // 'footer' => $footer,
-            // 'signature' => $signature,
+            'signature' => $signature,
             'total_cost' => $total_cost,
             'grand_total' => $grand_total,
             'tipe' => $tipe,

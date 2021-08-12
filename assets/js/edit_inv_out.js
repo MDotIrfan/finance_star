@@ -91,11 +91,11 @@ function addTable_local(jsonData = null) {
                       <th>Unit</th>
                       <th>Unit Price IDR</th>
                       <th>
-                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${jsonData?.currency_inv ? jsonData.currency_inv : 'IDR'}">
-                      <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
-                        <option value='IDR' ${jsonData?.currency_inv == 'IDR' ? 'Selected' : ''}>Amount IDR</option>
-                        <option value='USD' ${jsonData?.currency_inv == 'USD' ? 'Selected' : ''}>Amount USD</option>
-                        <option value='EUR' ${jsonData?.currency_inv == 'EUR' ? 'Selected' : ''}>Amount EURO</option>
+                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${currency}">
+                      <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" style="color:#000000;" onchange="tampil()">
+                        <option value='IDR' ${(currency == 'IDR') ? 'Selected' : ''}>Amount IDR</option>
+                        <option value='USD' ${(currency == 'USD') ? 'Selected' : ''}>Amount USD</option>
+                        <option value='EUR' ${(currency == 'EUR') ? 'Selected' : ''}>Amount EURO</option>
                         </select>
                       </th>
                   </tr>
@@ -157,11 +157,10 @@ function addTable_luar(jsonData = null) {
                           <th>Number Word / page</th>
                           <th>Unit Price / Word</th>
                           <th>
-                          <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${jsonData?.currency_inv ? jsonData.currency_inv : 'IDR'}">
-                      <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
-                        <option value='IDR' ${jsonData?.currency_inv == 'IDR' ? 'Selected' : ''}>Amount IDR</option>
-                        <option value='USD' ${jsonData?.currency_inv == 'USD' ? 'Selected' : ''}>Amount USD</option>
-                        <option value='EUR' ${jsonData?.currency_inv == 'EUR' ? 'Selected' : ''}>Amount EURO</option>
+                      <select id="curr" style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" style="color:#000000;" onchange="tampil()">
+                        <option value='IDR' ${(currency == 'IDR') ? 'Selected' : ''}>Amount IDR</option>
+                        <option value='USD' ${(currency== 'USD') ? 'Selected' : ''}>Amount USD</option>
+                        <option value='EUR' ${(currency == 'EUR') ? 'Selected' : ''}>Amount EURO</option>
                         </select>
                           </th>
                       </tr>
@@ -185,7 +184,7 @@ function addRow_luar(jsonData = null) {
         <tr>
 <td><input type="text" class="form-control" style="color:#000000;" id="jobdesc" name="jobdesc[]" value="${jsonData?.jobdesc ? jsonData.jobdesc : ''}" ></td>
 <td><input type="text" class="form-control" style="color:#000000;" id="proman" name="proman[]" value="${jsonData?.project_manager ? jsonData.project_manager : ''}" ></td>
-<td><input type="text" class="form-control" style="color:#000000;" id="starnum" name="starnum[]" value="${jsonData?.star_number ? jsonData.star_number : ''}" > ></td>
+<td><input type="text" class="form-control" style="color:#000000;" id="starnum" name="starnum[]" value="${jsonData?.star_number ? jsonData.star_number : ''}" ></td>
 <td><input type="text" style="color:#000000;" class="form-control volume${index}" name="volume[]" value="${jsonData?.number_word ? jsonData.number_word : ''}" oninput="hitung(${index})" id=""></td>
 <td><input type="text" style="color:#000000;" class="price${index}" name="price[]" oninput="hitung(${index})" value="${jsonData?.unit_price ? jsonData.unit_price : ''}"></td>
 <td><input type="text" style="color:#000000;" class="cost${index}" name="cost[]" value="${jsonData?.amount ? jsonData.amount : ''}" readonly></td>
@@ -214,11 +213,11 @@ function addTable_spq(jsonData = null) {
                             <th>Qtt Words</th>
                             <th>Unit Price IDR</th>
                             <th>
-                            <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${jsonData?.currency_inv ? jsonData.currency_inv : 'IDR'}">
-                      <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
-                        <option value='IDR' ${jsonData?.currency_inv == 'IDR' ? 'Selected' : ''}>Amount IDR</option>
-                        <option value='USD' ${jsonData?.currency_inv == 'USD' ? 'Selected' : ''}>Amount USD</option>
-                        <option value='EUR' ${jsonData?.currency_inv == 'EUR' ? 'Selected' : ''}>Amount EURO</option>
+                            <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${currency}">
+                      <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" style="color:#000000;" onchange="tampil()">
+                        <option value='IDR' ${(currency == 'IDR') ? 'Selected' : ''}>Amount IDR</option>
+                        <option value='USD' ${(currency == 'USD') ? 'Selected' : ''}>Amount USD</option>
+                        <option value='EUR' ${(currency == 'EUR') ? 'Selected' : ''}>Amount EURO</option>
                         </select>
                             </th>
                         </tr>
@@ -269,11 +268,11 @@ function addTable_luar2(jsonData = null) {
                       <th>Star Number</th>
                       <th>Number Line</th>
                       <th>
-                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${jsonData?.currency_inv ? jsonData.currency_inv : 'IDR'}">
-                      <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
-                        <option value='IDR' ${jsonData?.currency_inv == 'IDR' ? 'Selected' : ''}>Amount IDR</option>
-                        <option value='USD' ${jsonData?.currency_inv == 'USD' ? 'Selected' : ''}>Amount USD</option>
-                        <option value='EUR' ${jsonData?.currency_inv == 'EUR' ? 'Selected' : ''}>Amount EURO</option>
+                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${currency}">
+                      <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" style="color:#000000;" onchange="tampil()">
+                        <option value='IDR' ${(currency == 'IDR') ? 'Selected' : ''}>Amount IDR</option>
+                        <option value='USD' ${(currency == 'USD') ? 'Selected' : ''}>Amount USD</option>
+                        <option value='EUR' ${(currency == 'EUR') ? 'Selected' : ''}>Amount EURO</option>
                         </select>
                       </th>
                   </tr>
@@ -332,11 +331,11 @@ function addTable_spq2(jsonData = null) {
                       <th>Pre-invoice number</th>
                       <th>Date of Delivery</th>
                       <th>
-                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${jsonData?.currency_inv ? jsonData.currency_inv : 'IDR'}">
-                      <select id='curr' style="color:#000000;font: size 20px;" name="statusSelect" id="statusSelect" class="form-control font-weight-bold" style="color:#000000;">
-                        <option value='IDR' ${jsonData?.currency_inv == 'IDR' ? 'Selected' : ''}>Amount IDR</option>
-                        <option value='USD' ${jsonData?.currency_inv == 'USD' ? 'Selected' : ''}>Amount USD</option>
-                        <option value='EUR' ${jsonData?.currency_inv == 'EUR' ? 'Selected' : ''}>Amount EURO</option>
+                      <input type="hidden" class="form-control form-control-user" id="curr_awal" name="curr_awal" aria-describedby="" placeholder="" value="${currency}">
+                      <select id='curr' style="color:#000000;font: size 20px;" name="curr" class="form-control font-weight-bold" style="color:#000000;" onchange="tampil2()">
+                        <option value='IDR' ${(currency == 'IDR') ? 'Selected' : ''}>Amount IDR</option>
+                        <option value='USD' ${(currency == 'USD') ? 'Selected' : ''}>Amount USD</option>
+                        <option value='EUR' ${(currency == 'EUR') ? 'Selected' : ''}>Amount EURO</option>
                         </select>
                       </th>
                   </tr>
@@ -406,7 +405,7 @@ function tampil() {
 
 function tampil2() {
     var kurensi = $('#curr').val()
-    total = tambah(cost);
+    total = tambah(price);
      if(kurensi=='IDR'){
         document.getElementById("total-text").innerHTML = 'Rp. ' + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       } else if (kurensi=='USD'){

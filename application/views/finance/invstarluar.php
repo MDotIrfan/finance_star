@@ -128,18 +128,18 @@
                     <td width="10%" style="text-align:center;"><?= $item->project_manager; ?></td>
                     <td width="10%" style="text-align:center;"><?= $item->star_number; ?></td>
                     <td width="10%" style="text-align:center;"><?= $item->number_word; ?></td>
-                    <td width="10%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                    <td width="10%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR'&&$item->unit_price!='') {
                                                                     echo number_format($item->unit_price, 2, ",", ".");
-                                                                } else if ($po->currency_inv == 'USD') {
+                                                                } else if ($po->currency_inv == 'USD'&&$item->unit_price!='') {
                                                                     echo number_format($item->unit_price, 2, ".", ",");
-                                                                } else if ($po->currency_inv == 'EUR') {
+                                                                } else if ($po->currency_inv == 'EUR'&&$item->unit_price!='') {
                                                                     echo number_format($item->unit_price, 2, ".", ",");
                                                                 } ?></td>
-                    <td width="10%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                    <td width="10%" style="text-align:center;"><?php if ($po->currency_inv == 'IDR'&&$item->amount!='') {
                                                                     echo number_format($item->amount, 2, ",", ".");
-                                                                } else if ($po->currency_inv == 'USD') {
+                                                                } else if ($po->currency_inv == 'USD'&&$item->amount!='') {
                                                                     echo number_format($item->amount, 2, ".", ",");
-                                                                } else if ($po->currency_inv == 'EUR') {
+                                                                } else if ($po->currency_inv == 'EUR'&&$item->amount!='') {
                                                                     echo number_format($item->amount, 2, ".", ",");
                                                                 } ?></td>
                 </tr>
@@ -149,27 +149,28 @@
                 <td width="5%%" style="text-align:center;"></td>
                 <td colspan="2" style="text-align:center;">TOTAL</td>
                 <td colspan="3" style="text-align:center;"></td>
-                <td style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                <td style="text-align:center;"><?php if ($po->currency_inv == 'IDR'&&$po->total_cost!='') {
                                                     echo number_format($po->total_cost, 2, ",", ".");
-                                                } else if ($po->currency_inv == 'USD') {
+                                                } else if ($po->currency_inv == 'USD'&&$po->total_cost!='') {
                                                     echo number_format($po->total_cost, 2, ".", ",");
-                                                } else if ($po->currency_inv == 'EUR') {
+                                                } else if ($po->currency_inv == 'EUR'&&$po->total_cost!='') {
                                                     echo number_format($po->total_cost, 2, ".", ",");
                                                 } ?></td>
             </tr>
             <tr>
 
                 <td colspan="6" style="text-align:center;">GRAND TOTAL</td>
-                <td style="text-align:center;"><?php if ($po->currency_inv == 'IDR') {
+                <td style="text-align:center;"><?php if ($po->currency_inv == 'IDR'&&$po->grand_total!='') {
                                                     echo number_format($po->grand_total, 2, ",", ".");
-                                                } else if ($po->currency_inv == 'USD') {
+                                                } else if ($po->currency_inv == 'USD'&&$po->grand_total!='') {
                                                     echo number_format($po->grand_total, 2, ".", ",");
-                                                } else if ($po->currency_inv == 'EUR') {
+                                                } else if ($po->currency_inv == 'EUR'&&$po->grand_total!='') {
                                                     echo number_format($po->grand_total, 2, ".", ",");
                                                 } ?></td>
             </tr>
         </table>
     </div>
+    <div style="width: 50%">Note : <?php echo $po->public_notes; ?></div>
     <br>
     <table border="0" style="width: 100%" class="table" cellspacing="0" cellpadding="0">
         <tr>
@@ -247,7 +248,7 @@
                 <td style="text-align:center;" class="bold" width="20%"></td>
                 <td width="20%" style="text-align:center;" class="bold"></td>
                 <td style="text-align:center;" class="bold" width="20%"></td>
-                <td style="text-align:center;" width="40%">Afrizal Lisdianta</td>
+                <td style="text-align:center;" width="40%"><?php echo $po->signature; ?></td>
             </tr>
         <?php } ?>
         </table>

@@ -300,6 +300,7 @@ function change_table(ids=null){
 
 $("#curr").on('change', function (el) {
     tampil();
+    tampil2();
     // tujuan = $('#curr').val();
     // console.log(tujuan);
     // if (from_currencyEl == 'IDR' && tujuan == 'USD') {
